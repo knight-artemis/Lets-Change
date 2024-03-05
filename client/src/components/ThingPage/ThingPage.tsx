@@ -1,6 +1,5 @@
-import React from 'react'
-import styles from './ThingPage.module.css'
-import Arrow from '../Arrow/Arrow'
+import React from 'react';
+import styles from './ThingPage.module.css';
 
 export default function ThingPage(): JSX.Element {
   return (
@@ -9,13 +8,11 @@ export default function ThingPage(): JSX.Element {
       <div className={`${styles.mainContent}`}>
         <div className={`${styles.photoBlock}`}>
           <div className={`${styles.mainPhotoDiv}`}>
-            <Arrow />
             <img
               className={`${styles.mainPhoto}`}
               src='https://moy-razmer.ru/storage/images/gallery/images/4xt7IiTu3hjf4pWE.jpg'
               alt=''
             />
-            <Arrow />
           </div>
           <div className={`${styles.littlePhotosDiv}`}>
             <img
@@ -42,12 +39,14 @@ export default function ThingPage(): JSX.Element {
             placeat, nesciunt laudantium in libero totam cumque quae? Incidunt
             vero fuga amet fugiat.
           </div>
-          <button type='button' className={`${styles.button}`}>
-            Давай меняться
-          </button>
-          <div>Место для карты</div>
+          <div className={`${styles.buttonDiv}`}>
+            <button type='button' className={`${styles.button}`}>
+              Давай меняться
+            </button>
+          </div>
+          <div className={`${styles.mapDiv}`}>Место для карты</div>
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -4,7 +4,7 @@ import type { UserType, UserDataType } from '../../types';
 
 export const fetchCheck = createAsyncThunk('user/get', async () => {
   const response = await axios.get<UserType>(
-    `${import.meta.env.VITE_URL}/v1/auth/check_session`,
+    `${import.meta.env.VITE_URL}/v1/auth/checkSession`,
     {
       withCredentials: true,
     },

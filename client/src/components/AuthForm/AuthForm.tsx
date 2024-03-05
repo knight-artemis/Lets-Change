@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../Button/Button';
-import LinkBtn from '../LinkBtn/LinkBtn';
 import styles from './AuthForm.module.css';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import type { UserDataType } from '../../types';
 import { fetchAuth } from '../../redux/user/userThunkActions';
+import Button from '../Controls/Button/Button';
 
 export default function Auth(): JSX.Element {
   const initialState = { email: '', password: '' };
@@ -66,14 +65,12 @@ export default function Auth(): JSX.Element {
         value={inputs.password}
         placeholder='password'
       />
-      <Button
-        onClick={() => void addUserHandler()}
-        title={isLogin ? 'Авторизоваться' : 'Зарегистрироваться'}
-      />
-      <LinkBtn
-        onClick={() => void authHandler()}
-        title={isLogin ? 'Хочу зарегистрироваться' : 'Уже зарегистрирован?'}
-      />
+      <Button onClick={() => void addUserHandler()}>
+        {isLogin ? 'Авторизоваться' : 'Зарегистрироваться'}
+      </Button>
+      <Button link onClick={() => void authHandler()}>
+        {isLogin ? 'Хочу зарегистрироваться' : 'Уже зарегистрирован?'}
+      </Button>
       {/* {message && <p styles={{ color: '#1D9947' }}>{message}</p>} */}
       {/* {error && <p styles={{ color: '#fa6a6a' }}>{error}</p>} */}
     </form>
