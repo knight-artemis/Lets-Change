@@ -1,24 +1,19 @@
-import React, { useState } from 'react';
-import { Map, Placemark } from '@pbe/react-yandex-maps';
-import styles from './NewThing.module.css';
-import Button from '../../components/Controls/Button/Button';
-import useGeoLocation from '../../hooks/useGeoLocation';
+import React, { useEffect, useState } from 'react'
+import { Map, Placemark } from '@pbe/react-yandex-maps'
+import styles from './NewThing.module.css'
+import Button from '../../components/Controls/Button/Button'
+// import useGeoLocation from '../../hooks/useGeoLocation'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 
 export default function NewThing(): JSX.Element {
-  const location = useGeoLocation();
-  // console.log(typeof location.pos?.latitude)
-
-  const [pinCoords, setPinCoords] = useState([
-    location.pos?.latitude,
-    location.pos?.longitude,
-  ]);
-  // console.log(plm);
+  const pos = useAppSelector(store => store.userSlice.pos)
+  const [pinCoords, setPinCoords] = useState(pos)
+  // console.log('PINCORD', pinCoords)
   const handleClick = (e): void => {
-    console.log(e);
-    const coords = e.get('coords');
-    console.log('Координаты клика:', coords);
-    setPinCoords(coords);
-  };
+    const coords = e.get('coords')
+    console.log('Координаты клика:', coords)
+    setPinCoords(coords)
+  }
 
   return (
     <div className={styles.main}>
@@ -35,14 +30,14 @@ export default function NewThing(): JSX.Element {
           width='500px'
           height='300px'
           defaultState={{
-            center: [location.pos?.latitude, location.pos?.longitude],
+            center: pinCoords.length ? pinCoords : pos,
             zoom: 15,
             controls: ['zoomControl', 'fullscreenControl'],
           }}
         >
           <Placemark
             onClick={() => console.log('click')}
-            defaultGeometry={[location.pos?.latitude, location.pos?.longitude]}
+            geometry={pinCoords.length ? pinCoords : pos}
             properties={{
               balloonContentBody:
                 'This is balloon loaded by the Yandex.Maps API module system',
@@ -52,5 +47,5 @@ export default function NewThing(): JSX.Element {
       </div>
       <Button>Загрузить</Button>
     </div>
-  );
+  )
 }

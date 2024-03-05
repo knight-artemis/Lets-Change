@@ -11,7 +11,7 @@ export default function useGeoLocation(): {
     const geo = navigator.geolocation;
     if (!geo) {
       setErr('location data noe evaleble');
-      return undefined;
+      // return undefined;
     }
     const watcher = geo.watchPosition(
       (e) => setPos(e.coords),
