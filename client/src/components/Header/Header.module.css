@@ -1,3 +1,11 @@
 .Header {
     height: 10dvh;
 }
+
+.header {
+    width: 100dvw;
+    background-color: var(--color-main);
+    display: flex;
+    padding: 1rem 2rem;
+    flex: 0 0 auto;
+}
