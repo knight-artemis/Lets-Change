@@ -1,4 +1,22 @@
 .Navbar {
-    height: inherit;
-    padding: 0.5rem 1rem 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  /* height: inherit; */
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  width: 100%;
+  border-bottom: solid 1px black;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+.link:hover {
+  text-decoration:underline;
+  color: green;
+}
+
+.menu {
+  display: flex;
+  gap: 10px;
 }

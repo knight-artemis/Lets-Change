@@ -8,6 +8,11 @@ import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { fetchCheck } from './redux/user/userThunkActions';
 import Auth from './pages/Auth/Auth';
 import ThingPage from './components/ThingPage/ThingPage';
+import MyThings from './pages/MyThings/MyThings';
+import MyDeals from './pages/MyDeals/MyDeals';
+import NewThing from './pages/NewThing/NewThing';
+import Profile from './pages/Profile/Profile';
+
 // import Main from './components/Main/Main'
 
 function App(): JSX.Element {
@@ -21,6 +26,10 @@ function App(): JSX.Element {
       <Header />
       <Routes>
         <Route index element={<Main />} />
+        <Route path='/my-things' element={<MyThings />} />
+        <Route path='/my-deals' element={<MyDeals />} />
+        <Route path='/new-thing' element={<NewThing />} />
+        <Route path='/profile' element={<Profile />} />
         <Route path='/auth' element={<Auth />} />
         <Route path='/testpage' element={<ThingPage />} />
       </Routes>
