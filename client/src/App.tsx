@@ -7,6 +7,7 @@ import Main from './pages/Main/Main';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { fetchCheck } from './redux/user/userThunkActions';
 import Auth from './pages/Auth/Auth';
+import ThingPage from './components/ThingPage/ThingPage';
 // import Main from './components/Main/Main'
 
 function App(): JSX.Element {
@@ -21,6 +22,7 @@ function App(): JSX.Element {
       <Routes>
         <Route index element={<Main />} />
         <Route path='/auth' element={<Auth />} />
+        <Route path='/testpage' element={<ThingPage />} />
       </Routes>
       <Footer />
     </>
