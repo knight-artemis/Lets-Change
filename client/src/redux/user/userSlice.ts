@@ -21,9 +21,12 @@ const userSlice = createSlice({
   initialState: UserInitialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchAuth.fulfilled, (state, { payload }) => {
-      state.user = payload;
-    });
+    builder.addCase(
+      fetchAuth.fulfilled,
+      (state, { payload }: { payload: UserType }) => {
+        state.user = payload;
+      },
+    );
 
     builder.addCase(fetchLogout.fulfilled, (state) => {
       state.user = initialUser;

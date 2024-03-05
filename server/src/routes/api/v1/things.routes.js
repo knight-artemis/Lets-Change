@@ -5,21 +5,52 @@ const { User, Thing } = require('../../../../db/models')
 router.get('/', async (req, res) => {
   try {
     const thingsRaw = await Thing.findAll({
-
-        order: [['createdAt', 'ASC']],
+      attributes: [
+        'id',
+        'thingName',
+        'categoryId',
+        'thingAddress',
+        'thingLat',
+        'thingLon',
+        'endDate',
+      ],
+      order: [['createdAt', 'ASC']],
     })
+    console.log(new Date());
 
     const things = thingsRaw
       .map((thing) => thing.get({ plain: true }))
       .filter((thing) => thing.isApproved && !thing.inDeal)
-
-    console.log('\n\n\n↓↓↓↓↓↓↓↓↓↓\n')
-    console.log(things)
-    console.log('\n↑↑↑↑↑↑↑↑↑↑\n\n\n')
-    
+    res.status(200).json(things)
   } catch (error) {
     console.error('Ошибка при получении объявлений', error)
-    res.status(500).send('Ошибка сервера при получении объявлений')
+    res
+      .status(500)
+      .send({ err: { server: 'Ошибка сервера при получении объявлений' } })
+  }
+})
+router.post('/', async (req, res) => {
+  const { userId } = req.session
+  //! я расчитываю, что приходит валидный объект
+  //   const {
+  //     thingName,
+  //     description,
+  //     categoryId,
+  //     address,
+  //     lat,
+  //     lon,
+  //     startDate,
+  //     endDate,
+  //   } = req.body
+
+  try {
+    const newThing = await Thing.create(req.body)
+    res.status(201).json(newThing)
+  } catch (error) {
+    console.error('Ошибка при создании объявления', error)
+    res
+      .status(500)
+      .send({ err: { server: 'Ошибка сервера при создании объявления' } })
   }
 })
 
