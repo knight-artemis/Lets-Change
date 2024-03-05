@@ -4,7 +4,7 @@ const { checkUser, secureRoute } = require('../../../../miiddleWares/common');
 
 const { User } = require('../../../../db/models');
 
-router.get('/check_session', async (req, res) => {
+router.get('/checkSession', async (req, res) => {
   const { user } = req.session;
   if (user) res.json(req.session.user);
   else res.json({ id: 0, firstName: '', email: '' });
