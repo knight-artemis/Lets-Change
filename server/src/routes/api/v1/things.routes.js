@@ -5,8 +5,7 @@ const { User, Thing } = require('../../../../db/models')
 router.get('/', async (req, res) => {
   try {
     const thingsRaw = await Thing.findAll({
-
-        order: [['createdAt', 'ASC']],
+      order: [['createdAt', 'ASC']],
     })
 
     const things = thingsRaw
@@ -16,7 +15,6 @@ router.get('/', async (req, res) => {
     console.log('\n\n\n↓↓↓↓↓↓↓↓↓↓\n')
     console.log(things)
     console.log('\n↑↑↑↑↑↑↑↑↑↑\n\n\n')
-    
   } catch (error) {
     console.error('Ошибка при получении объявлений', error)
     res.status(500).send('Ошибка сервера при получении объявлений')

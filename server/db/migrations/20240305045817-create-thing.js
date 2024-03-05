@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -7,75 +7,75 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       userId: {
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'id'
+          key: 'id',
         },
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       thingName: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       description: {
         allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       categoryId: {
         allowNull: false,
         references: {
           model: 'Categories',
-          key: 'id'
+          key: 'id',
         },
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       thingAddress: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       thingLat: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
       },
       thingLon: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
       },
       startDate: {
         defaultValue: Sequelize.fn('NOW'),
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       endDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       issuesCount: {
         defaultValue: 0,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       isApproved: {
         defaultValue: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       inDeal: {
         defaultValue: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
         defaultValue: Sequelize.fn('NOW'),
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
         defaultValue: Sequelize.fn('NOW'),
-        type: Sequelize.DATE
-      }
-    });
+        type: Sequelize.DATE,
+      },
+    })
   },
   async down(queryInterface) {
-    await queryInterface.dropTable('Things');
-  }
-};
+    await queryInterface.dropTable('Things')
+  },
+}
