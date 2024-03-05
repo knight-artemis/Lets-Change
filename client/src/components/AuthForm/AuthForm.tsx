@@ -1,0 +1,81 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '../Button/Button';
+import LinkBtn from '../LinkBtn/LinkBtn';
+import styles from './AuthForm.module.css';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import type { UserDataType } from '../../types';
+import { fetchAuth } from '../../redux/user/userThunkActions';
+
+export default function Auth(): JSX.Element {
+  const initialState = { email: '', password: '' };
+  const [inputs, setInputs] = useState<UserDataType>(initialState);
+  const [isLogin, setIsLogin] = useState(true);
+  const dispatch = useAppDispatch();
+  // const user = useAppSelector((store) => store.userSlice.user);
+  const navigate = useNavigate();
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const authHandler = (): void => {
+    setIsLogin((prev) => !prev);
+    setInputs(initialState);
+  };
+
+  const addUserHandler = async (): Promise<void> => {
+    try {
+      await dispatch(
+        fetchAuth({ type: !isLogin ? 'reg' : 'log', data: inputs }),
+      );
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // console.log(user);
+
+  return (
+    <form className={styles.form}>
+      {!isLogin && (
+        <input
+          onChange={changeHandler}
+          name='firstName'
+          type='text'
+          required
+          value={inputs.firstName}
+          placeholder='firstName'
+        />
+      )}
+
+      <input
+        onChange={changeHandler}
+        name='email'
+        type='text'
+        required
+        value={inputs.email}
+        placeholder='email'
+      />
+
+      <input
+        onChange={changeHandler}
+        name='password'
+        type='password'
+        required
+        value={inputs.password}
+        placeholder='password'
+      />
+      <Button
+        onClick={() => void addUserHandler()}
+        title={isLogin ? 'Авторизоваться' : 'Зарегистрироваться'}
+      />
+      <LinkBtn
+        onClick={() => void authHandler()}
+        title={isLogin ? 'Хочу зарегистрироваться' : 'Уже зарегистрирован?'}
+      />
+      {/* {message && <p styles={{ color: '#1D9947' }}>{message}</p>} */}
+      {/* {error && <p styles={{ color: '#fa6a6a' }}>{error}</p>} */}
+    </form>
+  );
+}
