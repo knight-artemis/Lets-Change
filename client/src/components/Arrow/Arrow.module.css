@@ -1,0 +1,8 @@
+.Arrow {
+    width: 3rem;
+    height: 3rem;
+    border-top: 1rem solid #6E18C0;
+    border-right: 1rem solid #6E18C0;
+    margin-right: 60px;
+    transform: rotate(45deg);
+}
