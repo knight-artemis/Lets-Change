@@ -12,7 +12,8 @@
     "remig": "npm run unmig && npm run mig",
     "seed": "npx sequelize db:seed:all",
     "base": "npm run mig && npm run seed",
-    "rebase": "npm run remig && npm run seed"
+    "rebase": "npm run remig && npm run seed",
+    "db": "npx sequelize db:drop && npx sequelize db:create"
   },
   "keywords": [],
   "author": "",
