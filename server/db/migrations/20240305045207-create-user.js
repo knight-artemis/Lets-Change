@@ -27,12 +27,14 @@ module.exports = {
         unique: true,
         type: Sequelize.STRING
       },
-      userLocationId: {
-        references: {
-          model: 'Locations',
-          key: 'id'
-        },
-        type: Sequelize.INTEGER
+      address: {
+        type: Sequelize.STRING
+      },
+      userLat: {
+        type: Sequelize.FLOAT
+      },
+      userLon: {
+        type: Sequelize.FLOAT
       },
       phone: {
         type: Sequelize.STRING

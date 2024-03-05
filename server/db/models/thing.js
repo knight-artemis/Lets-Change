@@ -5,10 +5,9 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Thing extends Model {
 
-    static associate({ User, Photo, Location, Category, Deal, ThingDeal, UserThingsView, Issue, UserThingsFavorite }) {
+    static associate({ User, Photo, Category, Deal, ThingDeal, UserThingsView, Issue, UserThingsFavorite }) {
       this.belongsTo(User, { foreignKey: 'userId' })
       this.hasMany(Photo, { foreignKey: 'thingId' })
-      this.belongsTo(Location, { foreignKey: 'thingLocationId' })
       this.hasMany(Category, { foreignKey: 'Id' })
       this.hasMany(Deal, { foreignKey: 'thingId' })
       this.hasMany(ThingDeal, { foreignKey: 'offeredThingId' })
@@ -24,7 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     thingName: DataTypes.STRING,
     description: DataTypes.TEXT,
     categoryId: DataTypes.INTEGER,
-    thingLocationId: DataTypes.INTEGER,
+    thingAddress: DataTypes.STRING,
+    thingLat: DataTypes.FLOAT,
+    thingLon: DataTypes.FLOAT,
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
     issuesCount: DataTypes.INTEGER,
