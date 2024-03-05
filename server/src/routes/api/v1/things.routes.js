@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const { User, Thing } = require('../../../../db/models')
+const { User, Thing, Category } = require('../../../../db/models')
 
 router.get('/', async (req, res) => {
   try {
@@ -16,7 +16,6 @@ router.get('/', async (req, res) => {
       ],
       order: [['createdAt', 'ASC']],
     })
-    // console.log(new Date())
 
     const things = thingsRaw
       .map((thing) => thing.get({ plain: true }))
@@ -29,6 +28,51 @@ router.get('/', async (req, res) => {
       .send({ err: { server: 'Ошибка сервера при получении объявлений' } })
   }
 })
+router.get('/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    const thingRaw = await Thing.findOne({
+      where: { id },
+      attributes: [
+        'id',
+        'userId',
+        'categoryId',
+        'thingName',
+        'description',
+        'thingAddress',
+        'thingLat',
+        'thingLon',
+        'startDate',
+        'endDate',
+        'isApproved',
+        'inDeal',
+      ],
+      include: [
+        {
+          model: User,
+          attributes: ['firstName', 'middleName', 'lastName'],
+        },
+        {
+          model: Category,
+          attributes: ['categoryTitle'],
+        },
+      ],
+    })
+
+    if (thingRaw) {
+      const things = thingRaw.get({ plain: true })
+      res.status(200).json(things)
+    } else {
+      res.status(404).send({ err: { notfound: 'нет такой записи' } })
+    }
+  } catch (error) {
+    console.error('Ошибка при получении объявления', error)
+    res
+      .status(500)
+      .send({ err: { server: 'Ошибка сервера при получении объявления' } })
+  }
+})
+
 router.post('/', async (req, res) => {
   const { userId } = req.session || 1
   //! я расчитываю, что приходит валидный объект
