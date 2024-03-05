@@ -35,12 +35,14 @@ module.exports = {
         },
         type: Sequelize.INTEGER
       },
-      thingLocationId: {
-        references: {
-          model: 'Locations',
-          key: 'id'
-        },
-        type: Sequelize.INTEGER
+      thingAddress: {
+        type: Sequelize.STRING
+      },
+      thingLat: {
+        type: Sequelize.FLOAT
+      },
+      thingLon: {
+        type: Sequelize.FLOAT
       },
       startDate: {
         defaultValue: Sequelize.fn('NOW'),
@@ -54,7 +56,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       isApproved: {
-        defaultValue: true,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       inDeal: {
