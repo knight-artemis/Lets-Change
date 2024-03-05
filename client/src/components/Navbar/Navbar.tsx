@@ -12,7 +12,7 @@ export default function Navbar(): JSX.Element {
     await dispatch(fetchLogout());
   }
   return (
-    <nav className={styles.Navbar}>
+    <nav className={styles.navbar}>
       <div>logo</div>
       <div className={styles.menu}>
         <Link className={styles.link} to='/'>Главная</Link>
@@ -25,7 +25,7 @@ export default function Navbar(): JSX.Element {
             <Link className={styles.link} to='/' onClick={()=> void logOutHandler()}>Выйти</Link>
           </>
         ) : (
-          <Link to='/auth'>Войти</Link>
+          <Link className={styles.link} to='/auth'>Войти</Link>
         )}
       </div>
     </nav>

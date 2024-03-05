@@ -13,5 +13,5 @@ export default function Main(): JSX.Element {
       .then((res) => console.log(res))
       .catch((err) => console.log(err))
   })
-  return <main className={style.main}>Main</main>
+  return <div>Main</div>
 }

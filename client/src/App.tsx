@@ -24,15 +24,17 @@ function App(): JSX.Element {
   return (
     <>
       <Header />
-      <Routes>
-        <Route index element={<Main />} />
-        <Route path='/my-things' element={<MyThings />} />
-        <Route path='/my-deals' element={<MyDeals />} />
-        <Route path='/new-thing' element={<NewThing />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/auth' element={<Auth />} />
-        <Route path='/testpage' element={<ThingPage />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route index element={<Main />} />
+          <Route path='/my-things' element={<MyThings />} />
+          <Route path='/my-deals' element={<MyDeals />} />
+          <Route path='/new-thing' element={<NewThing />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/auth' element={<Auth />} />
+          <Route path='/testpage' element={<ThingPage />} />
+        </Routes>
+      </main>
       <Footer />
     </>
   );

@@ -1,12 +1,12 @@
 :root {
 
-  color-scheme: light dark;
+  /* color-scheme: light dark; */
   
-  font-synthesis: none;
+  /* font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%; */
   
   --color-main-black:#000;
   --color-main-white: #fff;
@@ -40,9 +40,9 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  color: var(--font-main);
 }
 
 
 body {
-
 }
