@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
       ],
       order: [['createdAt', 'ASC']],
     })
-    console.log(new Date());
+    // console.log(new Date())
 
     const things = thingsRaw
       .map((thing) => thing.get({ plain: true }))
@@ -30,21 +30,38 @@ router.get('/', async (req, res) => {
   }
 })
 router.post('/', async (req, res) => {
-  const { userId } = req.session
+  const { userId } = req.session || 1
   //! я расчитываю, что приходит валидный объект
   //   const {
   //     thingName,
   //     description,
   //     categoryId,
-  //     address,
-  //     lat,
-  //     lon,
+  //     thingAddress,
+  //     thingLat,
+  //     thingLon,
   //     startDate,
   //     endDate,
   //   } = req.body
 
+  // тест объявление
+  //   {
+  //     "userId": 1,
+  //     "thingName": "title",
+  //     "description": "description",
+  //     "categoryId": 1,
+  //     "thingAddress": "address",
+  //     "thingLat": 1.1 ,
+  //     "thingLon": 2.2,
+  //     "startDate": "2024-03-05T11:42:58.415Z",
+  //     "endDate": "2024-04-05T11:42:58.415Z"
+  //   }
+  console.log('\n\n\n↓↓↓↓↓↓↓↓↓↓\n')
+  console.log('sad')
+  console.log('\n↑↑↑↑↑↑↑↑↑↑\n\n\n')
+  
+
   try {
-    const newThing = await Thing.create(req.body)
+    const newThing = await Thing.create({ ...req.body })
     res.status(201).json(newThing)
   } catch (error) {
     console.error('Ошибка при создании объявления', error)
