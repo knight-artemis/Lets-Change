@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(UserThingsView, { foreignKey: 'thingId' })
       this.hasMany(Issue, { foreignKey: 'thingId' })
       this.hasMany(UserThingsFavorite, { foreignKey: 'thingId' })
-      this.belongsTo(Deal, { foreignKey: 'selectedThingId' })
+      this.hasMany(Deal, { foreignKey: 'selectedThingId' })
       this.belongsToMany(Category, { through: 'ThingCategories', foreignKey: 'thingId'})
     }
   }
