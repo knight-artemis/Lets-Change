@@ -50,15 +50,10 @@ router.post('/', async (req, res) => {
   //     "description": "description",
   //     "categoryId": 1,
   //     "thingAddress": "address",
-  //     "thingLat": 1.1 ,
-  //     "thingLon": 2.2,
-  //     "startDate": "2024-03-05T11:42:58.415Z",
+  //     "thingLat": 60.486998,
+  //     "thingLon": 58.640202,
   //     "endDate": "2024-04-05T11:42:58.415Z"
   //   }
-  console.log('\n\n\n↓↓↓↓↓↓↓↓↓↓\n')
-  console.log('sad')
-  console.log('\n↑↑↑↑↑↑↑↑↑↑\n\n\n')
-  
 
   try {
     const newThing = await Thing.create({ ...req.body })
