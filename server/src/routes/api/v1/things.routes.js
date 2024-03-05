@@ -27,10 +27,11 @@ router.get('/', async (req, res) => {
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photo = thing.Photos.length > 0 ? thing.Photos[0] : null
+        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
         delete plainThing.Photos
-        return { ...plainThing, photo }
+        return { ...plainThing, photoUrl }
       })
+    console.log('🚀 ~ router.get ~ things:', things)
     res.status(200).json(things)
   } catch (error) {
     console.error('Ошибка при получении объявлений', error)

@@ -7,8 +7,8 @@ router.post('/testUpload', upload.array('photo', 10), async (req, res) => {
   try {
     const promises = req.files.map(async (item) => {
       const newPhoto = await Photo.create({
-        thingId: 1,
-        photoUrl: `http://localhost:3003/uploads/${item.filename}`,
+        thingId: 6,
+        photoUrl: `http://localhost:${process.env.PORT}/uploads/things/${item.filename}`,
       })
       return newPhoto
     })

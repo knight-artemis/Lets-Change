@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import style from './Main.module.css'
 import Button from '../../components/Controls/Button/Button'
 
-type AllThingsType = {
+type ThingsType = {
   id: number
   thingName: string
   categoryId: number
@@ -11,7 +11,7 @@ type AllThingsType = {
   thingLat: number
   thingLon: number
   endDate: Date
-  photo: string | null
+  photoUrl: string | null
 }
 // TODO добавить типизацию  категорий и массива категорий
 
@@ -21,7 +21,7 @@ export default function Main(): JSX.Element {
 
   useEffect(() => {
     axios
-      .get<AllThingsType>(`${import.meta.env.VITE_URL}/v1/things`, {
+      .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
         withCredentials: true,
       })
       .then((res) => setThings(res.data))
@@ -38,19 +38,22 @@ export default function Main(): JSX.Element {
     <div className={style.wrapper}>
       <div className={style.sidebar}>
         {categories.map((cat) => (
-          <Button link>
-            <div key={cat.id} className={style.category}>
+          <Button  key={cat.id}  link>
+            <div className={style.category}>
               {cat.categoryTitle}
             </div>
           </Button>
         ))}
       </div>
       <div className={style.content}>
-        {things.map((thing) => (
-          <Button link>
+        {things.map((thing:ThingsType) => (
+          <Button key={thing.id}  link>
             <div className={style.card}>
-              <div className={style.timeLeft}>{thing.endDate}</div>
-              <div className={style.photo}>{thing.photo}</div>
+              <div className={style.timeLeft}>{String(thing.endDate)}</div>
+              <div className={style.photo}>
+                {/* <img src='http://localhost:3003/uploads/a.jpg' alt='фотка-шмотка'/> */}
+                <img src={thing.photoUrl || 'null'} alt='фотка-шмотка'/>
+              </div>
               <div className={style.name}>{thing.thingName}</div>
               <div className={style.favorite}>хз</div>
             </div>{' '}
