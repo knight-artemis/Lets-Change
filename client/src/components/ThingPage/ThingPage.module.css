@@ -1,0 +1,48 @@
+* {
+color: white;
+}
+
+.post {
+    height: 80dvh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mainContent {
+width: inherit;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+}
+
+.photoBlock {
+width: 30dvw;
+}
+
+.addContent {
+width: 60dvw;
+}
+
+.mainPhotoDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.mainPhoto {
+    height: 55dvh;
+    width: 55dvh;
+}
+
+.littlePhotosDiv {
+    display: flex;
+    justify-content: space-around;
+}
+
+.littlePhoto {
+    height: 15dvh;
+    width: 15dvh;
+}
