@@ -1,7 +1,10 @@
 import React from 'react'
+import styles from './Navbar.module.css'
 
 export default function Navbar(): JSX.Element {
   return (
-    <div>Navbar</div>
+    <div className={`${styles.Navbar}`}>
+      <div>Давай меняться</div>
+    </div>
   )
 }

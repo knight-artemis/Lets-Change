@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Auth from '../Auth/Auth'
+import ThingPage from '../ThingPage/ThingPage'
 
 export default function Main(): JSX.Element {
   return (
@@ -12,6 +13,7 @@ export default function Main(): JSX.Element {
         }
       />
       <Route path='log' element={<Auth />} />
+      <Route path='testpage' element={<ThingPage />} />
     </Routes>
   )
 }
