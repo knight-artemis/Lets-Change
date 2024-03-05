@@ -66,6 +66,4 @@ router.get('/logout', (req, res) => {
   });
 });
 
-const {User} = require('../../../../db/models')
-
-module.exports = router
+module.exports = router;
