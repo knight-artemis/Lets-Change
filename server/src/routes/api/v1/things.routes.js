@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const { User, Thing, Category } = require('../../../../db/models')
+const { User, Thing, Category, Photo } = require('../../../../db/models')
 
 router.get('/', async (req, res) => {
   try {
@@ -14,12 +14,23 @@ router.get('/', async (req, res) => {
         'thingLon',
         'endDate',
       ],
+      include: {
+        model: Photo,
+        attributes: ['photoUrl'],
+        order: [['id', 'ASC']],
+      },
       order: [['createdAt', 'ASC']],
     })
 
     const things = thingsRaw
-      .map((thing) => thing.get({ plain: true }))
-      .filter((thing) => thing.isApproved && !thing.inDeal)
+      //! РАСКОМЕНТИТЬ !! это пока проверка, пока не апрувленные (фолс по умолчанию) объявления
+      // .filter((thing) => thing.isApproved && !thing.inDeal)
+      .map((thing) => {
+        const plainThing = thing.get({ plain: true })
+        const photo = thing.Photos.length > 0 ? thing.Photos[0] : null
+        delete plainThing.Photos
+        return { ...plainThing, photo }
+      })
     res.status(200).json(things)
   } catch (error) {
     console.error('Ошибка при получении объявлений', error)
@@ -56,6 +67,10 @@ router.get('/:id', async (req, res) => {
           model: Category,
           attributes: ['categoryTitle'],
         },
+        {
+          model: Photo,
+          attributes: ['photoUrl'],
+        },
       ],
     })
 
@@ -74,7 +89,7 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const { userId } = req.session || 1
+  const { userId } = req.session
   //! я расчитываю, что приходит валидный объект
   //   const {
   //     thingName,
@@ -100,7 +115,7 @@ router.post('/', async (req, res) => {
   //   }
 
   try {
-    const newThing = await Thing.create({ ...req.body })
+    const newThing = await Thing.create({ userId, ...req.body })
     res.status(201).json(newThing)
   } catch (error) {
     console.error('Ошибка при создании объявления', error)
