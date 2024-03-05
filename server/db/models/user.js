@@ -23,12 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     userAddress: DataTypes.STRING,
     userLat: DataTypes.FLOAT,
     userLon: DataTypes.FLOAT,
-    phone: DataTypes.INTEGER,
+    phone: DataTypes.STRING,
     avatarUrl: DataTypes.STRING,
     dealsCount: DataTypes.INTEGER,
     charityCount: DataTypes.INTEGER,
     thingsCount: DataTypes.INTEGER,
-    subStatus: DataTypes.BOOLEAN,
+    subStatus: DataTypes.INTEGER,
     subExp: DataTypes.DATE,
     rating: DataTypes.INTEGER
   }, {
