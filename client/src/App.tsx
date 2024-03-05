@@ -12,8 +12,8 @@ import MyThings from './pages/MyThings/MyThings'
 import MyDeals from './pages/MyDeals/MyDeals'
 import NewThing from './pages/NewThing/NewThing'
 import Profile from './pages/Profile/Profile'
-import { setPosition } from './redux/user/userSlice'
-import useGeoLocation from './hooks/useGeoLocation'
+// import { setPosition } from './redux/user/userSlice'
+// import useGeoLocation from './hooks/useGeoLocation'
 
 // import Main from './components/Main/Main'
 
@@ -22,21 +22,21 @@ function App(): JSX.Element {
 
   useEffect(() => {
     void dispatcher(fetchCheck())
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          void dispatcher(
-            setPosition([position.coords.latitude, position.coords.longitude]),
-          )
-        },
-        (error) => {
-          console.error('Error getting geolocation:', error)
-        },
-      )
-    } else {
-      console.error('Geolocation is not supported by this browser.')
-    }
-  }, [dispatcher])
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //       dispatcher(
+    //         setPosition([position.coords.latitude, position.coords.longitude]),
+    //       )
+    //     },
+    //     (error) => {
+    //       console.error('Error getting geolocation:', error)
+    //     },
+    //   )
+    // } else {
+    //   console.error('Geolocation is not supported by this browser.')
+    // }
+  }, [])
   const user = useAppSelector((store) => store.userSlice.user)
   console.log('USER', user)
   return (
