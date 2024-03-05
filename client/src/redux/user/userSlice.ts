@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { UserType } from '../../types';
-import { fetchAuth, fetchLogout } from './userThunkActions';
+import { fetchAuth, fetchCheck, fetchLogout } from './userThunkActions';
 
 export type UserStateType = {
   user: UserType;
@@ -21,6 +21,13 @@ const userSlice = createSlice({
   initialState: UserInitialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(
+      fetchCheck.fulfilled,
+      (state, { payload }: { payload: UserType }) => {
+        state.user = payload;
+      },
+    );
+
     builder.addCase(
       fetchAuth.fulfilled,
       (state, { payload }: { payload: UserType }) => {

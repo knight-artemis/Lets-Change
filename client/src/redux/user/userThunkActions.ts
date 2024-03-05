@@ -2,6 +2,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import type { UserType, UserDataType } from '../../types';
 
+export const fetchCheck = createAsyncThunk('user/get', async () => {
+  const response = await axios.get<UserType>(
+    `${import.meta.env.VITE_URL}/v1/auth/check_session`,
+    {
+      withCredentials: true,
+    },
+  );
+  return response.data;
+});
+
 export const fetchAuth = createAsyncThunk(
   'user/post',
   async ({ type, data }: { type: string; data: UserDataType }) => {
