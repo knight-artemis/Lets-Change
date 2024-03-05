@@ -9,7 +9,8 @@ const morgan = require('morgan');
 
 const app = express();
 
-const authRouter = require('./src/routes/api/v1/auth.routes.js');
+const authRouter = require('./src/routes/api/v1/auth.routes');
+const thingsRouter = require('./src/routes/api/v1/things.routes');
 
 const { PORT, CLIENT_PORT, SESSION_SECRET } = process.env;
 
@@ -39,6 +40,7 @@ app.use(express.json());
 app.use(express.static(path.join(process.cwd(), 'public/')));
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/things', thingsRouter);
 
 app.listen(PORT, () => {
   console.log(`Сервер запущен на ${PORT} порту`);
