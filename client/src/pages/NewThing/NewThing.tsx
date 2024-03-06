@@ -12,7 +12,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import styles from './NewThing.module.css'
 import Button from '../../components/Controls/Button/Button'
-import Test from './Test'
+import MyPlacemark from '../../components/MyPlacemark/MyPlacemark'
 import type { CategoryType } from '../../types'
 
 const kazanCoordinates = [
@@ -179,7 +179,6 @@ export default function NewThing(): JSX.Element {
     }
 
     axios
-
       .get<CategoryType[]>(`${import.meta.env.VITE_API}/v1/things/categories`, {
         withCredentials: true,
       })
@@ -249,7 +248,7 @@ export default function NewThing(): JSX.Element {
         multiple
         onChange={handleFileChange}
       />
-      {/* <TestUpload /> */}
+      {/* <MyPlacemarkUpload /> */}
       <h5>Выберите локацию</h5>
 
       {location.length > 0 && (
@@ -274,20 +273,20 @@ export default function NewThing(): JSX.Element {
               }}
             />
           )}
-          <Clusterer
+          {/* <Clusterer
             options={{
               preset: 'islands#invertedVioletClusterIcons',
               // groupByCoordinates: false,
             }}
           >
             {kazanCoordinates.map((coordinates, index) => (
-              <Test
+              <MyPlacemark
                 key={index}
                 coord={coordinates}
                 onClick={() => navigate('/')}
               />
             ))}
-          </Clusterer>
+          </Clusterer> */}
         </Map>
       )}
       {address.length > 0 && <p>{address}</p>}
