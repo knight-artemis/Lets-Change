@@ -3,10 +3,10 @@ const { dirname } = require('path')
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, `${__dirname}/uploads/things/`)
+    cb(null, `${__dirname}/public/uploads/things/`)
   },
   filename(req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`)
+    cb(null, `${Date.now().toString().replace(' ', '_')}.${file.originalname.split('.').at(-1)}`)
   },
 })
 
