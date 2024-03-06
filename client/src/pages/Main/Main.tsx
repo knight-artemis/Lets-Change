@@ -16,36 +16,32 @@ type ThingsType = {
 // TODO добавить типизацию  категорий и массива категорий
 
 function getTimeLeft(endDate: Date): string {
-  const currentDate = new Date()
-  const targetDate = new Date(endDate)
-  const msDifference =  targetDate.getTime() - currentDate.getTime() 
-
+  const msDelta = new Date(endDate).getTime() - new Date().getTime()
+  if (msDelta <= 0) return 'время вышло'
+  
   const msInHour = 1000 * 60 * 60
   const msInDay = msInHour * 24
   const msInWeek = msInDay * 7
-  const msInMonth = msInDay * 30 // Приблизительно
+  const msInMonth = msInDay * 30
 
-  let diffText
-
-  if (msDifference < msInDay) {
+  if (msDelta < msInDay) {
     // Если разница меньше дня
-    const hoursDiff = Math.round(msDifference / msInHour)
-    diffText = `осталось ${hoursDiff} часов`
-  } else if (msDifference < msInWeek) {
+    const hoursDiff = Math.round(msDelta / msInHour)
+    return `осталось ${hoursDiff} часов`
+  }
+  if (msDelta < msInWeek) {
     // Если разница меньше недели
-    const daysDiff = Math.round(msDifference / msInDay)
-    diffText = `осталось ${daysDiff} дней`
-  } else if (msDifference < msInMonth) {
+    const daysDiff = Math.round(msDelta / msInDay)
+    return `осталось ${daysDiff} дней`
+  }
+  if (msDelta < msInMonth) {
     // Если разница меньше месяца
-    const weeksDiff = Math.round(msDifference / msInWeek)
-    diffText = `осталось ${weeksDiff} недель`
-  } else {
-    // Если разница больше месяца
-    const monthsDiff = Math.round(msDifference / msInMonth)
-    diffText = `осталось ${monthsDiff} месяцев`
-  } 
-
-  return diffText
+    const weeksDiff = Math.round(msDelta / msInWeek)
+    return `осталось ${weeksDiff} недель`
+  }
+  // Если разница больше месяца
+  const monthsDiff = Math.round(msDelta / msInMonth)
+  return `осталось ${monthsDiff} месяцев`
 }
 
 export default function Main(): JSX.Element {
