@@ -2,10 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect, useState } from 'react'
-import { Clusterer, GeolocationControl, Map, Placemark } from '@pbe/react-yandex-maps'
+import {
+  Clusterer,
+  GeolocationControl,
+  Map,
+  Placemark,
+} from '@pbe/react-yandex-maps'
 import axios from 'axios'
 import styles from './NewThing.module.css'
 import Button from '../../components/Controls/Button/Button'
+import Test from './Test'
+import { useNavigate } from 'react-router-dom'
 
 const kazanCoordinates = [
   [55.7942, 49.1117],
@@ -69,18 +76,20 @@ const kazanCoordinates = [
   [55.812172, 49.181679],
   [55.812634, 49.181871],
   [55.812278, 49.182662],
-  [55.812563, 49.182030],
+  [55.812563, 49.18203],
   [55.812784, 49.182456],
   [55.812415, 49.182148],
   [55.812231, 49.181993],
   [55.812695, 49.181569],
   [55.812392, 49.182217],
-  [55.812186, 49.182781]
-];
+  [55.812186, 49.182781],
+]
 
 export default function NewThing(): JSX.Element {
   const [location, setLocation] = useState<number[]>([])
   const [address, setAddress] = useState<string>('')
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -124,7 +133,7 @@ export default function NewThing(): JSX.Element {
       <h5>Выберите фото</h5>
       <h5>Выберите локацию</h5>
 
-      {location.length && (
+      {location.length > 0 && (
         <Map
           onClick={(e) => handleClick(e.get('coords'))}
           width='600px'
@@ -135,7 +144,7 @@ export default function NewThing(): JSX.Element {
             controls: ['zoomControl', 'fullscreenControl'],
           }}
         >
-          <GeolocationControl options={{ float: "left" }} />
+          <GeolocationControl options={{ float: 'left' }} />
           <Placemark
             onClick={() => console.log('click')}
             geometry={location}
@@ -147,23 +156,11 @@ export default function NewThing(): JSX.Element {
           <Clusterer
             options={{
               preset: 'islands#invertedVioletClusterIcons',
-              groupByCoordinates: false,
+              // groupByCoordinates: false,
             }}
           >
             {kazanCoordinates.map((coordinates, index) => (
-              <Placemark
-                key={index}
-                geometry={coordinates}
-                properties={{
-                  balloonContent: `
-                  <div>
-                    <h3>Title</h3>
-                    <p>Description</p>
-                  </div>
-                `,
-                  balloonContentLayout: 'default#layout', // Ваш текст для отображения
-                }}
-              />
+              <Test key={index} coord={coordinates} onClick={()=> navigate('/')}/>
             ))}
           </Clusterer>
         </Map>
