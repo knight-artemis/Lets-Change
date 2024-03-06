@@ -90,7 +90,6 @@ export default function NewThing(): JSX.Element {
   const [address, setAddress] = useState<string>('')
   const navigate = useNavigate()
 
-
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -131,6 +130,14 @@ export default function NewThing(): JSX.Element {
       <h5>Выберите категорию</h5>
       <h5>Выберите длительность размещения</h5>
       <h5>Выберите фото</h5>
+      <form
+        action='http://localhost:3003/api/v1/test/testUpload'
+        method='post'
+        encType='multipart/form-data'
+      >
+        <input type='file' name='photo' multiple />
+        <button type='submit'>Загрузить файл</button>
+      </form>
       <h5>Выберите локацию</h5>
 
       {location.length > 0 && (
@@ -160,7 +167,11 @@ export default function NewThing(): JSX.Element {
             }}
           >
             {kazanCoordinates.map((coordinates, index) => (
-              <Test key={index} coord={coordinates} onClick={()=> navigate('/')}/>
+              <Test
+                key={index}
+                coord={coordinates}
+                onClick={() => navigate('/')}
+              />
             ))}
           </Clusterer>
         </Map>
