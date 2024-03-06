@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import style from './Main.module.css'
 import Button from '../../components/Controls/Button/Button'
+import { useNavigate } from 'react-router-dom'
 
 type ThingsType = {
   id: number
@@ -13,12 +14,28 @@ type ThingsType = {
   endDate: Date
   photoUrl: string | null
 }
-// TODO добавить типизацию  категорий и массива категорий
+
+const ThingsInitVal = {
+  id: 0,
+  thingName: '',
+  categoryId: 0,
+  thingAddress: '',
+  thingLat: 0,
+  thingLon: 0,
+  endDate: new Date(),
+  photoUrl: null,
+}
+
+type CategoryType = {
+  id: number
+  categoryTitle: string
+}
+const CategoryInitVal = { id: 0, categoryTitle: '' }
 
 function getTimeLeft(endDate: Date): string {
   const msDelta = new Date(endDate).getTime() - new Date().getTime()
   if (msDelta <= 0) return 'время вышло'
-  
+
   const msInHour = 1000 * 60 * 60
   const msInDay = msInHour * 24
   const msInWeek = msInDay * 7
@@ -45,36 +62,70 @@ function getTimeLeft(endDate: Date): string {
 }
 
 export default function Main(): JSX.Element {
-  const [things, setThings] = useState([])
-  const [categories, setCategories] = useState([{ id: 0, categoryTitle: '' }])
+  const [things, setThings] = useState([ThingsInitVal])
+  const [categories, setCategories] = useState([CategoryInitVal])
 
-  useEffect(() => {
+  const navigate = useNavigate()
+
+  const setAllThings = (): void => {
+    // TODO разобраться\ тут с типиздацией res.data
     axios
       .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
         withCredentials: true,
       })
       .then((res) => setThings(res.data))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log('Ошибка получения всех вещей', err))
+  }
 
-    setCategories([
-      { id: 1, categoryTitle: 'игрушки' },
-      { id: 2, categoryTitle: 'хренюшки' },
-      { id: 3, categoryTitle: 'пиздюшки' },
-    ])
+  useEffect(() => {
+    // список объявлений по свежести
+    setAllThings()
+
+    // список категорий
+    axios
+      .get<CategoryType[]>(`${import.meta.env.VITE_URL}/v1/things/categories`, {
+        withCredentials: true,
+      })
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.log('Ошибка получения списка категории', err))
   }, [])
+
+  const categoryHandler = (id: number): void => {
+    // тут сортировательная функция, устанавливает шмотки кокретной категоории
+    //! нодо аддитивность категорий
+    // TODO разобраться\ тут с типиздацией res.data
+    axios
+      .get<ThingsType[]>(
+        `${import.meta.env.VITE_URL}/v1/things/categories/${id}`,
+        { withCredentials: true },
+      )
+      .then((res) => setThings(res.data))
+      .catch((err) => console.log('Ошибка получения вещей в категории', err))
+  }
 
   return (
     <div className={style.wrapper}>
       <div className={style.sidebar}>
+        <Button key='start' link onClick={() => void setAllThings()}>
+          все категроии
+        </Button>
         {categories.map((cat) => (
-          <Button key={cat.id} link>
+          <Button
+            key={cat.id}
+            link
+            onClick={() => void categoryHandler(cat.id)}
+          >
             <div className={style.category}>{cat.categoryTitle}</div>
           </Button>
         ))}
       </div>
       <div className={style.content}>
         {things.map((thing: ThingsType) => (
-          <Button key={thing.id} link>
+          <Button
+            key={thing.id}
+            link
+            onClick={() => void navigate(`/thing/${thing.id}`)}
+          >
             <div className={style.card}>
               <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
               <div className={style.photo}>
@@ -82,7 +133,7 @@ export default function Main(): JSX.Element {
                 {/* Затычка */}
                 <img
                   src='https://instrument.ru/img/dev/catalog_no_photo.png'
-                  alt='фотка-шмотка'
+                  alt='фотка-не-найдена'
                 />
               </div>
               <div className={style.name}>

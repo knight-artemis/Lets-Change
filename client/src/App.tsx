@@ -50,7 +50,7 @@ function App(): JSX.Element {
           <Route path='/new-thing' element={<NewThing />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/auth' element={<Auth />} />
-          <Route path='/testpage' element={<ThingPage />} />
+          <Route path='/thing/:id' element={<ThingPage />} />
         </Routes>
       </main>
       <Footer />
