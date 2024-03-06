@@ -18,6 +18,65 @@ router.get('/categories', async (req, res) => {
   }
 })
 
+router.get('/categories/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    const thingsRaw = await Thing.findAll({
+      attributes: [
+        'id',
+        'thingName',
+        'categoryId',
+        'thingAddress',
+        'thingLat',
+        'thingLon',
+        'endDate',
+        'isApproved',
+        'inDeal',
+      ],
+      include: [
+        {
+          model: Photo,
+          attributes: ['photoUrl'],
+          order: [['id', 'ASC']],
+        },
+        {
+          model: Category,
+          attributes: ['id'],
+          where: { id },
+        },
+      ],
+      order: [['createdAt', 'ASC']],
+    })
+
+    const things = thingsRaw
+      //! РАСКОМЕНТИТЬ !! проверка, пока не апрувленные (фолс по умолчанию) объявления
+      // .filter((thing) => thing.isApproved && !thing.inDeal)
+      .map((thing) => {
+        const plainThing = thing.get({ plain: true })
+        const photoUrl =
+          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
+        delete plainThing.Photos
+        delete plainThing.Category
+        return { ...plainThing, photoUrl }
+      })
+    console.log('🚀 ~ router.get ~ things:', things)
+    res.status(200).json(things)
+  } catch (error) {
+    console.error(
+      'Ошибка при получении объявлений в конкретной категории',
+      error,
+    )
+    res
+      .status(500)
+      .send({
+        err: {
+          server:
+            'Ошибка сервера при получении объявлений в конкретной категории',
+        },
+      })
+  }
+})
+
 router.get('/', async (req, res) => {
   try {
     const thingsRaw = await Thing.findAll({
@@ -29,6 +88,8 @@ router.get('/', async (req, res) => {
         'thingLat',
         'thingLon',
         'endDate',
+        'isApproved',
+        'inDeal',
       ],
       include: {
         model: Photo,
@@ -39,7 +100,7 @@ router.get('/', async (req, res) => {
     })
 
     const things = thingsRaw
-      //! РАСКОМЕНТИТЬ !! это пока проверка, пока не апрувленные (фолс по умолчанию) объявления
+      //! РАСКОМЕНТИТЬ !!  проверка, пока не апрувленные (фолс по умолчанию) объявления
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
@@ -48,7 +109,6 @@ router.get('/', async (req, res) => {
         delete plainThing.Photos
         return { ...plainThing, photoUrl }
       })
-    console.log('🚀 ~ router.get ~ things:', things)
     res.status(200).json(things)
   } catch (error) {
     console.error('Ошибка при получении всех объявлений', error)

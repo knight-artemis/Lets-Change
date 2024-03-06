@@ -14,11 +14,22 @@ type ThingsType = {
   photoUrl: string | null
 }
 
+const ThingsInitVal = {
+  id: 0,
+  thingName: '',
+  categoryId: 0,
+  thingAddress: '',
+  thingLat: 0,
+  thingLon: 0,
+  endDate: new Date(),
+  photoUrl: null,
+}
+
 type CategoryType = {
   id: number
   categoryTitle: string
 }
-
+const CategoryInitVal = { id: 0, categoryTitle: '' }
 
 function getTimeLeft(endDate: Date): string {
   const msDelta = new Date(endDate).getTime() - new Date().getTime()
@@ -50,8 +61,8 @@ function getTimeLeft(endDate: Date): string {
 }
 
 export default function Main(): JSX.Element {
-  const [things, setThings] = useState([])
-  const [categories, setCategories] = useState([{ id: 0, categoryTitle: '' }])
+  const [things, setThings] = useState([ThingsInitVal])
+  const [categories, setCategories] = useState([CategoryInitVal])
 
   useEffect(() => {
     // список объявлений по свежести
@@ -62,15 +73,28 @@ export default function Main(): JSX.Element {
       .then((res) => setThings(res.data))
       .catch((err) => console.log(err))
 
-      // список категорий
+    // список категорий
     axios
       .get<CategoryType[]>(`${import.meta.env.VITE_URL}/v1/things/categories`, {
         withCredentials: true,
       })
       .then((res) => setCategories(res.data))
       .catch((err) => console.log(err))
-
   }, [])
+
+
+  const categoryHandler = (id: number): void => {
+    axios
+      .get(`${import.meta.env.VITE_URL}/v1/things/${id}`, { withCredentials: true })
+      .then((res) => setCurQuestion(res.data))
+      .then(() => dispatch(Actions.removeId([id])))
+      .catch((err) => console.log('Ошибка получения вопроса', err))
+
+    console.log('я клик', id)
+    // setEdit((prev) => !prev)
+  }
+
+
 
   return (
     <div className={style.wrapper}>
@@ -91,7 +115,7 @@ export default function Main(): JSX.Element {
                 {/* Затычка */}
                 <img
                   src='https://instrument.ru/img/dev/catalog_no_photo.png'
-                  alt='фотка-шмотка'
+                  alt='фотка-не-найдена'
                 />
               </div>
               <div className={style.name}>
