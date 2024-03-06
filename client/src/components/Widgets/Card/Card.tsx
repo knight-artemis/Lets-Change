@@ -1,21 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import clsx from 'clsx'
 import Button from '../../Controls/Button/Button'
 import type { SimplifiedThingType } from '../../../types'
 import style from './Card.module.css'
-
-const ThingInitVal = {
-  id: 0,
-  thingName: '',
-  categoryId: 0,
-  thingAddress: '',
-  thingLat: 0,
-  thingLon: 0,
-  endDate: new Date(),
-  photoUrl: '',
-}
 
 type CardProps = {
   thing: SimplifiedThingType
@@ -51,17 +39,7 @@ export default function Card({ thing }: CardProps): JSX.Element {
     return `осталось ${monthsDiff} мес.`
   }
 
-  // const [oneThing, setOneThing] = useState<SimplifiedThingType>(ThingInitVal)
-
   const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   axios
-  //     .get<SimplifiedThingType>(
-  //       `${import.meta.env.VITE_API}/v1/things/${thing.id}`, { withCredentials: true })
-  //     .then((res) => setOneThing(res.data))
-  //     .catch((err) => console.log('Ошибка получения всех вещей', err))
-  // }, [thing.id])
 
   return (
     <Button
@@ -78,7 +56,7 @@ export default function Card({ thing }: CardProps): JSX.Element {
           />
         </div>
         <div className={style.name}>
-          <center>{thing.thingName}</center>
+          <center>{thing.thingName.length < 40 ? thing.thingName : `${thing.thingName.slice(0,37)}...`}</center>
         </div>
         <div
           className={clsx(

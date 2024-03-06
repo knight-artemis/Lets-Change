@@ -16,6 +16,7 @@ import Button from '../../components/Controls/Button/Button'
 import type { SimplifiedThingType } from '../../types'
 import MyPlacemark from '../../components/MyPlacemark/MyPlacemark'
 import Card from '../../components/Widgets/Card/Card'
+import SvgLink from '../../components/Controls/SvgLink/SvgLink'
 
 const ThingsInitVal = {
   id: 0,
@@ -99,7 +100,9 @@ export default function Main(): JSX.Element {
 
   return (
     <div className={style.wrapper}>
-      <div className={style.sidebar}>
+      <div className={style.topContent}>
+        <span className={style.span}>Посмотреть объявления списком</span>
+        <SvgLink icon='./assets/icons/list-color.svg'/>
         <label htmlFor='toggleSwitch' className={switchStyle.switch}>
           <input
             id='toggleSwitch'
@@ -109,73 +112,73 @@ export default function Main(): JSX.Element {
           />
           <span className={switchStyle.slider} />
         </label>
-        <Button key='start' link onClick={() => void setAllThings()}>
-          <img
-            className={style.icon}
-            src='./assets/icons/shirt.svg'
-            alt='svg'
-          />{' '}
-          все категроии
-        </Button>
-        {categories.map((cat) => (
-          <Button
-            key={cat.id}
-            link
-            onClick={() => void categoryHandler(cat.id)}
-          >
-            {/* <div className={style.category}> */}
-            <img
-              className={style.icon}
-              src='./assets/icons/shirt.svg'
-              alt='svg'
-            />
-            {cat.categoryTitle}
-            {/* </div> */}
-          </Button>
-        ))}
+        <SvgLink icon='assets/icons/globus-color.svg'/>
+        <span className={style.span}>или на карте</span>
       </div>
-      <div className={style.content}>
-        {isChecked ? (
-          <div style={{ width: '800px', height: '100%', borderRadius: '20px' }}>
-            {/* {location.length > 0 && ( */}
-            <Map
-              // onClick={(e) => handleClick(e.get('coords'))}
-              width='800px'
-              height='100%'
-              defaultState={{
-                center: location,
-                zoom: 15,
-                controls: ['zoomControl', 'fullscreenControl'],
-              }}
-              state={{
-                center: location,
-                zoom: 15,
-                controls: ['zoomControl', 'fullscreenControl'],
-              }}
+
+      <div className={style.mainContent}>
+        <div className={style.sidebar}>
+          <Button key='start' link onClick={() => void setAllThings()}>
+            <SvgLink icon='assets/icons/shirt.svg' text='Все категории' />
+          </Button>
+          {categories.map((category) => (
+            <Button
+              key={category.id}
+              link
+              onClick={() => void categoryHandler(category.id)}
             >
-              <GeolocationControl options={{ float: 'left' }} />
-              <Clusterer
-                options={{
-                  preset: 'islands#invertedVioletClusterIcons',
-                  // groupByCoordinates: false,
+              <SvgLink
+                icon='assets/icons/shirt.svg'
+                text={category.categoryTitle}
+              />
+            </Button>
+          ))}
+        </div>
+        <div className={style.content}>
+          {isChecked ? (
+            <div
+              style={{ width: '800px', height: '100%', borderRadius: '20px' }}
+            >
+              {/* {location.length > 0 && ( */}
+              <Map
+                // onClick={(e) => handleClick(e.get('coords'))}
+                width='800px'
+                height='100%'
+                defaultState={{
+                  center: location,
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
+                }}
+                state={{
+                  center: location,
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
                 }}
               >
-                {things.map((thing) => (
-                  <MyPlacemark
-                    key={`${thing.id}`}
-                    coord={[thing.thingLat, thing.thingLon]}
-                    onClick={() => navigate(`/thing/${thing.id}`)}
-                    img={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
-                    iconCaption={thing.thingName}
-                  />
-                ))}
-              </Clusterer>
-            </Map>
-            {/* )} */}
-          </div>
-        ) : (
-          things.map((thing: SimplifiedThingType) => <Card thing={thing} />)
-        )}
+                <GeolocationControl options={{ float: 'left' }} />
+                <Clusterer
+                  options={{
+                    preset: 'islands#invertedVioletClusterIcons',
+                    // groupByCoordinates: false,
+                  }}
+                >
+                  {things.map((thing) => (
+                    <MyPlacemark
+                      key={`${thing.id}`}
+                      coord={[thing.thingLat, thing.thingLon]}
+                      onClick={() => navigate(`/thing/${thing.id}`)}
+                      img={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
+                      iconCaption={thing.thingName}
+                    />
+                  ))}
+                </Clusterer>
+              </Map>
+              {/* )} */}
+            </div>
+          ) : (
+            things.map((thing: SimplifiedThingType) => <Card thing={thing} />)
+          )}
+        </div>
       </div>
     </div>
   )

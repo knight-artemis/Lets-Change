@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchLogout } from '../../redux/user/userThunkActions';
+import SvgLink from '../Controls/SvgLink/SvgLink';
 
 export default function Navbar(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user);
@@ -13,7 +14,8 @@ export default function Navbar(): JSX.Element {
   }
   return (
     <nav className={styles.navbar}>
-      <div>logo</div>
+      <Link className={styles.link} to='/'><SvgLink text='LOGO'/></Link>
+      
       <div className={styles.menu}>
         <Link className={styles.link} to='/'>Главная</Link>
         {user.id ? (
