@@ -60,7 +60,7 @@ export default function Main(): JSX.Element {
 
   const setAllThings = (): void => {
     axios
-      .get<SimplifiedThingType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
+      .get<SimplifiedThingType[]>(`${import.meta.env.VITE_API}/v1/things`, {
         withCredentials: true,
       })
       .then((res) => setThings(res.data))
@@ -74,7 +74,7 @@ export default function Main(): JSX.Element {
 
     // список категорий
     axios
-      .get<CategoryType[]>(`${import.meta.env.VITE_URL}/v1/things/categories`, {
+      .get<CategoryType[]>(`${import.meta.env.VITE_API}/v1/things/categories`, {
         withCredentials: true,
       })
       .then((res) => setCategories(res.data))
@@ -86,7 +86,7 @@ export default function Main(): JSX.Element {
     //! нодо аддитивность категорий
     axios
       .get<SimplifiedThingType[]>(
-        `${import.meta.env.VITE_URL}/v1/things/categories/${id}`,
+        `${import.meta.env.VITE_API}/v1/things/categories/${id}`,
         { withCredentials: true },
       )
       .then((res) => setThings(res.data))
@@ -115,7 +115,7 @@ export default function Main(): JSX.Element {
             <div className={style.card}>
               <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
               <div className={style.photo}>
-                <img src={`${import.meta.env.VITE_UPLOADS}/things/${thing.photoUrl}`} alt='фотка-шмотка'/>
+                <img src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка'/>
               </div>
               <div className={style.name}>
                 <center>{thing.thingName}</center>

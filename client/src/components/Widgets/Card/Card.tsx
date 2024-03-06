@@ -7,7 +7,7 @@ export default function Card({thing}:SimplifiedThingType):JSX.Element {
     <div className={style.card}>
       <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
       <div className={style.photo}>
-        <img src={`${import.meta.env.VITE_UPLOADS}/things/${thing.photoUrl}`} alt='фотка-шмотка'/>
+        <img src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка'/>
       </div>
       <div className={style.name}>
         <center>{thing.thingName}</center>

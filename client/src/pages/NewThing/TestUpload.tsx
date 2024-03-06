@@ -27,20 +27,20 @@ export default function TestUpload() {
     const data = new FormData() // Создаем новый объект FormData
 
     // Добавляем выбранные файлы в объект FormData
-    const files = fileInputRef.current.files
+    const {files} = fileInputRef.current
     for (let i = 0; i < files.length; i++) {
       data.append('photo', files[i])
     }
 
     // Добавляем значения контролируемых инпутов в объект FormData
-    for (let key in formData) {
+    for (const key in formData) {
       console.log(key, formData[key])
       data.append(key, formData[key])
     }
 
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_URL}/v1/things`,
+        `${import.meta.env.VITE_API}/v1/things`,
         data,
         {
           withCredentials: true,

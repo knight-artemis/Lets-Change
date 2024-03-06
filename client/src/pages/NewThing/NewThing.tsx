@@ -179,7 +179,7 @@ export default function NewThing(): JSX.Element {
     }
 
     axios
-      .get<CategoryType[]>(`${import.meta.env.VITE_URL}/v1/things/categories`, {
+      .get<CategoryType[]>(`${import.meta.env.VITE_API}/v1/things/categories`, {
         withCredentials: true,
       })
       .then((res) => setCategories(res.data))

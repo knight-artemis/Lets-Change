@@ -53,7 +53,7 @@ export default function ThingPage(): JSX.Element {
 
   useEffect(() => {
     axios
-      .get<ThingType>(`${import.meta.env.VITE_URL}/v1/things/${params.id}`, {
+      .get<ThingType>(`${import.meta.env.VITE_API}/v1/things/${params.id}`, {
         withCredentials: true,
       })
       .then((res) => setThing(res.data))
@@ -76,7 +76,7 @@ export default function ThingPage(): JSX.Element {
                   <Slide index={index}>
                     <ImageWithZoom
                       className={`${styles.photo}`}
-                      src={`${import.meta.env.VITE_UPLOAD_URL}/${photo.photoUrl}`}
+                      src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
                       alt='Штанi'
                     />
                   </Slide>
