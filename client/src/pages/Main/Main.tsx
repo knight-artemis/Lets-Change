@@ -67,13 +67,14 @@ export default function Main(): JSX.Element {
 
   const navigate = useNavigate()
 
-  const setAllThings = () :  void => {
+  const setAllThings = (): void => {
+    // TODO разобраться\ тут с типиздацией res.data
     axios
-    .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
-      withCredentials: true,
-    })
-    .then((res) => setThings(res.data))
-    .catch((err) => console.log('Ошибка получения всех вещей', err))
+      .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
+        withCredentials: true,
+      })
+      .then((res) => setThings(res.data))
+      .catch((err) => console.log('Ошибка получения всех вещей', err))
   }
 
   useEffect(() => {
@@ -86,35 +87,45 @@ export default function Main(): JSX.Element {
         withCredentials: true,
       })
       .then((res) => setCategories(res.data))
-      .catch((err) => console.log('Ошибка получения списка категории',err))
+      .catch((err) => console.log('Ошибка получения списка категории', err))
   }, [])
-
 
   const categoryHandler = (id: number): void => {
     // тут сортировательная функция, устанавливает шмотки кокретной категоории
     //! нодо аддитивность категорий
+    // TODO разобраться\ тут с типиздацией res.data
     axios
-      .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things/categories/${id}`, { withCredentials: true })
+      .get<ThingsType[]>(
+        `${import.meta.env.VITE_URL}/v1/things/categories/${id}`,
+        { withCredentials: true },
+      )
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения вещей в категории', err))
   }
 
-
   return (
     <div className={style.wrapper}>
       <div className={style.sidebar}>
-      <Button key='start' link onClick={() => void setAllThings()}>
-            все категроии
-          </Button>
+        <Button key='start' link onClick={() => void setAllThings()}>
+          все категроии
+        </Button>
         {categories.map((cat) => (
-          <Button key={cat.id} link onClick={() => void categoryHandler(cat.id)}>
+          <Button
+            key={cat.id}
+            link
+            onClick={() => void categoryHandler(cat.id)}
+          >
             <div className={style.category}>{cat.categoryTitle}</div>
           </Button>
         ))}
       </div>
       <div className={style.content}>
         {things.map((thing: ThingsType) => (
-          <Button key={thing.id} link   onClick={() => void navigate(`/thing/${thing.id}`)} >
+          <Button
+            key={thing.id}
+            link
+            onClick={() => void navigate(`/thing/${thing.id}`)}
+          >
             <div className={style.card}>
               <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
               <div className={style.photo}>
