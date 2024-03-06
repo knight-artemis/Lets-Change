@@ -56,7 +56,7 @@ export default function Card({ thing }: CardProps): JSX.Element {
           />
         </div>
         <div className={style.name}>
-          <center>{thing.thingName}</center>
+          <center>{thing.thingName.length < 40 ? thing.thingName : `${thing.thingName.slice(0,37)}...`}</center>
         </div>
         <div
           className={clsx(

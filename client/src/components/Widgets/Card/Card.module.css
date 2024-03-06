@@ -53,6 +53,8 @@
     line-height: 3rem;
     background-color: #00000093;
     color: var(--font-accent);
+    text-wrap: balance;
+    word-break: break-word;
 }
 
 .favorite {
