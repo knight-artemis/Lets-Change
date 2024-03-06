@@ -14,7 +14,7 @@ import style from './Main.module.css'
 import switchStyle from './ToogleSwitch.module.css'
 import Button from '../../components/Controls/Button/Button'
 import type { SimplifiedThingType } from '../../types'
-import Test from '../../components/MyPlacemark/MyPlacemark'
+import MyPlacemark from '../../components/MyPlacemark/MyPlacemark'
 import Card from '../../components/Widgets/Card/Card'
 
 const ThingsInitVal = {
@@ -100,7 +100,7 @@ export default function Main(): JSX.Element {
   return (
     <div className={style.wrapper}>
       <div className={style.sidebar}>
-      <label htmlFor='toggleSwitch' className={switchStyle.switch}>
+        <label htmlFor='toggleSwitch' className={switchStyle.switch}>
           <input
             id='toggleSwitch'
             type='checkbox'
@@ -135,39 +135,43 @@ export default function Main(): JSX.Element {
         ))}
       </div>
       <div className={style.content}>
-       
         {isChecked ? (
           <div style={{ width: '800px', height: '100%', borderRadius: '20px' }}>
-            {location.length > 0 && (
-              <Map
-                onClick={(e) => handleClick(e.get('coords'))}
-                width='800px'
-                height='100%'
-                defaultState={{
-                  center: location,
-                  zoom: 15,
-                  controls: ['zoomControl', 'fullscreenControl'],
+            {/* {location.length > 0 && ( */}
+            <Map
+              // onClick={(e) => handleClick(e.get('coords'))}
+              width='800px'
+              height='100%'
+              defaultState={{
+                center: location,
+                zoom: 15,
+                controls: ['zoomControl', 'fullscreenControl'],
+              }}
+              state={{
+                center: location,
+                zoom: 15,
+                controls: ['zoomControl', 'fullscreenControl'],
+              }}
+            >
+              <GeolocationControl options={{ float: 'left' }} />
+              <Clusterer
+                options={{
+                  preset: 'islands#invertedVioletClusterIcons',
+                  // groupByCoordinates: false,
                 }}
               >
-                <GeolocationControl options={{ float: 'left' }} />
-                <Clusterer
-                  options={{
-                    preset: 'islands#invertedVioletClusterIcons',
-                    // groupByCoordinates: false,
-                  }}
-                >
-                  {things.map((thing) => (
-                    <Test
-                      key={`${thing.id}`}
-                      coord={[thing.thingLat, thing.thingLon]}
-                      onClick={() => navigate(`/thing/${thing.id}`)}
-                      img={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
-                      iconCaption={thing.thingName}
-                    />
-                  ))}
-                </Clusterer>
-              </Map>
-            )}
+                {things.map((thing) => (
+                  <MyPlacemark
+                    key={`${thing.id}`}
+                    coord={[thing.thingLat, thing.thingLon]}
+                    onClick={() => navigate(`/thing/${thing.id}`)}
+                    img={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
+                    iconCaption={thing.thingName}
+                  />
+                ))}
+              </Clusterer>
+            </Map>
+            {/* )} */}
           </div>
         ) : (
           things.map((thing: SimplifiedThingType) => <Card thing={thing} />)
