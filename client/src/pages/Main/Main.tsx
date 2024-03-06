@@ -106,11 +106,15 @@ export default function Main(): JSX.Element {
     <div className={style.wrapper}>
       <div className={style.sidebar}>
         <Button key='start' link onClick={() => void setAllThings()}>
-          все категроии
+          <img className={style.icon} src='./assets/icons/shirt.svg' alt='svg'/> все категроии
         </Button>
         {categories.map((cat) => (
           <Button key={cat.id} link onClick={() => void categoryHandler(cat.id)}>
-            <div className={style.category}>{cat.categoryTitle}</div>
+           
+            {/* <div className={style.category}> */}
+              <img className={style.icon} src='./assets/icons/shirt.svg' alt='svg'/>
+               {cat.categoryTitle}
+              {/* </div> */}
           </Button>
         ))}
       </div>
