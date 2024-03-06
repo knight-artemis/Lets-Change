@@ -22,3 +22,35 @@ export type UserDataType = {
   email: string;
   password: string;
 };
+
+ export type CategoryType = {
+    categoryTitle: string
+  }
+
+ export type PhotoType = {
+    photoUrl: string
+  }
+
+ export type ShortUserType = {
+    firstName: string
+    middleName: string
+    lastName: string
+  }
+
+ export type ThingType = {
+    id: number
+    userId: number
+    categoryId: number
+    thingName: string
+    description: string
+    thingAddress: string
+    thingLat: number
+    thingLon: number
+    startDate: Date
+    endDate: Date
+    isApproved: boolean
+    inDeal: boolean
+    User: ShortUserType
+    Category: CategoryType
+    Photos: PhotoType[]
+  }
