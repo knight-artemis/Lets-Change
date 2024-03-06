@@ -15,6 +15,7 @@ import switchStyle from './ToogleSwitch.module.css'
 import Button from '../../components/Controls/Button/Button'
 import type { SimplifiedThingType } from '../../types'
 import Test from '../../components/MyPlacemark/MyPlacemark'
+import Card from '../../components/Widgets/Card/Card'
 
 const ThingsInitVal = {
   id: 0,
@@ -31,36 +32,8 @@ type CategoryType = {
   id: number
   categoryTitle: string
 }
+
 const CategoryInitVal = { id: 0, categoryTitle: '' }
-
-function getTimeLeft(endDate: Date): string {
-  const msDelta = new Date(endDate).getTime() - new Date().getTime()
-  if (msDelta <= 0) return 'время вышло'
-
-  const msInHour = 1000 * 60 * 60
-  const msInDay = msInHour * 24
-  const msInWeek = msInDay * 7
-  const msInMonth = msInDay * 30
-
-  if (msDelta < msInDay) {
-    // Если разница меньше дня
-    const hoursDiff = Math.round(msDelta / msInHour)
-    return `осталось ${hoursDiff} часов`
-  }
-  if (msDelta < msInWeek) {
-    // Если разница меньше недели
-    const daysDiff = Math.round(msDelta / msInDay)
-    return `осталось ${daysDiff} дней`
-  }
-  if (msDelta < msInMonth) {
-    // Если разница меньше месяца
-    const weeksDiff = Math.round(msDelta / msInWeek)
-    return `осталось ${weeksDiff} недель`
-  }
-  // Если разница больше месяца
-  const monthsDiff = Math.round(msDelta / msInMonth)
-  return `осталось ${monthsDiff} месяцев`
-}
 
 export default function Main(): JSX.Element {
   const [things, setThings] = useState<SimplifiedThingType[]>([ThingsInitVal])
@@ -127,6 +100,15 @@ export default function Main(): JSX.Element {
   return (
     <div className={style.wrapper}>
       <div className={style.sidebar}>
+      <label htmlFor='toggleSwitch' className={switchStyle.switch}>
+          <input
+            id='toggleSwitch'
+            type='checkbox'
+            checked={isChecked}
+            onChange={handleToggleChange}
+          />
+          <span className={switchStyle.slider} />
+        </label>
         <Button key='start' link onClick={() => void setAllThings()}>
           <img
             className={style.icon}
@@ -153,15 +135,7 @@ export default function Main(): JSX.Element {
         ))}
       </div>
       <div className={style.content}>
-        <label htmlFor='toggleSwitch' className={switchStyle.switch}>
-          <input
-            id='toggleSwitch'
-            type='checkbox'
-            checked={isChecked}
-            onChange={handleToggleChange}
-          />
-          <span className={switchStyle.slider} />
-        </label>
+       
         {isChecked ? (
           <div style={{ width: '800px', height: '100%', borderRadius: '20px' }}>
             {location.length > 0 && (
@@ -196,33 +170,7 @@ export default function Main(): JSX.Element {
             )}
           </div>
         ) : (
-          things.map((thing: SimplifiedThingType) => (
-            <Button
-              key={thing.id}
-              link
-              onClick={() => void navigate(`/thing/${thing.id}`)}
-            >
-              <div className={style.card}>
-                <div className={style.timeLeft}>
-                  {getTimeLeft(thing.endDate)}
-                </div>
-                <div className={style.photo}>
-                  <img
-                    src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
-                    alt='фотка-шмотка'
-                  />
-                </div>
-                <div className={style.name}>
-                  <center>{thing.thingName}</center>
-                </div>
-                <div
-                  className={clsx(
-                    Math.random() > 0.5 ? style.favorite : style.notFavorite,
-                  )}
-                />
-              </div>
-            </Button>
-          ))
+          things.map((thing: SimplifiedThingType) => <Card thing={thing} />)
         )}
       </div>
     </div>
