@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Clusterer,
   GeolocationControl,
@@ -9,11 +9,11 @@ import {
   Placemark,
 } from '@pbe/react-yandex-maps'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import styles from './NewThing.module.css'
 import Button from '../../components/Controls/Button/Button'
 import Test from './Test'
-import { useNavigate } from 'react-router-dom'
-import TestUpload from './TestUpload'
+import type { CategoryType } from '../../types'
 
 const kazanCoordinates = [
   [55.7942, 49.1117],
@@ -85,11 +85,83 @@ const kazanCoordinates = [
   [55.812392, 49.182217],
   [55.812186, 49.182781],
 ]
+const CategoryInitVal = { id: 0, categoryTitle: '' }
 
 export default function NewThing(): JSX.Element {
   const [location, setLocation] = useState<number[]>([])
   const [address, setAddress] = useState<string>('')
+  const [categories, setCategories] = useState<CategoryType[]>([
+    CategoryInitVal,
+  ])
   const navigate = useNavigate()
+
+  const fileInputRef = useRef(null)
+  const inirialFormsData = {
+    thingName: '',
+    description: '',
+    categoryId: 0,
+    thingAddress: '',
+    thingLat: 0,
+    thingLon: 0,
+  }
+  const [formData, setFormData] = useState(inirialFormsData)
+
+  const handleFileChange = (event) => {
+    // Ваша логика обработки выбранных файлов
+  }
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setFormData({
+      ...formData,
+      [name]: value,
+      thingAddress: address,
+      thingLat: location[0],
+      thingLon: location[1],
+    })
+  }
+  const handleUploadClick = async (): Promise<void> => {
+    // event.preventDefault() // Предотвращаем стандартное действие кнопки (отправку формы)
+    if (!fileInputRef.current.files.length)
+      return console.log('please upload files')
+    // console.log('FORM DATA',{ ...formData, thingAddress: address, thingLat: location[0], thingLon: location[1] })
+    const data = new FormData() // Создаем новый объект FormData
+
+    // Добавляем выбранные файлы в объект FormData
+    const {files} = fileInputRef.current
+    for (let i = 0; i < files.length; i++) {
+      data.append('photo', files[i])
+    }
+
+    // Добавляем значения контролируемых инпутов в объект FormData
+    for (const key in formData) {
+      console.log(key, formData[key])
+      data.append(key, formData[key])
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/v1/things',
+        data,
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'multipart/form-data', // Устанавливаем правильный заголовок Content-Type
+          },
+        },
+      )
+      console.log('Ответ от сервера:', response.data)
+      fileInputRef.current.value = null
+      setFormData(inirialFormsData)
+      // Отправляем форму через Axios
+
+      // Сбрасываем значения инпута файлов
+
+      // Сбрасываем значения контролируемых инпутов
+    } catch (error) {
+      console.error('Ошибка при загрузке файла:', error)
+    }
+  }
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -105,7 +177,16 @@ export default function NewThing(): JSX.Element {
     } else {
       console.error('Geolocation is not supported by this browser.')
     }
+
+    axios
+      .get<CategoryType[]>(`${import.meta.env.VITE_URL}/v1/things/categories`, {
+        withCredentials: true,
+      })
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.log('Ошибка получения списка категории', err))
   }, [])
+  // console.log(categories)
+
   const handleClick = async (coords: number[]): Promise<void> => {
     const result = await axios.get(
       `https://geocode-maps.yandex.ru/1.x/?apikey=d6a65ed5-d62c-4aa0-89ba-ed187e6aa79e&format=json&geocode=${coords[1]},${coords[0]}`,
@@ -121,25 +202,53 @@ export default function NewThing(): JSX.Element {
     setAddress(`${descr}, ${name}`)
     setLocation(coords)
   }
-  console.log(address)
+  // console.log(address)
+
+  const handleAccept = (): void => {
+    setFormData({
+      ...formData,
+      thingAddress: address,
+      thingLat: location[0],
+      thingLon: location[1],
+    })
+  }
+  console.log(formData)
 
   return (
-    <from className={styles.main}>
+    <form className={styles.main} encType='multipart/form-data'>
       <h1>Добавить вещь</h1>
       <h5>Добавьте название</h5>
+      <input
+        type='text'
+        name='thingName'
+        value={formData.thingName}
+        onChange={handleChange}
+        placeholder='Введите заголовок'
+      />
       <h5>Добавьте описание</h5>
+      <input
+        type='text'
+        name='description'
+        value={formData.description}
+        onChange={handleChange}
+        placeholder='Введите описание'
+      />
       <h5>Выберите категорию</h5>
+      <select name='categoryId' value={formData.categoryId} onChange={handleChange}>
+        {categories.map((el) => (
+          <option key={`opt-${el.id}}`} value={`${el.id}`}>{el.categoryTitle}</option>
+        ))}
+      </select>
       <h5>Выберите длительность размещения</h5>
       <h5>Выберите фото</h5>
-      <TestUpload />
-      {/* <form
-        action='http://localhost:3003/api/v1/test/testUpload'
-        method='post'
-        encType='multipart/form-data'
-      >
-        <input type='file' name='photo' multiple />
-        <button type='submit'>Загрузить файл</button>
-      </form> */}
+      <input
+        ref={fileInputRef}
+        type='file'
+        name='photo'
+        multiple
+        onChange={handleFileChange}
+      />
+      {/* <TestUpload /> */}
       <h5>Выберите локацию</h5>
 
       {location.length > 0 && (
@@ -154,14 +263,16 @@ export default function NewThing(): JSX.Element {
           }}
         >
           <GeolocationControl options={{ float: 'left' }} />
-          <Placemark
-            onClick={() => console.log('click')}
-            geometry={location}
-            properties={{
-              balloonContentBody:
-                'This is balloon loaded by the Yandex.Maps API module system',
-            }}
-          />
+          {address.length > 0 && (
+            <Placemark
+              onClick={() => console.log('click')}
+              geometry={location}
+              properties={{
+                balloonContentBody:
+                  'This is balloon loaded by the Yandex.Maps API module system',
+              }}
+            />
+          )}
           <Clusterer
             options={{
               preset: 'islands#invertedVioletClusterIcons',
@@ -178,12 +289,13 @@ export default function NewThing(): JSX.Element {
           </Clusterer>
         </Map>
       )}
-      <Button color='good'>Загрузить</Button>
+      {address.length > 0 && <p>{address}</p>}
+      {/* <Button color='good'>Загрузить</Button>
       <Button color='warning'>Загрузить</Button>
       <Button color='neutral'>Загрузить</Button>
-      <Button color='danger'>Загрузить</Button>
-      <Button>Загрузить</Button>
-    </from>
-
+      <Button color='danger'>Загрузить</Button> */}
+      <Button onClick={() => handleAccept()}>Подтвердить локацию</Button>
+      <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
+    </form>
   )
 }

@@ -192,6 +192,7 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
   //   }
 
   try {
+    console.log({ userId: user.id, ...req.body })
     const newThing = (await Thing.create({ userId: user.id, ...req.body })).get({plain: true})
     const promises = req.files.map(async (item) => {
       const newPhoto = await Photo.create({
