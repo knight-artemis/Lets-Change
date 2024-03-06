@@ -71,7 +71,7 @@ export default function Main(): JSX.Element {
         withCredentials: true,
       })
       .then((res) => setThings(res.data))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log('Ошибка получения всех вещей', err))
 
     // список категорий
     axios
@@ -79,18 +79,17 @@ export default function Main(): JSX.Element {
         withCredentials: true,
       })
       .then((res) => setCategories(res.data))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log('Ошибка получения списка категории',err))
   }, [])
 
 
   const categoryHandler = (id: number): void => {
     axios
-      .get(`${import.meta.env.VITE_URL}/v1/things/${id}`, { withCredentials: true })
-      .then((res) => setCurQuestion(res.data))
-      .then(() => dispatch(Actions.removeId([id])))
-      .catch((err) => console.log('Ошибка получения вопроса', err))
+      .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things/categories/${id}`, { withCredentials: true })
+      .then((res) => setThings(res.data))
+      .catch((err) => console.log('Ошибка получения вещей в категории', err))
 
-    console.log('я клик', id)
+    // console.log('я клик', id)
     // setEdit((prev) => !prev)
   }
 
@@ -100,14 +99,14 @@ export default function Main(): JSX.Element {
     <div className={style.wrapper}>
       <div className={style.sidebar}>
         {categories.map((cat) => (
-          <Button key={cat.id} link>
+          <Button key={cat.id} link onClick={() => void categoryHandler(cat.id)}>
             <div className={style.category}>{cat.categoryTitle}</div>
           </Button>
         ))}
       </div>
       <div className={style.content}>
         {things.map((thing: ThingsType) => (
-          <Button key={thing.id} link>
+          <Button key={thing.id} link >
             <div className={style.card}>
               <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
               <div className={style.photo}>
