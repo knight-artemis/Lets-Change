@@ -1,44 +1,53 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { UserType } from '../../types';
-import { fetchAuth, fetchCheck, fetchLogout } from './userThunkActions';
+import { createSlice } from '@reduxjs/toolkit'
+import type { UserType } from '../../types'
+import { fetchAuth, fetchCheck, fetchLogout } from './userThunkActions'
+import useGeoLocation from '../../hooks/useGeoLocation'
 
 export type UserStateType = {
-  user: UserType;
-};
+  user: UserType
+  pos: number[]
+}
 
 export const initialUser: UserType = {
   id: 0,
   firstName: '',
   email: '',
-};
+}
 
 const UserInitialState: UserStateType = {
   user: initialUser,
-};
+  pos: [],
+}
 
 const userSlice = createSlice({
   name: 'userSlice',
   initialState: UserInitialState,
-  reducers: {},
+  reducers: {
+    setPosition(state, { payload }: { payload: number[] }) {
+      console.log('PAYLOAD', payload)
+      state.pos = payload
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(
       fetchCheck.fulfilled,
       (state, { payload }: { payload: UserType }) => {
-        state.user = payload;
+        state.user = payload
       },
-    );
+    )
 
     builder.addCase(
       fetchAuth.fulfilled,
       (state, { payload }: { payload: UserType }) => {
-        state.user = payload;
+        state.user = payload
       },
-    );
+    )
 
     builder.addCase(fetchLogout.fulfilled, (state) => {
-      state.user = initialUser;
-    });
+      state.user = initialUser
+    })
   },
-});
+})
 
-export default userSlice.reducer;
+export default userSlice.reducer
+export const { setPosition } = userSlice.actions
