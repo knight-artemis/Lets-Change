@@ -1,10 +1,20 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
+import {
+  Clusterer,
+  GeolocationControl,
+  Map,
+  Placemark,
+} from '@pbe/react-yandex-maps'
 import style from './Main.module.css'
+import switchStyle from './ToogleSwitch.module.css'
 import Button from '../../components/Controls/Button/Button'
 import type { SimplifiedThingType } from '../../types'
+import Test from '../../components/MyPlacemark/MyPlacemark'
 
 const ThingsInitVal = {
   id: 0,
@@ -54,7 +64,15 @@ function getTimeLeft(endDate: Date): string {
 
 export default function Main(): JSX.Element {
   const [things, setThings] = useState<SimplifiedThingType[]>([ThingsInitVal])
-  const [categories, setCategories] = useState<CategoryType[]>([CategoryInitVal])
+  const [categories, setCategories] = useState<CategoryType[]>([
+    CategoryInitVal,
+  ])
+  const [isChecked, setIsChecked] = useState(false)
+  const [location, setLocation] = useState<number[]>([])
+
+  const handleToggleChange = (): void => {
+    setIsChecked(!isChecked)
+  }
 
   const navigate = useNavigate()
 
@@ -67,7 +85,6 @@ export default function Main(): JSX.Element {
       .catch((err) => console.log('Ошибка получения всех вещей', err))
   }
 
-  
   useEffect(() => {
     // список объявлений по свежести
     setAllThings()
@@ -79,6 +96,20 @@ export default function Main(): JSX.Element {
       })
       .then((res) => setCategories(res.data))
       .catch((err) => console.log('Ошибка получения списка категории', err))
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation([position.coords.latitude, position.coords.longitude])
+        },
+        (error) => {
+          setLocation([55.74, 37.61])
+          console.error('Error getting geolocation:', error)
+        },
+      )
+    } else {
+      console.error('Geolocation is not supported by this browser.')
+    }
   }, [])
 
   const categoryHandler = (id: number): void => {
@@ -97,33 +128,102 @@ export default function Main(): JSX.Element {
     <div className={style.wrapper}>
       <div className={style.sidebar}>
         <Button key='start' link onClick={() => void setAllThings()}>
-          <img className={style.icon} src='./assets/icons/shirt.svg' alt='svg'/> все категроии
+          <img
+            className={style.icon}
+            src='./assets/icons/shirt.svg'
+            alt='svg'
+          />{' '}
+          все категроии
         </Button>
         {categories.map((cat) => (
-          <Button key={cat.id} link onClick={() => void categoryHandler(cat.id)}>
-           
+          <Button
+            key={cat.id}
+            link
+            onClick={() => void categoryHandler(cat.id)}
+          >
             {/* <div className={style.category}> */}
-              <img className={style.icon} src='./assets/icons/shirt.svg' alt='svg'/>
-               {cat.categoryTitle}
-              {/* </div> */}
+            <img
+              className={style.icon}
+              src='./assets/icons/shirt.svg'
+              alt='svg'
+            />
+            {cat.categoryTitle}
+            {/* </div> */}
           </Button>
         ))}
       </div>
       <div className={style.content}>
-        {things.map((thing: SimplifiedThingType) => (
-          <Button key={thing.id} link onClick={() => void navigate(`/thing/${thing.id}`)}>
-            <div className={style.card}>
-              <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
-              <div className={style.photo}>
-                <img src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка'/>
+        <label htmlFor='toggleSwitch' className={switchStyle.switch}>
+          <input
+            id='toggleSwitch'
+            type='checkbox'
+            checked={isChecked}
+            onChange={handleToggleChange}
+          />
+          <span className={switchStyle.slider} />
+        </label>
+        {isChecked ? (
+          <div style={{ width: '800px', height: '100%', borderRadius: '20px' }}>
+            {location.length > 0 && (
+              <Map
+                onClick={(e) => handleClick(e.get('coords'))}
+                width='800px'
+                height='100%'
+                defaultState={{
+                  center: location,
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
+                }}
+              >
+                <GeolocationControl options={{ float: 'left' }} />
+                <Clusterer
+                  options={{
+                    preset: 'islands#invertedVioletClusterIcons',
+                    // groupByCoordinates: false,
+                  }}
+                >
+                  {things.map((thing) => (
+                    <Test
+                      key={`${thing.id}`}
+                      coord={[thing.thingLat, thing.thingLon]}
+                      onClick={() => navigate(`/thing/${thing.id}`)}
+                      img={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
+                      iconCaption={thing.thingName}
+                    />
+                  ))}
+                </Clusterer>
+              </Map>
+            )}
+          </div>
+        ) : (
+          things.map((thing: SimplifiedThingType) => (
+            <Button
+              key={thing.id}
+              link
+              onClick={() => void navigate(`/thing/${thing.id}`)}
+            >
+              <div className={style.card}>
+                <div className={style.timeLeft}>
+                  {getTimeLeft(thing.endDate)}
+                </div>
+                <div className={style.photo}>
+                  <img
+                    src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
+                    alt='фотка-шмотка'
+                  />
+                </div>
+                <div className={style.name}>
+                  <center>{thing.thingName}</center>
+                </div>
+                <div
+                  className={clsx(
+                    Math.random() > 0.5 ? style.favorite : style.notFavorite,
+                  )}
+                />
               </div>
-              <div className={style.name}>
-                <center>{thing.thingName}</center>
-              </div>
-              <div className={clsx(Math.random() > .5  ? style.favorite : style.notFavorite)} />
-            </div>
-          </Button>
-        ))}
+            </Button>
+          ))
+        )}
       </div>
     </div>
   )
