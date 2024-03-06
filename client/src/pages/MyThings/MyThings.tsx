@@ -6,6 +6,7 @@ import { useAppSelector } from '../../redux/hooks'
 import Card from '../../components/Widgets/Card/Card'
 import style from './MyThings.module.css'
 import Button from '../../components/Controls/Button/Button'
+import SvgLink from '../../components/Controls/SvgLink/SvgLink'
 
 const ThingInitVal = {
   id: 0,
@@ -43,24 +44,16 @@ export default function MyThings(): JSX.Element {
         <div className={style.emptyPage}>
           <span>Вы ещё не добавили никаких вещей</span>
           <Button link onClick={() => void navigate(`/new-thing`)}>
-            <div className={style.svgLink}>
-              <img
-                className={style.icon}
-                src='assets/icons/add-thing.svg'
-                alt='svg'
-              />
-              <div>Добавить свою вещь для обмена</div>
-            </div>
+            <SvgLink
+              icon='assets/icons/add-thing.svg'
+              text='Добавить свою вещь для обмена'
+            />
           </Button>
           <Button link onClick={() => void navigate(`/`)}>
-            <div className={style.svgLink}>
-              <img
-                className={style.icon}
-                src='assets/icons/search-large.svg'
-                alt='svg'
-              />
-              <div>Посмотреть вещи других пользователей</div>
-            </div>
+            <SvgLink
+              icon='assets/icons/search-large.svg'
+              text='Посмотреть вещи других пользователей'
+            />
           </Button>
         </div>
       )}
