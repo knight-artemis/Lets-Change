@@ -40,7 +40,7 @@ export default function TestUpload() {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/v1/things',
+        `${import.meta.env.VITE_URL}/v1/things`,
         data,
         {
           withCredentials: true,

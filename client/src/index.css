@@ -26,11 +26,13 @@
   --color-btn-danger: #e47474;
   --color-btn-warning: #f3c38b;
   --color-btn-good: #88ec99;
+  --color-btn-gray: #c5c5c5;
 
   --color-btn-font-neutral: #181ab3;
   --color-btn-font-danger: #881111;
   --color-btn-font-warning: #7c490e;
   --color-btn-font-good: #055813;
+  --color-btn-font-gray: #464646;
 
   color: var(--font-main);
   font-size: 1rem;

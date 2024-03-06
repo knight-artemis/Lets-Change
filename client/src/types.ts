@@ -54,3 +54,15 @@ export type UserDataType = {
     Category: CategoryType
     Photos: PhotoType[]
   }
+
+
+  export type SimplifiedThingType = {
+    id: number
+    thingName: string
+    categoryId: number
+    thingAddress: string
+    thingLat: number
+    thingLon: number
+    endDate: Date
+    photoUrl:  string
+  }
