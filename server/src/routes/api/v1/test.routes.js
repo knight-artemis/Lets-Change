@@ -4,6 +4,8 @@ const upload = require('../../../../multer')
 const { Photo } = require('../../../../db/models')
 
 router.post('/testUpload', upload.array('photo', 10), async (req, res) => {
+  console.log('FILES', req.files)
+  console.log('BODY', req.body)
   try {
     const promises = req.files.map(async (item) => {
       const newPhoto = await Photo.create({

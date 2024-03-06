@@ -13,6 +13,7 @@ import styles from './NewThing.module.css'
 import Button from '../../components/Controls/Button/Button'
 import Test from './Test'
 import { useNavigate } from 'react-router-dom'
+import TestUpload from './TestUpload'
 
 const kazanCoordinates = [
   [55.7942, 49.1117],
@@ -123,21 +124,22 @@ export default function NewThing(): JSX.Element {
   console.log(address)
 
   return (
-    <div className={styles.main}>
+    <from className={styles.main}>
       <h1>Добавить вещь</h1>
       <h5>Добавьте название</h5>
       <h5>Добавьте описание</h5>
       <h5>Выберите категорию</h5>
       <h5>Выберите длительность размещения</h5>
       <h5>Выберите фото</h5>
-      <form
+      <TestUpload />
+      {/* <form
         action='http://localhost:3003/api/v1/test/testUpload'
         method='post'
         encType='multipart/form-data'
       >
         <input type='file' name='photo' multiple />
         <button type='submit'>Загрузить файл</button>
-      </form>
+      </form> */}
       <h5>Выберите локацию</h5>
 
       {location.length > 0 && (
@@ -180,6 +182,8 @@ export default function NewThing(): JSX.Element {
       <Button color='warning'>Загрузить</Button>
       <Button color='neutral'>Загрузить</Button>
       <Button color='danger'>Загрузить</Button>
-    </div>
+      <Button>Загрузить</Button>
+    </from>
+
   )
 }

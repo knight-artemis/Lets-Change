@@ -1,5 +1,5 @@
 const router = require('express').Router()
-
+const upload = require('../../../../multer')
 const { User, Thing, Category, Photo } = require('../../../../db/models')
 
 router.get('/categories', async (req, res) => {
@@ -165,8 +165,8 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
-  const { userId } = req.session
+router.post('/', upload.array('photo', 10), async (req, res) => {
+  const { user } = req.session
   //! я расчитываю, что приходит валидный объект
   //   const {
   //     thingName,
@@ -192,7 +192,15 @@ router.post('/', async (req, res) => {
   //   }
 
   try {
-    const newThing = await Thing.create({ userId, ...req.body })
+    const newThing = (await Thing.create({ userId: user.id, ...req.body })).get({plain: true})
+    const promises = req.files.map(async (item) => {
+      const newPhoto = await Photo.create({
+        thingId: newThing.id,
+        photoUrl: item.filename,
+      })
+      return newPhoto
+    })
+    await Promise.all(promises)
     res.status(201).json(newThing)
   } catch (error) {
     console.error('Ошибка при создании объявления', error)
