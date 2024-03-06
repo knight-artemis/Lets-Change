@@ -67,15 +67,18 @@ export default function Main(): JSX.Element {
 
   const navigate = useNavigate()
 
+  const setAllThings = () :  void => {
+    axios
+    .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
+      withCredentials: true,
+    })
+    .then((res) => setThings(res.data))
+    .catch((err) => console.log('Ошибка получения всех вещей', err))
+  }
 
   useEffect(() => {
     // список объявлений по свежести
-    axios
-      .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
-        withCredentials: true,
-      })
-      .then((res) => setThings(res.data))
-      .catch((err) => console.log('Ошибка получения всех вещей', err))
+    setAllThings()
 
     // список категорий
     axios
@@ -88,24 +91,21 @@ export default function Main(): JSX.Element {
 
 
   const categoryHandler = (id: number): void => {
+    // тут сортировательная функция, устанавливает шмотки кокретной категоории
+    //! нодо аддитивность категорий
     axios
       .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things/categories/${id}`, { withCredentials: true })
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения вещей в категории', err))
-
-    // console.log('я клик', id)
-    // setEdit((prev) => !prev)
   }
-
-  const thingHandler = (id: number) : void => {
-    
-  }
-
 
 
   return (
     <div className={style.wrapper}>
       <div className={style.sidebar}>
+      <Button key='start' link onClick={() => void setAllThings()}>
+            все категроии
+          </Button>
         {categories.map((cat) => (
           <Button key={cat.id} link onClick={() => void categoryHandler(cat.id)}>
             <div className={style.category}>{cat.categoryTitle}</div>
