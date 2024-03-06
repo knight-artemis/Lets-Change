@@ -22,15 +22,17 @@
   --font-accent: #ffffff;
   --font-secondary: #b4b4b4;
 
-  --color-btn-neutral: #8687d8;
-  --color-btn-danger: #c77d7d;
-  --color-btn-warning: #b19371;
-  --color-btn-accept: #6a9b73;
+  --color-btn-neutral: #84a9ee;
+  --color-btn-danger: #e47474;
+  --color-btn-warning: #f3c38b;
+  --color-btn-good: #88ec99;
+  --color-btn-gray: #c5c5c5;
 
-  --color-btn-font-neutral: #3134d4;
-  --color-btn-font-danger: #be1b1b;
-  --color-btn-font-warning: #af6c1f;
-  --color-btn-font-accept: #259c39;
+  --color-btn-font-neutral: #181ab3;
+  --color-btn-font-danger: #881111;
+  --color-btn-font-warning: #7c490e;
+  --color-btn-font-good: #055813;
+  --color-btn-font-gray: #464646;
 
   color: var(--font-main);
   font-size: 1rem;
