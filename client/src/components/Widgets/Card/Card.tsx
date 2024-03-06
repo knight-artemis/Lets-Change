@@ -72,19 +72,12 @@ export default function Card({ thing }: CardProps): JSX.Element {
       <div className={style.card}>
         <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
         <div className={style.photo}>
-          <img
-            src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
-            alt='фотка-шмотка'
-          />
+          <img src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка'/>
         </div>
         <div className={style.name}>
           <center>{thing.thingName}</center>
         </div>
-        <div
-          className={clsx(
-            Math.random() > 0.5 ? style.favorite : style.notFavorite,
-          )}
-        />
+        <div className={clsx(Math.random() > 0.5 ? style.favorite : style.notFavorite)}/>
       </div>
     </Button>
   )
