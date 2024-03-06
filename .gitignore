@@ -6,7 +6,7 @@ todo.txt
 sessions/
 
 # папка upload
-public/media/uploads/
+public/uploads/
 
 # файлы Mac
 *.DS_Store
