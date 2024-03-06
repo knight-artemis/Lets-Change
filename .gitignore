@@ -5,12 +5,11 @@ todo.txt
 # сессии
 sessions/
 
-# папка upload
-public/media/uploads/
+# папка uploads
+public/uploads/
 
 # файлы Mac
 *.DS_Store
-
 
 
 # Logs
