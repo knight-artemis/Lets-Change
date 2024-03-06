@@ -141,7 +141,7 @@ export default function NewThing(): JSX.Element {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/v1/things',
+        `${import.meta.env.VITE_API}/v1/things`,
         data,
         {
           withCredentials: true,

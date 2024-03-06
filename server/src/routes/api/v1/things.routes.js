@@ -53,7 +53,8 @@ router.get('/categories/:id', async (req, res) => {
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
+        const photoUrl =
+          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
         delete plainThing.Photos
         delete plainThing.Category
         return { ...plainThing, photoUrl }
@@ -65,17 +66,64 @@ router.get('/categories/:id', async (req, res) => {
       'Ошибка при получении объявлений в конкретной категории',
       error,
     )
-    res
-      .status(500)
-      .send({
-        err: {
-          server:
-            'Ошибка сервера при получении объявлений в конкретной категории',
-        },
-      })
+    res.status(500).send({
+      err: {
+        server:
+          'Ошибка сервера при получении объявлений в конкретной категории',
+      },
+    })
   }
 })
 
+router.get('/user/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    const thingsRaw = await Thing.findAll({
+      attributes: [
+        'id',
+        'thingName',
+        'categoryId',
+        'endDate',
+        'isApproved',
+        'inDeal',
+      ],
+      include: [
+        {
+          model: User,
+          where: { id },
+          attributes: ['id', 'firstName', 'middleName', 'lastName'],
+        },
+        {
+          model: Photo,
+          attributes: ['photoUrl'],
+          order: [['id', 'ASC']],
+        },
+        {
+          model: Category,
+          attributes: ['categoryTitle'],
+        },
+      ],
+      order: [['createdAt', 'ASC']],
+    })
+
+    const things = thingsRaw
+      //! РАСКОМЕНТИТЬ !!  проверка, пока не апрувленные (фолс по умолчанию) объявления
+      // .filter((thing) => thing.isApproved && !thing.inDeal)
+      .map((thing) => {
+        const plainThing = thing.get({ plain: true })
+        const photoUrl =
+          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
+        delete plainThing.Photos
+        return { ...plainThing, photoUrl }
+      })
+    res.status(200).json(things)
+  } catch (error) {
+    console.error('Ошибка при получении всех объявлений', error)
+    res
+      .status(500)
+      .send({ err: { server: 'Ошибка сервера при получении всех объявлений' } })
+  }
+})
 router.get('/', async (req, res) => {
   try {
     const thingsRaw = await Thing.findAll({
@@ -103,7 +151,8 @@ router.get('/', async (req, res) => {
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
+        const photoUrl =
+          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
         delete plainThing.Photos
         return { ...plainThing, photoUrl }
       })
@@ -193,7 +242,9 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
 
   try {
     console.log({ userId: user.id, ...req.body })
-    const newThing = (await Thing.create({ userId: user.id, ...req.body })).get({plain: true})
+    const newThing = (await Thing.create({ userId: user.id, ...req.body })).get(
+      { plain: true },
+    )
     const promises = req.files.map(async (item) => {
       const newPhoto = await Photo.create({
         thingId: newThing.id,
