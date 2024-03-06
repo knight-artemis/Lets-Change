@@ -13,12 +13,17 @@ type ThingsType = {
   endDate: Date
   photoUrl: string | null
 }
-// TODO добавить типизацию  категорий и массива категорий
+
+type CategoryType = {
+  id: number
+  categoryTitle: string
+}
+
 
 function getTimeLeft(endDate: Date): string {
   const msDelta = new Date(endDate).getTime() - new Date().getTime()
   if (msDelta <= 0) return 'время вышло'
-  
+
   const msInHour = 1000 * 60 * 60
   const msInDay = msInHour * 24
   const msInWeek = msInDay * 7
@@ -49,6 +54,7 @@ export default function Main(): JSX.Element {
   const [categories, setCategories] = useState([{ id: 0, categoryTitle: '' }])
 
   useEffect(() => {
+    // список объявлений по свежести
     axios
       .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
         withCredentials: true,
@@ -56,11 +62,14 @@ export default function Main(): JSX.Element {
       .then((res) => setThings(res.data))
       .catch((err) => console.log(err))
 
-    setCategories([
-      { id: 1, categoryTitle: 'игрушки' },
-      { id: 2, categoryTitle: 'хренюшки' },
-      { id: 3, categoryTitle: 'пиздюшки' },
-    ])
+      // список категорий
+    axios
+      .get<CategoryType[]>(`${import.meta.env.VITE_URL}/v1/things/categories`, {
+        withCredentials: true,
+      })
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.log(err))
+
   }, [])
 
   return (
