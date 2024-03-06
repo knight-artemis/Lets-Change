@@ -102,7 +102,7 @@ export default function Main(): JSX.Element {
     <div className={style.wrapper}>
       <div className={style.topContent}>
         <span className={style.span}>Посмотреть объявления списком</span>
-        <SvgLink icon='assets/icons/shirt.svg'/>
+        <SvgLink icon='./assets/icons/list-color.svg'/>
         <label htmlFor='toggleSwitch' className={switchStyle.switch}>
           <input
             id='toggleSwitch'
@@ -112,24 +112,24 @@ export default function Main(): JSX.Element {
           />
           <span className={switchStyle.slider} />
         </label>
-        <SvgLink icon='assets/icons/shirt.svg'/>
+        <SvgLink icon='assets/icons/globus-color.svg'/>
         <span className={style.span}>или на карте</span>
       </div>
 
       <div className={style.mainContent}>
         <div className={style.sidebar}>
           <Button key='start' link onClick={() => void setAllThings()}>
-            <SvgLink icon='./assets/icons/shirt.svg' text='Все категории' />
+            <SvgLink icon='assets/icons/shirt.svg' text='Все категории' />
           </Button>
-          {categories.map((cat) => (
+          {categories.map((category) => (
             <Button
-              key={cat.id}
+              key={category.id}
               link
-              onClick={() => void categoryHandler(cat.id)}
+              onClick={() => void categoryHandler(category.id)}
             >
               <SvgLink
-                icon='./assets/icons/shirt.svg'
-                text={cat.categoryTitle}
+                icon='assets/icons/shirt.svg'
+                text={category.categoryTitle}
               />
             </Button>
           ))}
