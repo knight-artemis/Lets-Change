@@ -8,6 +8,11 @@ import {
   ButtonNext,
   ImageWithZoom,
 } from 'pure-react-carousel'
+import {
+  GeolocationControl,
+  Map,
+  Placemark,
+} from '@pbe/react-yandex-maps'
 import 'pure-react-carousel/dist/react-carousel.es.css'
 import axios from 'axios'
 import styles from './ThingPage.module.css'
@@ -97,7 +102,37 @@ export default function ThingPage(): JSX.Element {
                 Давай меняться
               </button>
             </div>
-            <div className={`${styles.mapDiv}`}>Место для карты</div>
+            <div className={`${styles.mapDiv}`}>
+              {/* {location.length > 0 && ( */}
+                <Map
+                  // onClick={(e) => handleClick(e.get('coords'))}
+                  width='600px'
+                  height='500px'
+                  defaultState={{
+                    center: [thing.thingLat, thing.thingLon],
+                    zoom: 15,
+                    controls: ['zoomControl', 'fullscreenControl'],
+                  }}
+                  state={{
+                    center: [thing.thingLat, thing.thingLon],
+                    zoom: 15,
+                    controls: ['zoomControl', 'fullscreenControl'],
+                  }}
+                >
+                  <GeolocationControl options={{ float: 'left' }} />
+                  {/* {address.length > 0 && ( */}
+                    <Placemark
+                      onClick={() => console.log('click')}
+                      geometry={[thing.thingLat, thing.thingLon]}
+                      properties={{
+                        balloonContentBody:
+                          'This is balloon loaded by the Yandex.Maps API module system',
+                      }}
+                    />
+                  {/* )} */}
+                </Map>
+              {/* )} */}
+            </div>
           </div>
         </div>
       </div>
