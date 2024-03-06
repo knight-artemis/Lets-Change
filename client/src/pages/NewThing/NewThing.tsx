@@ -124,7 +124,7 @@ export default function NewThing(): JSX.Element {
   console.log(address)
 
   return (
-    <div className={styles.main}>
+    <from className={styles.main}>
       <h1>Добавить вещь</h1>
       <h5>Добавьте название</h5>
       <h5>Добавьте описание</h5>
@@ -179,6 +179,6 @@ export default function NewThing(): JSX.Element {
         </Map>
       )}
       <Button>Загрузить</Button>
-    </div>
+    </from>
   )
 }
