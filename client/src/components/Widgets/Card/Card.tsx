@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import style from './Card.module.css'
-import type { SimplifiedThingType } from '../../../types'
-import Button from '../../Controls/Button/Button'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import clsx from 'clsx'
+import Button from '../../Controls/Button/Button'
+import type { SimplifiedThingType } from '../../../types'
+import style from './Card.module.css'
 
-const ThingsInitVal = {
+const ThingInitVal = {
   id: 0,
   thingName: '',
   categoryId: 0,
@@ -16,7 +17,11 @@ const ThingsInitVal = {
   photoUrl: '',
 }
 
-export default function Card(thing: SimplifiedThingType): JSX.Element {
+type CardProps = {
+  thing: SimplifiedThingType
+}
+
+export default function Card({ thing }: CardProps): JSX.Element {
   function getTimeLeft(endDate: Date): string {
     const msDelta = new Date(endDate).getTime() - new Date().getTime()
     if (msDelta <= 0) return 'время вышло'
@@ -46,18 +51,17 @@ export default function Card(thing: SimplifiedThingType): JSX.Element {
     return `осталось ${monthsDiff} мес.`
   }
 
-  const [things, setThings] = useState<SimplifiedThingType[]>([ThingsInitVal])
+  // const [oneThing, setOneThing] = useState<SimplifiedThingType>(ThingInitVal)
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    axios
-      .get<SimplifiedThingType[]>(`${import.meta.env.VITE_API}/v1/things`, {
-        withCredentials: true,
-      })
-      .then((res) => setThings(res.data))
-      .catch((err) => console.log('Ошибка получения всех вещей', err))
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get<SimplifiedThingType>(
+  //       `${import.meta.env.VITE_API}/v1/things/${thing.id}`, { withCredentials: true })
+  //     .then((res) => setOneThing(res.data))
+  //     .catch((err) => console.log('Ошибка получения всех вещей', err))
+  // }, [thing.id])
 
   return (
     <Button
