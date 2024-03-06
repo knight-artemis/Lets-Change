@@ -103,7 +103,7 @@ router.get('/', async (req, res) => {
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'https://instrument.ru/img/dev/catalog_no_photo.png'
+        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
         delete plainThing.Photos
         return { ...plainThing, photoUrl }
       })
