@@ -75,7 +75,22 @@
 }
 
 .favorite {
+    z-index: 555;
+    width: 2rem;
+    height: 2rem;
     position: absolute;
     top: 1rem;
     right: 1rem;
+    background-image: url('../../../public/assets/icons/star-favorite.svg');
+}
+
+.notFavorite {
+    z-index: 555;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-image: url('../../../public/assets/icons/star-not-favorite.svg');
+
 }

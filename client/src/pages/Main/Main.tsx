@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import style from './Main.module.css'
 import Button from '../../components/Controls/Button/Button'
+import clsx from 'clsx'
 
 type ThingsType = {
   id: number
@@ -129,7 +130,7 @@ export default function Main(): JSX.Element {
               <div className={style.name}>
                 <center>{thing.thingName}</center>
               </div>
-              <div className={style.favorite}>фаворит</div>
+              <div className={clsx(Math.random() > .5  ? style.favorite : style.notFavorite)} />
             </div>
           </Button>
         ))}
