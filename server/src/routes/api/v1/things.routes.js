@@ -2,6 +2,22 @@ const router = require('express').Router()
 
 const { User, Thing, Category, Photo } = require('../../../../db/models')
 
+router.get('/categories', async (req, res) => {
+  try {
+    const categoriesRaw = await Category.findAll({})
+    const categories = categoriesRaw.map((cat) => ({
+      id: cat.id,
+      categoryTitle: cat.categoryTitle,
+    }))
+    res.status(200).json(categories)
+  } catch (error) {
+    console.error('Ошибка при поиске категорий', error)
+    res
+      .status(500)
+      .send({ err: { server: 'Ошибка сервера при поиске категорий' } })
+  }
+})
+
 router.get('/', async (req, res) => {
   try {
     const thingsRaw = await Thing.findAll({
@@ -27,19 +43,21 @@ router.get('/', async (req, res) => {
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
+        const photoUrl =
+          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
         delete plainThing.Photos
         return { ...plainThing, photoUrl }
       })
     console.log('🚀 ~ router.get ~ things:', things)
     res.status(200).json(things)
   } catch (error) {
-    console.error('Ошибка при получении объявлений', error)
+    console.error('Ошибка при получении всех объявлений', error)
     res
       .status(500)
-      .send({ err: { server: 'Ошибка сервера при получении объявлений' } })
+      .send({ err: { server: 'Ошибка сервера при получении всех объявлений' } })
   }
 })
+
 router.get('/:id', async (req, res) => {
   const { id } = req.params
   try {
@@ -82,10 +100,10 @@ router.get('/:id', async (req, res) => {
       res.status(404).send({ err: { notfound: 'нет такой записи' } })
     }
   } catch (error) {
-    console.error('Ошибка при получении объявления', error)
-    res
-      .status(500)
-      .send({ err: { server: 'Ошибка сервера при получении объявления' } })
+    console.error('Ошибка при получении одного объявления', error)
+    res.status(500).send({
+      err: { server: 'Ошибка сервера при получении одного объявления' },
+    })
   }
 })
 
