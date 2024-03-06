@@ -53,8 +53,7 @@ router.get('/categories/:id', async (req, res) => {
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl =
-          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
+        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
         delete plainThing.Photos
         delete plainThing.Category
         return { ...plainThing, photoUrl }
@@ -104,8 +103,7 @@ router.get('/', async (req, res) => {
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl =
-          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
+        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'https://instrument.ru/img/dev/catalog_no_photo.png'
         delete plainThing.Photos
         return { ...plainThing, photoUrl }
       })
