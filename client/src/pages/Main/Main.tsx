@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import style from './Main.module.css'
 import Button from '../../components/Controls/Button/Button'
+import clsx from 'clsx'
 
 type ThingsType = {
   id: number
@@ -106,11 +107,15 @@ export default function Main(): JSX.Element {
     <div className={style.wrapper}>
       <div className={style.sidebar}>
         <Button key='start' link onClick={() => void setAllThings()}>
-          все категроии
+          <img className={style.icon} src='./assets/icons/shirt.svg' alt='svg'/> все категроии
         </Button>
         {categories.map((cat) => (
           <Button key={cat.id} link onClick={() => void categoryHandler(cat.id)}>
-            <div className={style.category}>{cat.categoryTitle}</div>
+           
+            {/* <div className={style.category}> */}
+              <img className={style.icon} src='./assets/icons/shirt.svg' alt='svg'/>
+               {cat.categoryTitle}
+              {/* </div> */}
           </Button>
         ))}
       </div>
@@ -125,7 +130,7 @@ export default function Main(): JSX.Element {
               <div className={style.name}>
                 <center>{thing.thingName}</center>
               </div>
-              <div className={style.favorite}>фаворит</div>
+              <div className={clsx(Math.random() > .5  ? style.favorite : style.notFavorite)} />
             </div>
           </Button>
         ))}

@@ -176,7 +176,10 @@ export default function NewThing(): JSX.Element {
           </Clusterer>
         </Map>
       )}
-      <Button>Загрузить</Button>
+      <Button color='good'>Загрузить</Button>
+      <Button color='warning'>Загрузить</Button>
+      <Button color='neutral'>Загрузить</Button>
+      <Button color='danger'>Загрузить</Button>
     </div>
   )
 }
