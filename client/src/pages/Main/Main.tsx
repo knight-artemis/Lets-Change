@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import style from './Main.module.css'
 import Button from '../../components/Controls/Button/Button'
+import { useNavigate } from 'react-router-dom'
 
 type ThingsType = {
   id: number
@@ -64,6 +65,9 @@ export default function Main(): JSX.Element {
   const [things, setThings] = useState([ThingsInitVal])
   const [categories, setCategories] = useState([CategoryInitVal])
 
+  const navigate = useNavigate()
+
+
   useEffect(() => {
     // список объявлений по свежести
     axios
@@ -93,6 +97,10 @@ export default function Main(): JSX.Element {
     // setEdit((prev) => !prev)
   }
 
+  const thingHandler = (id: number) : void => {
+    
+  }
+
 
 
   return (
@@ -106,7 +114,7 @@ export default function Main(): JSX.Element {
       </div>
       <div className={style.content}>
         {things.map((thing: ThingsType) => (
-          <Button key={thing.id} link >
+          <Button key={thing.id} link   onClick={() => void navigate(`/thing/${thing.id}`)} >
             <div className={style.card}>
               <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
               <div className={style.photo}>
