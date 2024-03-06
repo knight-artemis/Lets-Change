@@ -38,20 +38,32 @@ export type ShortUserType = {
   lastName: string
 }
 
-export type ThingType = {
-  id: number
-  userId: number
-  categoryId: number
-  thingName: string
-  description: string
-  thingAddress: string
-  thingLat: number
-  thingLon: number
-  startDate: Date
-  endDate: Date
-  isApproved: boolean
-  inDeal: boolean
-  User: ShortUserType
-  Category: CategoryType
-  Photos: PhotoType[]
-}
+ export type ThingType = {
+    id: number
+    userId: number
+    categoryId: number
+    thingName: string
+    description: string
+    thingAddress: string
+    thingLat: number
+    thingLon: number
+    startDate: Date
+    endDate: Date
+    isApproved: boolean
+    inDeal: boolean
+    User: ShortUserType
+    Category: CategoryType
+    Photos: PhotoType[]
+  }
+
+
+  export type SimplifiedThingType = {
+    id: number
+    thingName: string
+    categoryId: number
+    thingAddress: string
+    thingLat: number
+    thingLon: number
+    endDate: Date
+    photoUrl:  string
+  }

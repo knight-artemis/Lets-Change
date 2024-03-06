@@ -42,6 +42,7 @@
     height: 200px;
     padding: .5rem;
     position: relative;
+    background-image: url('../../../public/assets/icons/star-empty.svg');
 }
 
 .card:hover {

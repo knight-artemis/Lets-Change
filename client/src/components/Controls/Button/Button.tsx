@@ -7,7 +7,8 @@ type ButtonProps = {
   children: ReactNode // Используем ReactNode для разрешения передачи любых дочерних элементов
   onClick?: () => void // Тип для функции onClick
   link?: boolean // кнопка-ссылка или обычная кнопка
-  color?: 'neutral' | 'danger' | 'good' | 'warning' | undefined
+  disabled?: boolean // заблочить
+  color?: 'neutral' | 'danger' | 'good' | 'warning' | undefined // цвет
 }
 
 export default function Button({
@@ -15,15 +16,13 @@ export default function Button({
   onClick,
   link = false,
   color,
+  disabled = false,
 }: ButtonProps): JSX.Element {
-  // let colorClass
-  // switch (color) {
-  //   case: 'neutral'
-  //   colorClass =
-  // }
+  
   return (
     <button
       type='button'
+      disabled={disabled}
       onClick={onClick}
       className={clsx(
         link ? style.link : style.btn,

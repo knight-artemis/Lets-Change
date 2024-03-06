@@ -19,6 +19,7 @@
 
 
 
+
 .btn {
     border-radius: 20px;
     line-height: 1.5rem;
@@ -68,4 +69,16 @@
 
 .btn.warning:hover {
     box-shadow: inset 0 0 10px 1px var(--color-btn-font-warning);
+}
+
+.btn:disabled {
+    color: var(--color-btn-font-gray);
+    background-color: var(--color-btn-gray);
+    cursor: wait;
+}
+
+.btn:disabled:hover {
+    box-shadow: none;
+    filter: blur(2px);
+    transition-duration: .2s;
 }

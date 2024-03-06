@@ -1,20 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
 import style from './Main.module.css'
 import Button from '../../components/Controls/Button/Button'
-import clsx from 'clsx'
-
-type ThingsType = {
-  id: number
-  thingName: string
-  categoryId: number
-  thingAddress: string
-  thingLat: number
-  thingLon: number
-  endDate: Date
-  photoUrl:  string
-}
+import type { SimplifiedThingType } from '../../types'
 
 const ThingsInitVal = {
   id: 0,
@@ -63,14 +53,14 @@ function getTimeLeft(endDate: Date): string {
 }
 
 export default function Main(): JSX.Element {
-  const [things, setThings] = useState<ThingsType[]>([ThingsInitVal])
+  const [things, setThings] = useState<SimplifiedThingType[]>([ThingsInitVal])
   const [categories, setCategories] = useState<CategoryType[]>([CategoryInitVal])
 
   const navigate = useNavigate()
 
   const setAllThings = (): void => {
     axios
-      .get<ThingsType[]>(`${import.meta.env.VITE_URL}/v1/things`, {
+      .get<SimplifiedThingType[]>(`${import.meta.env.VITE_API}/v1/things`, {
         withCredentials: true,
       })
       .then((res) => setThings(res.data))
@@ -84,7 +74,7 @@ export default function Main(): JSX.Element {
 
     // список категорий
     axios
-      .get<CategoryType[]>(`${import.meta.env.VITE_URL}/v1/things/categories`, {
+      .get<CategoryType[]>(`${import.meta.env.VITE_API}/v1/things/categories`, {
         withCredentials: true,
       })
       .then((res) => setCategories(res.data))
@@ -95,8 +85,8 @@ export default function Main(): JSX.Element {
     // тут сортировательная функция, устанавливает шмотки кокретной категоории
     //! нодо аддитивность категорий
     axios
-      .get<ThingsType[]>(
-        `${import.meta.env.VITE_URL}/v1/things/categories/${id}`,
+      .get<SimplifiedThingType[]>(
+        `${import.meta.env.VITE_API}/v1/things/categories/${id}`,
         { withCredentials: true },
       )
       .then((res) => setThings(res.data))
@@ -120,12 +110,12 @@ export default function Main(): JSX.Element {
         ))}
       </div>
       <div className={style.content}>
-        {things.map((thing: ThingsType) => (
+        {things.map((thing: SimplifiedThingType) => (
           <Button key={thing.id} link onClick={() => void navigate(`/thing/${thing.id}`)}>
             <div className={style.card}>
               <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
               <div className={style.photo}>
-                <img src={`${import.meta.env.VITE_UPLOADS}/things/${thing.photoUrl}`} alt='фотка-шмотка'/>
+                <img src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка'/>
               </div>
               <div className={style.name}>
                 <center>{thing.thingName}</center>
