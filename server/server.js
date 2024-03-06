@@ -38,9 +38,9 @@ app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '/public')));
-app.use(express.static(path.join(process.cwd(), 'uploads/')));
-console.log("🚀 ~ path.join(process.cwd(), 'uploads/'):", path.join(process.cwd(), 'uploads/'))
+app.use(express.static(path.join(process.cwd(), 'public/')));
+// app.use(express.static(path.join(process.cwd(), 'uploads/')));
+// console.log("🚀 ~ path.join(process.cwd(), 'uploads/'):", path.join(process.cwd(), 'uploads/'))
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/things', thingsRouter);

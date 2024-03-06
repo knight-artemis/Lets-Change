@@ -1,5 +1,14 @@
-import React from 'react';
-import styles from './ThingPage.module.css';
+import React from 'react'
+import {
+  CarouselProvider,
+  Slider,
+  Slide,
+  ButtonBack,
+  ButtonNext,
+  ImageWithZoom,
+} from 'pure-react-carousel'
+import 'pure-react-carousel/dist/react-carousel.es.css'
+import styles from './ThingPage.module.css'
 
 export default function ThingPage(): JSX.Element {
   return (
@@ -7,30 +16,39 @@ export default function ThingPage(): JSX.Element {
       <h1>Штанi за 40 грiвен</h1>
       <div className={`${styles.mainContent}`}>
         <div className={`${styles.photoBlock}`}>
-          <div className={`${styles.mainPhotoDiv}`}>
-            <img
-              className={`${styles.mainPhoto}`}
-              src='https://moy-razmer.ru/storage/images/gallery/images/4xt7IiTu3hjf4pWE.jpg'
-              alt=''
-            />
-          </div>
-          <div className={`${styles.littlePhotosDiv}`}>
-            <img
-              className={`${styles.littlePhoto}`}
-              src='https://moy-razmer.ru/storage/images/gallery/images/4xt7IiTu3hjf4pWE.jpg'
-              alt=''
-            />
-            <img
-              className={`${styles.littlePhoto}`}
-              src='https://moy-razmer.ru/storage/images/gallery/images/4xt7IiTu3hjf4pWE.jpg'
-              alt=''
-            />
-            <img
-              className={`${styles.littlePhoto}`}
-              src='https://moy-razmer.ru/storage/images/gallery/images/4xt7IiTu3hjf4pWE.jpg'
-              alt=''
-            />
-          </div>
+          <CarouselProvider
+            naturalSlideWidth={100}
+            naturalSlideHeight={100}
+            totalSlides={3}
+            // hasMasterSpinner
+            // isIntrinsicHeight
+          >
+            <Slider>
+              <Slide index={0}>
+                <ImageWithZoom
+                  className={`${styles.photo}`}
+                  src='https://moy-razmer.ru/storage/images/gallery/images/4xt7IiTu3hjf4pWE.jpg'
+                  alt='Штанi'
+                />
+              </Slide>
+              <Slide index={1}>
+                <ImageWithZoom
+                  className={`${styles.photo}`}
+                  src='https://moy-razmer.ru/storage/images/gallery/images/4xt7IiTu3hjf4pWE.jpg'
+                  alt='Штанi'
+                />
+              </Slide>
+              <Slide index={2}>
+                <ImageWithZoom
+                  className={`${styles.photo}`}
+                  src='https://moy-razmer.ru/storage/images/gallery/images/4xt7IiTu3hjf4pWE.jpg'
+                  alt='Штанi'
+                />
+              </Slide>
+            </Slider>
+            <ButtonBack>Back</ButtonBack>
+            <ButtonNext>Next</ButtonNext>
+          </CarouselProvider>
         </div>
         <div className={`${styles.addContent}`}>
           <div className={`${styles.description}`}>
@@ -48,5 +66,5 @@ export default function ThingPage(): JSX.Element {
         </div>
       </div>
     </div>
-  );
+  )
 }
