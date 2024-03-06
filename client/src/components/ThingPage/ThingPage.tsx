@@ -70,7 +70,7 @@ export default function ThingPage(): JSX.Element {
                 <Slide index={index}>
                   <ImageWithZoom
                     className={`${styles.photo}`}
-                    src={`http://localhost:3003/uploads/things/${photo.photoUrl}`}
+                    src={`http://localhost:3000/uploads/things/${photo.photoUrl}`}
                     alt='Штанi'
                   />
                 </Slide>
