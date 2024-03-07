@@ -26,6 +26,7 @@ export default function PasswordChangeForm(): JSX.Element {
 
   return (
     <div className={`${style.form}`}>
+      <h3>Изменение пароля</h3>
       <span>
         Старый пароль
         <input type='password' name='' id='' onChange={() => changeHandler} />
