@@ -40,3 +40,7 @@ export const fetchLogout = createAsyncThunk('user/logout', async () => {
       email: '',
     };
 });
+
+export const fetchUserUpdate = createAsyncThunk('user/update', async () => {
+  const response = await axios.patch
+})

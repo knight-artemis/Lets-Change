@@ -1,6 +1,8 @@
 import type { ChangeEvent } from 'react'
 import React, { useState } from 'react'
 import type { UserType } from '../../types'
+import style from './DataChangeForm.module.css'
+import axios, { AxiosResponse } from 'axios'
 
 export default function DataChangeForm({user}: {user: UserType}): JSX.Element {
   
@@ -32,69 +34,68 @@ export default function DataChangeForm({user}: {user: UserType}): JSX.Element {
   }
 
   return (
-    <div>
-      <form action=''>
-        <span>
-          Фамилия
-          <input
-            type='text'
-            name=''
-            id=''
-            onChange={changeHandler}
-            defaultValue={user?.lastName}
-          />
-        </span>
-        <span>
-          Имя
-          <input
-            type='text'
-            name=''
-            id=''
-            onChange={changeHandler}
-            defaultValue={user?.firstName}
-          />
-        </span>
-        <span>
-          Отчество
-          <input
-            type='text'
-            name=''
-            id=''
-            onChange={changeHandler}
-            defaultValue={user?.middleName}
-          />
-        </span>
-        <span>
-          Почта
-          <input
-            type='text'
-            name=''
-            id=''
-            onChange={changeHandler}
-            defaultValue={user?.email}
-          />
-        </span>
-        <span>
-          Адрес
-          <input
-            type='text'
-            name=''
-            id=''
-            onChange={changeHandler}
-            defaultValue={user?.userAddress}
-          />
-        </span>
-        <span>
-          Телефон
-          <input
-            type='text'
-            name=''
-            id=''
-            onChange={changeHandler}
-            defaultValue={user?.phone}
-          />
-        </span>
-      </form>
+    <div className={`${style.form}`}>
+      <span>
+        Фамилия
+        <input
+          type='text'
+          name=''
+          id=''
+          onChange={changeHandler}
+          defaultValue={user?.lastName}
+        />
+      </span>
+      <span>
+        Имя
+        <input
+          type='text'
+          name=''
+          id=''
+          onChange={changeHandler}
+          defaultValue={user?.firstName}
+        />
+      </span>
+      <span>
+        Отчество
+        <input
+          type='text'
+          name=''
+          id=''
+          onChange={changeHandler}
+          defaultValue={user?.middleName}
+        />
+      </span>
+      <span>
+        Почта
+        <input
+          type='text'
+          name=''
+          id=''
+          onChange={changeHandler}
+          defaultValue={user?.email}
+        />
+      </span>
+      <span>
+        Адрес
+        <input
+          type='text'
+          name=''
+          id=''
+          onChange={changeHandler}
+          defaultValue={user?.userAddress}
+        />
+      </span>
+      <span>
+        Телефон
+        <input
+          type='text'
+          name=''
+          id=''
+          onChange={changeHandler}
+          defaultValue={user?.phone}
+        />
+      </span>
+      <button type='button'>Изменить данные</button>
     </div>
   )
 }
