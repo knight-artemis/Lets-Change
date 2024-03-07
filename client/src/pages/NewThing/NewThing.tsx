@@ -33,6 +33,7 @@ export default function NewThing(): JSX.Element {
     thingAddress: '',
     thingLat: 0,
     thingLon: 0,
+    isApproved: true,
   }
   const [formData, setFormData] = useState(inirialFormsData)
 
