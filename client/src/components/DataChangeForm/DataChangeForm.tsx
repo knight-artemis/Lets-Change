@@ -2,7 +2,6 @@ import type { ChangeEvent } from 'react'
 import React, { useState } from 'react'
 import type { UserType } from '../../types'
 import style from './DataChangeForm.module.css'
-import axios, { AxiosResponse } from 'axios'
 
 export default function DataChangeForm({user}: {user: UserType}): JSX.Element {
   
@@ -11,7 +10,6 @@ export default function DataChangeForm({user}: {user: UserType}): JSX.Element {
     firstName: user?.firstName || '',
     middleName: user?.middleName || '',
     email: user?.email || '',
-    userAddress: user?.userAddress || '',
     phone: user?.phone || '',
   }
 
@@ -20,7 +18,6 @@ export default function DataChangeForm({user}: {user: UserType}): JSX.Element {
     firstName: string
     middleName: string
     email: string
-    userAddress: string
     phone: string
   }
 
@@ -73,16 +70,6 @@ export default function DataChangeForm({user}: {user: UserType}): JSX.Element {
           id=''
           onChange={changeHandler}
           defaultValue={user?.email}
-        />
-      </span>
-      <span>
-        Адрес
-        <input
-          type='text'
-          name=''
-          id=''
-          onChange={changeHandler}
-          defaultValue={user?.userAddress}
         />
       </span>
       <span>
