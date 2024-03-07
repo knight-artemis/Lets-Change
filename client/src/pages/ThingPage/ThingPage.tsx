@@ -43,9 +43,7 @@ export default function ThingPage(): JSX.Element {
     },
     Photos: [
       {
-        photoUrl: '',
-      },
-      {
+        id: 0,
         photoUrl: '',
       },
     ],
@@ -78,7 +76,7 @@ export default function ThingPage(): JSX.Element {
             >
               <Slider>
                 {thing.Photos.map((photo, index) => (
-                  <Slide index={index}>
+                  <Slide key={`img-${photo.id}`} index={index}>
                     <ImageWithZoom
                       className={`${styles.photo}`}
                       src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}

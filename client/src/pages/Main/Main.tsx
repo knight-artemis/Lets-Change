@@ -176,7 +176,7 @@ export default function Main(): JSX.Element {
               {/* )} */}
             </div>
           ) : (
-            things.map((thing: SimplifiedThingType) => <Card thing={thing} />)
+            things.map((thing: SimplifiedThingType) => <Card key={`card-${thing.id}`} thing={thing} />)
           )}
         </div>
       </div>

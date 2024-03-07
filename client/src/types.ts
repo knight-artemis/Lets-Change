@@ -29,6 +29,7 @@ export type CategoryType = {
 }
 
 export type PhotoType = {
+  id: number
   photoUrl: string
 }
 
@@ -52,7 +53,7 @@ export type ShortUserType = {
     isApproved: boolean
     inDeal: boolean
     User: ShortUserType
-    Category: CategoryType
+    Category: {categoryTitle: string}
     Photos: PhotoType[]
   }
 
