@@ -8,16 +8,13 @@ import {
   ButtonNext,
   ImageWithZoom,
 } from 'pure-react-carousel'
-import {
-  GeolocationControl,
-  Map,
-  Placemark,
-} from '@pbe/react-yandex-maps'
+import { GeolocationControl, Map, Placemark } from '@pbe/react-yandex-maps'
 import 'pure-react-carousel/dist/react-carousel.es.css'
 import axios from 'axios'
 import styles from './ThingPage.module.css'
 import type { ThingType } from '../../types'
 import Modal from '../../components/Modal/Modal'
+import { useAppSelector } from '../../redux/hooks'
 
 export default function ThingPage(): JSX.Element {
   const initialThing = {
@@ -51,6 +48,7 @@ export default function ThingPage(): JSX.Element {
 
   const [thing, setThing] = useState<ThingType>(initialThing)
   const [modalActive, setModalActive] = useState<boolean>(true)
+  const user = useAppSelector((store) => store.userSlice.user)
 
   const params = useParams()
 
@@ -92,43 +90,45 @@ export default function ThingPage(): JSX.Element {
           <div className={`${styles.addContent}`}>
             <div className={`${styles.description}`}>{thing.description}</div>
             <div className={`${styles.buttonDiv}`}>
-              <button
-                type='button'
-                className={`${styles.button}`}
-                onClick={() => setModalActive((prev) => !prev)}
-              >
-                Давай меняться
-              </button>
+              {user.id !== thing.userId && (
+                <button
+                  type='button'
+                  className={`${styles.button}`}
+                  onClick={() => setModalActive((prev) => !prev)}
+                >
+                  Давай меняться
+                </button>
+              )}
             </div>
             <div className={`${styles.mapDiv}`}>
               {/* {location.length > 0 && ( */}
-                <Map
-                  // onClick={(e) => handleClick(e.get('coords'))}
-                  width='600px'
-                  height='500px'
-                  defaultState={{
-                    center: [thing.thingLat, thing.thingLon],
-                    zoom: 15,
-                    controls: ['zoomControl', 'fullscreenControl'],
+              <Map
+                // onClick={(e) => handleClick(e.get('coords'))}
+                width='600px'
+                height='500px'
+                defaultState={{
+                  center: [thing.thingLat, thing.thingLon],
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
+                }}
+                state={{
+                  center: [thing.thingLat, thing.thingLon],
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
+                }}
+              >
+                <GeolocationControl options={{ float: 'left' }} />
+                {/* {address.length > 0 && ( */}
+                <Placemark
+                  onClick={() => console.log('click')}
+                  geometry={[thing.thingLat, thing.thingLon]}
+                  properties={{
+                    balloonContentBody:
+                      'This is balloon loaded by the Yandex.Maps API module system',
                   }}
-                  state={{
-                    center: [thing.thingLat, thing.thingLon],
-                    zoom: 15,
-                    controls: ['zoomControl', 'fullscreenControl'],
-                  }}
-                >
-                  <GeolocationControl options={{ float: 'left' }} />
-                  {/* {address.length > 0 && ( */}
-                    <Placemark
-                      onClick={() => console.log('click')}
-                      geometry={[thing.thingLat, thing.thingLon]}
-                      properties={{
-                        balloonContentBody:
-                          'This is balloon loaded by the Yandex.Maps API module system',
-                      }}
-                    />
-                  {/* )} */}
-                </Map>
+                />
+                {/* )} */}
+              </Map>
               {/* )} */}
             </div>
           </div>
