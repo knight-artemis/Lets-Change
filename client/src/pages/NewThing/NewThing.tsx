@@ -10,24 +10,38 @@ import Button from '../../components/Controls/Button/Button'
 import type { CategoryType } from '../../types'
 
 export default function NewThing(): JSX.Element {
+  const calculateEndDate = (daysNum: number): Date => {
+    const endDate = new Date()
+    endDate.setDate(endDate.getDate() + daysNum)
+    return endDate
+  }
   const CategoryInitVal = { id: 0, categoryTitle: '' }
-
+  const initialFormsData = {
+    thingName: '',
+    description: '',
+    categoryId: 1,
+    thingAddress: '',
+    thingLat: 0,
+    thingLon: 0,
+    endDate: calculateEndDate(7), // по умолчанию на недельку размещение объявления
+    isApproved: true, //! убрать когда будет админ
+  }
   const [location, setLocation] = useState<number[]>([])
   const [address, setAddress] = useState<string>('')
   const [categories, setCategories] = useState<CategoryType[]>([
     CategoryInitVal,
   ])
-
-  const inirialFormsData = {
-    thingName: '',
-    description: '',
-    categoryId: 0,
-    thingAddress: '',
-    thingLat: 0,
-    thingLon: 0,
-  }
+  const [days, setDays] = useState<number>(7) // Устанавливаем начальное значение
   const fileInputRef = useRef(null)
-  const [formData, setFormData] = useState(inirialFormsData)
+  const [formData, setFormData] = useState(initialFormsData)
+
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setDays(Number(e.target.value))
+    setFormData({
+      ...formData,
+      endDate: calculateEndDate(Number(e.target.value)),
+    })
+  }
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -56,7 +70,9 @@ export default function NewThing(): JSX.Element {
   //   // Ваша логика обработки выбранных файлов
   // }
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>): void => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+  ): void => {
     const { name, value } = event.target
     setFormData({
       ...formData,
@@ -96,7 +112,7 @@ export default function NewThing(): JSX.Element {
       )
       console.log('Ответ от сервера:', response.data)
       fileInputRef.current.value = null
-      setFormData(inirialFormsData)
+      setFormData(initialFormsData)
       // Отправляем форму через Axios
 
       // Сбрасываем значения инпута файлов
@@ -133,7 +149,6 @@ export default function NewThing(): JSX.Element {
       thingLon: location[1],
     })
   }
-  console.log(formData)
 
   return (
     <form className={styles.main} encType='multipart/form-data'>
@@ -167,12 +182,21 @@ export default function NewThing(): JSX.Element {
         ))}
       </select>
       <h5>Выберите длительность размещения</h5>
+      <p>Дней: {days}</p>
+      <input
+        type='range'
+        min='1'
+        max='30'
+        value={days}
+        onChange={(e) => handleSliderChange(e)}
+      />
       <h5>Выберите фото</h5>
       <input
         ref={fileInputRef}
         type='file'
         name='photo'
         multiple
+        accept='.jpg, .jpeg, .png'
         // onChange={handleFileChange}
       />
       {/* <MyPlacemarkUpload /> */}
