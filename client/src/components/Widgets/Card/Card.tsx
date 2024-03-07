@@ -27,7 +27,7 @@ export default function Card({ thing }: CardProps): JSX.Element {
     if (msDelta < msInWeek) {
       // Если разница меньше недели
       const daysDiff = Math.round(msDelta / msInDay)
-      return `осталось ${daysDiff} д.`
+      return `осталось ${daysDiff} дн.`
     }
     if (msDelta < msInMonth) {
       // Если разница меньше месяца

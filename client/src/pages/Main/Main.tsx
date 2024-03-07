@@ -131,7 +131,7 @@ export default function Main(): JSX.Element {
                 icon='assets/icons/shirt.svg'
                 text={category.categoryTitle}
               />
-            </Button>
+            </Button>sl
           ))}
         </div>
         <div className={style.content}>
