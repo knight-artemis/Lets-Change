@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './AuthForm.module.css';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
 import type { UserDataType } from '../../types';
 import { fetchAuth } from '../../redux/user/userThunkActions';
 import Button from '../Controls/Button/Button';

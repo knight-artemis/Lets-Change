@@ -39,7 +39,7 @@ export default function MyThings(): JSX.Element {
   return (
     <div className={style.content}>
       {things.length !== 0 ? (
-        things.map((thing: SimplifiedThingType) => <Card thing={thing} />)
+        things.map((thing: SimplifiedThingType) => <Card key={`card-${thing.id}`} thing={thing} />)
       ) : (
         <div className={style.emptyPage}>
           <span>Вы ещё не добавили никаких вещей</span>
