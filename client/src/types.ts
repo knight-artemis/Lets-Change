@@ -66,5 +66,6 @@ export type ShortUserType = {
     thingLat: number
     thingLon: number
     endDate: Date
-    photoUrl:  string
+    photoUrl: string
+    inDeal?: boolean
   }
