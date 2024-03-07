@@ -51,7 +51,7 @@ export default function MyThings(): JSX.Element {
           </Button>
           <Button link onClick={() => void navigate(`/`)}>
             <SvgLink
-              icon='assets/icons/search-large.svg'
+              icon='./assets/icons/search-large.svg'
               text='Посмотреть вещи других пользователей'
             />
           </Button>
