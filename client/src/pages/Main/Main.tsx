@@ -180,7 +180,10 @@ export default function Main(): JSX.Element {
               <Card key={`card-${thing.id}`} thing={thing} />
             ))
           ) : (
-            <span>В этой категории пока ничего нет</span>
+            <div className={style.notFound}>
+              <span>В этой категории пока ничего нет </span>
+              <img src='./src/assets/gifs/not-found.gif' alt='not-found' />
+            </div>
           )}
         </div>
       </div>

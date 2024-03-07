@@ -106,3 +106,16 @@
     background-image: url('../../../public/assets/icons/star-not-favorite.svg');
 
 }
+
+.notFound {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    width:100%;
+    > img {
+        width: 100%;
+    }
+}
