@@ -1,13 +1,14 @@
 const router = require('express').Router()
 const upload = require('../../../../multer')
 const { User, Thing, Category, Photo } = require('../../../../db/models')
+const { stripThings } = require('../../../services/things')
 
 router.get('/categories', async (req, res) => {
   try {
     const categoriesRaw = await Category.findAll({})
-    const categories = categoriesRaw.map((cat) => ({
-      id: cat.id,
-      categoryTitle: cat.categoryTitle,
+    const categories = categoriesRaw.map((category) => ({
+      id: category.id,
+      categoryTitle: category.categoryTitle,
     }))
     res.status(200).json(categories)
   } catch (error) {
@@ -48,21 +49,19 @@ router.get('/categories/:id', async (req, res) => {
       order: [['createdAt', 'ASC']],
     })
 
-    const things = thingsRaw
-      //! РАСКОМЕНТИТЬ !! проверка, пока не апрувленные (фолс по умолчанию) объявления
-      .filter((thing) => thing.isApproved && !thing.inDeal)
-      .map((thing) => {
-        const plainThing = thing.get({ plain: true })
-        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
-        delete plainThing.Photos
-        delete plainThing.Category
-        return { ...plainThing, photoUrl }
-      })
-    console.log('🚀 ~ router.get ~ things:', things)
+    const things = stripThings(thingsRaw)
     res.status(200).json(things)
   } catch (error) {
-    console.error('Ошибка при получении объявлений в конкретной категории', error)
-    res.status(500).send({ err: { server: 'Ошибка сервера при получении объявлений в конкретной категории' } })
+    console.error(
+      'Ошибка при получении объявлений в конкретной категории',
+      error,
+    )
+    res.status(500).send({
+      err: {
+        server:
+          'Ошибка сервера при получении объявлений в конкретной категории',
+      },
+    })
   }
 })
 
@@ -72,8 +71,9 @@ router.get('/user/:id', async (req, res) => {
     const thingsRaw = await Thing.findAll({
       attributes: [
         'id',
-        'thingName',
+        'userId',
         'categoryId',
+        'thingName',
         'endDate',
         'isApproved',
         'inDeal',
@@ -97,15 +97,7 @@ router.get('/user/:id', async (req, res) => {
       order: [['createdAt', 'ASC']],
     })
 
-    const things = thingsRaw
-      //! РАСКОМЕНТИТЬ !!  проверка, пока не апрувленные (фолс по умолчанию) объявления
-      // .filter((thing) => thing.isApproved && !thing.inDeal)
-      .map((thing) => {
-        const plainThing = thing.get({ plain: true })
-        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
-        delete plainThing.Photos
-        return { ...plainThing, photoUrl }
-      })
+    const things = stripThings(thingsRaw, { filter: false })
     res.status(200).json(things)
   } catch (error) {
     console.error('Ошибка при получении всех объявлений', error)
@@ -136,15 +128,7 @@ router.get('/', async (req, res) => {
       order: [['createdAt', 'ASC']],
     })
 
-    const things = thingsRaw
-      //! РАСКОМЕНТИТЬ !!  проверка, пока не апрувленные (фолс по умолчанию) объявления
-      .filter((thing) => thing.isApproved && !thing.inDeal)
-      .map((thing) => {
-        const plainThing = thing.get({ plain: true })
-        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
-        delete plainThing.Photos
-        return { ...plainThing, photoUrl }
-      })
+    const things = stripThings(thingsRaw)
     res.status(200).json(things)
   } catch (error) {
     console.error('Ошибка при получении всех объявлений', error)
@@ -206,30 +190,6 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', upload.array('photo', 10), async (req, res) => {
   const { user } = req.session
-  //! я расчитываю, что приходит валидный объект
-  //   const {
-  //     thingName,
-  //     description,
-  //     categoryId,
-  //     thingAddress,
-  //     thingLat,
-  //     thingLon,
-  //     startDate,
-  //     endDate,
-  //   } = req.body
-
-  // тест объявление
-  //   {
-  //     "userId": 1,
-  //     "thingName": "title",
-  //     "description": "description",
-  //     "categoryId": 1,
-  //     "thingAddress": "address",
-  //     "thingLat": 60.486998,
-  //     "thingLon": 58.640202,
-  //     "endDate": "2024-04-05T11:42:58.415Z"
-  //   }
-
   try {
     console.log({ userId: user.id, ...req.body })
     const newThing = (await Thing.create({ userId: user.id, ...req.body })).get(
