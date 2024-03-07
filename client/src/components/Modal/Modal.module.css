@@ -27,9 +27,9 @@
 .modalContent {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 2rem;
   border-radius: 12px;
   background-color: white;
-  height: 30dvh;
-  width: 30dvh;
+  height: fit-content;
+  width: fit-content;
 }
