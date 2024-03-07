@@ -17,16 +17,39 @@ export default function Profile(): JSX.Element {
     <div className={styles.main}>
       <div className={styles.userInfo}>
         <h2>Информация о пользователе</h2>
-        <img className={styles.avatar} src={user.avatarUrl} alt='' />
-        <button type='button' onClick={() => setModalActive1((prev) => !prev)}>
-          Изменить аватар
-        </button>
-        <Modal active={modalActive1} setActive={setModalActive1}>
-          <AvatarChangeForm />
-        </Modal>
+        <div className={styles.avatarDiv}>
+          {user.avatarUrl ? (
+            <div>
+              <button
+                type='button'
+                onClick={() => setModalActive1((prev) => !prev)}
+              >
+                Изменить аватар
+              </button>
+              <img className={styles.avatar} src={user.avatarUrl} alt='' />
+            </div>
+          ) : (
+            <button
+              type='button'
+              onClick={() => setModalActive1((prev) => !prev)}
+            >
+              Добавить аватар
+            </button>
+          )}
+          <Modal active={modalActive1} setActive={setModalActive1}>
+            <AvatarChangeForm />
+          </Modal>
+        </div>
+          {user.lastName && user.middleName && user.firstName ? (
         <span>
           ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
         </span>
+        ) : (
+            <span>
+              ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
+              <button type='button'>Дополнить</button>
+            </span>
+          )}
         <span>Почта: {user?.email}</span>
         <span>Адрес: {user?.userAddress}</span>
         <span>Телефон: {user?.phone}</span>

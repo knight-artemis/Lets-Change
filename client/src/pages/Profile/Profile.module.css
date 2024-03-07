@@ -22,3 +22,8 @@
   width: 5rem;
   border-radius: 50px;
 }
+
+.avatarDiv {
+  display: flex;
+  flex-direction: column;
+}
