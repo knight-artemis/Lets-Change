@@ -15,6 +15,7 @@ import styles from './ThingPage.module.css'
 import type { ThingType } from '../../types'
 import Modal from '../../components/Modal/Modal'
 import { useAppSelector } from '../../redux/hooks'
+import InitChange from '../../components/InitChange/InitChange'
 
 export default function ThingPage(): JSX.Element {
   const initialThing = {
@@ -134,7 +135,9 @@ export default function ThingPage(): JSX.Element {
           </div>
         </div>
       </div>
-      <Modal active={modalActive} setActive={setModalActive} />
+      <Modal active={modalActive} setActive={setModalActive}>
+        <InitChange thingId={thing.id} />
+      </Modal>
     </>
   )
 }

@@ -34,10 +34,10 @@ export default function Modal({ active, setActive, children }: ModalProps): JSX.
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(event) => event}
       >
-        {children}
-        <button type='button' onClick={() => setActive((prev) => !prev)}>
-          Закрыть
+        <button className={style.close} type='button' onClick={() => setActive((prev) => !prev)}>
+         X
         </button>
+        {children}
       </div>
     </div>
   )
