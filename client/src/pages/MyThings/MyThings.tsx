@@ -45,13 +45,13 @@ export default function MyThings(): JSX.Element {
           <span>Вы ещё не добавили никаких вещей</span>
           <Button link onClick={() => void navigate(`/new-thing`)}>
             <SvgLink
-              icon='assets/icons/add-thing.svg'
+              icon='src/assets/icons/add-thing.svg'
               text='Добавить свою вещь для обмена'
             />
           </Button>
           <Button link onClick={() => void navigate(`/`)}>
             <SvgLink
-              icon='./assets/icons/search-large.svg'
+              icon='./src/assets/icons/search-large.svg'
               text='Посмотреть вещи других пользователей'
             />
           </Button>

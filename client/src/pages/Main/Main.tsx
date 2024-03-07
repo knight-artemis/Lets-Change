@@ -102,7 +102,8 @@ export default function Main(): JSX.Element {
     <div className={style.wrapper}>
       <div className={style.topContent}>
         <span className={style.span}>Посмотреть объявления списком</span>
-        <SvgLink icon='./assets/icons/list-color.svg' />
+        <SvgLink icon='./src/assets/icons/blocks.svg' /> 
+        <SvgLink icon='./src/assets/icons/list-color.svg' />
         <label htmlFor='toggleSwitch' className={switchStyle.switch}>
           <input
             id='toggleSwitch'
@@ -112,7 +113,8 @@ export default function Main(): JSX.Element {
           />
           <span className={switchStyle.slider} />
         </label>
-        <SvgLink icon='assets/icons/shirt.svg' />
+        <SvgLink icon='src/assets/icons/globus-color.svg' />
+        <SvgLink icon='src/assets/icons/globus.svg' />
         <span className={style.span}>или на карте</span>
       </div>
 

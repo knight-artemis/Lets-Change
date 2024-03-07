@@ -9,6 +9,7 @@
 .topContent {
     margin: 1rem auto;
     display: flex;
+    gap: 1rem;
 }
 
 .mainContent {
