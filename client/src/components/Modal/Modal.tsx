@@ -5,11 +5,12 @@ import style from './Modal.module.css'
 type ModalProps = {
   active: boolean
   setActive: React.Dispatch<React.SetStateAction<boolean>>
+  children: JSX.Element
 }
 
-export default function Modal({ active, setActive }: ModalProps): JSX.Element {
+export default function Modal({ active, setActive, children }: ModalProps): JSX.Element {
   
-  //! Попытка открывать и закрывать модалку по нажатию клавиш, можно потом попробовать добить в родительском элементе ThingPage
+  //! Попытка открывать и закрывать модалку по нажатию клавиш, можно потом попробовать добить в родительском элементе
   //   const handleKeyDown = (event: React.KeyboardEvent): void => {
   //     if (event.key === 'Escape' && active) {
   //       setActive((prev) => !prev)
@@ -33,7 +34,7 @@ export default function Modal({ active, setActive }: ModalProps): JSX.Element {
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(event) => event}
       >
-        Ура, модалка работает
+        {children}
         <button type='button' onClick={() => setActive((prev) => !prev)}>
           Закрыть
         </button>

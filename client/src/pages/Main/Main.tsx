@@ -112,7 +112,7 @@ export default function Main(): JSX.Element {
           />
           <span className={switchStyle.slider} />
         </label>
-        <SvgLink icon='assets/icons/globus-color.svg'/>
+        <SvgLink icon='assets/icons/shirt.svg'/>
         <span className={style.span}>или на карте</span>
       </div>
 

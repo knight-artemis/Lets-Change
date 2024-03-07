@@ -37,7 +37,7 @@ router.get('/categories/:id', async (req, res) => {
         {
           model: Photo,
           attributes: ['photoUrl'],
-          order: [['id', 'ASC']],
+          order: [['createdAt', 'ASC']],
         },
         {
           model: Category,
@@ -50,11 +50,10 @@ router.get('/categories/:id', async (req, res) => {
 
     const things = thingsRaw
       //! РАСКОМЕНТИТЬ !! проверка, пока не апрувленные (фолс по умолчанию) объявления
-      // .filter((thing) => thing.isApproved && !thing.inDeal)
+      .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl =
-          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
+        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : null
         delete plainThing.Photos
         delete plainThing.Category
         return { ...plainThing, photoUrl }
@@ -62,16 +61,8 @@ router.get('/categories/:id', async (req, res) => {
     console.log('🚀 ~ router.get ~ things:', things)
     res.status(200).json(things)
   } catch (error) {
-    console.error(
-      'Ошибка при получении объявлений в конкретной категории',
-      error,
-    )
-    res.status(500).send({
-      err: {
-        server:
-          'Ошибка сервера при получении объявлений в конкретной категории',
-      },
-    })
+    console.error('Ошибка при получении объявлений в конкретной категории', error)
+    res.status(500).send({ err: { server: 'Ошибка сервера при получении объявлений в конкретной категории' } })
   }
 })
 
@@ -96,7 +87,7 @@ router.get('/user/:id', async (req, res) => {
         {
           model: Photo,
           attributes: ['photoUrl'],
-          order: [['id', 'ASC']],
+          order: [['createdAt', 'ASC']],
         },
         {
           model: Category,
@@ -111,8 +102,7 @@ router.get('/user/:id', async (req, res) => {
       // .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl =
-          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
+        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
         delete plainThing.Photos
         return { ...plainThing, photoUrl }
       })
@@ -141,18 +131,17 @@ router.get('/', async (req, res) => {
       include: {
         model: Photo,
         attributes: ['photoUrl'],
-        order: [['id', 'ASC']],
+        order: [['createdAt', 'ASC']],
       },
       order: [['createdAt', 'ASC']],
     })
 
     const things = thingsRaw
       //! РАСКОМЕНТИТЬ !!  проверка, пока не апрувленные (фолс по умолчанию) объявления
-      // .filter((thing) => thing.isApproved && !thing.inDeal)
+      .filter((thing) => thing.isApproved && !thing.inDeal)
       .map((thing) => {
         const plainThing = thing.get({ plain: true })
-        const photoUrl =
-          thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
+        const photoUrl = thing.Photos.length > 0 ? thing.Photos[0].photoUrl : 'placeholder.jpg'
         delete plainThing.Photos
         return { ...plainThing, photoUrl }
       })
@@ -195,7 +184,8 @@ router.get('/:id', async (req, res) => {
         },
         {
           model: Photo,
-          attributes: ['photoUrl'],
+          attributes: ['id', 'photoUrl', 'createdAt'],
+          order: [['createdAt', 'ASC']],
         },
       ],
     })
