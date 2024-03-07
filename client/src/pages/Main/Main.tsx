@@ -102,7 +102,7 @@ export default function Main(): JSX.Element {
     <div className={style.wrapper}>
       <div className={style.topContent}>
         <span className={style.span}>Посмотреть объявления списком</span>
-        <SvgLink icon='./assets/icons/list-color.svg'/>
+        <SvgLink icon='./assets/icons/list-color.svg' />
         <label htmlFor='toggleSwitch' className={switchStyle.switch}>
           <input
             id='toggleSwitch'
@@ -112,7 +112,7 @@ export default function Main(): JSX.Element {
           />
           <span className={switchStyle.slider} />
         </label>
-        <SvgLink icon='assets/icons/shirt.svg'/>
+        <SvgLink icon='assets/icons/shirt.svg' />
         <span className={style.span}>или на карте</span>
       </div>
 
@@ -175,8 +175,12 @@ export default function Main(): JSX.Element {
               </Map>
               {/* )} */}
             </div>
+          ) : things.length !== 0 ? (
+            things.map((thing: SimplifiedThingType) => (
+              <Card key={`card-${thing.id}`} thing={thing} />
+            ))
           ) : (
-            things.map((thing: SimplifiedThingType) => <Card key={`card-${thing.id}`} thing={thing} />)
+            <span>В этой категории пока ничего нет</span>
           )}
         </div>
       </div>
