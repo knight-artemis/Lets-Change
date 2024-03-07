@@ -15,7 +15,7 @@ export default function MyPlacemark({
   iconCaption,
 }: TestProps): JSX.Element {
   const [size, setSize] = useState([30, 30])
-  console.log(iconCaption)
+  // console.log(iconCaption)
   return (
     <Placemark
       onClick={onClick}

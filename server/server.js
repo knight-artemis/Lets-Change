@@ -11,6 +11,7 @@ const app = express();
 
 const authRouter = require('./src/routes/api/v1/auth.routes');
 const thingsRouter = require('./src/routes/api/v1/things.routes');
+const dealsRouter = require('./src/routes/api/v1/deals.routes');
 const testRouter = require('./src/routes/api/v1/test.routes');
 const userRouter = require('./src/routes/api/v1/user.routes');
 
@@ -45,6 +46,7 @@ app.use(express.static(path.join(process.cwd(), 'public/')));
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/things', thingsRouter);
+app.use('/api/v1/deals', dealsRouter);
 app.use('/api/v1/test', testRouter);
 app.use('/api/v1/user', userRouter);
 

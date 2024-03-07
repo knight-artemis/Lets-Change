@@ -1,0 +1,21 @@
+.wraper {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	max-height: inherit;
+}
+
+.things {
+	display: flex;
+	gap: 10px;
+	max-height: inherit;
+}
+
+.thingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 70dvh;
+  width: 50%;
+  overflow:scroll;
+}
