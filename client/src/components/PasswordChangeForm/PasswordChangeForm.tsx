@@ -27,10 +27,6 @@ export default function PasswordChangeForm(): JSX.Element {
     }))
   }
 
-  useEffect(() => {
-    console.log(input)
-  }, [input])
-
   const changePass = async (): Promise<void> => {
     if (input.newPassword === input.repitePassword) {
       axios

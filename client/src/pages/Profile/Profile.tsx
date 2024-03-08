@@ -8,6 +8,7 @@ import MailChahgeForm from '../../components/MailChahgeForm/MailChahgeForm'
 import PhoneChahgeForm from '../../components/PhoneChangeForm/PhoneChangeForm'
 import InitialsChangeForm from '../../components/InitialsChangeForm/InitialsChangeForm'
 import AddressChangeForm from '../../components/AddressChangeForm/AddressChangeForm'
+import SubForm from '../../components/SubForm/SubForm'
 
 export default function Profile(): JSX.Element {
   const [modalActive1, setModalActive1] = useState<boolean>(true)
@@ -16,6 +17,7 @@ export default function Profile(): JSX.Element {
   const [modalActive4, setModalActive4] = useState<boolean>(true)
   const [modalActive5, setModalActive5] = useState<boolean>(true)
   const [modalActive6, setModalActive6] = useState<boolean>(true)
+  const [modalActive7, setModalActive7] = useState<boolean>(true)
 
   const user = useAppSelector((store) => store.userSlice.user)
 
@@ -157,9 +159,20 @@ export default function Profile(): JSX.Element {
               истекает {user.subExp}.
             </>
           ) : (
-            <>Статус подписки: подписка не активна.</>
+            <>
+              Статус подписки: подписка не активна.
+              <button
+                type='button'
+                onClick={() => setModalActive7((prev) => !prev)}
+              >
+                Оформить подписку
+              </button>
+            </>
           )}
         </span>
+        <Modal active={modalActive7} setActive={setModalActive7}>
+          <SubForm />
+        </Modal>
         <span>Рейтинг пользователя: {user?.rating}</span>
       </div>
     </div>
