@@ -1,13 +1,34 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect, useRef, useState } from 'react'
 import { GeolocationControl, Map, Placemark } from '@pbe/react-yandex-maps'
 import axios from 'axios'
-// import { useNavigate } from 'react-router-dom'
 import styles from './NewThing.module.css'
 import Button from '../../components/Controls/Button/Button'
 import type { CategoryType } from '../../types'
+
+type FormData = {
+  thingName: string
+  description: string
+  categoryId: number
+  thingAddress: string
+  thingLat: number
+  thingLon: number
+  endDate: Date
+  isApproved: boolean
+  [key: string]: string | number | Date | boolean 
+}
+
+type GeoResponse = {
+  response: {
+    GeoObjectCollection: {
+      featureMember: {
+        GeoObject: {
+          description: string;
+          name: string;
+        }
+      }[]
+    }
+  }
+}
 
 export default function NewThing(): JSX.Element {
   const calculateEndDate = (daysNum: number): Date => {
@@ -16,14 +37,14 @@ export default function NewThing(): JSX.Element {
     return endDate
   }
   const CategoryInitVal = { id: 0, categoryTitle: '' }
-  const initialFormsData = {
+  const initialFormsData: FormData = {
     thingName: '',
     description: '',
     categoryId: 1,
     thingAddress: '',
     thingLat: 0,
     thingLon: 0,
-    endDate: calculateEndDate(7), // по умолчанию на недельку размещение объявления
+    endDate: calculateEndDate(7), 
     isApproved: true, //! убрать когда будет админ
   }
   const [location, setLocation] = useState<number[]>([])
@@ -31,8 +52,8 @@ export default function NewThing(): JSX.Element {
   const [categories, setCategories] = useState<CategoryType[]>([
     CategoryInitVal,
   ])
-  const [days, setDays] = useState<number>(7) // Устанавливаем начальное значение
-  const fileInputRef = useRef(null)
+  const [days, setDays] = useState<number>(7) 
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [formData, setFormData] = useState(initialFormsData)
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -67,7 +88,7 @@ export default function NewThing(): JSX.Element {
   }, [])
 
   // const handleFileChange = (event) => {
-  //   // Ваша логика обработки выбранных файлов
+  
   // }
 
   const handleChange = (
@@ -83,21 +104,19 @@ export default function NewThing(): JSX.Element {
     })
   }
   const handleUploadClick = async (): Promise<void> => {
-    // event.preventDefault() // Предотвращаем стандартное действие кнопки (отправку формы)
-    if (!fileInputRef.current.files.length)
+    if (!fileInputRef.current?.files?.length)
       return console.log('please upload files')
-    const data = new FormData() // Создаем новый объект FormData
+    const data = new FormData() 
 
-    // Добавляем выбранные файлы в объект FormData
     const { files } = fileInputRef.current
     for (let i = 0; i < files.length; i += 1) {
       data.append('photo', files[i])
     }
 
-    // Добавляем значения контролируемых инпутов в объект FormData
-    for (const key in formData) {
-      data.append(key, formData[key])
-    }
+    Object.keys(formData).forEach((key: keyof FormData) => {
+      const value = formData[key]
+      data.append(key as string, value.toString())
+    })
 
     try {
       const response = await axios.post(
@@ -106,26 +125,20 @@ export default function NewThing(): JSX.Element {
         {
           withCredentials: true,
           headers: {
-            'Content-Type': 'multipart/form-data', // Устанавливаем правильный заголовок Content-Type
+            'Content-Type': 'multipart/form-data',
           },
         },
       )
       console.log('Ответ от сервера:', response.data)
-      fileInputRef.current.value = null
+      fileInputRef.current.value = ''
       setFormData(initialFormsData)
-      // Отправляем форму через Axios
-
-      // Сбрасываем значения инпута файлов
-
-      // Сбрасываем значения контролируемых инпутов
     } catch (error) {
       console.error('Ошибка при загрузке файла:', error)
     }
   }
-  // console.log(categories)
 
   const handleClick = async (coords: number[]): Promise<void> => {
-    const result = await axios.get(
+    const result = await axios.get<GeoResponse>(
       `https://geocode-maps.yandex.ru/1.x/?apikey=d6a65ed5-d62c-4aa0-89ba-ed187e6aa79e&format=json&geocode=${coords[1]},${coords[0]}`,
     )
     console.log('Координаты клика:', coords)
@@ -204,7 +217,7 @@ export default function NewThing(): JSX.Element {
 
       {/* {location.length > 0 && ( */}
       <Map
-        onClick={(e) => handleClick(e.get('coords'))}
+        onClick={(e: { get: (arg0: string) => number[] }) => handleClick(e.get('coords'))}
         width='600px'
         height='500px'
         defaultState={{
