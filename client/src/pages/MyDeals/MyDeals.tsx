@@ -58,15 +58,15 @@ export default function MyDeals(): JSX.Element {
         <div className={style.mainContent}>
           <div className={style.sidebar}>
             <Button link onClick={() => void fromMeOffers()}>
-              <SvgLink icon='assets/icons/shirt.svg' text='Мои предложения' />
+              <SvgLink icon='assets/icons/shirt.svg' text='Я хочу' />
             </Button>
             <Button link onClick={() => void toMeOffers()}>
-              <SvgLink icon='assets/icons/shirt.svg' text='Мне предложили' />
+              <SvgLink icon='assets/icons/shirt.svg' text='У меня хотят' />
             </Button>
           </div>
 
           <div className={style.list}>
-            {selectedDeals?.map((deal) => <DealPannel deal={deal} />)}
+            {selectedDeals?.map((deal) => <DealPannel key={deal.id} deal={deal} />)}
           </div>
         </div>
       </div>

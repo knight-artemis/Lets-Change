@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import type { OneDealFromMe, OneDealToMe } from '../../../types'
 import { useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
+import Button from '../../Controls/Button/Button'
 
 export default function DealPannel({deal}:{deal: OneDealToMe | OneDealFromMe}):JSX.Element {
 
