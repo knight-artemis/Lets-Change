@@ -14,9 +14,7 @@ export default function MyDeals(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
 
   const [allDeals, setAllDeals] = useState<MyDealsType>()
-  const [selectedDeals, setSelectedDeals] = useState<
-    OneDealToMe[] | OneDealFromMe[]
-  >()
+  const [selectedDeals, setSelectedDeals] = useState<OneDealToMe[] | OneDealFromMe[]>()
 
   useEffect(() => {
     axios
@@ -24,7 +22,10 @@ export default function MyDeals(): JSX.Element {
         `${import.meta.env.VITE_API}/v1/deals/user/${user.id}`,
         { withCredentials: true },
       )
-      .then((res) => setAllDeals(res.data))
+      .then((res) => {
+        setAllDeals(res.data)
+        setSelectedDeals(res.data.fromMeDeals)
+      })
       .catch((err) => console.log('Ошибка получения списка моих сделок', err))
   }, [user.id])
 
@@ -80,12 +81,16 @@ export default function MyDeals(): JSX.Element {
 
                     {deal.initiatorId === user.id ? (
                       <>
-                        <div className={style.description}>сделка предложена для:</div>
+                        <div className={style.description}>
+                          сделка предложена для:
+                        </div>
                         <div className={style.name}>{deal.recieverName}</div>
                       </>
                     ) : (
                       <>
-                        <div className={style.description}>сделку предложил:</div>
+                        <div className={style.description}>
+                          сделку предложил:
+                        </div>
                         <div className={style.name}>{deal.initiatorName}</div>
                       </>
                     )}
