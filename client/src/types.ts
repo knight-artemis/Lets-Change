@@ -68,4 +68,5 @@ export type ShortUserType = {
     endDate: Date
     photoUrl: string
     inDeal?: boolean
+    isApproved?: boolean
   }

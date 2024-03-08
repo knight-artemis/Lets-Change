@@ -118,4 +118,22 @@ router.get('/user/:id', async (req, res) => {
   }
 })
 
+router.get('/initiate-by-me', async (req, res) => {
+  const { user } = req.session
+  console.log(user.id)
+  try {
+    const deals = await Deal.findAll({
+      where: { initiatorId: user.id },
+      attributes: ['id', 'thingId'],
+    })
+    console.log(deals.map((el) => el.get({ plain: true })))
+	res.json(deals)
+  } catch (error) {
+    console.error('Ошибка при получении сделок инициированных мной', error)
+    res
+      .status(500)
+      .send({ err: { server: 'Ошибка сервера при получении сделок инициированных мной' } })
+  }
+})
+
 module.exports = router

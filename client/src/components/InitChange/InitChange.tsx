@@ -28,7 +28,9 @@ export default function InitChange({
         `${import.meta.env.VITE_API}/v1/things/user/${user.id}`,
         { withCredentials: true },
       )
-      .then((res) => setMyThings(res.data.filter(el=> !el.inDeal)))
+      .then((res) =>
+        setMyThings(res.data.filter((el) => !el.inDeal ?? el.isApproved)),
+      )
       .catch((err) => console.log('Ошибка получения всех СВОИХ вещей', err))
   }, [user])
   console.log(user, myThings)
