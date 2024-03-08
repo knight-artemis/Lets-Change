@@ -51,17 +51,6 @@ export default function InitChange({
   const handlerNewDeal = async (): Promise<void> => {
     const things = selectedThings.map((el) => el.id)
 
-    // try {
-    //   const deal = await axios.get(
-    //     `${import.meta.env.VITE_API}/v1/deals/user/${user.id}`,
-    //     {
-    //       withCredentials: true,
-    //     },
-    //   )
-    //   console.log(deal.data)
-    // } catch (error) {
-    //   console.log(error)
-    // }
     try {
       const deal = await axios.post(
         `${import.meta.env.VITE_API}/v1/deals`,
@@ -125,7 +114,7 @@ export default function InitChange({
         </div>
       </div>
       <div>
-        <Button disabled={!selectedThings.length} onClick={handlerNewDeal}>
+        <Button disabled={!selectedThings.length} onClick={() => void handlerNewDeal()}>
           Меняюсь
         </Button>
       </div>

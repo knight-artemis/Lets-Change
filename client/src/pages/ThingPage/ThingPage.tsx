@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import {
@@ -53,7 +54,6 @@ export default function ThingPage(): JSX.Element {
   }
 
   const [thing, setThing] = useState<ThingType>(initialThing)
-  // const [deals, setDeals] = useState<ByMeDealsType[]>([])
   const [modalActive, setModalActive] = useState<boolean>(true)
   const [initiate, setInitiate] = useState<boolean>(false)
   const user = useAppSelector((store) => store.userSlice.user)
@@ -61,27 +61,28 @@ export default function ThingPage(): JSX.Element {
   const params = useParams()
 
   useEffect(() => {
-    axios
-      .get<ThingType>(`${import.meta.env.VITE_API}/v1/things/${params.id}`, {
-        withCredentials: true,
-      })
-      .then((res) => setThing(res.data))
-      .catch((err) => console.log(err))
+    void (async () => {
+      try {
+        const thingRes = await axios.get<ThingType>(
+          `${import.meta.env.VITE_API}/v1/things/${params.id}`,
+          {
+            withCredentials: true,
+          },
+        );
+        const myDealsRes = await axios.get<ByMeDealsType[]>(
+          `${import.meta.env.VITE_API}/v1/deals/initiate-by-me`,
+          {
+            withCredentials: true,
+          },
+        )
+        console.log(thingRes.data, myDealsRes.data)
+        setThing(thingRes.data)
+        setInitiate(!!myDealsRes.data.find((el) => el.thingId === thingRes.data.id))
+      } catch (error) {
+        console.log(error)
+      }
+    })()
   }, [])
-
-  useEffect(() => {
-    axios
-      .get<ByMeDealsType[]>(
-        `${import.meta.env.VITE_API}/v1/deals/initiate-by-me`,
-        {
-          withCredentials: true,
-        },
-      )
-      .then((res) =>
-        setInitiate(!!res.data.find((el) => el.thingId === thing.id)),
-      )
-      .catch((err) => console.log(err))
-  }, [thing])
 
   console.log(initiate)
 
