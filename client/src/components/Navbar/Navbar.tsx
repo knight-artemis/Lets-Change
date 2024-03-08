@@ -15,6 +15,7 @@ export default function Navbar(): JSX.Element {
   return (
     <nav className={styles.navbar}>
       <Link className={styles.link} to='/'><SvgLink text='LOGO'/></Link>
+      <span>{user.firstName}</span>
       
       <div className={styles.menu}>
         <Link className={styles.link} to='/'>Главная</Link>

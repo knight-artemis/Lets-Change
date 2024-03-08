@@ -1,65 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import type { MouseEvent } from 'react'
 import axios from 'axios'
+import type { AxiosResponse } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import style from './MyDeals.module.css'
 import SvgLink from '../../components/Controls/SvgLink/SvgLink'
 import Button from '../../components/Controls/Button/Button'
+import { useAppSelector } from '../../redux/hooks'
+import type { MyDealsType, OneDealToMe, OneDealFromMe } from '../../types'
+import DealPannel from '../../components/Widgets/DealPannel/DealPannel'
 
 export default function MyDeals(): JSX.Element {
   const navigate = useNavigate()
+  const user = useAppSelector((store) => store.userSlice.user)
+
+  const [allDeals, setAllDeals] = useState<MyDealsType>()
+  const [selectedDeals, setSelectedDeals] = useState<
+    OneDealToMe[] | OneDealFromMe[]
+  >()
+
+  useEffect(() => {
+    axios
+      .get<MyDealsType>(
+        `${import.meta.env.VITE_API}/v1/deals/user/${user.id}`,
+        { withCredentials: true },
+      )
+      .then((res) => {
+        setAllDeals(res.data)
+        setSelectedDeals(res.data.fromMeDeals)
+      })
+      .catch((err) => console.log('Ошибка получения списка моих сделок', err))
+  }, [user.id])
 
   const fromMeOffers = (): void => {
-    // TODO ручка получения мои предложения
+    setSelectedDeals(allDeals?.fromMeDeals)
   }
   const toMeOffers = (): void => {
-    // TODO ручка получения мне предложили
+    setSelectedDeals(allDeals?.toMeDeals)
+  }
+  const myHystoryOffers = (): void => {
+    setSelectedDeals(allDeals?.toMeDeals)
   }
 
-  const zatichka = [1, 2]
   return (
     <>
       <div className={style.wrapper}>
         <div className={style.topContent}>
-          <span className={style.span}>Тут можно поглянуть свои сделки</span>
+          {selectedDeals &&
+          selectedDeals.length > 0 &&
+          selectedDeals[0].initiatorId === user.id ? (
+            <span className={style.span}>я хочу забрать эти вещи</span>
+          ) : (
+            <span className={style.span}>у меня хотят забрать эти вещи</span>
+          )}
         </div>
 
         <div className={style.mainContent}>
           <div className={style.sidebar}>
             <Button link onClick={() => void fromMeOffers()}>
-              <SvgLink icon='assets/icons/shirt.svg' text='Мои предложения' />
+              <SvgLink icon='assets/icons/shirt.svg' text='Я хочу' />
             </Button>
             <Button link onClick={() => void toMeOffers()}>
-              <SvgLink icon='assets/icons/shirt.svg' text='Мне предложили' />
+              <SvgLink icon='assets/icons/shirt.svg' text='У меня хотят' />
             </Button>
           </div>
 
           <div className={style.list}>
-            {zatichka.map((deal) => (
-              <div className={style.listItem}>
-
-                <div className={style.photo}>
-                  <img
-                    src={`${import.meta.env.VITE_THINGS}/1709798550879.jpg`}
-                    alt='фотка-шмотка'
-                  />
-                </div>
-
-                {/* <div className={style.body}> */}
-                  <div className={style.nameNtime}>
-                    <div className={style.name}>Отличная куртка</div>
-                    <div className={style.timeLeft}>осталось <br/> 5 дн.</div>
-                  </div>
-
-                  <div className={style.description}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel
-                    odio, placeat alias, repudiandae sapiente tempore ipsum
-                    deserunt repellendus iure vero sunt soluta magnam quasi
-                    expedita nesciunt est, reiciendis eum voluptatibus!
-                  </div>
-
-                </div>
-              // </div>
-            ))}
+            {selectedDeals?.map((deal) => <DealPannel key={deal.id} deal={deal} />)}
           </div>
         </div>
       </div>

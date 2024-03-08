@@ -81,3 +81,8 @@
         object-fit: cover;
     }
 }
+
+.disabled {
+    filter: sepia(50%) grayscale(40%);
+    background-color: var( --font-secondary);
+}
