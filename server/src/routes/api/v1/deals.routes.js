@@ -26,11 +26,11 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/user/:id', async (req, res) => {
-  const { user } = req.session
+  const { id } = req.params
   try {
     const rawFromMeDeals = await Deal.findAll({
       where: {
-        initiatorId: user.id,
+        initiatorId: id,
       },
       include: [
         {
@@ -63,7 +63,7 @@ router.get('/user/:id', async (req, res) => {
         {
           model: Thing,
           where: {
-            userId: user.id,
+            userId: id,
           },
           attributes: ['thingName'],
           include: [

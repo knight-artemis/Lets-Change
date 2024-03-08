@@ -1,21 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import type { MouseEvent } from 'react'
 import axios from 'axios'
+import type { AxiosResponse } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import style from './MyDeals.module.css'
 import SvgLink from '../../components/Controls/SvgLink/SvgLink'
 import Button from '../../components/Controls/Button/Button'
+import { useAppSelector } from '../../redux/hooks'
+import type { MyDealsType, OneDealToMe, OneDealFromMe } from '../../types'
 
 export default function MyDeals(): JSX.Element {
   const navigate = useNavigate()
+  const user = useAppSelector((store) => store.userSlice.user)
+
+  const [allDeals, setAllDeals] = useState<MyDealsType>()
+  const [selectedDeals, setSelectedDeals] = useState<
+    OneDealToMe[] | OneDealFromMe[]
+  >()
+
+  useEffect(() => {
+    axios
+      .get<MyDealsType>(
+        `${import.meta.env.VITE_API}/v1/deals/user/${user.id}`,
+        { withCredentials: true },
+      )
+      .then((res) => setAllDeals(res.data))
+      .catch((err) => console.log('Ошибка получения списка моих сделок', err))
+  }, [user.id])
 
   const fromMeOffers = (): void => {
-    // TODO ручка получения мои предложения
+    setSelectedDeals(allDeals?.fromMeDeals)
   }
   const toMeOffers = (): void => {
-    // TODO ручка получения мне предложили
+    setSelectedDeals(allDeals?.toMeDeals)
   }
 
-  const zatichka = [1, 2]
   return (
     <>
       <div className={style.wrapper}>
@@ -34,31 +53,57 @@ export default function MyDeals(): JSX.Element {
           </div>
 
           <div className={style.list}>
-            {zatichka.map((deal) => (
-              <div className={style.listItem}>
-
-                <div className={style.photo}>
-                  <img
-                    src={`${import.meta.env.VITE_THINGS}/1709798550879.jpg`}
-                    alt='фотка-шмотка'
-                  />
-                </div>
-
-                {/* <div className={style.body}> */}
-                  <div className={style.nameNtime}>
-                    <div className={style.name}>Отличная куртка</div>
-                    <div className={style.timeLeft}>осталось <br/> 5 дн.</div>
+            {selectedDeals?.map((deal) => (
+              <Button
+                key={deal.id}
+                link
+                onClick={() => void navigate(`/thing/${deal.thingId}`)}
+              >
+                <div className={style.listItem}>
+                  <div className={style.photo}>
+                    <img
+                      src={`${import.meta.env.VITE_THINGS}/${deal.Thing.photoUrl}`}
+                      alt='фотка-шмотка'
+                    />
                   </div>
 
-                  <div className={style.description}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel
-                    odio, placeat alias, repudiandae sapiente tempore ipsum
-                    deserunt repellendus iure vero sunt soluta magnam quasi
-                    expedita nesciunt est, reiciendis eum voluptatibus!
+                  {/* <div className={style.body}> */}
+                  <div className={style.textCol}>
+                    <div className={style.name}>{deal.Thing.thingName}</div>
+                    <div className={style.timeLeft}>
+                      осталось <br /> время не завезли
+                    </div>
                   </div>
 
+                  <div className={style.textCol}>
+                    <div className={style.description}>описание не завезли</div>
+
+                    {deal.initiatorId === user.id ? (
+                      <>
+                        <div className={style.description}>сделка предложена для:</div>
+                        <div className={style.name}>{deal.recieverName}</div>
+                      </>
+                    ) : (
+                      <>
+                        <div className={style.description}>сделку предложил:</div>
+                        <div className={style.name}>{deal.initiatorName}</div>
+                      </>
+                    )}
+                  </div>
+                  <div className={style.textCol}>
+                    <div className={style.status}>Статус: {deal.status}</div>
+                    <Button
+                      color='good'
+                      onClick={(event: MouseEvent<HTMLButtonElement>) => {
+                        event.stopPropagation()
+                        void navigate(`/chat/${deal.thingId}`)
+                      }}
+                    >
+                      Обсудить
+                    </Button>
+                  </div>
                 </div>
-              // </div>
+              </Button>
             ))}
           </div>
         </div>

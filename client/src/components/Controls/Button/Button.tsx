@@ -18,7 +18,6 @@ export default function Button({
   color,
   disabled = false,
 }: ButtonProps): JSX.Element {
-  
   return (
     <button
       type='button'
