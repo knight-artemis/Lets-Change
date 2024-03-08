@@ -4,6 +4,7 @@ import type { OneDealFromMe, OneDealToMe } from '../../../types'
 import { useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
 import Button from '../../Controls/Button/Button'
+import clsx from 'clsx'
 
 export default function DealPannel({
   deal,
@@ -106,7 +107,7 @@ export default function DealPannel({
     //   link
     //   onClick={() => void navigate(`/thing/${deal.thingId}`)}
     // >
-    <div className={style.listItem}>
+    <div className={clsx(style.listItem, (deal.status === 3 ||  deal.status === 4) && style.disabled)}>
       <div className={style.photo}>
         <img
           src={`${import.meta.env.VITE_THINGS}/${deal.Thing.photoUrl}`}

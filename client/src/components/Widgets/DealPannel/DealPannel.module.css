@@ -83,5 +83,6 @@
 }
 
 .disabled {
-    filter: grayscale(100%);
+    filter: sepia(50%) grayscale(40%);
+    background-color: var( --font-secondary);
 }

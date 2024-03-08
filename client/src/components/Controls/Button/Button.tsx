@@ -1,4 +1,4 @@
-import type { ReactNode ,MouseEvent } from 'react'
+import type { ReactNode, MouseEvent } from 'react'
 import React from 'react'
 import style from './Button.module.css'
 import clsx from 'clsx'
@@ -8,7 +8,7 @@ type ButtonProps = {
   onClick?: (event?: MouseEvent<HTMLButtonElement>) => void // Тип для функции onClick
   link?: boolean // кнопка-ссылка или обычная кнопка
   disabled?: boolean // заблочить
-  color?: 'neutral' | 'danger' | 'good' | 'warning' | string | undefined // цвет
+  color?: 'neutral' | 'danger' | 'good' | 'warning' | undefined // цвет
 }
 
 export default function Button({
