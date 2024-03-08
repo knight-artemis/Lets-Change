@@ -8,13 +8,16 @@ import SvgLink from '../../components/Controls/SvgLink/SvgLink'
 import Button from '../../components/Controls/Button/Button'
 import { useAppSelector } from '../../redux/hooks'
 import type { MyDealsType, OneDealToMe, OneDealFromMe } from '../../types'
+import DealPannel from '../../components/Widgets/DealPannel/DealPannel'
 
 export default function MyDeals(): JSX.Element {
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
 
   const [allDeals, setAllDeals] = useState<MyDealsType>()
-  const [selectedDeals, setSelectedDeals] = useState<OneDealToMe[] | OneDealFromMe[]>()
+  const [selectedDeals, setSelectedDeals] = useState<
+    OneDealToMe[] | OneDealFromMe[]
+  >()
 
   useEffect(() => {
     axios
@@ -35,12 +38,21 @@ export default function MyDeals(): JSX.Element {
   const toMeOffers = (): void => {
     setSelectedDeals(allDeals?.toMeDeals)
   }
+  const myHystoryOffers = (): void => {
+    setSelectedDeals(allDeals?.toMeDeals)
+  }
 
   return (
     <>
       <div className={style.wrapper}>
         <div className={style.topContent}>
-          <span className={style.span}>Тут можно поглянуть свои сделки</span>
+          {selectedDeals &&
+          selectedDeals.length > 0 &&
+          selectedDeals[0].initiatorId === user.id ? (
+            <span className={style.span}>я хочу забрать эти вещи</span>
+          ) : (
+            <span className={style.span}>у меня хотят забрать эти вещи</span>
+          )}
         </div>
 
         <div className={style.mainContent}>
@@ -54,62 +66,7 @@ export default function MyDeals(): JSX.Element {
           </div>
 
           <div className={style.list}>
-            {selectedDeals?.map((deal) => (
-              <Button
-                key={deal.id}
-                link
-                onClick={() => void navigate(`/thing/${deal.thingId}`)}
-              >
-                <div className={style.listItem}>
-                  <div className={style.photo}>
-                    <img
-                      src={`${import.meta.env.VITE_THINGS}/${deal.Thing.photoUrl}`}
-                      alt='фотка-шмотка'
-                    />
-                  </div>
-
-                  {/* <div className={style.body}> */}
-                  <div className={style.textCol}>
-                    <div className={style.name}>{deal.Thing.thingName}</div>
-                    <div className={style.timeLeft}>
-                      осталось <br /> время не завезли
-                    </div>
-                  </div>
-
-                  <div className={style.textCol}>
-                    <div className={style.description}>описание не завезли</div>
-
-                    {deal.initiatorId === user.id ? (
-                      <>
-                        <div className={style.description}>
-                          сделка предложена для:
-                        </div>
-                        <div className={style.name}>{deal.recieverName}</div>
-                      </>
-                    ) : (
-                      <>
-                        <div className={style.description}>
-                          сделку предложил:
-                        </div>
-                        <div className={style.name}>{deal.initiatorName}</div>
-                      </>
-                    )}
-                  </div>
-                  <div className={style.textCol}>
-                    <div className={style.status}>Статус: {deal.status}</div>
-                    <Button
-                      color='good'
-                      onClick={(event: MouseEvent<HTMLButtonElement>) => {
-                        event.stopPropagation()
-                        void navigate(`/chat/${deal.thingId}`)
-                      }}
-                    >
-                      Обсудить
-                    </Button>
-                  </div>
-                </div>
-              </Button>
-            ))}
+            {selectedDeals?.map((deal) => <DealPannel deal={deal} />)}
           </div>
         </div>
       </div>
