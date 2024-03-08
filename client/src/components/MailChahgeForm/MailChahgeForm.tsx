@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
 import type { UserType } from '../../types'
 import style from './MailChahgeForm.module.css'
+import { useAppDispatch } from '../../redux/hooks'
+import { fetchUpd } from '../../redux/user/userThunkActions'
 
 export default function MailChahgeForm({ user }: { user: UserType }): JSX.Element {
+
+    const dispatch = useAppDispatch()
 
   type DataType = {
     email: string
@@ -21,18 +25,33 @@ export default function MailChahgeForm({ user }: { user: UserType }): JSX.Elemen
         [event.target.name]: event.target.value,
       }))
   }
+
+    const changeEmail = async (): Promise<void> => {
+      const updUser = {
+        ...user,
+        email: input.email,
+      }
+      console.log('🚀 ~ changeInitials ~ updUser:', updUser)
+      try {
+        console.log('changeInitials сработал')
+        await dispatch(fetchUpd(updUser))
+      } catch (error) {
+        console.log(error)
+      }
+    }
   
   return (
     <div className={`${style.form}`}>
       <h3>Почта</h3>
       <input
         type='text'
-        name=''
-        id=''
+        name='email'
         onChange={changeHandler}
-        defaultValue={user?.email}
+        value={input.email}
       />
-      <button type='button'>Сохранить почту</button>
+      <button type='button' onClick={() => void changeEmail()}>
+        Сохранить почту
+      </button>
     </div>
   )
 }

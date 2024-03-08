@@ -1,9 +1,17 @@
 import type { ChangeEvent } from 'react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { UserType } from '../../types'
 import style from './InitialsChangeForm.module.css'
+import { useAppDispatch } from '../../redux/hooks'
+import { fetchUpd } from '../../redux/user/userThunkActions'
 
-export default function InitialsChangeForm({ user }: { user: UserType }): JSX.Element {
+export default function InitialsChangeForm({
+  user,
+}: {
+  user: UserType
+}): JSX.Element {
+  const dispatch = useAppDispatch()
+
   const initialState = {
     lastName: user?.lastName || '',
     firstName: user?.firstName || '',
@@ -25,6 +33,22 @@ export default function InitialsChangeForm({ user }: { user: UserType }): JSX.El
     }))
   }
 
+  const changeInitials = async (): Promise<void> => {
+    const updUser = {
+      ...user,
+      lastName: input.lastName,
+      firstName: input.firstName,
+      middleName: input.middleName
+    }
+    console.log("🚀 ~ changeInitials ~ updUser:", updUser)
+    try {
+      console.log('changeInitials сработал')
+      await dispatch(fetchUpd(updUser))
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className={`${style.form}`}>
       <h3>ФИО</h3>
@@ -32,33 +56,32 @@ export default function InitialsChangeForm({ user }: { user: UserType }): JSX.El
         Фамилия
         <input
           type='text'
-          name=''
-          id=''
+          name='lastName'
           onChange={changeHandler}
-          defaultValue={user?.lastName}
+          value={input.lastName}
         />
       </span>
       <span>
         Имя
         <input
           type='text'
-          name=''
-          id=''
+          name='firstName'
           onChange={changeHandler}
-          defaultValue={user?.firstName}
+          value={input.firstName}
         />
       </span>
       <span>
         Отчество
         <input
           type='text'
-          name=''
-          id=''
+          name='middleName'
           onChange={changeHandler}
-          defaultValue={user?.middleName}
+          value={input.middleName}
         />
       </span>
-      <button type='button'>Сохранить изменения</button>
+      <button type='button' onClick={() => void changeInitials()}>
+        Сохранить изменения
+      </button>
     </div>
   )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import {
@@ -16,6 +17,11 @@ import type { ThingType } from '../../types'
 import Modal from '../../components/Modal/Modal'
 import { useAppSelector } from '../../redux/hooks'
 import InitChange from '../../components/InitChange/InitChange'
+
+type ByMeDealsType = {
+  id: number
+  thingId: number
+}
 
 export default function ThingPage(): JSX.Element {
   const initialThing = {
@@ -49,18 +55,36 @@ export default function ThingPage(): JSX.Element {
 
   const [thing, setThing] = useState<ThingType>(initialThing)
   const [modalActive, setModalActive] = useState<boolean>(true)
+  const [initiate, setInitiate] = useState<boolean>(false)
   const user = useAppSelector((store) => store.userSlice.user)
 
   const params = useParams()
 
   useEffect(() => {
-    axios
-      .get<ThingType>(`${import.meta.env.VITE_API}/v1/things/${params.id}`, {
-        withCredentials: true,
-      })
-      .then((res) => setThing(res.data))
-      .catch((err) => console.log(err))
+    void (async () => {
+      try {
+        const thingRes = await axios.get<ThingType>(
+          `${import.meta.env.VITE_API}/v1/things/${params.id}`,
+          {
+            withCredentials: true,
+          },
+        );
+        const myDealsRes = await axios.get<ByMeDealsType[]>(
+          `${import.meta.env.VITE_API}/v1/deals/initiate-by-me`,
+          {
+            withCredentials: true,
+          },
+        )
+        console.log(thingRes.data, myDealsRes.data)
+        setThing(thingRes.data)
+        setInitiate(!!myDealsRes.data.find((el) => el.thingId === thingRes.data.id))
+      } catch (error) {
+        console.log(error)
+      }
+    })()
   }, [])
+
+  console.log(initiate)
 
   return (
     <>
@@ -91,7 +115,7 @@ export default function ThingPage(): JSX.Element {
           <div className={`${styles.addContent}`}>
             <div className={`${styles.description}`}>{thing.description}</div>
             <div className={`${styles.buttonDiv}`}>
-              {user.id !== thing.userId && (
+              {user.id !== thing.userId && !initiate && (
                 <button
                   type='button'
                   className={`${styles.button}`}

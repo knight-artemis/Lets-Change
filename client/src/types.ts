@@ -67,6 +67,7 @@ export type SimplifiedThingType = {
   endDate: Date
   photoUrl: string
   inDeal?: boolean
+  isApproved?: boolean
 }
 
 type OneDealSkeleton = {
