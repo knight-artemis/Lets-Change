@@ -17,6 +17,11 @@ import Modal from '../../components/Modal/Modal'
 import { useAppSelector } from '../../redux/hooks'
 import InitChange from '../../components/InitChange/InitChange'
 
+type ByMeDealsType = {
+  id: number
+  thingId: number
+}
+
 export default function ThingPage(): JSX.Element {
   const initialThing = {
     id: 0,
@@ -48,7 +53,9 @@ export default function ThingPage(): JSX.Element {
   }
 
   const [thing, setThing] = useState<ThingType>(initialThing)
+  // const [deals, setDeals] = useState<ByMeDealsType[]>([])
   const [modalActive, setModalActive] = useState<boolean>(true)
+  const [initiate, setInitiate] = useState<boolean>(false)
   const user = useAppSelector((store) => store.userSlice.user)
 
   const params = useParams()
@@ -61,6 +68,22 @@ export default function ThingPage(): JSX.Element {
       .then((res) => setThing(res.data))
       .catch((err) => console.log(err))
   }, [])
+
+  useEffect(() => {
+    axios
+      .get<ByMeDealsType[]>(
+        `${import.meta.env.VITE_API}/v1/deals/initiate-by-me`,
+        {
+          withCredentials: true,
+        },
+      )
+      .then((res) =>
+        setInitiate(!!res.data.find((el) => el.thingId === thing.id)),
+      )
+      .catch((err) => console.log(err))
+  }, [thing])
+
+  console.log(initiate)
 
   return (
     <>
@@ -91,7 +114,7 @@ export default function ThingPage(): JSX.Element {
           <div className={`${styles.addContent}`}>
             <div className={`${styles.description}`}>{thing.description}</div>
             <div className={`${styles.buttonDiv}`}>
-              {user.id !== thing.userId && (
+              {user.id !== thing.userId && !initiate && (
                 <button
                   type='button'
                   className={`${styles.button}`}
