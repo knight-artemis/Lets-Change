@@ -15,13 +15,13 @@ router.put('/userUpd', async (req, res) => {
     if (user.email === req.body.email) {
       await reqUser.update(req.body)
       delete reqUser.password
-      res.status(201).json(reqUser);
+      res.status(200).json(reqUser);
     } else if (User.findOne({ where: { email: user.email } })) {
       res.status(500).json({ err: 'Что-то пошло не так в ручке' });
     } else {
       await reqUser.update(req.body)
       delete reqUser.password
-      res.status(201).json(reqUser);
+      res.status(200).json(reqUser);
     }
   } catch (error) {
     res.status(500).json({ err: 'Что-то пошло не так в ручке' });
@@ -45,7 +45,7 @@ router.put('/passUpd', async (req, res) => {
         await reqUser.update({ password: newPassHash })
         const finUser = reqUser.get({ plain: true })
         delete finUser.password
-        res.status(201).json(finUser);
+        res.status(200).json(finUser);
       } else {
         res.status(500).json({ err: 'Старый пароль неверен' })
       }
