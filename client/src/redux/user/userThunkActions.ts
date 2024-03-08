@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import type { AxiosResponse } from 'axios';
 import type { UserType, UserDataType } from '../../types';
 
 export const fetchCheck = createAsyncThunk('user/get', async () => {
@@ -39,4 +40,16 @@ export const fetchLogout = createAsyncThunk('user/logout', async () => {
       firstName: '',
       email: '',
     };
+});
+
+export const fetchUpd = createAsyncThunk('user/upd', async (data: UserType) => {
+  console.log('Мама, я в fetchUpd');
+  const response = await axios.put<UserType, AxiosResponse<UserType>>(
+    `${import.meta.env.VITE_API}/v1/user/userUpd`,
+    data,
+    {
+      withCredentials: true,
+    },
+  );
+  return response.data;
 });

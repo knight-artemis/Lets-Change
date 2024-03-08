@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { UserType } from '../../types'
-import { fetchAuth, fetchCheck, fetchLogout } from './userThunkActions'
+import { fetchAuth, fetchCheck, fetchLogout, fetchUpd } from './userThunkActions'
 import useGeoLocation from '../../hooks/useGeoLocation'
 
 export type UserStateType = {
@@ -46,6 +46,13 @@ const userSlice = createSlice({
     builder.addCase(fetchLogout.fulfilled, (state) => {
       state.user = initialUser
     })
+
+    builder.addCase(
+      fetchUpd.fulfilled,
+      (state, { payload }: { payload: UserType }) => {
+        state.user = payload
+      },
+    )
   },
 })
 
