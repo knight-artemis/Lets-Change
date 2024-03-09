@@ -1,12 +1,12 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
-import Button from '../../Controls/Button/Button'
+import Button from '../../Shared/Button/Button'
 import type { SimplifiedThingType } from '../../../types'
 import style from './Card.module.css'
 import { useAppSelector } from '../../../redux/hooks'
-import Chip from '../../Controls/Chip/Chip'
-import SvgLink from '../../Controls/SvgLink/SvgLink'
+import Chip from '../../Shared/Chip/Chip'
+import SvgLink from '../../Shared/SvgLink/SvgLink'
 
 type CardProps = {
   thing: SimplifiedThingType
@@ -60,7 +60,7 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
       {/* <div className={clsx(style.mask, thing.inDeal && style.inDeal, !thing.isApproved && style.notApproved)}> */}
         {/* <div className={clsx(style.chip, style.timeLeft)}>{getTimeLeft(thing.endDate)}</div> */}
         <Chip top={.5} left={.5}>{getTimeLeft(thing.endDate)}</Chip>
-        <Chip hide={!thing.inDeal && thing.isApproved} left={.5} top={3} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>
+        {(thing.inDeal || !thing.isApproved) && <Chip left={.5} top={3} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>}
         {isMain && thing.userId === user.id && <Chip top={3} left={.5} color='neutral'>Моя вещь</Chip> }      
         {isMain && thing.userId !== user.id && <Chip top={0} right={-.5} color='none'>
           <SvgLink icon='./assets/icons/star-favorite.svg'/>
@@ -68,8 +68,10 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
         {/* <Chip >на модерации</Chip> */}
         {/* <div className={clsx(style.hide, style.chip, thing.inDeal && style.inDealChip)}>в сделке</div>
         <div className={clsx(style.hide, style.chip, !thing.isApproved && style.notApprovedChip)}>на модерации</div> */}
-        <div className={clsx(style.photo, (thing.inDeal || !thing.isApproved) && style.notActive)}>
-          <img src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка' />
+        <div className={clsx(style.center, style.photoWrapper, (thing.inDeal || !thing.isApproved) && style.notActive)}>
+          {/* <div className={style.photoBg} style={{ backgroundImage: `url(${import.meta.env.VITE_THINGS}/${thing.photoUrl})`}} /> */}
+          <img className={clsx(style.center, style.photoBg)} src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка' />
+          <img className={clsx(style.center, style.photo)} src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка' />
         </div>
         <div className={style.name}>
           <center>{thing.thingName.length < 40 ? thing.thingName : `${thing.thingName.slice(0,37)}...`}</center>

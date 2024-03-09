@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { GeolocationControl, Map, Placemark } from '@pbe/react-yandex-maps'
 import axios from 'axios'
 import styles from './NewThing.module.css'
-import Button from '../../components/Controls/Button/Button'
+import Button from '../../components/Shared/Button/Button'
 import type { CategoryType } from '../../types'
 
 type FormData = {

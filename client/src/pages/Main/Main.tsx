@@ -12,11 +12,11 @@ import {
 } from '@pbe/react-yandex-maps'
 import style from './Main.module.css'
 import switchStyle from './ToogleSwitch.module.css'
-import Button from '../../components/Controls/Button/Button'
+import Button from '../../components/Shared/Button/Button'
 import type { SimplifiedThingType } from '../../types'
 import MyPlacemark from '../../components/MyPlacemark/MyPlacemark'
 import Card from '../../components/Widgets/Card/Card'
-import SvgLink from '../../components/Controls/SvgLink/SvgLink'
+import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 
 const ThingsInitVal = {
   id: 0,

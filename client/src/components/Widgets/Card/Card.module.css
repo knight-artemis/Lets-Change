@@ -4,26 +4,62 @@
 }
 
 .card {
-    background-color: var(--color-bg);
+    background-color: var( --color-bg-gray);
     border-radius: 10px;
     width: 200px;
     height: 200px;
     padding: 0;
     position: relative;
     overflow: hidden;
+    /* transition-property: transform, transition-duration;
+    transition-duration: 0.2s; */
     /* тут кароч коостыль такой что б фотка за гнраницы не лезла */
 }
 
-.card:hover {
-    box-shadow: inset 0 0 10px 1px var(--color-btn-font-neutral);
-    transition-duration: .2s;
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
+.photoWrapper {
+    position: relative;
+}
+
+.photoBg {
+    min-width: 250px;
+    min-height: 250px;
+    /* z-index: 100; */
+    /* background-size: cover;  */
+    filter: blur(5px);
+}
+
+.photo {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.card:hover {
     .photo {
-        box-shadow: inset 0 0 10px 1px var(--color-btn-font-neutral);
-        transform: scale(1.1);
-        transition-duration: .2s;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.15);
+        transition-duration: var(--transition-duration);
     }
 }
+.card:not(:hover) {
+    .photo {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        transition-duration: var(--transition-duration);
+    }
+}
+
+/* .card: {
+    transition-duration: var(--transition-duration);
+} */
 
 /* .chip {   
     position: absolute;
@@ -56,13 +92,6 @@
 } */
 
 
-.photo {
-    img {
-        /* width: 100%;
-        height: 100%; */
-        object-fit: cover;
-    }
-}
 /* 
 .timeLeft {
     position: absolute;
@@ -87,6 +116,7 @@
     text-wrap: balance;
     word-break: break-word;
 }
+
 /* 
 .favorite {
     width: 2rem;

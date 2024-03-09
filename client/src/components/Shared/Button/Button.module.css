@@ -1,0 +1,91 @@
+.link {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+}
+
+.link:hover {
+    color: var(--color-btn-font-neutral);
+}
+
+.link:focus,
+.link:active {
+    border: none;
+    background: none;
+    outline: none;
+}
+
+
+
+
+.btn {
+    border-radius: 20px;
+    line-height: 1.5rem;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    border: none;
+    user-select: none;
+}
+
+.btn:focus,
+.btn:active {
+    border: none;
+    outline: none;
+}
+
+.btn.neutral {
+    color: var(--color-btn-font-neutral);
+    background-color: var(--color-btn-neutral);
+}
+
+.btn.danger {
+    color: var(--color-btn-font-danger);
+    background-color: var(--color-btn-danger);
+}
+
+.btn.good {
+    color: var(--color-btn-font-good);
+    background-color: var(--color-btn-good);
+}
+
+.btn.warning {
+    color: var(--color-btn-font-warning);
+    background-color: var(--color-btn-warning);
+}
+.btn.gray {
+    color: var(--color-btn-font-gray);
+    background-color: var(--color-btn-gray);
+}
+
+.btn.neutral:hover {
+    box-shadow: inset 0 0 10px 1px var(--color-btn-font-neutral);
+}
+
+.btn.danger:hover {
+    box-shadow: inset 0 0 10px 1px var(--color-btn-font-danger);
+}
+
+.btn.good:hover {
+    box-shadow: inset 0 0 10px 1px var(--color-btn-font-good);
+}
+
+.btn.warning:hover {
+    box-shadow: inset 0 0 10px 1px var(--color-btn-font-warning);
+}
+.btn.gray:hover {
+    box-shadow: inset 0 0 10px 1px var(--color-btn-font-gray);
+}
+
+.btn:disabled {
+    color: var(--color-btn-font-gray);
+    background-color: var(--color-btn-gray);
+    cursor: wait;
+}
+
+.btn:disabled:hover {
+    box-shadow: none;
+    filter: blur(2px);
+    transition-duration: .2s;
+}

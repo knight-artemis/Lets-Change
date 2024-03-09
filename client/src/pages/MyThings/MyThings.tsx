@@ -5,8 +5,8 @@ import type { SimplifiedThingType } from '../../types'
 import { useAppSelector } from '../../redux/hooks'
 import Card from '../../components/Widgets/Card/Card'
 import style from './MyThings.module.css'
-import Button from '../../components/Controls/Button/Button'
-import SvgLink from '../../components/Controls/SvgLink/SvgLink'
+import Button from '../../components/Shared/Button/Button'
+import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 
 const ThingInitVal = {
   id: 0,
@@ -37,26 +37,29 @@ export default function MyThings(): JSX.Element {
   }, [user.id])
 
   return (
+    <div className={style.wrapper}>
+
     <div className={style.content}>
       {things.length !== 0 ? (
         things.map((thing: SimplifiedThingType) => <Card key={`card-${thing.id}`} thing={thing} />)
-      ) : (
-        <div className={style.emptyPage}>
+        ) : (
+          <div className={style.emptyPage}>
           <span>Вы ещё не добавили никаких вещей</span>
+            </div>
+      )}
+    </div>
           <Button link onClick={() => void navigate(`/new-thing`)}>
             <SvgLink
               icon='src/assets/icons/add-thing.svg'
               text='Добавить свою вещь для обмена'
-            />
+              />
           </Button>
           <Button link onClick={() => void navigate(`/`)}>
             <SvgLink
               icon='./src/assets/icons/search-large.svg'
               text='Посмотреть вещи других пользователей'
-            />
+              />
           </Button>
-        </div>
-      )}
-    </div>
+              </div>
   )
 }
