@@ -16,15 +16,15 @@ type ChipProps = {
 export default function Chip({
   children,
   color = 'gray',
-  top = 0.5,
-  left = 0.5,
+  top,
+  left,
   bottom,
   right,
   hide
 }: ChipProps): JSX.Element {
   return (
     <div
-    style={{top: `${top}rem`, bottom: `${bottom}rem`,left: `${left}rem`,right: `${right}rem`}}
+    style={{top: `${top}rem`, bottom: `${bottom}rem`, left: `${left}rem`, right: `${right}rem`}}
       className={clsx(
         style.chip,
         style[color],

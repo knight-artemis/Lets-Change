@@ -1,7 +1,6 @@
 
 .chip {   
     position: absolute;
-    left: .5rem;
     font-size: smaller;
     z-index: 1;
     color: var(--font-accent);

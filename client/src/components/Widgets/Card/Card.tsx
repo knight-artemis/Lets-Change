@@ -58,12 +58,10 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
       {/* <div className={clsx(style.card, thing.inDeal && style.inDeal, !thing.isApproved && style.notApproved)}> */}
       {/* <div className={clsx(style.mask, thing.inDeal && style.inDeal, !thing.isApproved && style.notApproved)}> */}
         {/* <div className={clsx(style.chip, style.timeLeft)}>{getTimeLeft(thing.endDate)}</div> */}
-        <Chip>{getTimeLeft(thing.endDate)}</Chip>
-        <Chip hide={!thing.inDeal && thing.isApproved} top={3} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>
-        {/* {isMain && thing. ?
-        <Chip right={.5}>Моя вещь</Chip> 
-        :
-        <Chip right={.5}>Х</Chip> } */}
+        <Chip top={.5} left={.5}>{getTimeLeft(thing.endDate)}</Chip>
+        <Chip hide={!thing.inDeal && thing.isApproved} left={.5} top={3} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>
+        {isMain && thing.userId === user.id && <Chip top={.5} right={.5}>Моя вещь</Chip> }      
+        {isMain && thing.userId !== user.id && <Chip top={.5} right={.5}>X</Chip> }      
         {/* <Chip >на модерации</Chip> */}
         {/* <div className={clsx(style.hide, style.chip, thing.inDeal && style.inDealChip)}>в сделке</div>
         <div className={clsx(style.hide, style.chip, !thing.isApproved && style.notApprovedChip)}>на модерации</div> */}
