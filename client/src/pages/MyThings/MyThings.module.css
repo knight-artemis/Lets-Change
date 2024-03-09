@@ -1,7 +1,18 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem auto;
+    max-width: 90dvh;
+}
 .content {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+     justify-content: center;
+    align-items: center;
 }
 
 .emptyPage {
