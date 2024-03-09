@@ -5,6 +5,7 @@ import Button from '../../Controls/Button/Button'
 import type { SimplifiedThingType } from '../../../types'
 import style from './Card.module.css'
 import { useAppSelector } from '../../../redux/hooks'
+import Chip from '../../Controls/Chip/Chip'
 
 type CardProps = {
   thing: SimplifiedThingType
@@ -58,9 +59,12 @@ export default function Card({ thing }: CardProps): JSX.Element {
       <div className={style.card}>
       {/* <div className={clsx(style.card, thing.inDeal && style.inDeal, !thing.isApproved && style.notApproved)}> */}
       {/* <div className={clsx(style.mask, thing.inDeal && style.inDeal, !thing.isApproved && style.notApproved)}> */}
-        <div className={clsx(style.chip, style.timeLeft)}>{getTimeLeft(thing.endDate)}</div>
-        <div className={clsx(style.hide, style.chip, thing.inDeal && style.inDealChip)}>в сделке</div>
-        <div className={clsx(style.hide, style.chip, !thing.isApproved && style.notApprovedChip)}>на модерации</div>
+        {/* <div className={clsx(style.chip, style.timeLeft)}>{getTimeLeft(thing.endDate)}</div> */}
+        <Chip>{getTimeLeft(thing.endDate)}</Chip>
+        <Chip hide={!thing.inDeal && thing.isApproved} top={3} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>
+        {/* <Chip >на модерации</Chip> */}
+        {/* <div className={clsx(style.hide, style.chip, thing.inDeal && style.inDealChip)}>в сделке</div>
+        <div className={clsx(style.hide, style.chip, !thing.isApproved && style.notApprovedChip)}>на модерации</div> */}
         <div className={clsx(style.photo, (thing.inDeal || !thing.isApproved) && style.notActive)}>
           <img
             src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}

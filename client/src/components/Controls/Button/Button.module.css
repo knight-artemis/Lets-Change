@@ -54,6 +54,10 @@
     color: var(--color-btn-font-warning);
     background-color: var(--color-btn-warning);
 }
+.btn.gray {
+    color: var(--color-btn-font-gray);
+    background-color: var(--color-btn-gray);
+}
 
 .btn.neutral:hover {
     box-shadow: inset 0 0 10px 1px var(--color-btn-font-neutral);
@@ -69,6 +73,9 @@
 
 .btn.warning:hover {
     box-shadow: inset 0 0 10px 1px var(--color-btn-font-warning);
+}
+.btn.gray:hover {
+    box-shadow: inset 0 0 10px 1px var(--color-btn-font-gray);
 }
 
 .btn:disabled {
