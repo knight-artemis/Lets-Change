@@ -1,0 +1,46 @@
+
+.wrapper, .topLine,.middleLine ,.bottomLine {
+    display: flex;
+    gap: 1rem;
+}
+
+.wrapper {
+    flex-direction: column;
+}
+
+.photo {
+    img {
+        border: solid 3px var(--color-main);
+        border-radius: 5px;
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+    }
+}
+
+.textCol {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.name {
+    font-size: large;
+}
+
+
+.middleLine {
+    .oneThing:hover {
+        transform: scale(1.1);
+        transition-duration: var(--transition-duration);
+    }
+    .oneThing:not(:hover) {
+        transform: scale(1);
+        transition-duration: var(--transition-duration);
+    }
+
+}
+
+.bottomLine {
+
+}

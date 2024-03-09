@@ -13,6 +13,7 @@ import MyDeals from './pages/MyDeals/MyDeals'
 import NewThing from './pages/NewThing/NewThing'
 import Profile from './pages/Profile/Profile'
 import DealToConsider from './pages/DealToConsider/DealToConsider'
+import Deal from './pages/Deal/Deal'
 // import { setPosition } from './redux/user/userSlice'
 // import useGeoLocation from './hooks/useGeoLocation'
 
@@ -53,6 +54,7 @@ function App(): JSX.Element {
           <Route path='/auth' element={<Auth />} />
           <Route path='/thing/:id' element={<ThingPage />} />
           <Route path='/deal-to-consider/:id' element={<DealToConsider />} />
+          <Route path='/deal/:id' element={<Deal/>} />
         </Routes>
       </main>
       <Footer />
