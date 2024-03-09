@@ -15,13 +15,6 @@ export type UserType = {
   subStatus?: number
   subExp?: Date
   rating?: number
-  err?: ErrorType
-}
-
-type ErrorType = {
-  firstName: string
-  email: string
-  password: string
 }
 
 export type SetProps = {
@@ -29,7 +22,7 @@ export type SetProps = {
 }
 
 export type UserDataType = {
-  firstName?: string
+  firstName: string
   email: string
   password: string
 }
