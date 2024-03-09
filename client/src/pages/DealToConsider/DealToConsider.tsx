@@ -20,9 +20,16 @@ export default function DealToConsider(): JSX.Element {
 
   return (
     <div className={style.wrapper}>
-      <div className={style.topLine}>{deal?.Thing.thingName}</div>
-      <div className={style.middleLine}>{deal?.initiatorThings.map(initiatorsThing => 
-        <div className={style.oneThing}>{initiatorsThing.thingName}</div>)}</div>
+      <div className={style.topLine}>
+        <div className={style.oneThing}>{deal?.Thing.thingName}</div>
+      </div>
+      <div className={style.middleLine}>
+        {deal?.initiatorThings.map((hisOneThing) => (
+          <div key={hisOneThing.id} className={style.oneThing}>
+            {hisOneThing.thingName}
+          </div>
+        ))}
+      </div>
       <div className={style.bottomLine}>
         <Button color='good'>Давай меняться</Button>
         <Button color='danger'>Не хочу меняться</Button>
