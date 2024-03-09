@@ -7,7 +7,8 @@ type InputProps = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   type?: string
   name: string
-  value: string
+  value?: string
+  required?: boolean
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
   // ref?: ForwardedRef<HTMLInputElement>
 }
@@ -17,12 +18,13 @@ export default function Input({
   onChange,
   type = 'text',
   name,
-  value,
+  value = '',
+  required,
   onKeyDown,
 }: InputProps): JSX.Element {
   return (
     <input
-      autoComplete="off"
+      autoComplete='off'
       onKeyDown={onKeyDown}
       className={style.input}
       placeholder={placeholder}
@@ -30,6 +32,7 @@ export default function Input({
       type={type}
       name={name}
       value={value}
+      required={required}
     />
   )
 }

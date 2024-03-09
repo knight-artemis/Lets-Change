@@ -17,6 +17,7 @@ import type { SimplifiedThingType } from '../../types'
 import MyPlacemark from '../../components/MyPlacemark/MyPlacemark'
 import Card from '../../components/Widgets/Card/Card'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
+import Input from '../../components/Shared/Input/Input'
 
 const ThingsInitVal = {
   id: 0,
@@ -43,6 +44,7 @@ export default function Main(): JSX.Element {
   ])
   const [isChecked, setIsChecked] = useState(false)
   const [location, setLocation] = useState<number[]>([])
+  const [searchInput, setSearchInput] = useState<string>('')
 
   const handleToggleChange = (): void => {
     setIsChecked(!isChecked)
@@ -98,24 +100,39 @@ export default function Main(): JSX.Element {
       .catch((err) => console.log('Ошибка получения вещей в категории', err))
   }
 
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchInput(() => e.target.value)
+  }
+
   return (
     <div className={style.wrapper}>
       <div className={style.topContent}>
-        <span className={style.span}>Посмотреть объявления списком</span>
-        <SvgLink icon='./src/assets/icons/blocks.svg' /> 
-        <SvgLink icon='./src/assets/icons/list-color.svg' />
-        <label htmlFor='toggleSwitch' className={switchStyle.switch}>
-          <input
-            id='toggleSwitch'
-            type='checkbox'
-            checked={isChecked}
-            onChange={handleToggleChange}
+        <div className={style.topLine}>
+          <span className={style.span}>Посмотреть объявления списком</span>
+          <SvgLink icon='./src/assets/icons/blocks.svg' />
+          <SvgLink icon='./src/assets/icons/list-color.svg' />
+          <label htmlFor='toggleSwitch' className={switchStyle.switch}>
+            <input
+              id='toggleSwitch'
+              type='checkbox'
+              checked={isChecked}
+              onChange={handleToggleChange}
+            />
+            <span className={switchStyle.slider} />
+          </label>
+          <SvgLink icon='src/assets/icons/globus-color.svg' />
+          <SvgLink icon='src/assets/icons/globus.svg' />
+          <span className={style.span}>или на карте</span>
+        </div>
+        <div className={style.topLine}>
+          <SvgLink icon='assets/icons/search-large.svg' />
+          <Input
+            name='toSearch'
+            placeholder='Что ищем?'
+            onChange={changeHandler}
+            value={searchInput}
           />
-          <span className={switchStyle.slider} />
-        </label>
-        <SvgLink icon='src/assets/icons/globus-color.svg' />
-        <SvgLink icon='src/assets/icons/globus.svg' />
-        <span className={style.span}>или на карте</span>
+        </div>
       </div>
 
       <div className={style.mainContent}>
@@ -179,7 +196,7 @@ export default function Main(): JSX.Element {
             </div>
           ) : things.length !== 0 ? (
             things.map((thing: SimplifiedThingType) => (
-              <Card key={`card-${thing.id}`} thing={thing} isMain/>
+              <Card key={`card-${thing.id}`} thing={thing} isMain />
             ))
           ) : (
             <div className={style.notFound}>
