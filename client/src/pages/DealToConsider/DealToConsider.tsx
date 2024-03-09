@@ -18,6 +18,17 @@ export default function DealToConsider(): JSX.Element {
       .catch((err) => console.log('Ошибка получения подробной сделки', err))
   }, [id])
 
+
+  const agreedHandler = () : void => {
+    // тут запрос в бд и подтверждение сделки
+    // затем навигейт на страницу сделки
+  }
+  const cancelHandler = () : void => {
+    // тут запрос в бд и отказ от сделки
+    // затем навигейт на страницу всех своих сделок
+  }
+
+
   return (
     <div className={style.wrapper}>
       <div className={style.textCol}>Моя вещь:</div>
@@ -53,8 +64,8 @@ export default function DealToConsider(): JSX.Element {
         ))}
       </div>
       <div className={style.bottomLine}>
-        <Button color='good'>Давай меняться</Button>
-        <Button color='danger'>Не хочу меняться</Button>
+        <Button color='good' onClick={agreedHandler}>Давай меняться</Button>
+        <Button color='danger' onClick={cancelHandler}>Не хочу меняться</Button>
       </div>
     </div>
   )
