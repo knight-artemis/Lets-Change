@@ -20,13 +20,35 @@ export default function DealToConsider(): JSX.Element {
 
   return (
     <div className={style.wrapper}>
+      <div className={style.textCol}>Моя вещь:</div>
       <div className={style.topLine}>
-        <div className={style.oneThing}>{deal?.Thing.thingName}</div>
+        <div className={style.oneThing}>
+          <div className={style.photo}>
+            <img
+              src={`${import.meta.env.VITE_THINGS}/${deal?.Thing.photoUrl}`}
+              alt='фотка-шмотка'
+            />
+          </div>
+
+          <div className={style.textCol}>
+            <div className={style.name}>{deal?.Thing.thingName}</div>
+          </div>
+        </div>
       </div>
+      <div className={style.textCol}>Предлагаемые вещи (нажми, что бы выбрать):</div>
       <div className={style.middleLine}>
         {deal?.initiatorThings.map((hisOneThing) => (
           <div key={hisOneThing.id} className={style.oneThing}>
-            {hisOneThing.thingName}
+            <div className={style.photo}>
+              <img
+                src={`${import.meta.env.VITE_THINGS}/${hisOneThing.photoUrl}`}
+                alt='фотка-шмотка'
+              />
+            </div>
+
+            <div className={style.textCol}>
+              <div className={style.name}> {hisOneThing.thingName}</div>
+            </div>
           </div>
         ))}
       </div>
