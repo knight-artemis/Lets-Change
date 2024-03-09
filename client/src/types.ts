@@ -101,3 +101,35 @@ export type MyDealsType = {
   fromMeDeals: OneDealFromMe[]
   toMeDeals: OneDealToMe[]
 }
+
+export type OneDealDetailed = {
+  id: number
+  thingId: number
+  status: number
+  initiatorId: number
+  acceptedByInitiator: boolean
+  acceptedByReceiver: boolean
+  initiatorNote: boolean
+  recieverNote: boolean
+  Thing: {
+    thingName: string
+    photoUrl: string
+  }
+  receiverId: number
+  recieverName: string
+  initiatorName: string
+  initiatorThings: [
+    {
+      id: number
+      thingName: string
+      photoUrl: string
+      isSelected: boolean
+    },
+    {
+      id: number
+      thingName: string
+      photoUrl: string
+      isSelected: boolean
+    },
+  ]
+}
