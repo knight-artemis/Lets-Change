@@ -18,6 +18,7 @@ export default function MyDeals(): JSX.Element {
   const [selectedDeals, setSelectedDeals] = useState<
     OneDealToMe[] | OneDealFromMe[]
   >()
+  const [mainText, setMainText] = useState<string>('Мои сделки')
 
   useEffect(() => {
     axios
@@ -34,25 +35,47 @@ export default function MyDeals(): JSX.Element {
 
   const fromMeOffers = (): void => {
     setSelectedDeals(allDeals?.fromMeDeals)
+    if (allDeals?.toMeDeals && allDeals?.toMeDeals.length > 0)
+    setMainText('я хочу забрать эти вещи')
+  else setMainText('я пока не предложил ни одной сделки')
+}
+const toMeOffers = (): void => {
+  setSelectedDeals(allDeals?.toMeDeals)
+  if (allDeals?.fromMeDeals && allDeals?.fromMeDeals.length > 0)
+    setMainText('у меня хотят забрать эти вещи')
+  else setMainText('мне пока не предложили  ни одной сделки')
   }
-  const toMeOffers = (): void => {
+  const myArchiveOffers = (): void => {
     setSelectedDeals(allDeals?.toMeDeals)
   }
-  const myHystoryOffers = (): void => {
-    setSelectedDeals(allDeals?.toMeDeals)
-  }
+
+  // const getMainText2 = (): string => {
+  //   return 'у меня пока нет сделок'
+  // }
+
+  // const getMainText = (): string => {
+  //   if (allDeals?.toMeDeals.length === 0 && allDeals?.fromMeDeals.length === 0)
+  //     return 'у меня пока нет сделок'
+  //   if (
+  //     selectedDeals &&
+  //     selectedDeals.length > 0 &&
+  //     selectedDeals[0].initiatorId === user.id
+  //   )
+  //     return 'я хочу забрать эти вещи'
+  //   if (
+  //     selectedDeals &&
+  //     selectedDeals.length > 0 &&
+  //     selectedDeals[0].initiatorId !== user.id
+  //   )
+  //     return 'у меня хотят забрать эти вещи'
+  //   return 'у меня хотят забрать эти вещи'
+  // }
 
   return (
     <>
       <div className={style.wrapper}>
         <div className={style.topContent}>
-          {selectedDeals &&
-          selectedDeals.length > 0 &&
-          selectedDeals[0].initiatorId === user.id ? (
-            <span className={style.span}>я хочу забрать эти вещи</span>
-          ) : (
-            <span className={style.span}>у меня хотят забрать эти вещи</span>
-          )}
+          <span className={style.span}>{mainText}</span>
         </div>
 
         <div className={style.mainContent}>
@@ -66,7 +89,9 @@ export default function MyDeals(): JSX.Element {
           </div>
 
           <div className={style.list}>
-            {selectedDeals?.map((deal) => <DealPannel key={deal.id} deal={deal} />)}
+            {selectedDeals?.map((deal) => (
+              <DealPannel key={deal.id} deal={deal} />
+            ))}
           </div>
         </div>
       </div>

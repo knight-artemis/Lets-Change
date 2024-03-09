@@ -90,6 +90,7 @@ export default function ThingPage(): JSX.Element {
     <>
       <div className={`${styles.post}`}>
         <h1>{thing.thingName}</h1>
+        <h2>{`${thing.User.firstName} ${thing.User.lastName}`}</h2>
         <div className={`${styles.mainContent}`}>
           <div className={`${styles.photoBlock}`}>
             <CarouselProvider
