@@ -49,7 +49,7 @@ export default function Deal(): JSX.Element {
       <div className={style.right}>
         <div className={style.chat}>
           <div className={clsx(style.msg, style.myMsg)}>привет, давай меняться!</div>
-          <div className={clsx(style.msg,style.hisMsg)}>привет, конечно давай!</div>
+          <div className={clsx(style.msg, style.hisMsg)}>привет, конечно давай!</div>
         </div>
 
         <div className={style.input}>
