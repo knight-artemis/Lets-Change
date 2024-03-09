@@ -13,30 +13,21 @@ router.get('/checkSession', async (req, res) => {
 router.post('/reg', secureRoute, async (req, res) => {
   try {
     const { firstName, email, password } = req.body;
-    const errors = {};
-    if (!firstName) errors.firstName = 'Пожалуйста, введите Ваше имя.'
-    if (!email) errors.email = 'Пожалуйста, введите Ваш email.';
-    if (!password) errors.password = 'Пожалуйста, придумайте пароль.';
-    if (errors.login || errors.email || errors.password) {
-      res.json({ err: errors });
+    const user = await User.findOne({ where: { email } });
+    if (user) {
+      res.json({ err: 'Пользователь с таким email уже существует' });
     } else {
-      const user = await User.findOne({ where: { email } });
-      if (user) {
-        errors.email = 'Пользователь с таким email уже существует';
-        res.json({ err: errors });
-      } else {
-        const hash = await bcrypt.hash(password, 10);
-        const newUser = await User.create({
-          firstName,
-          email,
-          password: hash,
-        }).then((resp) => resp.get({ plain: true }));
-        delete newUser.password;
-        req.session.user = { ...newUser };
-        req.session.save(() => {
-          res.status(201).json(newUser);
-        });
-      }
+      const hash = await bcrypt.hash(password, 10);
+      const newUser = await User.create({
+        firstName,
+        email,
+        password: hash,
+      }).then((resp) => resp.get({ plain: true }));
+      delete newUser.password;
+      req.session.user = { ...newUser };
+      req.session.save(() => {
+        res.status(201).json(newUser);
+      });
     }
   } catch (error) {
     console.log(error);
@@ -73,6 +64,44 @@ router.get('/logout', (req, res) => {
     res.clearCookie('Cookie');
     res.sendStatus(200);
   });
+});
+
+router.post('/checkmail', secureRoute, async (req, res) => {
+  try {
+    const { email } = req.body
+    console.log('🚀 ~ router.post ~ email:', email)
+    const reqEmail = await User.findOne({ where: { email } })
+    console.log('🚀 ~ router.post ~ reqEmail:', reqEmail)
+    if (reqEmail) {
+      res.json(true)
+    } else {
+      res.json(false)
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ err: { server: 'ошибка сервера' } });
+  }
+});
+
+router.post('/checkPass', secureRoute, async (req, res) => {
+  try {
+    const { email, password } = req.body
+    const reqUser = await User.findOne({ where: { email } })
+    if (reqUser) {
+      const user = reqUser.get({ plain: true });
+      const checkPass = await bcrypt.compare(password, user.password);
+      if (checkPass) {
+        res.json(true)
+      } else {
+        res.json(false)
+      }
+    } else {
+      res.json('False')
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ err: { server: 'ошибка сервера' } });
+  }
 });
 
 module.exports = router;

@@ -16,22 +16,14 @@ export const fetchCheck = createAsyncThunk('user/get', async () => {
 export const fetchAuth = createAsyncThunk(
   'user/post',
   async ({ type, data }: { type: string; data: UserDataType }) => {
-    const response = await axios.post<UserType, AxiosResponse<UserType>>(
+    const response = await axios.post<UserType>(
       `${import.meta.env.VITE_API}/v1/auth/${type}`,
       data,
       {
         withCredentials: true,
       },
     )
-    let forReturn = {}
-    if (response.data.err) {
-      forReturn = response.data
-    } else {
-      delete response.data.err
-      forReturn = response.data
-    }
-    console.log(forReturn, 'Я forReturn');
-    return forReturn;
+    return response.data;
   },
 );
 
