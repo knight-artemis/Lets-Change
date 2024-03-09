@@ -7,18 +7,19 @@ import { fetchUpd } from '../../redux/user/userThunkActions'
 
 export default function PhoneChahgeForm({
   user,
+  setActive,
 }: {
   user: UserType
-  }): JSX.Element {
-  
+  setActive: React.Dispatch<React.SetStateAction<boolean>>
+}): JSX.Element {
   const dispatch = useAppDispatch()
-  
+
   type DataType = {
     phone: string
   }
 
   const initialState = {
-    phone: user?.phone || ''
+    phone: user?.phone || '',
   }
 
   const [input, setInput] = useState<DataType>(initialState)
@@ -30,19 +31,20 @@ export default function PhoneChahgeForm({
     }))
   }
 
-    const changePhone = async (): Promise<void> => {
-      const updUser = {
-        ...user,
-        phone: input.phone,
-      }
-      console.log('🚀 ~ changeInitials ~ updUser:', updUser)
-      try {
-        console.log('changeInitials сработал')
-        await dispatch(fetchUpd(updUser))
-      } catch (error) {
-        console.log(error)
-      }
+  const changePhone = async (): Promise<void> => {
+    const updUser = {
+      ...user,
+      phone: input.phone,
     }
+    console.log('🚀 ~ changeInitials ~ updUser:', updUser)
+    try {
+      console.log('changeInitials сработал')
+      await dispatch(fetchUpd(updUser))
+      setActive((prev) => !prev)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className={`${style.form}`}>

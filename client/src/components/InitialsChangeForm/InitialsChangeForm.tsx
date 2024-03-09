@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import type { UserType } from '../../types'
 import style from './InitialsChangeForm.module.css'
 import { useAppDispatch } from '../../redux/hooks'
@@ -7,8 +7,10 @@ import { fetchUpd } from '../../redux/user/userThunkActions'
 
 export default function InitialsChangeForm({
   user,
+  setActive,
 }: {
   user: UserType
+  setActive: React.Dispatch<React.SetStateAction<boolean>>
 }): JSX.Element {
   const dispatch = useAppDispatch()
 
@@ -38,14 +40,14 @@ export default function InitialsChangeForm({
       ...user,
       lastName: input.lastName,
       firstName: input.firstName,
-      middleName: input.middleName
+      middleName: input.middleName,
     }
-    console.log("🚀 ~ changeInitials ~ updUser:", updUser)
     try {
       console.log('changeInitials сработал')
       await dispatch(fetchUpd(updUser))
+      setActive((prev) => !prev)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 

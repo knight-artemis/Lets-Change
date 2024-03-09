@@ -13,21 +13,30 @@ router.get('/checkSession', async (req, res) => {
 router.post('/reg', secureRoute, async (req, res) => {
   try {
     const { firstName, email, password } = req.body;
-    const user = await User.findOne({ where: { email } });
-    if (user) {
-      res.status(401).json({ err: { email: 'такой e-mail уже существует' } });
+    const errors = {};
+    if (!firstName) errors.firstName = 'Пожалуйста, введите Ваше имя.'
+    if (!email) errors.email = 'Пожалуйста, введите Ваш email.';
+    if (!password) errors.password = 'Пожалуйста, придумайте пароль.';
+    if (errors.login || errors.email || errors.password) {
+      res.json({ err: errors });
     } else {
-      const hash = await bcrypt.hash(password, 10);
-      const newUser = await User.create({
-        firstName,
-        email,
-        password: hash,
-      }).then((resp) => resp.get({ plain: true }));
-      delete newUser.password;
-      req.session.user = { ...newUser };
-      req.session.save(() => {
-        res.status(201).json(newUser);
-      });
+      const user = await User.findOne({ where: { email } });
+      if (user) {
+        errors.email = 'Пользователь с таким email уже существует';
+        res.json({ err: errors });
+      } else {
+        const hash = await bcrypt.hash(password, 10);
+        const newUser = await User.create({
+          firstName,
+          email,
+          password: hash,
+        }).then((resp) => resp.get({ plain: true }));
+        delete newUser.password;
+        req.session.user = { ...newUser };
+        req.session.save(() => {
+          res.status(201).json(newUser);
+        });
+      }
     }
   } catch (error) {
     console.log(error);

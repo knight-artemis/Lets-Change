@@ -47,7 +47,7 @@ export default function Profile(): JSX.Element {
             </button>
           )}
           <Modal active={modalActive1} setActive={setModalActive1}>
-            <AvatarChangeForm />
+            <AvatarChangeForm setActive={setModalActive1} />
           </Modal>
         </div>
         {user.lastName && user.middleName && user.firstName ? (
@@ -72,7 +72,7 @@ export default function Profile(): JSX.Element {
           </span>
         )}
         <Modal active={modalActive2} setActive={setModalActive2}>
-          <InitialsChangeForm user={user} />
+          <InitialsChangeForm user={user} setActive={setModalActive2} />
         </Modal>
         <span>
           Почта:
@@ -85,7 +85,7 @@ export default function Profile(): JSX.Element {
           </button>
         </span>
         <Modal active={modalActive3} setActive={setModalActive3}>
-          <MailChahgeForm user={user} />
+          <MailChahgeForm user={user} setActive={setModalActive3} />
         </Modal>
         {user.phone ? (
           <span>
@@ -109,7 +109,7 @@ export default function Profile(): JSX.Element {
           </span>
         )}
         <Modal active={modalActive4} setActive={setModalActive4}>
-          <PhoneChahgeForm user={user} />
+          <PhoneChahgeForm user={user} setActive={setModalActive4} />
         </Modal>
         {user.userAddress ? (
           <span>
@@ -134,13 +134,13 @@ export default function Profile(): JSX.Element {
           </span>
         )}
         <Modal active={modalActive5} setActive={setModalActive5}>
-          <AddressChangeForm />
+          <AddressChangeForm setActive={setModalActive5} />
         </Modal>
         <button type='button' onClick={() => setModalActive6((prev) => !prev)}>
           Изменить пароль
         </button>
         <Modal active={modalActive6} setActive={setModalActive6}>
-          <PasswordChangeForm />
+          <PasswordChangeForm setActive={setModalActive6} />
         </Modal>
       </div>
       <div className={styles.commonInfo}>

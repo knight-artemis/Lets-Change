@@ -5,7 +5,9 @@ import type { AxiosResponse } from 'axios'
 import style from './PasswordChangeForm.module.css'
 import type { UserType } from '../../types'
 
-export default function PasswordChangeForm(): JSX.Element {
+export default function PasswordChangeForm({
+  setActive,
+}: {setActive: React.Dispatch<React.SetStateAction<boolean>>}): JSX.Element {
   type PasswordChangeType = {
     oldPassword: string
     newPassword: string
@@ -36,9 +38,10 @@ export default function PasswordChangeForm(): JSX.Element {
           { withCredentials: true },
         )
         .then((res) => console.log(res))
+        .then(() => setActive((prev) => !prev))
         .catch((err) => console.log(err))
     } else {
-      console.log('Пароли не совпадают');
+      console.log('Пароли не совпадают')
     }
   }
 

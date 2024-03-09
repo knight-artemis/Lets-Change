@@ -15,6 +15,17 @@ export type UserType = {
   subStatus?: number
   subExp?: Date
   rating?: number
+  err?: ErrorType
+}
+
+type ErrorType = {
+  firstName: string
+  email: string
+  password: string
+}
+
+export type SetProps = {
+  setActive: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export type UserDataType = {
