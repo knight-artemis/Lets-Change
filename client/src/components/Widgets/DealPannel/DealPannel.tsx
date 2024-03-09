@@ -22,9 +22,6 @@ export default function DealPannel({
   })
 
   useEffect(() => {
-    // const isInit = user.id === deal.initiatorId
-    // const isToMeDealAcc = isInit && deal.acceptedByInitiator
-    // const isFromMeDealAcc = !isInit && deal.acceptedByReceiver
 
     switch (deal.status) {
       case 0:

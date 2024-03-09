@@ -37,3 +37,8 @@
     /* color: var(--color-chip-font-gray); */
     background-color: var(--color-chip-gray);
 }
+
+.chip.none {
+    /* color: var(--color-chip-font-gray); */
+    background-color: none;
+}

@@ -15,7 +15,6 @@ export default function Card({ thing }: CardProps): JSX.Element {
 
   const user = useAppSelector((store) => store.userSlice.user)
 
-
   function getTimeLeft(endDate: Date): string {
     const msDelta = new Date(endDate).getTime() - new Date().getTime()
     if (msDelta <= 0) return 'время вышло'
@@ -47,8 +46,6 @@ export default function Card({ thing }: CardProps): JSX.Element {
 
   const navigate = useNavigate()
 
-  console.log(thing);
-
   return (
     <Button
       key={thing.id}
@@ -66,21 +63,14 @@ export default function Card({ thing }: CardProps): JSX.Element {
         {/* <div className={clsx(style.hide, style.chip, thing.inDeal && style.inDealChip)}>в сделке</div>
         <div className={clsx(style.hide, style.chip, !thing.isApproved && style.notApprovedChip)}>на модерации</div> */}
         <div className={clsx(style.photo, (thing.inDeal || !thing.isApproved) && style.notActive)}>
-          <img
-            src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
-            alt='фотка-шмотка'
-            />
+          <img src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка' />
         </div>
         <div className={style.name}>
           <center>{thing.thingName.length < 40 ? thing.thingName : `${thing.thingName.slice(0,37)}...`}</center>
         </div>
-        <div
-          className={clsx(
-            Math.random() > 0.5 ? style.favorite : style.notFavorite,
-            )}
-        />
+        <div className={clsx(Math.random() > 0.5 ? style.favorite : style.notFavorite)}/>
       {/* </div> */}
-            </div>
+      </div>
     </Button>
   )
 }
