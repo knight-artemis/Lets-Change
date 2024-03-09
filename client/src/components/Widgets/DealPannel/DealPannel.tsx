@@ -5,6 +5,7 @@ import type { OneDealFromMe, OneDealToMe } from '../../../types'
 import { useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
 import Button from '../../Shared/Button/Button'
+import CardSimple from '../CardSimple/CardSimple'
 
 export default function DealPannel({
   deal,
@@ -103,7 +104,7 @@ export default function DealPannel({
         // тут в ручку стук и удалить (или модалка с подтверждением)
         break
       case 'отменить':
-         // тут в ручку стук и удалить (или модалка с подтверждением)
+        // тут в ручку стук и удалить (или модалка с подтверждением)
         break
       default:
         break
@@ -123,15 +124,19 @@ export default function DealPannel({
       )}
     >
       <div className={style.photo}>
+        <CardSimple hoverable size={150} thing={deal.Thing} />
+      </div>
+      {/* 
+      <div className={style.photo}>
         <img
           src={`${import.meta.env.VITE_THINGS}/${deal.Thing.photoUrl}`}
           alt='фотка-шмотка'
         />
-      </div>
+      </div> */}
 
       {/* <div className={style.body}> */}
       <div className={style.textCol}>
-        <div className={style.name}>{deal.Thing.thingName}</div>
+        {/* <div className={style.name}>{deal.Thing.thingName}</div> */}
         <div className={style.timeLeft}>
           осталось <br /> время не завезли
         </div>

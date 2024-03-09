@@ -35,7 +35,7 @@ export default function DealToConsider(): JSX.Element {
       <div className={style.textCol}>Моя вещь:</div>
       <div className={style.topLine}>
         <div className={style.oneThing}>
-          <CardSimple thing={deal?.Thing}/>
+          <CardSimple hoverable thing={deal?.Thing}/>
           {/* <div className={style.photo}>
             <img
               src={`${import.meta.env.VITE_THINGS}/${deal?.Thing.photoUrl}`}
@@ -52,7 +52,7 @@ export default function DealToConsider(): JSX.Element {
       <div className={style.middleLine}>
         {deal?.initiatorThings.map((hisOneThing) => (
           <div key={hisOneThing.id} className={style.oneThing}>
-             <CardSimple thing={hisOneThing}/>
+             <CardSimple hoverable thing={hisOneThing}/>
             {/* <div className={style.photo}>
               <img
                 src={`${import.meta.env.VITE_THINGS}/${hisOneThing.photoUrl}`}

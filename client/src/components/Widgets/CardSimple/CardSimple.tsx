@@ -8,11 +8,12 @@ type CardSimpleProps = {
     photoUrl: string
   }
   size?: number
+  hoverable?: boolean
 }
 
-export default function CardSimple({ thing , size=200}: CardSimpleProps): JSX.Element {
+export default function CardSimple({ thing , size=200, hoverable}: CardSimpleProps): JSX.Element {
   return (
-    <div className={style.card} style={{ width: `${size}px`, height: `${size}px`}}>
+    <div className={clsx(style.card, hoverable && style.hoverable)} style={{ width: `${size}px`, height: `${size}px`}}>
       <div className={clsx(style.center, style.photoWrapper)}>
         <img
           className={clsx(style.center, style.photoBg)}
