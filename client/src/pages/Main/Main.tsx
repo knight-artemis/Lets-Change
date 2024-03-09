@@ -179,7 +179,7 @@ export default function Main(): JSX.Element {
             </div>
           ) : things.length !== 0 ? (
             things.map((thing: SimplifiedThingType) => (
-              <Card key={`card-${thing.id}`} thing={thing} />
+              <Card key={`card-${thing.id}`} thing={thing} isMain/>
             ))
           ) : (
             <div className={style.notFound}>

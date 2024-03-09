@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
 import type { OneDealFromMe, OneDealToMe } from '../../../types'
 import { useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
 import Button from '../../Controls/Button/Button'
-import clsx from 'clsx'
 
 export default function DealPannel({
   deal,
@@ -22,9 +22,6 @@ export default function DealPannel({
   })
 
   useEffect(() => {
-    // const isInit = user.id === deal.initiatorId
-    // const isToMeDealAcc = isInit && deal.acceptedByInitiator
-    // const isFromMeDealAcc = !isInit && deal.acceptedByReceiver
 
     switch (deal.status) {
       case 0:

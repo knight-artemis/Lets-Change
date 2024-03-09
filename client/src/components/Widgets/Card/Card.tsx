@@ -4,12 +4,19 @@ import clsx from 'clsx'
 import Button from '../../Controls/Button/Button'
 import type { SimplifiedThingType } from '../../../types'
 import style from './Card.module.css'
+import { useAppSelector } from '../../../redux/hooks'
+import Chip from '../../Controls/Chip/Chip'
+import SvgLink from '../../Controls/SvgLink/SvgLink'
 
 type CardProps = {
   thing: SimplifiedThingType
+  isMain?: boolean
 }
 
-export default function Card({ thing }: CardProps): JSX.Element {
+export default function Card({ thing, isMain }: CardProps): JSX.Element {
+
+  const user = useAppSelector((store) => store.userSlice.user)
+
   function getTimeLeft(endDate: Date): string {
     const msDelta = new Date(endDate).getTime() - new Date().getTime()
     if (msDelta <= 0) return 'время вышло'
@@ -47,22 +54,28 @@ export default function Card({ thing }: CardProps): JSX.Element {
       link
       onClick={() => void navigate(`/thing/${thing.id}`)}
     >
+
       <div className={style.card}>
-        <div className={style.timeLeft}>{getTimeLeft(thing.endDate)}</div>
-        <div className={style.photo}>
-          <img
-            src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
-            alt='фотка-шмотка'
-          />
+      {/* <div className={clsx(style.card, thing.inDeal && style.inDeal, !thing.isApproved && style.notApproved)}> */}
+      {/* <div className={clsx(style.mask, thing.inDeal && style.inDeal, !thing.isApproved && style.notApproved)}> */}
+        {/* <div className={clsx(style.chip, style.timeLeft)}>{getTimeLeft(thing.endDate)}</div> */}
+        <Chip top={.5} left={.5}>{getTimeLeft(thing.endDate)}</Chip>
+        <Chip hide={!thing.inDeal && thing.isApproved} left={.5} top={3} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>
+        {isMain && thing.userId === user.id && <Chip top={3} left={.5} color='neutral'>Моя вещь</Chip> }      
+        {isMain && thing.userId !== user.id && <Chip top={0} right={-.5} color='none'>
+          <SvgLink icon='./assets/icons/star-favorite.svg'/>
+        </Chip> }      
+        {/* <Chip >на модерации</Chip> */}
+        {/* <div className={clsx(style.hide, style.chip, thing.inDeal && style.inDealChip)}>в сделке</div>
+        <div className={clsx(style.hide, style.chip, !thing.isApproved && style.notApprovedChip)}>на модерации</div> */}
+        <div className={clsx(style.photo, (thing.inDeal || !thing.isApproved) && style.notActive)}>
+          <img src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка' />
         </div>
         <div className={style.name}>
           <center>{thing.thingName.length < 40 ? thing.thingName : `${thing.thingName.slice(0,37)}...`}</center>
         </div>
-        <div
-          className={clsx(
-            Math.random() > 0.5 ? style.favorite : style.notFavorite,
-          )}
-        />
+        <div className={clsx(Math.random() > 0.5 ? style.favorite : style.notFavorite)}/>
+      {/* </div> */}
       </div>
     </Button>
   )

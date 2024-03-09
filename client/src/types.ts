@@ -70,6 +70,7 @@ export type ThingType = {
 
 export type SimplifiedThingType = {
   id: number
+  userId?: number
   thingName: string
   categoryId: number
   thingAddress: string

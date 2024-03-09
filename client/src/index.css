@@ -22,6 +22,7 @@
   --font-accent: #ffffff;
   --font-secondary: #b4b4b4;
 
+  
   --color-btn-neutral: #84a9ee;
   --color-btn-danger: #e47474;
   --color-btn-warning: #f3c38b;
@@ -33,6 +34,19 @@
   --color-btn-font-warning: #7c490e;
   --color-btn-font-good: #055813;
   --color-btn-font-gray: #464646;
+
+
+  --color-chip-neutral: #181bb3ad;
+  --color-chip-danger: #881111ad;
+  --color-chip-warning: #d88423ad;
+  --color-chip-good:#13b12dad;
+  --color-chip-gray:#2e2e2ead;
+
+  --color-chip-font-neutral: #181ab3;
+  --color-chip-font-danger: #881111;
+  --color-chip-font-warning: #7c490e;
+  --color-chip-font-good: #055813;
+  --color-chip-font-gray: #464646;
 
   color: var(--font-main);
   font-size: 1rem;

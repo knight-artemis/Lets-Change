@@ -25,6 +25,7 @@ router.get('/categories/:id', async (req, res) => {
     const thingsRaw = await Thing.findAll({
       attributes: [
         'id',
+        'userId',
         'thingName',
         'categoryId',
         'thingAddress',
@@ -111,6 +112,7 @@ router.get('/', async (req, res) => {
     const thingsRaw = await Thing.findAll({
       attributes: [
         'id',
+        'userId',
         'thingName',
         'categoryId',
         'thingAddress',
