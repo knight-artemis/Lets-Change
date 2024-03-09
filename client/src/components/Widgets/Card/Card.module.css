@@ -87,7 +87,7 @@
     text-wrap: balance;
     word-break: break-word;
 }
-
+/* 
 .favorite {
     width: 2rem;
     height: 2rem;
@@ -101,7 +101,7 @@
 .favorite::after {
     content: 'y';
     background-image: url('../../../assets/icons/star-favorite.svg');
-    /* хз, ну никак не работают картинка */
+
 }
 
 .notFavorite {
@@ -110,11 +110,11 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-    /* z-index: 555; */
+
     background-image: url('../../../assets/icons/star-not-favorite.svg');
 }
 
 .notFavorite::after {
     content: 'n';
     background-image: url('../../../assets/icons/star-not-favorite.svg');
-}
+} */

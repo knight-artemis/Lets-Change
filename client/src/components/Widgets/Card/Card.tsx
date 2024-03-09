@@ -6,6 +6,7 @@ import type { SimplifiedThingType } from '../../../types'
 import style from './Card.module.css'
 import { useAppSelector } from '../../../redux/hooks'
 import Chip from '../../Controls/Chip/Chip'
+import SvgLink from '../../Controls/SvgLink/SvgLink'
 
 type CardProps = {
   thing: SimplifiedThingType
@@ -61,7 +62,9 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
         <Chip top={.5} left={.5}>{getTimeLeft(thing.endDate)}</Chip>
         <Chip hide={!thing.inDeal && thing.isApproved} left={.5} top={3} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>
         {isMain && thing.userId === user.id && <Chip top={3} left={.5} color='neutral'>Моя вещь</Chip> }      
-        {isMain && thing.userId !== user.id && <Chip top={.5} right={.5}>X</Chip> }      
+        {isMain && thing.userId !== user.id && <Chip top={0} right={-.5} color='none'>
+          <SvgLink icon='./assets/icons/star-favorite.svg'/>
+        </Chip> }      
         {/* <Chip >на модерации</Chip> */}
         {/* <div className={clsx(style.hide, style.chip, thing.inDeal && style.inDealChip)}>в сделке</div>
         <div className={clsx(style.hide, style.chip, !thing.isApproved && style.notApprovedChip)}>на модерации</div> */}
