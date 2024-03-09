@@ -29,6 +29,9 @@ export default function Deal(): JSX.Element {
     //
   }
 
+  // console.log('id = ' ,id);
+  // console.log('deal = ', deal);
+
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setMsgInput(() => e.target.value)
   }

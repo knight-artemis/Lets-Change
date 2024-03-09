@@ -27,7 +27,8 @@
 }
 
 .chat {
-    background-color: var(--color-secondary);
+    /* background-color: var(--color-secondary); */
+    border: solid gray 1px;
     padding: 1rem;
     border-radius: 15px;
     scroll-behavior: smooth;

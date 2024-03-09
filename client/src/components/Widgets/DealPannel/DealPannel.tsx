@@ -166,7 +166,7 @@ export default function DealPannel({
         {state.isBtn && (
           <Button
             color={state.color}
-            onClick={() => void btnHandler(deal.thingId)}
+            onClick={() => void btnHandler(deal.id)}
           >
             {/* <Button
                       color='good'
