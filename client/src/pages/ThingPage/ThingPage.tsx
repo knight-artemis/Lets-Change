@@ -14,9 +14,9 @@ import 'pure-react-carousel/dist/react-carousel.es.css'
 import axios from 'axios'
 import styles from './ThingPage.module.css'
 import type { ThingType } from '../../types'
-import Modal from '../../components/Modal/Modal'
+import Modal from '../../components/Widgets/Modal/Modal'
 import { useAppSelector } from '../../redux/hooks'
-import InitChange from '../../components/InitChange/InitChange'
+import InitChange from '../../components/ChangeHandlers/InitChange/InitChange'
 
 type ByMeDealsType = {
   id: number

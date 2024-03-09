@@ -7,8 +7,8 @@ import { useAppDispatch } from '../../redux/hooks'
 import type { UserDataType } from '../../types'
 import { fetchAuth } from '../../redux/user/userThunkActions'
 import Button from '../Shared/Button/Button'
-import Modal from '../Modal/Modal'
-import ForgetPassForm from '../ForgetPassForm/ForgetPassForm'
+import Modal from '../Widgets/Modal/Modal'
+import ForgetPassForm from '../ChangeHandlers/ForgetPassForm/ForgetPassForm'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Auth(): JSX.Element {

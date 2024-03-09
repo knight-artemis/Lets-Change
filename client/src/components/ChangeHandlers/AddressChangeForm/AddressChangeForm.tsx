@@ -1,5 +1,5 @@
 import React from 'react'
-import type { SetProps } from '../../types'
+import type { SetProps } from '../../../types'
 
 export default function AddressChangeForm({
   setActive,

@@ -63,16 +63,16 @@
     flex-direction: column;
 }
 
-.name {
+/* .name {
     font-size: large;
-}
+} */
 
 .description {}
 
 .timeLeft {}
 
 
-.photo {
+/* .photo {
     img {
         border: solid 3px var(--color-main);
         border-radius: 5px;
@@ -80,7 +80,7 @@
         height: 120px;
         object-fit: cover;
     }
-}
+} */
 
 .disabled {
     filter: sepia(50%) grayscale(40%);

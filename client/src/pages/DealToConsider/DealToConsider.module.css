@@ -30,14 +30,14 @@
 
 
 .middleLine {
-    .oneThing:hover {
+    /* .oneThing:hover {
         transform: scale(1.1);
         transition-duration: var(--transition-duration);
     }
     .oneThing:not(:hover) {
         transform: scale(1);
         transition-duration: var(--transition-duration);
-    }
+    } */
 
 }
 

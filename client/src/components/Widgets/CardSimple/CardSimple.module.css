@@ -1,0 +1,64 @@
+.card {
+    background-color: var( --color-bg-gray);
+    border-radius: 10px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    /* transition-property: transform, transition-duration;
+    transition-duration: 0.2s; */
+    /* тут кароч коостыль такой что б фотка за гнраницы не лезла */
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.photoWrapper {
+    position: relative;
+}
+
+.photoBg {
+    min-width: 200px;
+    min-height: 200px;
+    /* z-index: 100; */
+    /* background-size: cover;  */
+    filter: blur(5px);
+}
+
+.photo {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.hoverable:hover {
+    .photo {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.15);
+        transition-duration: var(--transition-duration);
+    }
+}
+.hoverable:not(:hover) {
+    .photo {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        transition-duration: var(--transition-duration);
+    }
+}
+
+
+.name {
+    font-size: large;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    line-height: 3rem;
+    background-color: var(--color-chip-gray);
+    color: var(--font-accent);
+    text-wrap: balance;
+    word-break: break-word;
+}

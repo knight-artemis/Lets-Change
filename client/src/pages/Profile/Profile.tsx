@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import styles from './Profile.module.css'
 import { useAppSelector } from '../../redux/hooks'
-import Modal from '../../components/Modal/Modal'
-import PasswordChangeForm from '../../components/PasswordChangeForm/PasswordChangeForm'
-import AvatarChangeForm from '../../components/AvatarChangeForm/AvatarChangeForm'
-import MailChahgeForm from '../../components/MailChahgeForm/MailChahgeForm'
-import PhoneChahgeForm from '../../components/PhoneChangeForm/PhoneChangeForm'
-import InitialsChangeForm from '../../components/InitialsChangeForm/InitialsChangeForm'
-import AddressChangeForm from '../../components/AddressChangeForm/AddressChangeForm'
-import SubForm from '../../components/SubForm/SubForm'
+import Modal from '../../components/Widgets/Modal/Modal'
+import PasswordChangeForm from '../../components/ChangeHandlers/PasswordChangeForm/PasswordChangeForm'
+import AvatarChangeForm from '../../components/ChangeHandlers/AvatarChangeForm/AvatarChangeForm'
+import MailChahgeForm from '../../components/ChangeHandlers/MailChahgeForm/MailChahgeForm'
+import PhoneChahgeForm from '../../components/ChangeHandlers/PhoneChangeForm/PhoneChangeForm'
+import InitialsChangeForm from '../../components/ChangeHandlers/InitialsChangeForm/InitialsChangeForm'
+import AddressChangeForm from '../../components/ChangeHandlers/AddressChangeForm/AddressChangeForm'
+import SubForm from '../../components/ChangeHandlers/SubForm/SubForm'
 
 export default function Profile(): JSX.Element {
   const [modalActive1, setModalActive1] = useState<boolean>(true)

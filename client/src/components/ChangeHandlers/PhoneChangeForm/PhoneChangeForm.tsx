@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
-import type { UserType } from '../../types'
-import style from './MailChahgeForm.module.css'
-import { useAppDispatch } from '../../redux/hooks'
-import { fetchUpd } from '../../redux/user/userThunkActions'
+import type { UserType } from '../../../types'
+import style from './PhoneChangeForm.module.css'
+import { useAppDispatch } from '../../../redux/hooks'
+import { fetchUpd } from '../../../redux/user/userThunkActions'
 
-export default function MailChahgeForm({
+export default function PhoneChahgeForm({
   user,
   setActive,
 }: {
@@ -15,11 +15,11 @@ export default function MailChahgeForm({
   const dispatch = useAppDispatch()
 
   type DataType = {
-    email: string
+    phone: string
   }
 
   const initialState = {
-    email: user.email,
+    phone: user?.phone || '',
   }
 
   const [input, setInput] = useState<DataType>(initialState)
@@ -31,10 +31,10 @@ export default function MailChahgeForm({
     }))
   }
 
-  const changeEmail = async (): Promise<void> => {
+  const changePhone = async (): Promise<void> => {
     const updUser = {
       ...user,
-      email: input.email,
+      phone: input.phone,
     }
     console.log('🚀 ~ changeInitials ~ updUser:', updUser)
     try {
@@ -48,15 +48,15 @@ export default function MailChahgeForm({
 
   return (
     <div className={`${style.form}`}>
-      <h3>Почта</h3>
+      <h3>Телефон</h3>
       <input
         type='text'
-        name='email'
+        name='phone'
         onChange={changeHandler}
-        value={input.email}
+        value={input.phone}
       />
-      <button type='button' onClick={() => void changeEmail()}>
-        Сохранить почту
+      <button type='button' onClick={() => void changePhone()}>
+        Сохранить телефон
       </button>
     </div>
   )

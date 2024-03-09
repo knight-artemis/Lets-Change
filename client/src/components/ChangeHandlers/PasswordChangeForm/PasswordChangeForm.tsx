@@ -3,7 +3,7 @@ import type { ChangeEvent } from 'react'
 import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 import style from './PasswordChangeForm.module.css'
-import type { UserType } from '../../types'
+import type { UserType } from '../../../types'
 
 export default function PasswordChangeForm({
   setActive,

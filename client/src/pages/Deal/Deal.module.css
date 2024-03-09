@@ -1,0 +1,77 @@
+
+.wrapper, .left,.right, .input {
+    display: flex;
+    gap: 1rem;
+}
+
+.left,.right {
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper{
+    width: 80%;
+}
+.right {
+    width: 100%;
+}
+
+.textCol {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.text {
+    font-size: large;
+}
+
+.chat {
+    /* background-color: var(--color-secondary); */
+    border: solid gray 1px;
+    padding: 1rem;
+    border-radius: 15px;
+    scroll-behavior: smooth;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    width: 100%;
+    gap: 1rem;
+}
+
+.chat::-webkit-scrollbar {
+    width: 0;
+}
+
+
+.msg {
+    border-radius: 15px;
+    overflow-wrap: break-word;
+    width: 60%;
+    padding: 1rem;
+}
+
+.myMsg {
+    align-self: flex-end;
+    background-color: var( --color-secondary-accent);
+}
+.hisMsg {
+    align-self: start;
+    background-color: var(--color-bg);
+
+}
+
+/* 
+.middleLine {
+    .oneThing:hover {
+        transform: scale(1.1);
+        transition-duration: var(--transition-duration);
+    }    
+    .oneThing:not(:hover) {
+        transform: scale(1);
+        transition-duration: var(--transition-duration);
+    }    
+
+}    
+ */

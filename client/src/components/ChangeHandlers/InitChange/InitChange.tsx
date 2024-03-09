@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { SimplifiedThingType } from '../../types'
-import { useAppSelector } from '../../redux/hooks'
-import Button from '../Shared/Button/Button'
-import SmallCard from '../Widgets/smallCard/SmallCard'
+import type { SimplifiedThingType } from '../../../types'
+import { useAppSelector } from '../../../redux/hooks'
+import Button from '../../Shared/Button/Button'
+import SmallCard from '../../Widgets/smallCard/SmallCard'
 import styles from './InitChange.module.css'
 
 type InitChangePropsType = {
