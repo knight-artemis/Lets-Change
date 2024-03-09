@@ -1,31 +1,27 @@
 
-.wrapper, .topLine,.middleLine ,.bottomLine {
+.wrapper, .left,.right, .input {
     display: flex;
     gap: 1rem;
 }
 
-.wrapper {
+.left,.right {
     flex-direction: column;
+    align-items: center;
 }
-
-.photo {
-    img {
-        border: solid 3px var(--color-main);
-        border-radius: 5px;
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-    }
-}
-
 .textCol {
     display: flex;
     gap: 1rem;
     flex-direction: column;
 }
 
-.name {
+.text {
     font-size: large;
+}
+
+.chat {
+    background-color: var(--color-bg);
+    padding: 1rem;
+    border-radius: 15px;
 }
 
 

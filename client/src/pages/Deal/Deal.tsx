@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import clsx from 'clsx'
 import style from './Deal.module.css'
 import type { OneDealDetailed } from '../../types'
 import Button from '../../components/Shared/Button/Button'
+import Input from '../../components/Shared/Input/Input'
+import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
 
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
@@ -20,7 +23,7 @@ export default function Deal(): JSX.Element {
   }, [id])
 
   const weChangedHandler = (): void => {
-    // 
+    //
   }
   const sendMsgHandler = (): void => {
     //
@@ -32,48 +35,29 @@ export default function Deal(): JSX.Element {
 
   return (
     <div className={style.wrapper}>
-      <div className={style.textCol}>Моя вещь:</div>
-      <div className={style.topLine}>
-        <div className={style.oneThing}>
-          <div className={style.photo}>
-            <img
-              src={`${import.meta.env.VITE_THINGS}/${deal?.Thing.photoUrl}`}
-              alt='фотка-шмотка'
-            />
-          </div>
 
-          <div className={style.textCol}>
-            <div className={style.name}>{deal?.Thing.thingName}</div>
-          </div>
+      <div className={style.left}>
+        <div className={style.thing}>
+          <div className={style.text}>Твою вещь</div>
+          <CardSimple hoverable thing={deal?.Thing} />
+          <div className={style.text}>меняют на</div>
+          <CardSimple hoverable thing={deal?.initiatorThings[0]} />
+        </div>
+        <Button color='good'>Сделка завершена</Button>
+      </div>
+
+      <div className={style.right}>
+        <div className={style.chat}>
+          <div className={clsx(style.msg, style.myMsg)}>привет, давай меняться!</div>
+          <div className={clsx(style.msg,style.hisMsg)}>привет, конечно давай!</div>
+        </div>
+
+        <div className={style.input}>
+          <Input name='chatMsg' onChange={changeHandler} value={msgInput} />
+          <Button>отправить</Button>
         </div>
       </div>
-      <div className={style.textCol}>
-        Предлагаемые вещи (нажми, что бы выбрать):
-      </div>
-      <div className={style.middleLine}>
-        {deal?.initiatorThings.map((hisOneThing) => (
-          <div key={hisOneThing.id} className={style.oneThing}>
-            <div className={style.photo}>
-              <img
-                src={`${import.meta.env.VITE_THINGS}/${hisOneThing.photoUrl}`}
-                alt='фотка-шмотка'
-              />
-            </div>
 
-            <div className={style.textCol}>
-              <div className={style.name}> {hisOneThing.thingName}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className={style.bottomLine}>
-        <Button color='good' onClick={agreedHandler}>
-          Давай меняться
-        </Button>
-        <Button color='danger' onClick={cancelHandler}>
-          Не хочу меняться
-        </Button>
-      </div>
     </div>
   )
 }
