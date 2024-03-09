@@ -1,9 +1,9 @@
 import type { ChangeEvent } from 'react'
 import React, { useState } from 'react'
-import type { UserType } from '../../types'
+import type { UserType } from '../../../types'
 import style from './InitialsChangeForm.module.css'
-import { useAppDispatch } from '../../redux/hooks'
-import { fetchUpd } from '../../redux/user/userThunkActions'
+import { useAppDispatch } from '../../../redux/hooks'
+import { fetchUpd } from '../../../redux/user/userThunkActions'
 
 export default function InitialsChangeForm({
   user,

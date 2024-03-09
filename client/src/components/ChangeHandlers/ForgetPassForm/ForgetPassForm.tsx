@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
-import type { SetProps } from '../../types'
+import type { SetProps } from '../../../types'
 
 export default function ForgetPassForm({ setActive }: SetProps): JSX.Element {
   type EmailType = {

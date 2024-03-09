@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './AvatarChangeForm.module.css'
-import type { SetProps } from '../../types'
+import type { SetProps } from '../../../types'
 
 export default function AvatarChangeForm({ setActive }: SetProps): JSX.Element {
 
