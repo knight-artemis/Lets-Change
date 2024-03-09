@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import type { OneDealFromMe, OneDealToMe } from '../../../types'
 import { useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
-import Button from '../../Controls/Button/Button'
+import Button from '../../Shared/Button/Button'
 
 export default function DealPannel({
   deal,
@@ -22,7 +22,6 @@ export default function DealPannel({
   })
 
   useEffect(() => {
-
     switch (deal.status) {
       case 0:
         setState(
@@ -92,11 +91,24 @@ export default function DealPannel({
     }
   }, [deal.acceptedByInitiator, deal.initiatorId, deal.status, user.id])
 
-
-
-  const btnHandler = () => {}
-
-
+  const btnHandler = (id: number): void => {
+    switch (state.btnText) {
+      case 'обсудить':
+        navigate(`/deal/${id}`)
+        break
+      case 'подробнее':
+        navigate(`/dealToConsider/${id}`)
+        break
+      case 'подтвердить':
+        // тут в ручку стук и удалить (или модалка с подтверждением)
+        break
+      case 'отменить':
+         // тут в ручку стук и удалить (или модалка с подтверждением)
+        break
+      default:
+        break
+    }
+  }
 
   return (
     // <Button
@@ -104,7 +116,12 @@ export default function DealPannel({
     //   link
     //   onClick={() => void navigate(`/thing/${deal.thingId}`)}
     // >
-    <div className={clsx(style.listItem, (deal.status === 3 ||  deal.status === 4) && style.disabled)}>
+    <div
+      className={clsx(
+        style.listItem,
+        (deal.status === 3 || deal.status === 4) && style.disabled,
+      )}
+    >
       <div className={style.photo}>
         <img
           src={`${import.meta.env.VITE_THINGS}/${deal.Thing.photoUrl}`}
@@ -144,7 +161,7 @@ export default function DealPannel({
         {state.isBtn && (
           <Button
             color={state.color}
-            onClick={() => void navigate(`/deal/${deal.thingId}`)}
+            onClick={() => void btnHandler(deal.thingId)}
           >
             {/* <Button
                       color='good'

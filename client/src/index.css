@@ -7,6 +7,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%; */
+
+
+  --transition-duration: 0.5s;
+
   
   --color-main-black:#000;
   --color-main-white: #fff;
@@ -17,6 +21,8 @@
   --color-main-accent: #a6e93c;
   --color-secondary: #c7e9e9;
   --color-secondary-accent: #b9f398;
+  --color-bg-gray: #aaa;
+
   
   --font-main: #000;
   --font-accent: #ffffff;

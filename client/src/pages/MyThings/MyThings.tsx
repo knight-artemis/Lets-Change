@@ -5,8 +5,8 @@ import type { SimplifiedThingType } from '../../types'
 import { useAppSelector } from '../../redux/hooks'
 import Card from '../../components/Widgets/Card/Card'
 import style from './MyThings.module.css'
-import Button from '../../components/Controls/Button/Button'
-import SvgLink from '../../components/Controls/SvgLink/SvgLink'
+import Button from '../../components/Shared/Button/Button'
+import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 
 const ThingInitVal = {
   id: 0,

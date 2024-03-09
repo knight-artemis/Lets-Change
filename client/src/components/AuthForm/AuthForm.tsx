@@ -4,7 +4,7 @@ import styles from './AuthForm.module.css'
 import { useAppDispatch } from '../../redux/hooks'
 import type { UserDataType } from '../../types'
 import { fetchAuth } from '../../redux/user/userThunkActions'
-import Button from '../Controls/Button/Button'
+import Button from '../Shared/Button/Button'
 import Modal from '../Modal/Modal'
 import ForgetPassForm from '../ForgetPassForm/ForgetPassForm'
 
