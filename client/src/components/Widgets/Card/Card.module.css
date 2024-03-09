@@ -25,7 +25,7 @@
     }
 }
 
-.chip {   
+/* .chip {   
     position: absolute;
     left: .5rem;
     font-size: smaller;
@@ -33,13 +33,13 @@
     color: var(--font-accent);
     padding: .5rem;
     border-radius: 1rem;
-}
+} */
 
 .notActive {
     filter: invert(30%) grayscale(60%) brightness(0.6);
 }
 
-.hide {
+/* .hide {
     display: none;
 }
 .inDealChip {
@@ -53,7 +53,7 @@
     top: 3rem;
     background-color: #da440993;
     color: var(--font-accent);
-}
+} */
 
 
 .photo {
@@ -63,7 +63,7 @@
         object-fit: cover;
     }
 }
-
+/* 
 .timeLeft {
     position: absolute;
     top: .5rem;
@@ -74,7 +74,7 @@
     color: var(--font-accent);
     padding: .5rem;
     border-radius: 1rem;
-}
+} */
 
 .name {
     font-size: large;
@@ -82,7 +82,7 @@
     bottom: 0;
     width: 100%;
     line-height: 3rem;
-    background-color: #00000093;
+    background-color: var(--color-chip-gray);
     color: var(--font-accent);
     text-wrap: balance;
     word-break: break-word;
