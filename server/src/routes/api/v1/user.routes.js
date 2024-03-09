@@ -1,11 +1,49 @@
 const router = require('express').Router()
-
 const bcrypt = require('bcrypt');
+const generator = require('generate-password');
 const { User } = require('../../../../db/models')
 const upload = require('../../../../multer')
+const mailer = require('../../../../nodeMailer')
 
 router.post('/avatarUpd', upload.single('avatar'), async (req, res) => {
 
+})
+
+router.post('/resetpass', async (req, res) => {
+  try {
+    const { email } = req.body
+    const reqUser = await User.findOne({ where: { email } })
+    if (reqUser) {
+      const newPassword = generator.generate({
+        length: 8,
+        numbers: true,
+      })
+      const hash = await bcrypt.hash(newPassword, 10);
+      await reqUser.update({ password: hash })
+      const message = {
+        to: email,
+        subject: 'Временный пароль от профиля "Давай меняться"',
+        text: `
+        
+        Добрый день!
+  
+        Ваш временный пароль от профиля на портале "Давай меняться": ${newPassword}
+        
+        После восстановления доступа просим Вас как можно скорее сменить временный пароль на постоянный.
+        
+        С уважением,
+        администрация проекта "Давай меняться".
+  
+        `,
+      }
+      mailer(message)
+      res.status(200).json({ msg: 'Сброс пароля был успешно запрошен' });
+    } else {
+      res.status(500).json({ err: 'Пользователя с таким почтовым адресом не существует' });
+    }
+  } catch (error) {
+    res.status(500).json({ err: error });
+  }
 })
 
 router.put('/userUpd', async (req, res) => {
