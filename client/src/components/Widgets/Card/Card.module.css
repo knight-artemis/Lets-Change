@@ -28,8 +28,8 @@
 }
 
 .photoBg {
-    min-width: 250px;
-    min-height: 250px;
+    min-width: 200px;
+    min-height: 200px;
     /* z-index: 100; */
     /* background-size: cover;  */
     filter: blur(5px);

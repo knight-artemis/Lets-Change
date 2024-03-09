@@ -97,7 +97,7 @@ export default function DealPannel({
         navigate(`/deal/${id}`)
         break
       case 'подробнее':
-        navigate(`/dealToConsider/${id}`)
+        navigate(`/deal-to-consider/${id}`)
         break
       case 'подтвердить':
         // тут в ручку стук и удалить (или модалка с подтверждением)

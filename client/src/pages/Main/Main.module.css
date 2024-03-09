@@ -9,6 +9,14 @@
 .topContent {
     margin: 1rem auto;
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    align-items: center;
+}
+
+.topLine {
+    display: flex;
     gap: 1rem;
 }
 
