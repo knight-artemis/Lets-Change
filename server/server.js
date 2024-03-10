@@ -21,7 +21,7 @@ const dealsRouter = require('./src/routes/api/v1/deals.routes')
 const testRouter = require('./src/routes/api/v1/test.routes')
 const userRouter = require('./src/routes/api/v1/user.routes')
 
-const { PORT, CLIENT_PORT, SESSION_SECRET } = process.env
+const { PORT, CLIENT_PORT, SESSION_SECRET, SOCKET_PORT } = process.env
 
 const corsOptions = {
   origin: [`http://localhost:${CLIENT_PORT}`],
@@ -66,9 +66,9 @@ socketIo.on('connection', (socket) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`Сервер запущен на ${PORT} порту`);
-});
+  console.log(`Сервер запущен на ${PORT} порту`)
+})
 
-http.listen(3456, () => {
-  console.log(`Чат сервер запущен на ${3456} порту`)
+http.listen(SOCKET_PORT, () => {
+  console.log(`Чат сервер запущен на ${SOCKET_PORT} порту`)
 })
