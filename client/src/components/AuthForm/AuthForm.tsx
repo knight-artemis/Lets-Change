@@ -80,7 +80,7 @@ export default function Auth(): JSX.Element {
       //   )
       // ) {
       //   notifyWarning(
-      //     'Пароль должен быть не менее 8 символов длинной, содержать в себе как минимум 1 цифру и 1 символ.',
+      //     'Пароль должен быть не менее 8 символов длинной, содержать в себе минимум одну цифру и какой-либо из следующих символов: !@#$%^&*()-_+=;:,./?|`~[]{}.',
       //   )
       // } else if (!inputs.password && isLogin) {
       //   notifyWarning('Пожалуйста, введите пароль.')
@@ -95,12 +95,12 @@ export default function Auth(): JSX.Element {
         fetchAuth({ type: !isLogin ? 'reg' : 'log', data: inputs }),
       )
       navigate('/')
-      if (isLogin) {
-        notifySuccess('C возвращением на портал "Давай меняться."')
-      } else if (!isLogin) {
-        notifySuccess('Благодарим за регистрацию на портале "Давай меняться".')
+      // if (isLogin) {
+      //   notifySuccess('C возвращением на портал "Давай меняться."')
+      // } else if (!isLogin) {
+      //   notifySuccess('Благодарим за регистрацию на портале "Давай меняться".')
         // }
-      }
+      // }
     } catch (error) {
       console.log(error)
     }
