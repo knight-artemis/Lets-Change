@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const bcrypt = require('bcrypt');
-const generator = require('generate-password');
+const bcrypt = require('bcrypt')
+const generator = require('generate-password')
 
 const { User, Deal, Thing } = require('../../../../db/models')
 const upload = require('../../../../multerForAvatars')
@@ -12,9 +12,9 @@ router.post('/avatarUpd', upload.single('avatar'), async (req, res) => {
     const reqUser = await User.findByPk(req.session.user.id)
     await reqUser.update({ avatarUrl: req.file.filename })
     const finUser = reqUser.get({ plain: true })
-    res.status(200).json(finUser);
+    res.status(200).json(finUser)
   } catch (error) {
-    res.status(500).json({ err: 'Что-то пошло не так в ручке' });
+    res.status(500).json({ err: 'Что-то пошло не так в ручке' })
   }
 })
 
@@ -23,9 +23,9 @@ router.get('/deleteAvatar', async (req, res) => {
     const reqUser = await User.findByPk(req.session.user.id)
     await reqUser.update({ avatarUrl: '' })
     const finUser = reqUser.get({ plain: true })
-    res.status(200).json(finUser);
+    res.status(200).json(finUser)
   } catch (error) {
-    res.status(500).json({ err: 'Что-то пошло не так в ручке' });
+    res.status(500).json({ err: 'Что-то пошло не так в ручке' })
   }
 })
 
@@ -38,7 +38,7 @@ router.post('/resetpass', async (req, res) => {
         length: 8,
         numbers: true,
       })
-      const hash = await bcrypt.hash(newPassword, 10);
+      const hash = await bcrypt.hash(newPassword, 10)
       await reqUser.update({ password: hash })
       const message = {
         to: email,
@@ -57,12 +57,12 @@ router.post('/resetpass', async (req, res) => {
         `,
       }
       mailer(message)
-      res.status(200).json({ msg: 'Сброс пароля был успешно запрошен' });
+      res.status(200).json({ msg: 'Сброс пароля был успешно запрошен' })
     } else {
-      res.status(500).json({ err: 'Пользователя с таким почтовым адресом не существует' });
+      res.status(500).json({ err: 'Пользователя с таким почтовым адресом не существует' })
     }
   } catch (error) {
-    res.status(500).json({ err: error });
+    res.status(500).json({ err: error })
   }
 })
 
@@ -73,16 +73,16 @@ router.put('/userUpd', async (req, res) => {
     if (user.email === req.body.email) {
       await reqUser.update(req.body)
       delete reqUser.password
-      res.status(200).json(reqUser);
+      res.status(200).json(reqUser)
     } else if (User.findOne({ where: { email: user.email } })) {
-      res.status(500).json({ err: 'Что-то пошло не так в ручке' });
+      res.status(500).json({ err: 'Что-то пошло не так в ручке' })
     } else {
       await reqUser.update(req.body)
       delete reqUser.password
-      res.status(200).json(reqUser);
+      res.status(200).json(reqUser)
     }
   } catch (error) {
-    res.status(500).json({ err: 'Что-то пошло не так в ручке' });
+    res.status(500).json({ err: 'Что-то пошло не так в ручке' })
   }
 })
 
@@ -99,11 +99,11 @@ router.put('/passUpd', async (req, res) => {
     if (newPassword === repitePassword) {
       const reqUser = await User.findByPk(user.id)
       if (await bcrypt.compare(oldPassword, reqUser.password)) {
-        const newPassHash = await bcrypt.hash(newPassword, 10);
+        const newPassHash = await bcrypt.hash(newPassword, 10)
         await reqUser.update({ password: newPassHash })
         const finUser = reqUser.get({ plain: true })
         delete finUser.password
-        res.status(200).json(finUser);
+        res.status(200).json(finUser)
       } else {
         res.status(500).json({ err: 'Старый пароль неверен' })
       }
@@ -116,17 +116,17 @@ router.put('/passUpd', async (req, res) => {
 })
 
 router.get('/notifications', async (req, res) => {
-  const userId = req.session.user.id
-  console.log('USERID+++++++>', req.session.user.id)
+  // console.log('USERID+++++++>', req.session.user?.id)
   try {
+    const { id } = req.session.user
     const initiator = await Deal.findAll({
-      where: { initiatorId: userId, initiatorNote: true },
+      where: { initiatorId: id, initiatorNote: true },
     })
     const reciever = await Deal.findAll({
       where: { recieverNote: true },
       include: {
         model: Thing,
-        where: { userId },
+        where: { userId: id },
       },
     })
     res.json({ initiator: initiator.length, reciever: reciever.length })
