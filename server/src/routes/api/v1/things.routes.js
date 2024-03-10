@@ -1,6 +1,8 @@
 const router = require('express').Router()
-const upload = require('../../../../multer')
-const { User, Thing, Category, Photo } = require('../../../../db/models')
+const upload = require('../../../../multerForThings')
+const {
+  User, Thing, Category, Photo,
+} = require('../../../../db/models')
 const { stripThings } = require('../../../services/things')
 
 router.get('/categories', async (req, res) => {
@@ -197,7 +199,7 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
     const newThing = (await Thing.create({ userId: user.id, ...req.body })).get(
       { plain: true },
     )
-    const promises = req.files.map(async (item) => {
+    const promises = req.files.map(async (item, index) => {
       const newPhoto = await Photo.create({
         thingId: newThing.id,
         photoUrl: item.filename,

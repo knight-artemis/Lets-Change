@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const upload = require('../../../../multer')
+const upload = require('../../../../multerForThings')
 
 const { Photo } = require('../../../../db/models')
 

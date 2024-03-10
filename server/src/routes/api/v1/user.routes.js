@@ -1,8 +1,10 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt');
 const generator = require('generate-password');
+
 const { User, Deal, Thing } = require('../../../../db/models')
-const upload = require('../../../../multer')
+const upload = require('../../../../multerForAvatars')
+
 const mailer = require('../../../../nodeMailer')
 
 router.post('/avatarUpd', upload.single('avatar'), async (req, res) => {

@@ -91,7 +91,7 @@ export default function Profile(): JSX.Element {
               </button>
               <img
                 className={styles.avatar}
-                src={`${import.meta.env.VITE_THINGS}/${user.avatarUrl}`}
+                src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
                 alt=''
               />
             </div>

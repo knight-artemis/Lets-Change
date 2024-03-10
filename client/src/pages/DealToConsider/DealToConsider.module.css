@@ -1,11 +1,20 @@
-
-.wrapper, .topLine,.middleLine ,.bottomLine {
+.wrapper,
+.topLine,
+.middleLine,
+.bottomLine {
     display: flex;
     gap: 1rem;
 }
 
 .wrapper {
     flex-direction: column;
+}
+
+.oneThing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .5rem;
 }
 
 .photo {
@@ -41,6 +50,13 @@
 
 }
 
-.bottomLine {
+.bottomLine {}
 
+.oneThing>.checkbox:not(:checked)+.radioLabel {
+    filter: grayscale(100%) brightness(.5);
 }
+
+/* .borderWrapper {
+    border-radius: 15px;
+    border: solid 3px var(--color-main);
+} */

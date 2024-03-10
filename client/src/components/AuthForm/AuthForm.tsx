@@ -15,6 +15,7 @@ export default function Auth(): JSX.Element {
   const initialState = { email: '', password: '', firstName: '' }
   const [inputs, setInputs] = useState<UserDataType>(initialState)
   const [isLogin, setIsLogin] = useState(true)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const [modalActive, setModalActive] = useState<boolean>(true)
   const dispatch = useAppDispatch()
   // const user = useAppSelector((store) => store.userSlice.user)
@@ -80,7 +81,7 @@ export default function Auth(): JSX.Element {
       //   )
       // ) {
       //   notifyWarning(
-      //     'Пароль должен быть не менее 8 символов длинной, содержать в себе как минимум 1 цифру и 1 символ.',
+      //     'Пароль должен быть не менее 8 символов длинной, содержать в себе минимум одну цифру и какой-либо из следующих символов: !@#$%^&*()-_+=;:,./?|`~[]{}.',
       //   )
       // } else if (!inputs.password && isLogin) {
       //   notifyWarning('Пожалуйста, введите пароль.')
@@ -95,12 +96,12 @@ export default function Auth(): JSX.Element {
         fetchAuth({ type: !isLogin ? 'reg' : 'log', data: inputs }),
       )
       navigate('/')
-      if (isLogin) {
-        notifySuccess('C возвращением на портал "Давай меняться."')
-      } else if (!isLogin) {
-        notifySuccess('Благодарим за регистрацию на портале "Давай меняться".')
+      // if (isLogin) {
+      //   notifySuccess('C возвращением на портал "Давай меняться."')
+      // } else if (!isLogin) {
+      //   notifySuccess('Благодарим за регистрацию на портале "Давай меняться".')
         // }
-      }
+      // }
     } catch (error) {
       console.log(error)
     }
@@ -130,13 +131,16 @@ export default function Auth(): JSX.Element {
       <input
         onChange={changeHandler}
         name='password'
-        type='password'
+        type={showPassword ? 'text' : 'password'}
         required
         value={inputs.password}
         placeholder='password'
       />
       <Button onClick={() => void addUserHandler()}>
         {isLogin ? 'Авторизоваться' : 'Зарегистрироваться'}
+      </Button>
+      <Button onClick={() => void setShowPassword((prev) => !prev)}>
+        Показать пароль
       </Button>
       {isLogin && (
         <Button onClick={() => setModalActive((prev) => !prev)}>

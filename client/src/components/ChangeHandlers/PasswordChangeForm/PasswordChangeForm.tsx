@@ -12,7 +12,10 @@ export default function PasswordChangeForm({
 }: {
   user: UserType
   setActive: React.Dispatch<React.SetStateAction<boolean>>
-}): JSX.Element {
+  }): JSX.Element {
+  
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  
   type PasswordChangeType = {
     oldPassword: string
     newPassword: string
@@ -46,37 +49,37 @@ export default function PasswordChangeForm({
       },
     )
 
-    console.log(checkPass.data, 'Я чекпасс')
+    //! Для активации валидации раскомментировать весь код ниже.
 
     try {
-      if (!input.oldPassword || !input.oldPassword || !input.oldPassword) {
-        notifyWarning('Пожалуйста, заполните все поля.')
-      } else if (!checkPass.data) {
-        notifyWarning('Введенный старый пароль неверен.')
-      } else if (
-        !/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=;:,./?|`~[]{}]).*$/.test(
-          input.newPassword,
+      // if (!input.oldPassword || !input.oldPassword || !input.oldPassword) {
+      //   notifyWarning('Пожалуйста, заполните все поля.')
+      // } else if (!checkPass.data) {
+      //   notifyWarning('Введенный старый пароль неверен.')
+      // } else if (
+      //   !/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=;:,./?|`~[]{}]).*$/.test(
+      //     input.newPassword,
+      //   )
+      // ) {
+      //   notifyWarning(
+      //     'Новый пароль должен быть не менее 8 символов длинной, содержать в себе минимум одну цифру и какой-либо из следующих символов: !@#$%^&*()-_+=;:,./?|`~[]{}.',
+      //   )
+      // } else if (input.newPassword !== input.repitePassword) {
+      //   notifyWarning('Введенные пароли не совпадают.')
+      // } else if (input.newPassword === input.repitePassword) {
+      axios
+        .put<PasswordChangeType, AxiosResponse<UserType>>(
+          `${import.meta.env.VITE_API}/v1/user/passUpd`,
+          input,
+          { withCredentials: true },
         )
-      ) {
-        notifyWarning(
-          'Новый пароль должен быть не менее 8 символов длинной, содержать в себе как минимум 1 цифру и 1 символ.',
-        )
-      } else if (input.newPassword !== input.repitePassword) {
-        notifyWarning('Введенные пароли не совпадают.')
-      } else if (input.newPassword === input.repitePassword) {
-        axios
-          .put<PasswordChangeType, AxiosResponse<UserType>>(
-            `${import.meta.env.VITE_API}/v1/user/passUpd`,
-            input,
-            { withCredentials: true },
-          )
-          .then((res) => console.log(res))
-          .then(() => setActive((prev) => !prev))
-          .then(() => notifySuccess('Пароль был успешно изменен.'))
-          .catch((err) => console.log(err))
-      } else {
-        console.log('Пароли не совпадают')
-      }
+        .then((res) => console.log(res))
+        .then(() => setActive((prev) => !prev))
+        .then(() => notifySuccess('Пароль был успешно изменен.'))
+        .catch((err) => console.log(err))
+      // } else {
+      //   console.log('Пароли не совпадают')
+      // }
     } catch (error) {
       console.log(error)
     }
@@ -88,7 +91,7 @@ export default function PasswordChangeForm({
       <span>
         Старый пароль
         <input
-          type='password'
+          type={showPassword ? 'text' : 'password'}
           name='oldPassword'
           onChange={changeHandler}
           value={input.oldPassword}
@@ -97,7 +100,7 @@ export default function PasswordChangeForm({
       <span>
         Новый пароль пароль
         <input
-          type='password'
+          type={showPassword ? 'text' : 'password'}
           name='newPassword'
           onChange={changeHandler}
           value={input.newPassword}
@@ -106,12 +109,15 @@ export default function PasswordChangeForm({
       <span>
         Повторите пароль
         <input
-          type='password'
+          type={showPassword ? 'text' : 'password'}
           name='repitePassword'
           onChange={changeHandler}
           value={input.repitePassword}
         />
       </span>
+      <button type='button' onClick={() => void setShowPassword((prev) => !prev)}>
+        Показать пароли
+      </button>
       <button type='button' onClick={() => void changePass()}>
         Изменить пароль
       </button>
