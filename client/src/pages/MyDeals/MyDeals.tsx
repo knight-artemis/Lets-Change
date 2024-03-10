@@ -7,12 +7,25 @@ import style from './MyDeals.module.css'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 import Button from '../../components/Shared/Button/Button'
 import { useAppSelector } from '../../redux/hooks'
-import type { MyDealsType, OneDealToMe, OneDealFromMe } from '../../types'
+import type {
+  MyDealsType,
+  OneDealToMe,
+  OneDealFromMe,
+  NotType,
+} from '../../types'
 import DealPannel from '../../components/Widgets/DealPannel/DealPannel'
+import Chip from '../../components/Shared/Chip/Chip'
 
-export default function MyDeals(): JSX.Element {
+export default function MyDeals({
+  toMe = true,
+}: {
+  toMe?: boolean
+}): JSX.Element {
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
+  const notifications = useAppSelector<NotType>(
+    (store) => store.userSlice.notifications,
+  )
 
   const [allDeals, setAllDeals] = useState<MyDealsType>()
   const [selectedDeals, setSelectedDeals] = useState<
@@ -28,24 +41,30 @@ export default function MyDeals(): JSX.Element {
       )
       .then((res) => {
         setAllDeals(res.data)
-        setSelectedDeals(res.data.fromMeDeals)
+        setSelectedDeals(toMe ? res.data.toMeDeals : res.data.fromMeDeals)
+        setMainText(
+          toMe ? 'у меня хотят забрать эти вещи' : 'я хочу забрать эти вещи',
+        )
       })
       .catch((err) => console.log('Ошибка получения списка моих сделок', err))
-  }, [user.id])
+  }, [toMe, user.id])
 
-  const fromMeOffers = (): void => {
-    setSelectedDeals(allDeals?.fromMeDeals)
-    if (allDeals?.toMeDeals && allDeals?.toMeDeals.length > 0)
-    setMainText('я хочу забрать эти вещи')
-  else setMainText('я пока не предложил ни одной сделки')
-}
-const toMeOffers = (): void => {
-  setSelectedDeals(allDeals?.toMeDeals)
-  if (allDeals?.fromMeDeals && allDeals?.fromMeDeals.length > 0)
-    setMainText('у меня хотят забрать эти вещи')
-  else setMainText('мне пока не предложили  ни одной сделки')
+  const fromMeDeals = (): void => {
+    navigate('/my-deals/from-me')
+    // setSelectedDeals(allDeals?.fromMeDeals)
+    // if (allDeals?.toMeDeals && allDeals?.toMeDeals.length > 0)
+    //   setMainText('я пока не предложил ни одной сделки')
+    // else setMainText('я хочу забрать эти вещи')
   }
-  const myArchiveOffers = (): void => {
+  const toMeDeals = (): void => {
+    navigate('/my-deals/to-me')
+    // setSelectedDeals(allDeals?.toMeDeals)
+    // if (allDeals?.fromMeDeals && allDeals?.fromMeDeals.length > 0)
+    //   setMainText('мне пока не предложили  ни одной сделки')
+    // else setMainText('у меня хотят забрать эти вещи')
+  }
+  const myArchiveDeals = (): void => {
+    navigate('/my-deals/archive')
     setSelectedDeals(allDeals?.toMeDeals)
   }
 
@@ -80,11 +99,22 @@ const toMeOffers = (): void => {
 
         <div className={style.mainContent}>
           <div className={style.sidebar}>
-            <Button link onClick={() => void fromMeOffers()}>
-              <SvgLink icon='assets/icons/shirt.svg' text='Я хочу' />
+            <Button link onClick={() => void fromMeDeals()}>
+              <SvgLink  icon='./../assets/icons/shirt.svg' text='Я хочу' />
+              {/* <Chip bottom={0.5} right={-0.5} small color='neutral'>
+                {(notifications?.initiator || 0) +
+                  (notifications?.reciever || 0)}
+              </Chip> */}
             </Button>
-            <Button link onClick={() => void toMeOffers()}>
-              <SvgLink icon='assets/icons/shirt.svg' text='У меня хотят' />
+            <Button link onClick={() => void toMeDeals()}>
+             
+              <SvgLink  icon='./../assets/icons/shirt.svg'  text=' У меня хотят' />
+              
+              {/* <Chip bottom={12} right={12} small color='neutral'>
+                {(notifications?.initiator || 0) +
+                  (notifications?.reciever || 0)}
+              </Chip> */}
+                  
             </Button>
           </div>
 

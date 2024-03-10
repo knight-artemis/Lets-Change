@@ -2,10 +2,23 @@
 .chip {   
     position: absolute;
     font-size: smaller;
-    z-index: 1;
+    z-index: 999;
     color: var(--font-accent);
     padding: .5rem;
     border-radius: 1rem;
+}
+
+.small {
+    width: 1.2rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    padding: 0;
+    text-align: center;
+    font-size: .9rem;
+    border-radius: 50%;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
 }
 
 .hide {
