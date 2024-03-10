@@ -88,7 +88,7 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
 
   useEffect(() => {
     socket?.on(`user-enter-${deal?.id}`, (userId): void => {
-      console.log('вошел в чат', userId, user.id)
+      // console.log('вошел в чат', userId, user.id)
       setUserOnline(Number(userId) !== user.id)
     })
     socket?.on(`user-exit-${deal?.id}`, (userId) => {

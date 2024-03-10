@@ -59,6 +59,6 @@ export const fetchGetNot = createAsyncThunk('user/notifications', async () => {
     `${import.meta.env.VITE_API}/v1/user/notifications`,
     { withCredentials: true },
   )
-  console.log('IN THUNK',response.data)
+  // console.log('IN THUNK',response.data)
   return response.data
 })
