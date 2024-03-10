@@ -104,8 +104,7 @@ export default function DealPannel({
 
   const acceptedHandler = async (id:number):  Promise<void>  => {
     await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
-      status: 1,
-      selectedThingId,
+      status: 3,
     },{
       withCredentials: true,
     })
