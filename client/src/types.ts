@@ -133,3 +133,11 @@ export type OneDealDetailed = {
     },
   ]
 }
+
+export type MsgType = {
+  id?: number
+  userId: number
+  userName: string
+  text: string
+  createdAt?: Date
+}

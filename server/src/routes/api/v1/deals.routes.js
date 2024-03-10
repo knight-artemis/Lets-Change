@@ -263,6 +263,7 @@ router.get('/:dealId/messages', async (req, res) => {
       where: { dealId },
       include: { model: User, attributes: ['firstName', 'lastName'] },
       attributes: ['id', 'userId', 'text', 'createdAt'],
+      order: [['createdAt', 'DESC']],
     })
     const messages = rawMessages.map((el) => {
       const msg = el.get({ plain: true })
@@ -294,5 +295,6 @@ router.post('/:dealId/messages', async (req, res) => {
     res.status(500).send({ err: { server: 'Ошибка сервера при получении сообщений' } })
   }
 })
+
 
 module.exports = router
