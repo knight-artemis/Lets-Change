@@ -46,24 +46,24 @@ export default function PasswordChangeForm({
       },
     )
 
-    console.log(checkPass.data, 'Я чекпасс')
+//! Для активации валидации раскомментировать весь код ниже.
 
     try {
-      if (!input.oldPassword || !input.oldPassword || !input.oldPassword) {
-        notifyWarning('Пожалуйста, заполните все поля.')
-      } else if (!checkPass.data) {
-        notifyWarning('Введенный старый пароль неверен.')
-      } else if (
-        !/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=;:,./?|`~[]{}]).*$/.test(
-          input.newPassword,
-        )
-      ) {
-        notifyWarning(
-          'Новый пароль должен быть не менее 8 символов длинной, содержать в себе как минимум 1 цифру и 1 символ.',
-        )
-      } else if (input.newPassword !== input.repitePassword) {
-        notifyWarning('Введенные пароли не совпадают.')
-      } else if (input.newPassword === input.repitePassword) {
+      // if (!input.oldPassword || !input.oldPassword || !input.oldPassword) {
+      //   notifyWarning('Пожалуйста, заполните все поля.')
+      // } else if (!checkPass.data) {
+      //   notifyWarning('Введенный старый пароль неверен.')
+      // } else if (
+      //   !/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=;:,./?|`~[]{}]).*$/.test(
+      //     input.newPassword,
+      //   )
+      // ) {
+      //   notifyWarning(
+      //     'Новый пароль должен быть не менее 8 символов длинной, содержать в себе минимум одну цифру и какой-либо из следующих символов: !@#$%^&*()-_+=;:,./?|`~[]{}.',
+      //   )
+      // } else if (input.newPassword !== input.repitePassword) {
+      //   notifyWarning('Введенные пароли не совпадают.')
+      // } else if (input.newPassword === input.repitePassword) {
         axios
           .put<PasswordChangeType, AxiosResponse<UserType>>(
             `${import.meta.env.VITE_API}/v1/user/passUpd`,
@@ -74,9 +74,9 @@ export default function PasswordChangeForm({
           .then(() => setActive((prev) => !prev))
           .then(() => notifySuccess('Пароль был успешно изменен.'))
           .catch((err) => console.log(err))
-      } else {
-        console.log('Пароли не совпадают')
-      }
+      // } else {
+      //   console.log('Пароли не совпадают')
+      // }
     } catch (error) {
       console.log(error)
     }
