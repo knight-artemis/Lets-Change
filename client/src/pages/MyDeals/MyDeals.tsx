@@ -33,19 +33,19 @@ export default function MyDeals(): JSX.Element {
       .catch((err) => console.log('Ошибка получения списка моих сделок', err))
   }, [user.id])
 
-  const fromMeOffers = (): void => {
+  const fromMeDeals = (): void => {
     setSelectedDeals(allDeals?.fromMeDeals)
     if (allDeals?.toMeDeals && allDeals?.toMeDeals.length > 0)
-    setMainText('я хочу забрать эти вещи')
-  else setMainText('я пока не предложил ни одной сделки')
-}
-const toMeOffers = (): void => {
-  setSelectedDeals(allDeals?.toMeDeals)
-  if (allDeals?.fromMeDeals && allDeals?.fromMeDeals.length > 0)
-    setMainText('у меня хотят забрать эти вещи')
-  else setMainText('мне пока не предложили  ни одной сделки')
+      setMainText('я пока не предложил ни одной сделки')
+    else setMainText('я хочу забрать эти вещи')
   }
-  const myArchiveOffers = (): void => {
+  const toMeDeals = (): void => {
+    setSelectedDeals(allDeals?.toMeDeals)
+    if (allDeals?.fromMeDeals && allDeals?.fromMeDeals.length > 0)
+      setMainText('мне пока не предложили  ни одной сделки')
+    else setMainText('у меня хотят забрать эти вещи')
+  }
+  const myArchiveDeals = (): void => {
     setSelectedDeals(allDeals?.toMeDeals)
   }
 
@@ -80,10 +80,10 @@ const toMeOffers = (): void => {
 
         <div className={style.mainContent}>
           <div className={style.sidebar}>
-            <Button link onClick={() => void fromMeOffers()}>
+            <Button link onClick={() => void fromMeDeals()}>
               <SvgLink icon='assets/icons/shirt.svg' text='Я хочу' />
             </Button>
-            <Button link onClick={() => void toMeOffers()}>
+            <Button link onClick={() => void toMeDeals()}>
               <SvgLink icon='assets/icons/shirt.svg' text='У меня хотят' />
             </Button>
           </div>

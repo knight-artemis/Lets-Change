@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import style from './DealToConsider.module.css'
 import type { OneDealDetailed } from '../../types'
@@ -9,8 +9,9 @@ import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
 
 export default function DealToConsider(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
-  const [selectedId, setSelectedId] = useState<number>(-1)
+  const [selectedThingId, setSelectedThingId] = useState<number>(-1)
   const { id } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     axios
@@ -21,17 +22,32 @@ export default function DealToConsider(): JSX.Element {
       .catch((err) => console.log('Ошибка получения подробной сделки', err))
   }, [id])
 
-  const agreedHandler = (): void => {
+  const acceptedHandler = async ():  Promise<void>  => {
+    await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
+      status: 1,
+      selectedThingId,
+    },{
+      withCredentials: true,
+    })
+    navigate('/my-deals')
+
     // тут запрос в бд и подтверждение сделки
     // затем навигейт на страницу сделки
   }
-  const cancelHandler = (): void => {
+  const rejectedHandler = async (): Promise<void> => {
+    // тут пишемручку на отказ. мб
+    await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
+      status: 4
+    },{
+      withCredentials: true,
+    })
+    navigate('/my-deals')
     // тут запрос в бд и отказ от сделки
     // затем навигейт на страницу всех своих сделок
   }
 
   const selectorHandler = (thingId: number): void => {
-    setSelectedId(thingId)
+    setSelectedThingId(thingId)
   }
 
   // const findSelectedIndex = (things: ) => {
@@ -58,7 +74,7 @@ export default function DealToConsider(): JSX.Element {
               type='radio'
               id={`thing-${hisOneThing.id}`}
               name='selectedThing'
-              checked={selectedId === hisOneThing.id}
+              checked={selectedThingId === hisOneThing.id}
             />
 
             <label
@@ -75,12 +91,14 @@ export default function DealToConsider(): JSX.Element {
           </div>
         ))}
       </div>
-      <div className={style.selectedText}>Выбрано: {deal?.initiatorThings[selectedId]?.thingName}</div>
+      <div className={style.selectedText}>
+        Выбрано: {deal?.initiatorThings[selectedThingId]?.thingName}
+      </div>
       <div className={style.bottomLine}>
-        <Button color='good' onClick={agreedHandler}>
+        <Button disabled={selectedThingId < 0} color='good' onClick={() => acceptedHandler()}>
           Давай меняться
         </Button>
-        <Button color='danger' onClick={cancelHandler}>
+        <Button color='danger' onClick={rejectedHandler}>
           Не хочу меняться
         </Button>
       </div>

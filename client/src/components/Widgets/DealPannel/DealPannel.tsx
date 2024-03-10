@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
+import axios from 'axios'
 import type { OneDealFromMe, OneDealToMe } from '../../../types'
 import { useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
@@ -75,12 +76,21 @@ export default function DealPannel({
         })
         break
       case 4: //  а у отказавшегося вообще убрать показ этой сделки
-        setState({
-          status: 'от сделки отказались',
-          isBtn: false,
-          btnText: '',
-          color: '',
-        })
+        setState(
+          user.id === deal.initiatorId && !deal.acceptedByInitiator
+            ? {
+                status: 'от сделки отказались',
+                isBtn: true,
+                btnText: 'скрыть',
+                color: 'gray',
+              }
+            : {
+                status: 'вы отказались от сделки',
+                isBtn: true,
+                btnText: 'скрыть',
+                color: 'gray',
+              },
+        )
         break
       default:
         setState({
@@ -92,7 +102,29 @@ export default function DealPannel({
     }
   }, [deal.acceptedByInitiator, deal.initiatorId, deal.status, user.id])
 
-  const btnHandler = (id: number): void => {
+  const acceptedHandler = async (id:number):  Promise<void>  => {
+    await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
+      status: 1,
+      selectedThingId,
+    },{
+      withCredentials: true,
+    })
+    // тут запрос в бд и подтверждение сделки
+    // затем навигейт на страницу сделки
+  }
+
+  const rejectedHandler = async (id: number): Promise<void> => {
+    // тут пишемручку на отказ. мб
+    await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
+      status: 4
+    },{
+      withCredentials: true,
+    })
+    // тут запрос в бд и отказ от сделки
+    // затем навигейт на страницу всех своих сделок
+  }
+
+  const btnHandler = async (id: number): Promise<void> => {
     switch (state.btnText) {
       case 'обсудить':
         navigate(`/deal/${id}`)
@@ -102,9 +134,11 @@ export default function DealPannel({
         break
       case 'подтвердить':
         // тут в ручку стук и удалить (или модалка с подтверждением)
+       await acceptedHandler(id)
         break
       case 'отменить':
         // тут в ручку стук и удалить (или модалка с подтверждением)
+        await rejectedHandler(id)
         break
       default:
         break
@@ -164,10 +198,7 @@ export default function DealPannel({
           Статус - {deal.status}: {state.status}
         </div>
         {state.isBtn && (
-          <Button
-            color={state.color}
-            onClick={() => void btnHandler(deal.id)}
-          >
+          <Button color={state.color} onClick={() => void btnHandler(deal.id)}>
             {/* <Button
                       color='good'
                       onClick={(event: MouseEvent<HTMLButtonElement>) => {
