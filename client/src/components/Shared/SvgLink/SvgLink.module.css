@@ -6,3 +6,7 @@
     display: flex;
     gap: 1rem;
 }
+
+.relative{
+    position: relative;
+}

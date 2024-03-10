@@ -27,7 +27,7 @@ export default function Navbar(): JSX.Element {
           <>
             <Link className={styles.link} to='/my-things'>Мои вещи</Link>
             <Link className={clsx(styles.link, styles.relative)} to='/my-deals/from-me'>Сделки
-            <Chip bottom={.5} right={-1} color='neutral'>{(notifications?.initiator || 0) + (notifications?.reciever || 0)}</Chip> 
+            <Chip bottom={.5} right={-.5} small color='neutral'>{(notifications?.initiator || 0) + (notifications?.reciever || 0)}</Chip> 
             </Link>
             {/* <p>({notifications.initiator + notifications.reciever})</p> */}
             <Link className={styles.link} to='/new-thing'>Добавить вещь</Link>

@@ -48,7 +48,6 @@ export default function Deal(): JSX.Element {
   }, [id])
 
   if (!deal) return <div /> //! тут потом будет спиннер
-
   return (
     <div className={style.wrapper}>
       <div className={style.left}>

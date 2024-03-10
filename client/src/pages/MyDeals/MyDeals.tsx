@@ -7,12 +7,25 @@ import style from './MyDeals.module.css'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 import Button from '../../components/Shared/Button/Button'
 import { useAppSelector } from '../../redux/hooks'
-import type { MyDealsType, OneDealToMe, OneDealFromMe } from '../../types'
+import type {
+  MyDealsType,
+  OneDealToMe,
+  OneDealFromMe,
+  NotType,
+} from '../../types'
 import DealPannel from '../../components/Widgets/DealPannel/DealPannel'
+import Chip from '../../components/Shared/Chip/Chip'
 
-export default function MyDeals({ toMe = true } : { toMe?: boolean }): JSX.Element {
+export default function MyDeals({
+  toMe = true,
+}: {
+  toMe?: boolean
+}): JSX.Element {
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
+  const notifications = useAppSelector<NotType>(
+    (store) => store.userSlice.notifications,
+  )
 
   const [allDeals, setAllDeals] = useState<MyDealsType>()
   const [selectedDeals, setSelectedDeals] = useState<
@@ -29,7 +42,9 @@ export default function MyDeals({ toMe = true } : { toMe?: boolean }): JSX.Eleme
       .then((res) => {
         setAllDeals(res.data)
         setSelectedDeals(toMe ? res.data.toMeDeals : res.data.fromMeDeals)
-        setMainText(toMe ? 'у меня хотят забрать эти вещи' : 'я хочу забрать эти вещи')
+        setMainText(
+          toMe ? 'у меня хотят забрать эти вещи' : 'я хочу забрать эти вещи',
+        )
       })
       .catch((err) => console.log('Ошибка получения списка моих сделок', err))
   }, [toMe, user.id])
@@ -85,10 +100,21 @@ export default function MyDeals({ toMe = true } : { toMe?: boolean }): JSX.Eleme
         <div className={style.mainContent}>
           <div className={style.sidebar}>
             <Button link onClick={() => void fromMeDeals()}>
-              <SvgLink icon='./../assets/icons/shirt.svg' text='Я хочу' />
+              <SvgLink  icon='./../assets/icons/shirt.svg' text='Я хочу' />
+              {/* <Chip bottom={0.5} right={-0.5} small color='neutral'>
+                {(notifications?.initiator || 0) +
+                  (notifications?.reciever || 0)}
+              </Chip> */}
             </Button>
             <Button link onClick={() => void toMeDeals()}>
-              <SvgLink icon='./../assets/icons/shirt.svg' text='У меня хотят' />
+             
+              <SvgLink  icon='./../assets/icons/shirt.svg'  text=' У меня хотят' />
+              
+              {/* <Chip bottom={12} right={12} small color='neutral'>
+                {(notifications?.initiator || 0) +
+                  (notifications?.reciever || 0)}
+              </Chip> */}
+                  
             </Button>
           </div>
 
