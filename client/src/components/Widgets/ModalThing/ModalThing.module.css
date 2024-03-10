@@ -1,0 +1,17 @@
+.photo {
+  height: inherit;
+  width: inherit;
+}
+
+.thingModal {
+  height: inherit;
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carouselProvider {
+  height: 60%;
+  width: 60%;
+}

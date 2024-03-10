@@ -75,7 +75,9 @@ export default function DealToConsider(): JSX.Element {
           </div>
         ))}
       </div>
-      <div className={style.selectedText}>Выбрано: {deal?.initiatorThings[selectedId]?.thingName}</div>
+      <div className={style.selectedText}>
+        Выбрано: {deal?.initiatorThings[selectedId]?.thingName}
+      </div>
       <div className={style.bottomLine}>
         <Button color='good' onClick={agreedHandler}>
           Давай меняться
