@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
+import axios from 'axios'
 import type { UserType } from '../../../types'
 import style from './MailChahgeForm.module.css'
 import { useAppDispatch } from '../../../redux/hooks'
 import { fetchUpd } from '../../../redux/user/userThunkActions'
+import { notifySuccess, notifyWarning } from '../../../toasters'
 
 export default function MailChahgeForm({
   user,
@@ -32,15 +34,35 @@ export default function MailChahgeForm({
   }
 
   const changeEmail = async (): Promise<void> => {
+    const checkMail = await axios.post(
+      `${import.meta.env.VITE_API}/v1/auth/checkmail`,
+      { email: input.email },
+      {
+        withCredentials: true,
+      },
+    )
+
     const updUser = {
       ...user,
       email: input.email,
     }
-    console.log('🚀 ~ changeInitials ~ updUser:', updUser)
     try {
-      console.log('changeInitials сработал')
-      await dispatch(fetchUpd(updUser))
-      setActive((prev) => !prev)
+      if (!input.email) {
+        notifyWarning('Вы не можете удалить свою почту.')
+      } else if (
+        input.email &&
+        !/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i.test(
+          input.email,
+        )
+      ) {
+        notifyWarning('Неверный формат почты.')
+      } else if (checkMail && user.email !== input.email) {
+        notifyWarning('Данная почта уже используется.')
+      } else {
+        await dispatch(fetchUpd(updUser))
+        setActive((prev) => !prev)
+        notifySuccess('Почтовый адрес был успешно изменен.')
+      }
     } catch (error) {
       console.log(error)
     }

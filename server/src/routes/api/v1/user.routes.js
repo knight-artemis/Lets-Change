@@ -6,7 +6,25 @@ const upload = require('../../../../multer')
 const mailer = require('../../../../nodeMailer')
 
 router.post('/avatarUpd', upload.single('avatar'), async (req, res) => {
+  try {
+    const reqUser = await User.findByPk(req.session.user.id)
+    await reqUser.update({ avatarUrl: req.file.filename })
+    const finUser = reqUser.get({ plain: true })
+    res.status(200).json(finUser);
+  } catch (error) {
+    res.status(500).json({ err: 'Что-то пошло не так в ручке' });
+  }
+})
 
+router.get('/deleteAvatar', async (req, res) => {
+  try {
+    const reqUser = await User.findByPk(req.session.user.id)
+    await reqUser.update({ avatarUrl: '' })
+    const finUser = reqUser.get({ plain: true })
+    res.status(200).json(finUser);
+  } catch (error) {
+    res.status(500).json({ err: 'Что-то пошло не так в ручке' });
+  }
 })
 
 router.post('/resetpass', async (req, res) => {

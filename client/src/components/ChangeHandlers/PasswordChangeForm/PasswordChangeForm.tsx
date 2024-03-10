@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
 import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 import style from './PasswordChangeForm.module.css'
 import type { UserType } from '../../../types'
+import { notifySuccess, notifyWarning } from '../../../toasters'
 
 export default function PasswordChangeForm({
+  user,
   setActive,
-}: {setActive: React.Dispatch<React.SetStateAction<boolean>>}): JSX.Element {
+}: {
+  user: UserType
+  setActive: React.Dispatch<React.SetStateAction<boolean>>
+}): JSX.Element {
   type PasswordChangeType = {
     oldPassword: string
     newPassword: string
@@ -30,18 +35,50 @@ export default function PasswordChangeForm({
   }
 
   const changePass = async (): Promise<void> => {
-    if (input.newPassword === input.repitePassword) {
-      axios
-        .put<PasswordChangeType, AxiosResponse<UserType>>(
-          `${import.meta.env.VITE_API}/v1/user/passUpd`,
-          input,
-          { withCredentials: true },
+    const checkPass = await axios.post(
+      `${import.meta.env.VITE_API}/v1/auth/checkPass`,
+      {
+        email: user.email,
+        password: input.oldPassword,
+      },
+      {
+        withCredentials: true,
+      },
+    )
+
+    console.log(checkPass.data, 'Я чекпасс')
+
+    try {
+      if (!input.oldPassword || !input.oldPassword || !input.oldPassword) {
+        notifyWarning('Пожалуйста, заполните все поля.')
+      } else if (!checkPass.data) {
+        notifyWarning('Введенный старый пароль неверен.')
+      } else if (
+        !/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=;:,./?|`~[]{}]).*$/.test(
+          input.newPassword,
         )
-        .then((res) => console.log(res))
-        .then(() => setActive((prev) => !prev))
-        .catch((err) => console.log(err))
-    } else {
-      console.log('Пароли не совпадают')
+      ) {
+        notifyWarning(
+          'Новый пароль должен быть не менее 8 символов длинной, содержать в себе как минимум 1 цифру и 1 символ.',
+        )
+      } else if (input.newPassword !== input.repitePassword) {
+        notifyWarning('Введенные пароли не совпадают.')
+      } else if (input.newPassword === input.repitePassword) {
+        axios
+          .put<PasswordChangeType, AxiosResponse<UserType>>(
+            `${import.meta.env.VITE_API}/v1/user/passUpd`,
+            input,
+            { withCredentials: true },
+          )
+          .then((res) => console.log(res))
+          .then(() => setActive((prev) => !prev))
+          .then(() => notifySuccess('Пароль был успешно изменен.'))
+          .catch((err) => console.log(err))
+      } else {
+        console.log('Пароли не совпадают')
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 

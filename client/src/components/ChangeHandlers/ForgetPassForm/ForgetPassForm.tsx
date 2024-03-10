@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
 import type { SetProps } from '../../../types'
+import { notifySuccess, notifyWarning } from '../../../toasters'
 
 export default function ForgetPassForm({ setActive }: SetProps): JSX.Element {
   type EmailType = {
@@ -21,19 +22,42 @@ export default function ForgetPassForm({ setActive }: SetProps): JSX.Element {
     }))
   }
 
+
   const resetPassword = async (): Promise<void> => {
-    axios
-      .post<EmailType>(`${import.meta.env.VITE_API}/v1/user/resetpass`, input, {
+    const checkMail = await axios.post(
+      `${import.meta.env.VITE_API}/v1/auth/checkmail`,
+      { email: input.email },
+      {
         withCredentials: true,
-      })
-      .then((res) => console.log(res))
-      .then(() => setActive((prev) => !prev))
-      .catch((err) => console.log(err))
+      },
+    )
+    if (
+      !/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i.test(
+        input.email,
+      )
+    ) {
+      notifyWarning('Неверный формат почты.')
+    } else if (!checkMail.data) {
+      notifyWarning('Пользователя с таким почтовым адресом не существует.')
+    } else {
+      axios
+        .post<EmailType>(
+          `${import.meta.env.VITE_API}/v1/user/resetpass`,
+          input,
+          {
+            withCredentials: true,
+          },
+        )
+        .then((res) => console.log(res))
+        .then(() => setActive((prev) => !prev))
+        .then(() => notifySuccess('Временный пароль был направлен на вашу почту.'))
+        .catch((err) => console.log(err))
+    }
   }
 
   return (
     <>
-      <div>Введите почтовый адрес, привязанный к профилю</div>
+      <div>Укажите почтовый адрес, привязанный к профилю</div>
       <input
         type='email'
         name='email'
