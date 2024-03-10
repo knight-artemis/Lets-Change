@@ -32,7 +32,8 @@
   border-radius: 12px;
   background-color: white;
   max-height: 90dvh;
-  width: 70%;
+  width: fit-content;
+  height: fit-content;
 }
 
 .close{
