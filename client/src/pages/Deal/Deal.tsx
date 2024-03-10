@@ -5,13 +5,11 @@ import clsx from 'clsx'
 import style from './Deal.module.css'
 import type { OneDealDetailed } from '../../types'
 import Button from '../../components/Shared/Button/Button'
-// import Input from '../../components/Shared/Input/Input'
 import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
 import Chat from '../../components/Chat/Chat'
 
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
-  const [msgInput, setMsgInput] = useState<string>('')
   const { id } = useParams()
 
   useEffect(() => {
@@ -23,19 +21,7 @@ export default function Deal(): JSX.Element {
       .catch((err) => console.log('Ошибка получения подробной сделки', err))
   }, [id])
 
-  const weChangedHandler = (): void => {
-    //
-  }
-  const sendMsgHandler = (): void => {
-    //
-  }
-
-  // console.log('id = ' ,id);
-  // console.log('deal = ', deal);
-
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setMsgInput(() => e.target.value)
-  }
+  if (!deal) return <div /> //! тут потом будет спиннер
 
   return (
     <div className={style.wrapper}>

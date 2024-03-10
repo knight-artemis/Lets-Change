@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { where } = require('sequelize')
 const { Deal, ThingDeal, Thing, User, Photo, Message } = require('../../../../db/models')
 
 router.post('/', async (req, res) => {
@@ -256,6 +257,18 @@ router.patch('/:id', async (req, res) => {
   }
 })
 
+router.patch('/:id/note', async (req, res) => {
+  console.log('PATCH NOTE', req.body)
+  try {
+    const deal = await Deal.findByPk(req.params.id)
+    await deal.update(req.body)
+    res.sendStatus(200)
+  } catch (error) {
+    console.error('Ошибка при обновлении сделки', error)
+    res.status(500).send({ err: { server: 'Ошибка сервера при обновлении сделки' } })
+  }
+})
+
 router.get('/:dealId/messages', async (req, res) => {
   const { dealId } = req.params
   try {
@@ -287,7 +300,6 @@ router.post('/:dealId/messages', async (req, res) => {
     const user = await User.findByPk(message.userId, { attributes: ['firstName', 'lastName'] })
     const lastName = user.lastName || ''
     const userName = `${user.firstName} ${lastName}`.trim()
-    delete message.dealId
     delete message.updatedAt
     res.json({ ...message, userName })
   } catch (error) {
@@ -295,6 +307,5 @@ router.post('/:dealId/messages', async (req, res) => {
     res.status(500).send({ err: { server: 'Ошибка сервера при получении сообщений' } })
   }
 })
-
 
 module.exports = router

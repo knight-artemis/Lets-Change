@@ -141,3 +141,8 @@ export type MsgType = {
   text: string
   createdAt?: Date
 }
+
+export type NotType = {
+  initiator: number
+  reciever: number
+}

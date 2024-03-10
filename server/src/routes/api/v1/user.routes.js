@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt');
 const generator = require('generate-password');
-const { User } = require('../../../../db/models')
+const { User, Deal, Thing } = require('../../../../db/models')
 const upload = require('../../../../multer')
 const mailer = require('../../../../nodeMailer')
 
@@ -110,6 +110,27 @@ router.put('/passUpd', async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ err: error })
+  }
+})
+
+router.get('/notifications', async (req, res) => {
+  const userId = req.session.user.id
+  console.log('USERID+++++++>', req.session.user.id)
+  try {
+    const initiator = await Deal.findAll({
+      where: { initiatorId: userId, initiatorNote: true },
+    })
+    const reciever = await Deal.findAll({
+      where: { recieverNote: true },
+      include: {
+        model: Thing,
+        where: { userId },
+      },
+    })
+    res.json({ initiator: initiator.length, reciever: reciever.length })
+  } catch (error) {
+    console.error('Ошибка при получении уведомлений', error)
+    res.status(500).send({ err: { server: 'Ошибка сервера при получении уведомлений' } })
   }
 })
 
