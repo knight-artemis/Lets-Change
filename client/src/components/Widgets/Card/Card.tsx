@@ -60,8 +60,8 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
       {/* <div className={clsx(style.mask, thing.inDeal && style.inDeal, !thing.isApproved && style.notApproved)}> */}
         {/* <div className={clsx(style.chip, style.timeLeft)}>{getTimeLeft(thing.endDate)}</div> */}
         <Chip top={.5} left={.5}>{getTimeLeft(thing.endDate)}</Chip>
-        {(thing.inDeal || !thing.isApproved) && <Chip left={.5} top={3} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>}
-        {isMain && thing.userId === user.id && <Chip top={3} left={.5} color='neutral'>Моя вещь</Chip> }      
+        {(thing.inDeal || !thing.isApproved) && <Chip top={.5} right={.5} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>}
+        {isMain && thing.userId === user.id && <Chip top={.5} right={.5} color='neutral'>Моя вещь</Chip> }      
         {isMain && thing.userId !== user.id && <Chip top={0} right={-.5} color='none'>
           <SvgLink icon='./assets/icons/star-favorite.svg'/>
         </Chip> }      
