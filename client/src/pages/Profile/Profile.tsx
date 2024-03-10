@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import axios from 'axios'
+import { Bounce, toast } from 'react-toastify'
 import styles from './Profile.module.css'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import Modal from '../../components/Widgets/Modal/Modal'
 import PasswordChangeForm from '../../components/ChangeHandlers/PasswordChangeForm/PasswordChangeForm'
 import AvatarChangeForm from '../../components/ChangeHandlers/AvatarChangeForm/AvatarChangeForm'
@@ -9,8 +11,41 @@ import PhoneChahgeForm from '../../components/ChangeHandlers/PhoneChangeForm/Pho
 import InitialsChangeForm from '../../components/ChangeHandlers/InitialsChangeForm/InitialsChangeForm'
 import AddressChangeForm from '../../components/ChangeHandlers/AddressChangeForm/AddressChangeForm'
 import SubForm from '../../components/ChangeHandlers/SubForm/SubForm'
+import { fetchUpd } from '../../redux/user/userThunkActions'
+import type { UserType } from '../../types'
 
 export default function Profile(): JSX.Element {
+
+  const dispatch = useAppDispatch()
+
+    const notifySuccess = (message: string): void => {
+      toast.success(message, {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce,
+      })
+  }
+  
+    const notifyWarning = (message: string): void => {
+      toast.warn(message, {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+        transition: Bounce,
+      })
+    }
+
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)
   const [modalActive3, setModalActive3] = useState<boolean>(true)
@@ -20,6 +55,21 @@ export default function Profile(): JSX.Element {
   const [modalActive7, setModalActive7] = useState<boolean>(true)
 
   const user = useAppSelector((store) => store.userSlice.user)
+
+  const deleteAvatar = async (): Promise<void> => {
+    try {
+      const response = await axios.get<UserType>(
+        `${import.meta.env.VITE_API}/v1/user/deleteAvatar`,
+        { withCredentials: true },
+      )
+      console.log(response);
+      await dispatch(fetchUpd(response.data))
+      notifySuccess('Аватар успешно удален.')
+    } catch (error) {
+      console.log(error)
+      notifyWarning('Не удалось удалить аватар.')
+    }
+  }
 
   //! Разобратся с парсингом даты окончания подписки и определиться, как мы ее будет отображать (только дату или дней до окончания и т.д.)
 
@@ -36,7 +86,14 @@ export default function Profile(): JSX.Element {
               >
                 Изменить аватар
               </button>
-              <img className={styles.avatar} src={user.avatarUrl} alt='' />
+              <button type='button' onClick={() => void deleteAvatar()}>
+                Удалить аватар
+              </button>
+              <img
+                className={styles.avatar}
+                src={`${import.meta.env.VITE_THINGS}/${user.avatarUrl}`}
+                alt=''
+              />
             </div>
           ) : (
             <button
@@ -140,7 +197,7 @@ export default function Profile(): JSX.Element {
           Изменить пароль
         </button>
         <Modal active={modalActive6} setActive={setModalActive6}>
-          <PasswordChangeForm setActive={setModalActive6} />
+          <PasswordChangeForm user={user} setActive={setModalActive6} />
         </Modal>
       </div>
       <div className={styles.commonInfo}>

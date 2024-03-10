@@ -4,6 +4,7 @@ import type { UserType } from '../../../types'
 import style from './InitialsChangeForm.module.css'
 import { useAppDispatch } from '../../../redux/hooks'
 import { fetchUpd } from '../../../redux/user/userThunkActions'
+import { notifySuccess, notifyWarning } from '../../../toasters'
 
 export default function InitialsChangeForm({
   user,
@@ -43,9 +44,34 @@ export default function InitialsChangeForm({
       middleName: input.middleName,
     }
     try {
-      console.log('changeInitials сработал')
-      await dispatch(fetchUpd(updUser))
-      setActive((prev) => !prev)
+      if (!input.firstName) {
+        notifyWarning('Вы не можете удалить свое имя')
+      } else if (
+        input.firstName &&
+        !/^[a-zA-Zа-яА-Я0-9]{3,}$/.test(input.firstName)
+      ) {
+        notifyWarning(
+          'Ваше имя должно быть не короче 3 символов и не должно содержать специальных символов.',
+        )
+      } else if (
+        input.lastName &&
+        !/^[a-zA-Zа-яА-Я0-9]{3,}$/.test(input.lastName)
+      ) {
+        notifyWarning(
+          'Ваша фамилия должна быть не короче 3 символов и не должна содержать специальных символов.',
+        )
+      } else if (
+        input.middleName &&
+        !/^[a-zA-Zа-яА-Я0-9]{3,}$/.test(input.middleName)
+      ) {
+        notifyWarning(
+          'Ваше отчество должно быть не короче 3 символов и не должно содержать специальных символов.',
+        )
+      } else {
+        await dispatch(fetchUpd(updUser))
+        setActive((prev) => !prev)
+        notifySuccess('Данные были успешно обновлены.')
+      }
     } catch (error) {
       console.log(error)
     }
