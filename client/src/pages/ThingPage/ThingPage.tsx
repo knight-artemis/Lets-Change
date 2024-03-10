@@ -21,6 +21,7 @@ import InitChange from '../../components/ChangeHandlers/InitChange/InitChange'
 type ByMeDealsType = {
   id: number
   thingId: number
+  status: number
 }
 
 export default function ThingPage(): JSX.Element {
@@ -77,7 +78,7 @@ export default function ThingPage(): JSX.Element {
         )
         console.log(thingRes.data, myDealsRes.data)
         setThing(thingRes.data)
-        setInitiate(!!myDealsRes.data.find((el) => el.thingId === thingRes.data.id))
+        setInitiate(!!myDealsRes.data.find((el) => el.thingId === thingRes.data.id && el.status !== 4))
       } catch (error) {
         console.log(error)
       }
