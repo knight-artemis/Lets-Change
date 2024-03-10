@@ -15,6 +15,7 @@ export default function Auth(): JSX.Element {
   const initialState = { email: '', password: '', firstName: '' }
   const [inputs, setInputs] = useState<UserDataType>(initialState)
   const [isLogin, setIsLogin] = useState(true)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const [modalActive, setModalActive] = useState<boolean>(true)
   const dispatch = useAppDispatch()
   // const user = useAppSelector((store) => store.userSlice.user)
@@ -130,13 +131,16 @@ export default function Auth(): JSX.Element {
       <input
         onChange={changeHandler}
         name='password'
-        type='password'
+        type={showPassword ? 'text' : 'password'}
         required
         value={inputs.password}
         placeholder='password'
       />
       <Button onClick={() => void addUserHandler()}>
         {isLogin ? 'Авторизоваться' : 'Зарегистрироваться'}
+      </Button>
+      <Button onClick={() => void setShowPassword((prev) => !prev)}>
+        Показать пароль
       </Button>
       {isLogin && (
         <Button onClick={() => setModalActive((prev) => !prev)}>
