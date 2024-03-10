@@ -54,9 +54,9 @@ export default function Deal(): JSX.Element {
       <div className={style.left}>
         <div className={style.thing}>
           <div className={style.text}>Твою вещь</div>
-          <CardSimple hoverable thing={deal?.Thing} />
+          <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.initiatorThings[0] : deal.Thing} />
           <div className={style.text}>меняют на</div>
-          <CardSimple hoverable thing={deal?.initiatorThings[0]} />
+          <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} />
         </div>
         <Button color='good'>Сделка завершена</Button>
       </div>
