@@ -157,7 +157,7 @@ export default function DealPannel({
       )}
     >
       <div className={style.photo}>
-        <CardSimple hoverable size={150} thing={deal.Thing} />
+        <CardSimple hoverable size={150} thing={deal.Thing} thingId={deal.thingId} />
       </div>
       {/* 
       <div className={style.photo}>
