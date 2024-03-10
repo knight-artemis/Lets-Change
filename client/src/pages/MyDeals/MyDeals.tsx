@@ -10,7 +10,7 @@ import { useAppSelector } from '../../redux/hooks'
 import type { MyDealsType, OneDealToMe, OneDealFromMe } from '../../types'
 import DealPannel from '../../components/Widgets/DealPannel/DealPannel'
 
-export default function MyDeals(): JSX.Element {
+export default function MyDeals({ toMe = true } : { toMe?: boolean }): JSX.Element {
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
 
@@ -28,24 +28,28 @@ export default function MyDeals(): JSX.Element {
       )
       .then((res) => {
         setAllDeals(res.data)
-        setSelectedDeals(res.data.fromMeDeals)
+        setSelectedDeals(toMe ? res.data.toMeDeals : res.data.fromMeDeals)
+        setMainText(toMe ? 'у меня хотят забрать эти вещи' : 'я хочу забрать эти вещи')
       })
       .catch((err) => console.log('Ошибка получения списка моих сделок', err))
-  }, [user.id])
+  }, [toMe, user.id])
 
   const fromMeDeals = (): void => {
-    setSelectedDeals(allDeals?.fromMeDeals)
-    if (allDeals?.toMeDeals && allDeals?.toMeDeals.length > 0)
-      setMainText('я пока не предложил ни одной сделки')
-    else setMainText('я хочу забрать эти вещи')
+    navigate('/my-deals/from-me')
+    // setSelectedDeals(allDeals?.fromMeDeals)
+    // if (allDeals?.toMeDeals && allDeals?.toMeDeals.length > 0)
+    //   setMainText('я пока не предложил ни одной сделки')
+    // else setMainText('я хочу забрать эти вещи')
   }
   const toMeDeals = (): void => {
-    setSelectedDeals(allDeals?.toMeDeals)
-    if (allDeals?.fromMeDeals && allDeals?.fromMeDeals.length > 0)
-      setMainText('мне пока не предложили  ни одной сделки')
-    else setMainText('у меня хотят забрать эти вещи')
+    navigate('/my-deals/to-me')
+    // setSelectedDeals(allDeals?.toMeDeals)
+    // if (allDeals?.fromMeDeals && allDeals?.fromMeDeals.length > 0)
+    //   setMainText('мне пока не предложили  ни одной сделки')
+    // else setMainText('у меня хотят забрать эти вещи')
   }
   const myArchiveDeals = (): void => {
+    navigate('/my-deals/archive')
     setSelectedDeals(allDeals?.toMeDeals)
   }
 
@@ -81,10 +85,10 @@ export default function MyDeals(): JSX.Element {
         <div className={style.mainContent}>
           <div className={style.sidebar}>
             <Button link onClick={() => void fromMeDeals()}>
-              <SvgLink icon='assets/icons/shirt.svg' text='Я хочу' />
+              <SvgLink icon='./../assets/icons/shirt.svg' text='Я хочу' />
             </Button>
             <Button link onClick={() => void toMeDeals()}>
-              <SvgLink icon='assets/icons/shirt.svg' text='У меня хотят' />
+              <SvgLink icon='./../assets/icons/shirt.svg' text='У меня хотят' />
             </Button>
           </div>
 

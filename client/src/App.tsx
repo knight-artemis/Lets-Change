@@ -53,7 +53,8 @@ function App(): JSX.Element {
         <Routes>
           <Route index element={<Main />} />
           <Route path='/my-things' element={<MyThings />} />
-          <Route path='/my-deals' element={<MyDeals />} />
+          <Route path='/my-deals/to-me' element={<MyDeals />} />
+          <Route path='/my-deals/from-me' element={<MyDeals toMe={false}/>} />
           <Route path='/new-thing' element={<NewThing />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/auth' element={<Auth />} />

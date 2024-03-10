@@ -23,7 +23,7 @@ export default function Navbar(): JSX.Element {
         {user.id ? (
           <>
             <Link className={styles.link} to='/my-things'>Мои вещи</Link>
-            <Link className={styles.link} to='/my-deals'>Сделки</Link>
+            <Link className={styles.link} to='/my-deals/from-me'>Сделки</Link>
             <p>({notifications.initiator + notifications.reciever})</p>
             <Link className={styles.link} to='/new-thing'>Добавить вещь</Link>
             <Link className={styles.link} to='/profile'>Профиль</Link>
