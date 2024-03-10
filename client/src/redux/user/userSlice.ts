@@ -1,11 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { UserType } from '../../types'
-import { fetchAuth, fetchCheck, fetchLogout, fetchUpd } from './userThunkActions'
+import type { NotType, UserType } from '../../types'
+import {
+  fetchAuth,
+  fetchCheck,
+  fetchGetNot,
+  fetchLogout,
+  fetchUpd,
+} from './userThunkActions'
 import useGeoLocation from '../../hooks/useGeoLocation'
 
 export type UserStateType = {
   user: UserType
   pos: number[]
+  notifications: NotType
 }
 
 export const initialUser: UserType = {
@@ -14,9 +21,15 @@ export const initialUser: UserType = {
   email: '',
 }
 
+const initialNot: NotType = {
+    initiator: 0,
+    reciever: 0,
+}
+
 const UserInitialState: UserStateType = {
   user: initialUser,
   pos: [],
+  notifications: initialNot
 }
 
 const userSlice = createSlice({
@@ -53,6 +66,10 @@ const userSlice = createSlice({
         state.user = payload
       },
     )
+
+    builder.addCase(fetchGetNot.fulfilled, (state, { payload }) => {
+      state.notifications = payload
+    })
   },
 })
 

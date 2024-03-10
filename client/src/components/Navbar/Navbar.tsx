@@ -7,6 +7,7 @@ import SvgLink from '../Shared/SvgLink/SvgLink';
 
 export default function Navbar(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user);
+  const notifications = useAppSelector(store => store.userSlice.notifications)
   const dispatch = useAppDispatch();
 
   const logOutHandler = async():Promise<void> => {
@@ -23,6 +24,7 @@ export default function Navbar(): JSX.Element {
           <>
             <Link className={styles.link} to='/my-things'>Мои вещи</Link>
             <Link className={styles.link} to='/my-deals'>Сделки</Link>
+            <p>({notifications.initiator + notifications.reciever})</p>
             <Link className={styles.link} to='/new-thing'>Добавить вещь</Link>
             <Link className={styles.link} to='/profile'>Профиль</Link>
             <Link className={styles.link} to='/' onClick={()=> void logOutHandler()}>Выйти</Link>

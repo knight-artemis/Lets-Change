@@ -5,7 +5,7 @@ import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import Main from './pages/Main/Main'
 import { useAppDispatch, useAppSelector } from './redux/hooks'
-import { fetchCheck } from './redux/user/userThunkActions'
+import { fetchCheck, fetchGetNot } from './redux/user/userThunkActions'
 import Auth from './pages/Auth/Auth'
 import ThingPage from './pages/ThingPage/ThingPage'
 import MyThings from './pages/MyThings/MyThings'
@@ -21,9 +21,13 @@ import Deal from './pages/Deal/Deal'
 
 function App(): JSX.Element {
   const dispatcher = useAppDispatch()
+  // const notifications = useAppSelector(store => store.userSlice.notifications)
 
   useEffect(() => {
     void dispatcher(fetchCheck())
+    // setInterval(() => {
+      void dispatcher(fetchGetNot())
+    // }, 10000)
     // if (navigator.geolocation) {
     //   navigator.geolocation.getCurrentPosition(
     //     (position) => {
@@ -39,8 +43,9 @@ function App(): JSX.Element {
     //   console.error('Geolocation is not supported by this browser.')
     // }
   }, [])
-  const user = useAppSelector((store) => store.userSlice.user)
-  console.log('USER', user)
+  // const user = useAppSelector((store) => store.userSlice.user)
+  // // console.log('USER', user, "NOTIFICATIONS", notifications)
+
   return (
     <>
       <Header />
@@ -54,7 +59,7 @@ function App(): JSX.Element {
           <Route path='/auth' element={<Auth />} />
           <Route path='/thing/:id' element={<ThingPage />} />
           <Route path='/deal-to-consider/:id' element={<DealToConsider />} />
-          <Route path='/deal/:id' element={<Deal/>} />
+          <Route path='/deal/:id' element={<Deal />} />
         </Routes>
       </main>
       <Footer />

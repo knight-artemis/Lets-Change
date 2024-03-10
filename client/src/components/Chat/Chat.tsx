@@ -14,38 +14,48 @@ type ChatPropsType = {
 
 export default function Chat({ deal }: ChatPropsType): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
+  const [userOnline, setUserOnline] = useState(false)
   const [msgs, setMsgs] = useState<MsgType[]>([])
   const [msgInput, setMsgInput] = useState<string>('')
   const socket = useMemo(() => {
-    if (user.id) {
+    if (user.id && deal) {
       return io(`${import.meta.env.VITE_CHAT}`, {
         extraHeaders: {
           newuserid: `${user.id}`,
+          dealid: `${deal.id}`,
         },
       })
     }
-  }, [user.id])
+  }, [user.id, deal])
   // const [message, setMessage] = useState('')
 
   const sendMsgHandler = async (): Promise<void> => {
     if (msgInput.trim() && deal && user) {
-      socket?.emit('message', {
-        text: msgInput,
-        userId: user.id,
-        userName: user.firstName,
-        // socketID: socket.id,
-        dealId: deal.id,
-      })
-
-      const mes = await axios.post(
-        `${import.meta.env.VITE_API}/v1/deals/${deal.id}/messages`,
-        { text: msgInput, userId: user.id },
-        { withCredentials: true },
-      )
-      console.log(mes)
+      try {
+        const mes = await axios.post(
+          `${import.meta.env.VITE_API}/v1/deals/${deal.id}/messages`,
+          { text: msgInput, userId: user.id },
+          { withCredentials: true },
+        )
+        socket?.emit('message', mes.data)
+        if (!userOnline) {
+          if (user.id === deal.initiatorId) {
+            await axios.patch(
+              `${import.meta.env.VITE_API}/v1/deals/${deal.id}/note`,
+              { recieverNote: true, initiatorNote: false },
+            )
+          } else if (user.id === deal.receiverId) {
+            await axios.patch(
+              `${import.meta.env.VITE_API}/v1/deals/${deal.id}/note`,
+              { initiatorNote: true, recieverNote: false },
+            )
+          }
+        }
+        setMsgInput('')
+      } catch (error) {
+        console.log(error)
+      }
     }
-
-    setMsgInput('')
   }
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -61,7 +71,7 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
             withCredentials: true,
           },
         )
-        .then((res) => setMsgs((prev) => res.data))
+        .then((res) => setMsgs(res.data))
         .catch((err) => console.log(err))
       return () => {
         socket?.close()
@@ -70,8 +80,22 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
   }, [deal])
 
   useEffect(() => {
-    socket?.on(`res-deal-${deal?.id}`, (data) => setMsgs([data, ...msgs]))
+    socket?.on(`res-deal-${deal?.id}`, (data: MsgType) => {
+      if (data.userId !== user.id && !userOnline) setUserOnline(true)
+      setMsgs([data, ...msgs])
+    })
   }, [msgs])
+
+  useEffect(() => {
+    socket?.on(`user-enter-${deal?.id}`, (userId): void => {
+      console.log('вошел в чат', userId, user.id)
+      setUserOnline(Number(userId) !== user.id)
+    })
+    socket?.on(`user-exit-${deal?.id}`, (userId) => {
+      console.log('вышел из чата', userId, user.id)
+      setUserOnline(!(Number(userId) !== user.id))
+    })
+  }, [socket])
 
   // console.log(socket)
 
@@ -80,7 +104,7 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
       <div className={styles.chat}>
         {msgs.map((msg, index) => (
           <div
-            key={`msg-${index}`}
+            key={`msg-${msg.id}`}
             className={clsx(
               styles.msg,
               msg.userId === user.id ? styles.myMsg : styles.hisMsg,
@@ -97,6 +121,7 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
           привет, конечно давай!
         </div> */}
       </div>
+      {userOnline ? <p>оппонент в чате</p> : <p>оппонент не в чате</p>}
 
       <div className={styles.input}>
         <Input
@@ -104,10 +129,10 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
           onChange={changeHandler}
           value={msgInput}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') sendMsgHandler()
+            if (e.key === 'Enter') void sendMsgHandler()
           }}
         />
-        <Button onClick={sendMsgHandler}>отправить</Button>
+        <Button onClick={() => void sendMsgHandler()}>отправить</Button>
       </div>
     </>
   )

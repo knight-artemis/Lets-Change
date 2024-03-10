@@ -55,12 +55,16 @@ app.use('/api/v1/test', testRouter)
 app.use('/api/v1/user', userRouter)
 
 socketIo.on('connection', (socket) => {
-  console.log(`user =======> id:${socket.id} connected ${socket.handshake.headers.newuserid}`)
+  const userId = socket.handshake.headers.newuserid
+  const dealId = socket.handshake.headers.dealid
+  console.log(`user =======> id:${userId}, dealId:${dealId} connected  Socket:${socket.id} `)
+  socketIo.emit(`user-enter-${dealId}`, userId)
   socket.on('message', (data) => {
-    socketIo.emit(`res-deal-${data.dealId}`, data)
+    socketIo.emit(`res-deal-${dealId}`, data)
     console.log('DATA', data)
   })
   socket.on('disconnect', () => {
+    socketIo.emit(`user-exit-${dealId}`, userId)
     console.log(`user =======x id:${socket.id} disconnect`)
   })
 })
