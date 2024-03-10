@@ -7,18 +7,44 @@ import type { OneDealDetailed } from '../../types'
 import Button from '../../components/Shared/Button/Button'
 import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
 import Chat from '../../components/Chat/Chat'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { fetchGetNot } from '../../redux/user/userThunkActions'
 
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
+  const user = useAppSelector((store) => store.userSlice.user)
   const { id } = useParams()
+  const dispatcher = useAppDispatch()
 
   useEffect(() => {
-    axios
-      .get<OneDealDetailed>(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
-        withCredentials: true,
-      })
-      .then((res) => setDeal(res.data))
-      .catch((err) => console.log('Ошибка получения подробной сделки', err))
+    console.log('RERENDER')
+    void (async () => {
+      const res = await axios.get<OneDealDetailed>(
+        `${import.meta.env.VITE_API}/v1/deals/${id}`,
+        {
+          withCredentials: true,
+        },
+      )
+      setDeal(res.data)
+      if (user.id === res.data.initiatorId) {
+        await axios.patch(
+          `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
+          { initiatorNote: false },
+        )
+      } else if (user.id === res.data.receiverId) {
+        await axios.patch(
+          `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
+          { recieverNote: false },
+        )
+      }
+      await dispatcher(fetchGetNot())
+    })()
+    // const dealPrommise = axios
+    //   .get<OneDealDetailed>(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
+    //     withCredentials: true,
+    //   })
+    //   .then((res) => setDeal(res.data))
+    //   .catch((err) => console.log('Ошибка получения подробной сделки', err))
   }, [id])
 
   if (!deal) return <div /> //! тут потом будет спиннер
@@ -36,7 +62,7 @@ export default function Deal(): JSX.Element {
       </div>
 
       <div className={style.right}>
-        <Chat deal={deal}/>
+        <Chat deal={deal} />
       </div>
     </div>
   )
