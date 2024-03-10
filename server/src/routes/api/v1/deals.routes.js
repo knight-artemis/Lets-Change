@@ -125,7 +125,7 @@ router.get('/initiate-by-me', async (req, res) => {
   try {
     const deals = await Deal.findAll({
       where: { initiatorId: user.id },
-      attributes: ['id', 'thingId'],
+      attributes: ['id', 'thingId', 'status'],
     })
     console.log(deals.map((el) => el.get({ plain: true })))
     res.json(deals)
@@ -218,38 +218,82 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id/accepted', async (req, res) => {
   const { id } = req.params
-  const { body } = req
+  const { selectedThingId } = req.body
   try {
-    const deal = await Deal.findByPk(id)
-    if (body.selectedThingId) {
-      const selectedThing = await ThingDeal.findAll({
-        where: { dealId: id },
-      })
-      const promises = selectedThing.map(async (el) => {
-        const plainSelectedThing = el
-        // console.log(plainSelectedThing)
-        if (plainSelectedThing.offeredThingId === body.selectedThingId) {
-          plainSelectedThing.isSelected = true
-          await plainSelectedThing.save()
-          //   console.log(plainSelectedThing.get({ plain: true }))
-        } else {
+    const resDeal = await Deal.findByPk(id)
+    const { thingId } = resDeal.get({ plain: true })
+    const allDealsWithThingId = await Deal.findAll({ where: { thingId } })
+    // console.log(deal, thingId)
+    const allDealsPromises = allDealsWithThingId.map(async (el) => {
+      const deal = el
+      if (deal.id === Number(id)) {
+        const selectedThings = await ThingDeal.findAll({
+          where: { dealId: id },
+        })
+        const promises = selectedThings.map(async (elem) => {
+          const plainSelectedThing = elem
+          if (plainSelectedThing.offeredThingId === selectedThingId) {
+			//   console.log('THING=====> ',plainSelectedThing.offeredThingId, selectedThingId)
+            plainSelectedThing.isSelected = true
+            await plainSelectedThing.save()
+          } else {
+            const thing = await Thing.findByPk(plainSelectedThing.offeredThingId)
+            thing.inDeal = false
+            await thing.save()
+            // console.log(thing.get({ plain: true }))
+          }
+          return plainSelectedThing
+          // console.log(plainSelectedThing)
+        })
+        await Promise.all(promises)
+        const thing = await Thing.findByPk(deal.thingId)
+        thing.inDeal = true
+        await thing.save()
+        await deal.update({ status: 1, initiatorNote: true, recieverNote: false })
+        // console.log('YES+++> ', selectedThings)
+      } else {
+        const selectedThings = await ThingDeal.findAll({
+          where: { dealId: deal.id },
+        })
+        const promises = selectedThings.map(async (elem) => {
+          const plainSelectedThing = elem
           const thing = await Thing.findByPk(plainSelectedThing.offeredThingId)
           thing.inDeal = false
           await thing.save()
-          console.log(thing.get({ plain: true }))
-        }
-        return plainSelectedThing
-        // console.log(plainSelectedThing)
-      })
-      await Promise.all(promises)
-      const thing = await Thing.findByPk(deal.thingId)
-      thing.inDeal = true
+          return plainSelectedThing
+        })
+        await Promise.all(promises)
+        await deal.update({ status: 4, initiatorNote: true, recieverNote: false })
+        // console.log('NOT===> ', selectedThings)
+      }
+      return deal
+    })
+    await Promise.all(allDealsPromises)
+    res.json(allDealsWithThingId)
+  } catch (error) {
+    console.error('Ошибка при обновлении сделки', error)
+    res.status(500).send({ err: { server: 'Ошибка сервера при обновлении сделки' } })
+  }
+})
+
+router.patch('/:id/rejected', async (req, res) => {
+  const { id } = req.params
+  try {
+    const deal = await Deal.findByPk(id)
+    const selectedThings = await ThingDeal.findAll({
+      where: { dealId: id },
+    })
+    const promises = selectedThings.map(async (el) => {
+      const plainSelectedThing = el
+      const thing = await Thing.findByPk(plainSelectedThing.offeredThingId)
+      thing.inDeal = false
       await thing.save()
-      delete body.selectedThingId
-    }
-    await deal.update(body)
+      return plainSelectedThing
+    })
+    await Promise.all(promises)
+    await deal.update({ status: 4, initiatorNote: true, recieverNote: false })
     res.json(deal)
   } catch (error) {
     console.error('Ошибка при обновлении сделки', error)
