@@ -34,6 +34,7 @@ export default function MailChahgeForm({
   }
 
   const changeEmail = async (): Promise<void> => {
+
     const checkMail = await axios.post(
       `${import.meta.env.VITE_API}/v1/auth/checkmail`,
       { email: input.email },
@@ -56,7 +57,7 @@ export default function MailChahgeForm({
         )
       ) {
         notifyWarning('Неверный формат почты.')
-      } else if (checkMail && user.email !== input.email) {
+      } else if (checkMail.data && user.email !== input.email) {
         notifyWarning('Данная почта уже используется.')
       } else {
         await dispatch(fetchUpd(updUser))
