@@ -53,13 +53,10 @@ export default function Deal(): JSX.Element {
   if (!deal) return <div /> //! тут потом будет спиннер
   return (
     <WholePage>
-
-    {/* <div className={style.wrapper}> */}
-    <SideBar>
-
-   
-      {/* <div className={style.left}> */}
-        <div className={style.thing}>
+      {/* <div className={style.wrapper}> */}
+      <SideBar center>
+        {/* <div className={style.left}> */}
+        {/* <div className={style.thing}> */}
           <div className={style.text}>
             {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
           </div>
@@ -80,17 +77,19 @@ export default function Deal(): JSX.Element {
             thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
           />
           {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
-        </div>
+        {/* </div> */}
+        <div className={style.text}>
+            Нажми, если вы уже обменялись
+          </div>
         <Button color='good'>Сделка завершена</Button>
-      {/* </div> */}
+        {/* </div> */}
       </SideBar>
       {/* <div className={style.right}> */}
       <MainContent>
-
         <Chat deal={deal} />
       </MainContent>
       {/* </div> */}
-    {/* </div> */}
-     </WholePage>
+      {/* </div> */}
+    </WholePage>
   )
 }

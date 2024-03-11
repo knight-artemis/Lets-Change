@@ -4,8 +4,12 @@ import style from './SideBar.module.css'
 
 type SideBarProps = {
   children: ReactNode
+  center?: boolean
 }
 
-export default function SideBar({ children }: SideBarProps): JSX.Element {
-  return <div className={style.sidebar}>{children}</div>
+export default function SideBar({
+  children,
+  center,
+}: SideBarProps): JSX.Element {
+  return <div style={center ? { alignItems: 'center'} : {}} className={style.sidebar}>{children}</div>
 }
