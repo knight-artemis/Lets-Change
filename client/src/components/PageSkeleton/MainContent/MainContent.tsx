@@ -6,7 +6,6 @@ type MainContentProps = {
   children: ReactNode
 }
 
-
 export default function MainContent({ children }: MainContentProps): JSX.Element {
   return <div className={style.mainContent}>{children}</div>
 }

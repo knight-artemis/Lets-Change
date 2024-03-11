@@ -13,6 +13,7 @@ import AddressChangeForm from '../../components/ChangeHandlers/AddressChangeForm
 import SubForm from '../../components/ChangeHandlers/SubForm/SubForm'
 import { fetchGetNot, fetchUpd } from '../../redux/user/userThunkActions'
 import type { UserType } from '../../types'
+import Avatar from '../../components/Widgets/Avatar/Avatar'
 
 export default function Profile(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -93,11 +94,19 @@ export default function Profile(): JSX.Element {
               <button type='button' onClick={() => void deleteAvatar()}>
                 Удалить аватар
               </button>
+              <Avatar
+                size={5}
+                src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+              />
+                {/* 
+
+src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+
               <img
                 className={styles.avatar}
                 src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
                 alt=''
-              />
+                /> */}
             </div>
           ) : (
             <button
