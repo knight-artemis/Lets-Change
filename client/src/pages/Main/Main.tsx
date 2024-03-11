@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useActionData, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import {
   Clusterer,
@@ -18,6 +18,8 @@ import MyPlacemark from '../../components/MyPlacemark/MyPlacemark'
 import Card from '../../components/Widgets/Card/Card'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 import Input from '../../components/Shared/Input/Input'
+import { fetchGetNot } from '../../redux/user/userThunkActions'
+import { useAppDispatch } from '../../redux/hooks'
 
 const ThingsInitVal = {
   id: 0,
@@ -51,6 +53,7 @@ export default function Main(): JSX.Element {
   }
 
   const navigate = useNavigate()
+  const dispatcher = useAppDispatch()
 
   const setAllThings = (): void => {
     axios
@@ -64,6 +67,9 @@ export default function Main(): JSX.Element {
   useEffect(() => {
     // список объявлений по свежести
     setAllThings()
+    dispatcher(fetchGetNot())
+      .then()
+      .catch((err) => console.log(err))
 
     // список категорий
     axios

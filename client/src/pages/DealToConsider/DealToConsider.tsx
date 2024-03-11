@@ -6,20 +6,28 @@ import style from './DealToConsider.module.css'
 import type { OneDealDetailed } from '../../types'
 import Button from '../../components/Shared/Button/Button'
 import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
+import { useAppDispatch } from '../../redux/hooks'
+import { fetchGetNot } from '../../redux/user/userThunkActions'
 
 export default function DealToConsider(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
   const [selectedThingId, setSelectedThingId] = useState<number>(-1)
   const { id } = useParams()
   const navigate = useNavigate()
+  const dispatcher = useAppDispatch()
 
   useEffect(() => {
     axios
       .get<OneDealDetailed>(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
         withCredentials: true,
       })
-      .then((res) => setDeal(res.data))
+      .then((res) => {
+        setDeal(res.data)
+      })
       .catch((err) => console.log('Ошибка получения подробной сделки', err))
+    dispatcher(fetchGetNot())
+      .then()
+      .catch((err) => console.log(err))
   }, [id])
 
   const acceptedHandler = async (): Promise<void> => {

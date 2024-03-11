@@ -84,6 +84,7 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
       if (data.userId !== user.id && !userOnline) setUserOnline(true)
       setMsgs([data, ...msgs])
     })
+    
   }, [msgs])
 
   useEffect(() => {

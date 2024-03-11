@@ -4,6 +4,8 @@ import axios from 'axios'
 import styles from './NewThing.module.css'
 import Button from '../../components/Shared/Button/Button'
 import type { CategoryType } from '../../types'
+import { useAppDispatch } from '../../redux/hooks'
+import { fetchGetNot } from '../../redux/user/userThunkActions'
 
 type FormData = {
   thingName: string
@@ -55,6 +57,7 @@ export default function NewThing(): JSX.Element {
   const [days, setDays] = useState<number>(7) 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [formData, setFormData] = useState(initialFormsData)
+  const dispatcher = useAppDispatch()
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setDays(Number(e.target.value))
@@ -65,6 +68,9 @@ export default function NewThing(): JSX.Element {
   }
 
   useEffect(() => {
+    dispatcher(fetchGetNot())
+    .then()
+    .catch((err) => console.log(err))
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {

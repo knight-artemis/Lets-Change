@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import type { SimplifiedThingType } from '../../types'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import Card from '../../components/Widgets/Card/Card'
 import style from './MyThings.module.css'
 import Button from '../../components/Shared/Button/Button'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
+import { fetchGetNot } from '../../redux/user/userThunkActions'
 
 const ThingInitVal = {
   id: 0,
@@ -25,8 +26,12 @@ export default function MyThings(): JSX.Element {
   const [things, setThings] = useState<SimplifiedThingType[]>([ThingInitVal])
 
   const navigate = useNavigate()
+  const dispatcher = useAppDispatch()
 
   useEffect(() => {
+    dispatcher(fetchGetNot())
+    .then()
+    .catch((err) => console.log(err))
     axios
       .get<SimplifiedThingType[]>(
         `${import.meta.env.VITE_API}/v1/things/user/${user.id}`,
