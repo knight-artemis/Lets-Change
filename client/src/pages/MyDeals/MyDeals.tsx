@@ -127,28 +127,28 @@ export default function MyDeals({
         </Button>
       </SideBar>
       <MainContent>
-      <Grid>
-        <div className={style.topContent}>
-          <span className={style.span}>{mainText}</span>
-        </div>
+        <Grid>
+          <div className={style.topContent}>
+            <span className={style.span}>{mainText}</span>
+          </div>
 
-        {/* <div className={style.mainContent}> */}
-        {/* <div className={style.sidebar}>
+          {/* <div className={style.mainContent}> */}
+          {/* <div className={style.sidebar}>
           
           </div> */}
 
-        {/* <div className={style.list}>
+          {/* <div className={style.list}>
           
           </div> */}
-        {/* </div> */}
+          {/* </div> */}
 
-        {selectedDeals?.map((deal) => (
-          <DealPannel
-            key={deal.id}
-            deal={deal}
-            setSelectedDeals={setSelectedDeals}
-          />
-        ))}
+          {selectedDeals?.map((deal) => (
+            <DealPannel
+              key={deal.id}
+              deal={deal}
+              setSelectedDeals={setSelectedDeals}
+            />
+          ))}
         </Grid>
       </MainContent>
       {/* </div> */}
