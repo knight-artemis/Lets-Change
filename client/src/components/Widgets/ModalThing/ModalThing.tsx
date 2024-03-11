@@ -14,7 +14,7 @@ import style from './ModalThing.module.css'
 export default function ModalThing({
   thingId,
 }: {
-  thingId: number
+  thingId: number | undefined
 }): JSX.Element {
   const initialThing = {
     id: 0,
