@@ -1,55 +1,54 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 80%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 80%;
+  height: 100%;
 }
 
 .topContent {
-    margin: 1rem auto;
-    display: flex;
+  margin: 1rem auto;
+  display: flex;
 }
 
 .mainContent {
-    display: grid;
-    grid-template-columns: 30% 1fr;
-    gap: 2rem;
-    padding: 0 auto;
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  gap: 2rem;
+  padding: 0 auto;
 }
 
 .span {
-    line-height: 2rem;
-    font-size: larger;
+  line-height: 2rem;
+  font-size: larger;
 }
 
 .sidebar {
-    background-color: var(--color-main-accent);
-    border-radius: 10px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    line-height: 2rem;
+  background-color: var(--color-main-accent);
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  line-height: 2rem;
 
-    >* {
-        font-size: large;
-    }
+  > * {
+    font-size: large;
+  }
 }
 
 .list {
-    display: flex;
-    gap: 1rem;
-    flex-direction: column;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
 }
 
 .listItem {
-    display: flex;
-    padding: .5rem;
-    border: solid 1px var(--color-main);
-    border-radius: 15px;
-    gap: 1.5rem;
-
+  display: flex;
+  padding: 0.5rem;
+  border: solid 1px var(--color-main);
+  border-radius: 15px;
+  gap: 1.5rem;
 }
 
 /* .body {
@@ -58,19 +57,20 @@
 } */
 
 .textCol {
-    display: flex;
-    gap: 1rem;
-    flex-direction: column;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
 }
 
 /* .name {
     font-size: large;
 } */
 
-.description {}
+.description {
+}
 
-.timeLeft {}
-
+.timeLeft {
+}
 
 /* .photo {
     img {
@@ -83,6 +83,6 @@
 } */
 
 .disabled {
-    filter: sepia(50%) grayscale(40%);
-    background-color: var( --font-secondary);
+  /* filter: sepia(50%) grayscale(40%); */
+  background-color: var(--font-secondary);
 }
