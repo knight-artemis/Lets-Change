@@ -20,6 +20,9 @@ import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 import Input from '../../components/Shared/Input/Input'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
 import { useAppDispatch } from '../../redux/hooks'
+import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
+import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
+import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 
 const ThingsInitVal = {
   id: 0,
@@ -111,8 +114,31 @@ export default function Main(): JSX.Element {
   }
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.topContent}>
+    <WholePage>
+    {/* <div className={style.wrapper}> */}     
+      {/* <div className={style.mainContent}> */}
+        <SideBar>
+          {/* <div className={style.sidebar}> */}
+            <Button key='start' link onClick={() => void setAllThings()}>
+              <SvgLink icon='assets/icons/shirt.svg' text='Все категории' />
+            </Button>
+            {categories.map((category) => (
+              <Button
+                key={category.id}
+                link
+                onClick={() => void categoryHandler(category.id)}
+              >
+                <SvgLink
+                  icon='assets/icons/shirt.svg'
+                  text={category.categoryTitle}
+                />
+              </Button>
+            ))}
+          {/* </div> */}
+        </SideBar>
+        <MainContent>
+
+        <div className={style.topContent}>
         <div className={style.topLine}>
           <span className={style.span}>Посмотреть объявления списком</span>
           <SvgLink icon='./src/assets/icons/blocks.svg' />
@@ -141,28 +167,11 @@ export default function Main(): JSX.Element {
         </div>
       </div>
 
-      <div className={style.mainContent}>
-        <div className={style.sidebar}>
-          <Button key='start' link onClick={() => void setAllThings()}>
-            <SvgLink icon='assets/icons/shirt.svg' text='Все категории' />
-          </Button>
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              link
-              onClick={() => void categoryHandler(category.id)}
-            >
-              <SvgLink
-                icon='assets/icons/shirt.svg'
-                text={category.categoryTitle}
-              />
-            </Button>
-          ))}
-        </div>
+
         <div className={style.content}>
           {isChecked ? (
             <div
-              style={{ width: '800px', height: '100%', borderRadius: '20px' }}
+            style={{ width: '800px', height: '100%', borderRadius: '20px' }}
             >
               {/* {location.length > 0 && ( */}
               <Map
@@ -194,8 +203,8 @@ export default function Main(): JSX.Element {
                       onClick={() => navigate(`/thing/${thing.id}`)}
                       img={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
                       iconCaption={thing.thingName}
-                    />
-                  ))}
+                      />
+                      ))}
                 </Clusterer>
               </Map>
               {/* )} */}
@@ -203,15 +212,18 @@ export default function Main(): JSX.Element {
           ) : things.length !== 0 ? (
             things.map((thing: SimplifiedThingType) => (
               <Card key={`card-${thing.id}`} thing={thing} isMain />
-            ))
-          ) : (
-            <div className={style.notFound}>
+              ))
+              ) : (
+                <div className={style.notFound}>
               <span>В этой категории пока ничего нет </span>
               <img src='./src/assets/gifs/not-found.gif' alt='not-found' />
             </div>
           )}
         </div>
-      </div>
-    </div>
+          </MainContent>
+      {/* </div> */}
+    {/* // </div> */}
+    </WholePage>
+
   )
 }

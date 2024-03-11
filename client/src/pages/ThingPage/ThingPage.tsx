@@ -98,11 +98,16 @@ export default function ThingPage(): JSX.Element {
     <>
       <div className={`${styles.post}`}>
         <h1>{thing.thingName}</h1>
-        {thing.issue && <h2 style={{color: 'red'}}>{thing.issue}</h2>}
-        {!thing.isApproved && !thing.issue?.length && <h2 style={{color: 'orange'}}>Вещь пока на модерации</h2>}
-        <h2>         {thing.User.lastName
+        {thing.issue && <h2 style={{ color: 'red' }}>{thing.issue}</h2>}
+        {!thing.isApproved && !thing.issue?.length && (
+          <h2 style={{ color: 'orange' }}>Вещь пока на модерации</h2>
+        )}
+        <h2>
+          {' '}
+          {thing.User.lastName
             ? `${thing.User.firstName} ${thing.User.lastName}`
-            : `${thing.User.firstName}`}</h2>
+            : `${thing.User.firstName}`}
+        </h2>
         <div className={`${styles.mainContent}`}>
           <div className={`${styles.photoBlock}`}>
             <CarouselProvider

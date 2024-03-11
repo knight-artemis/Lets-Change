@@ -237,6 +237,94 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
   }
 })
 
-router.put('/:id', upload.array('photo', 10), async (req, res) => {})
+
+// router.put('/:id', upload.array('photo', 10), async (req, res) => {
+//   try {
+//     const oldThing = await Thing.findByPk(req.params.id)
+//     await oldThing.update(req.body)
+//     const finalThing = oldThing.get({ plain: true })
+//     const existingPhotoUrls = finalThing.Photos.map((photo) => photo.photoUrl);
+//     if (req.body.Photos) {
+//       const newPhotoUrls = req.body.Photos.map((photo) => photo.photoUrl);
+//       const photoUrlsToDelete = existingPhotoUrls.filter((url) => !newPhotoUrls.includes(url));
+//       await Photo.destroy({ where: { photoUrl: { $in: photoUrlsToDelete } } });
+//     }
+//     res.status(200).json(finalThing)
+//   } catch (error) {
+//     res.status(500).json({ err: error })
+//   }
+// })
+
+// router.put('/:id', upload.array('photo', 10), async (req, res) => {
+//   try {
+//     const oldThing = await Thing.findByPk(req.params.id);
+//     if (!oldThing) {
+//       res.status(404).json({ error: 'Thing not found' });
+//     }
+//     await oldThing.update(req.body);
+//     const finalThing = oldThing.get({ plain: true });
+//     if (req.body.Photos) {
+//       const existingPhotoUrls = await Photo.findAll({ where: { thingId: req.params.id } }).map((photo) => photo.photoUrl);
+//       const newPhotoUrls = req.body.Photos.map((photo) => photo.photoUrl);
+//       const photoUrlsToDelete = existingPhotoUrls.filter((url) => !newPhotoUrls.includes(url));
+//       await Photo.destroy({ where: { photoUrl: { $in: photoUrlsToDelete }, thingId: req.params.id } });
+//     }
+//     res.status(200).json(finalThing);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// router.put('/:id', upload.array('photo', 10), async (req, res) => {
+//   try {
+//     const oldThing = await Thing.findByPk(req.params.id);
+//     if (!oldThing) {
+//       res.status(404).json({ error: 'Thing not found' });
+//     }
+//     await oldThing.update(req.body);
+//     const finalThing = oldThing.get({ plain: true });
+//     if (req.body.Photos) {
+//       const existingPhotos = await Photo.findAll({ where: { thingId: req.params.id } });
+//       if (existingPhotos) {
+//         const existingPhotoUrls = existingPhotos.map((photo) => photo.photoUrl);
+//         const newPhotoUrls = req.body.Photos.map((photo) => photo.photoUrl);
+//         const photoUrlsToDelete = existingPhotoUrls.filter((url) => !newPhotoUrls.includes(url));
+//         if (photoUrlsToDelete.length > 0) {
+//           await Photo.destroy({ where: { photoUrl: { $in: photoUrlsToDelete }, thingId: req.params.id } });
+//         }
+//       }
+//     }
+//     res.status(200).json(finalThing);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// router.put('/:id', upload.array('photo', 10), async (req, res) => {
+//   try {
+//     const oldThing = await Thing.findByPk(req.params.id);
+//     if (!oldThing) {
+//       res.status(404).json({ error: 'Thing not found' });
+//     }
+//     await oldThing.update(req.body);
+//     const finalThing = oldThing.get({ plain: true });
+//     if (req.body.Photos && req.body.Photos.length > 0) {
+//       const existingPhotos = await Photo.findAll({ where: { thingId: req.params.id } });
+//       if (existingPhotos.length > 0) {
+//         const existingPhotoUrls = existingPhotos.map((photo) => photo.photoUrl);
+//         const newPhotoUrls = req.body.Photos.map((photo) => photo.photoUrl);
+//         const photoUrlsToDelete = existingPhotoUrls.filter((url) => !newPhotoUrls.includes(url));
+//         if (photoUrlsToDelete.length > 0) {
+//           await Photo.destroy({ where: { photoUrl: { [Op.in]: photoUrlsToDelete }, thingId: req.params.id } });
+//         }
+//       }
+//     } else {
+//       await Photo.destroy({ where: { thingId: req.params.id } });
+//     }
+//     res.status(200).json(finalThing);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 module.exports = router
