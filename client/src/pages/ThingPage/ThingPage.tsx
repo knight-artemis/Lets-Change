@@ -18,6 +18,7 @@ import Modal from '../../components/Widgets/Modal/Modal'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import InitChange from '../../components/ChangeHandlers/InitChange/InitChange'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
+import ThingUpdateForm from '../../components/ChangeHandlers/ThingUpdateForm/ThingUpdateForm'
 
 type ByMeDealsType = {
   id: number
@@ -56,7 +57,8 @@ export default function ThingPage(): JSX.Element {
   }
 
   const [thing, setThing] = useState<ThingType>(initialThing)
-  const [modalActive, setModalActive] = useState<boolean>(true)
+  const [modalActive1, setModalActive1] = useState<boolean>(true)
+  const [modalActive2, setModalActive2] = useState<boolean>(true)
   const [initiate, setInitiate] = useState<boolean>(false)
   const user = useAppSelector((store) => store.userSlice.user)
   const dispatcher = useAppDispatch()
@@ -72,7 +74,7 @@ export default function ThingPage(): JSX.Element {
           {
             withCredentials: true,
           },
-        );
+        )
         const myDealsRes = await axios.get<ByMeDealsType[]>(
           `${import.meta.env.VITE_API}/v1/deals/initiate-by-me`,
           {
@@ -81,7 +83,11 @@ export default function ThingPage(): JSX.Element {
         )
         console.log(thingRes.data, myDealsRes.data)
         setThing(thingRes.data)
-        setInitiate(!!myDealsRes.data.find((el) => el.thingId === thingRes.data.id && el.status !== 4))
+        setInitiate(
+          !!myDealsRes.data.find(
+            (el) => el.thingId === thingRes.data.id && el.status !== 4,
+          ),
+        )
       } catch (error) {
         console.log(error)
       }
@@ -94,7 +100,11 @@ export default function ThingPage(): JSX.Element {
     <>
       <div className={`${styles.post}`}>
         <h1>{thing.thingName}</h1>
-        <h2>{`${thing.User.firstName} ${thing.User.lastName}`}</h2>
+        <h2>
+          {thing.User.lastName
+            ? `${thing.User.firstName} ${thing.User.lastName}`
+            : `${thing.User.firstName}`}
+        </h2>
         <div className={`${styles.mainContent}`}>
           <div className={`${styles.photoBlock}`}>
             <CarouselProvider
@@ -124,10 +134,20 @@ export default function ThingPage(): JSX.Element {
                 <button
                   type='button'
                   className={`${styles.button}`}
-                  onClick={() => setModalActive((prev) => !prev)}
+                  onClick={() => setModalActive1((prev) => !prev)}
                 >
                   Давай меняться
                 </button>
+              )}
+              {user.id !== 0 && user.id === thing.userId ? (
+                <button
+                  type='button'
+                  onClick={() => setModalActive2((prev) => !prev)}
+                >
+                  Изменить
+                </button>
+              ) : (
+                <> </>
               )}
             </div>
             <div className={`${styles.mapDiv}`}>
@@ -164,8 +184,11 @@ export default function ThingPage(): JSX.Element {
           </div>
         </div>
       </div>
-      <Modal active={modalActive} setActive={setModalActive}>
+      <Modal active={modalActive1} setActive={setModalActive1}>
         <InitChange thingId={thing.id} />
+      </Modal>
+      <Modal active={modalActive2} setActive={setModalActive2}>
+        <ThingUpdateForm thingId={thing.id} initialThing={initialThing} />
       </Modal>
     </>
   )

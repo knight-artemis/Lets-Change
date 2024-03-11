@@ -1,0 +1,15 @@
+.imgDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.littlePhoto {
+    width: 5rem;
+    height: 5rem;
+}
+
+.imgSpan {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
