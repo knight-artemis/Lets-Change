@@ -20,6 +20,7 @@ const thingsRouter = require('./src/routes/api/v1/things.routes')
 const dealsRouter = require('./src/routes/api/v1/deals.routes')
 const testRouter = require('./src/routes/api/v1/test.routes')
 const userRouter = require('./src/routes/api/v1/user.routes')
+const adminRouter = require('./src/routes/api/v1/admin.routes')
 
 const { PORT, CLIENT_PORT, SESSION_SECRET, SOCKET_PORT } = process.env
 
@@ -53,6 +54,7 @@ app.use('/api/v1/things', thingsRouter)
 app.use('/api/v1/deals', dealsRouter)
 app.use('/api/v1/test', testRouter)
 app.use('/api/v1/user', userRouter)
+app.use('/api/v1/admin', adminRouter)
 
 socketIo.on('connection', (socket) => {
   const userId = socket.handshake.headers.newuserid

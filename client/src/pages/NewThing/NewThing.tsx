@@ -6,6 +6,7 @@ import Button from '../../components/Shared/Button/Button'
 import type { CategoryType } from '../../types'
 import { useAppDispatch } from '../../redux/hooks'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
+import Modal from '../../components/Widgets/Modal/Modal'
 
 type FormData = {
   thingName: string
@@ -16,7 +17,7 @@ type FormData = {
   thingLon: number
   endDate: Date
   isApproved: boolean
-  [key: string]: string | number | Date | boolean 
+  [key: string]: string | number | Date | boolean
 }
 
 type GeoResponse = {
@@ -24,8 +25,8 @@ type GeoResponse = {
     GeoObjectCollection: {
       featureMember: {
         GeoObject: {
-          description: string;
-          name: string;
+          description: string
+          name: string
         }
       }[]
     }
@@ -46,7 +47,7 @@ export default function NewThing(): JSX.Element {
     thingAddress: '',
     thingLat: 0,
     thingLon: 0,
-    endDate: calculateEndDate(7), 
+    endDate: calculateEndDate(7),
     isApproved: true, //! убрать когда будет админ
   }
   const [location, setLocation] = useState<number[]>([])
@@ -54,10 +55,11 @@ export default function NewThing(): JSX.Element {
   const [categories, setCategories] = useState<CategoryType[]>([
     CategoryInitVal,
   ])
-  const [days, setDays] = useState<number>(7) 
+  const [days, setDays] = useState<number>(7)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [formData, setFormData] = useState(initialFormsData)
   const dispatcher = useAppDispatch()
+  const [modalActive, setModalActive] = useState<boolean>(true)
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setDays(Number(e.target.value))
@@ -69,8 +71,8 @@ export default function NewThing(): JSX.Element {
 
   useEffect(() => {
     dispatcher(fetchGetNot())
-    .then()
-    .catch((err) => console.log(err))
+      .then()
+      .catch((err) => console.log(err))
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -94,7 +96,7 @@ export default function NewThing(): JSX.Element {
   }, [])
 
   // const handleFileChange = (event) => {
-  
+
   // }
 
   const handleChange = (
@@ -112,7 +114,7 @@ export default function NewThing(): JSX.Element {
   const handleUploadClick = async (): Promise<void> => {
     if (!fileInputRef.current?.files?.length)
       return console.log('please upload files')
-    const data = new FormData() 
+    const data = new FormData()
 
     const { files } = fileInputRef.current
     for (let i = 0; i < files.length; i += 1) {
@@ -161,12 +163,14 @@ export default function NewThing(): JSX.Element {
   // console.log(address)
 
   const handleAccept = (): void => {
+    console.log(address, location)
     setFormData({
       ...formData,
       thingAddress: address,
       thingLat: location[0],
       thingLon: location[1],
     })
+    setModalActive((prev) => !prev)
   }
 
   return (
@@ -219,43 +223,49 @@ export default function NewThing(): JSX.Element {
         // onChange={handleFileChange}
       />
       {/* <MyPlacemarkUpload /> */}
-      <h5>Выберите локацию</h5>
-
-      {/* {location.length > 0 && ( */}
-      <Map
-        onClick={(e: { get: (arg0: string) => number[] }) => handleClick(e.get('coords'))}
-        width='600px'
-        height='500px'
-        defaultState={{
-          center: location,
-          zoom: 15,
-          controls: ['zoomControl', 'fullscreenControl'],
-        }}
-        state={{
-          center: location,
-          zoom: 15,
-          controls: ['zoomControl', 'fullscreenControl'],
-        }}
-      >
-        <GeolocationControl options={{ float: 'left' }} />
-        {address.length > 0 && (
-          <Placemark
-            onClick={() => console.log('click')}
-            geometry={location}
-            properties={{
-              balloonContentBody:
-                'This is balloon loaded by the Yandex.Maps API module system',
+      <h5>{address.length ? address : 'Выберите локацию'}</h5>
+      <Button onClick={() => void setModalActive((prev) => !prev)}>
+        {address.length ? 'изменить местоположение' : 'выбрать местоположение'}
+      </Button>
+      <Modal active={modalActive} setActive={setModalActive}>
+        <>
+          <Map
+            onClick={(e: { get: (arg0: string) => number[] }) =>
+              handleClick(e.get('coords'))
+            }
+            width='600px'
+            height='500px'
+            defaultState={{
+              center: location,
+              zoom: 15,
+              controls: ['zoomControl', 'fullscreenControl'],
             }}
-          />
-        )}
-      </Map>
-      {/* )} */}
-      {address.length > 0 && <p>{address}</p>}
-      {/* <Button color='good'>Загрузить</Button>
+            state={{
+              center: location,
+              zoom: 15,
+              controls: ['zoomControl', 'fullscreenControl'],
+            }}
+          >
+            <GeolocationControl options={{ float: 'left' }} />
+            {address.length > 0 && (
+              <Placemark
+                onClick={() => console.log('click')}
+                geometry={location}
+                properties={{
+                  balloonContentBody:
+                    'This is balloon loaded by the Yandex.Maps API module system',
+                }}
+              />
+            )}
+          </Map>
+          {address.length > 0 ? <p>{address}</p> : <p> </p>}
+          {/* <Button color='good'>Загрузить</Button>
       <Button color='warning'>Загрузить</Button>
       <Button color='neutral'>Загрузить</Button>
       <Button color='danger'>Загрузить</Button> */}
-      <Button onClick={() => handleAccept()}>Подтвердить локацию</Button>
+          <Button disabled={!address.length} onClick={() => handleAccept()}>Подтвердить локацию</Button>
+        </>
+      </Modal>
       <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
     </form>
   )

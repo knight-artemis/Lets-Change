@@ -1,5 +1,5 @@
 function stripThings(thingsRaw, options = {}) {
-  const { filter = true } = options
+  const { filter = true} = options
   const things = thingsRaw
     .map((thing) => {
       const plainThing = thing.get({ plain: true })

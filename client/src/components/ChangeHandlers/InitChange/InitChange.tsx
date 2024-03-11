@@ -29,11 +29,11 @@ export default function InitChange({
         { withCredentials: true },
       )
       .then((res) =>
-        setMyThings(res.data.filter((el) => !el.inDeal ?? el.isApproved)),
+        setMyThings(res.data.filter((el) => !el.inDeal && el.isApproved)),
       )
       .catch((err) => console.log('Ошибка получения всех СВОИХ вещей', err))
   }, [user])
-  console.log(user, myThings)
+  // console.log(user, myThings)
 
   const handlerAddThing = (id: number): void => {
     const thing = myThings.find((el) => el.id === id) as SimplifiedThingType
@@ -59,11 +59,10 @@ export default function InitChange({
           withCredentials: true,
         },
       )
-      console.log(deal)
+      if (deal.status === 201) navigate('/my-deals/from-me')
     } catch (error) {
       console.log(error)
     }
-    console.log(thingId, things)
   }
 
   if (!user.id) {

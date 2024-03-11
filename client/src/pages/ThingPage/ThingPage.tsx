@@ -79,7 +79,7 @@ export default function ThingPage(): JSX.Element {
             withCredentials: true,
           },
         )
-        console.log(thingRes.data, myDealsRes.data)
+        // console.log(thingRes.data, myDealsRes.data)
         setThing(thingRes.data)
         setInitiate(!!myDealsRes.data.find((el) => el.thingId === thingRes.data.id && el.status !== 4))
       } catch (error) {
@@ -88,12 +88,12 @@ export default function ThingPage(): JSX.Element {
     })()
   }, [])
 
-  console.log(initiate)
-
   return (
     <>
       <div className={`${styles.post}`}>
         <h1>{thing.thingName}</h1>
+        {thing.issue && <h2 style={{color: 'red'}}>{thing.issue}</h2>}
+        {!thing.isApproved && !thing.issue?.length && <h2 style={{color: 'orange'}}>Вещь пока на модерации</h2>}
         <h2>{`${thing.User.firstName} ${thing.User.lastName}`}</h2>
         <div className={`${styles.mainContent}`}>
           <div className={`${styles.photoBlock}`}>
