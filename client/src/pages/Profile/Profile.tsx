@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Bounce, toast } from 'react-toastify'
 import styles from './Profile.module.css'
@@ -11,40 +11,39 @@ import PhoneChahgeForm from '../../components/ChangeHandlers/PhoneChangeForm/Pho
 import InitialsChangeForm from '../../components/ChangeHandlers/InitialsChangeForm/InitialsChangeForm'
 import AddressChangeForm from '../../components/ChangeHandlers/AddressChangeForm/AddressChangeForm'
 import SubForm from '../../components/ChangeHandlers/SubForm/SubForm'
-import { fetchUpd } from '../../redux/user/userThunkActions'
+import { fetchGetNot, fetchUpd } from '../../redux/user/userThunkActions'
 import type { UserType } from '../../types'
 
 export default function Profile(): JSX.Element {
-
   const dispatch = useAppDispatch()
 
-    const notifySuccess = (message: string): void => {
-      toast.success(message, {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-        transition: Bounce,
-      })
+  const notifySuccess = (message: string): void => {
+    toast.success(message, {
+      position: 'top-center',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+      transition: Bounce,
+    })
   }
-  
-    const notifyWarning = (message: string): void => {
-      toast.warn(message, {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-        transition: Bounce,
-      })
-    }
+
+  const notifyWarning = (message: string): void => {
+    toast.warn(message, {
+      position: 'top-center',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+      transition: Bounce,
+    })
+  }
 
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)
@@ -55,6 +54,11 @@ export default function Profile(): JSX.Element {
   const [modalActive7, setModalActive7] = useState<boolean>(true)
 
   const user = useAppSelector((store) => store.userSlice.user)
+  useEffect(() => {
+    dispatch(fetchGetNot())
+      .then()
+      .catch((err) => console.log(err))
+  }, [])
 
   const deleteAvatar = async (): Promise<void> => {
     try {
@@ -62,7 +66,7 @@ export default function Profile(): JSX.Element {
         `${import.meta.env.VITE_API}/v1/user/deleteAvatar`,
         { withCredentials: true },
       )
-      console.log(response);
+      console.log(response)
       await dispatch(fetchUpd(response.data))
       notifySuccess('Аватар успешно удален.')
     } catch (error) {

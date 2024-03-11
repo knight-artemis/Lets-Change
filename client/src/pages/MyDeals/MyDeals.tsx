@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import style from './MyDeals.module.css'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 import Button from '../../components/Shared/Button/Button'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import type {
   MyDealsType,
   OneDealToMe,
@@ -15,6 +15,7 @@ import type {
 } from '../../types'
 import DealPannel from '../../components/Widgets/DealPannel/DealPannel'
 import Chip from '../../components/Shared/Chip/Chip'
+import { fetchGetNot } from '../../redux/user/userThunkActions'
 
 export default function MyDeals({
   toMe = true,
@@ -29,11 +30,15 @@ export default function MyDeals({
 
   const [allDeals, setAllDeals] = useState<MyDealsType>()
   const [selectedDeals, setSelectedDeals] = useState<
-    OneDealToMe[] | OneDealFromMe[]
+  OneDealToMe[] | OneDealFromMe[]
   >()
   const [mainText, setMainText] = useState<string>('Мои сделки')
+  const dispatcher = useAppDispatch()
 
   useEffect(() => {
+    dispatcher(fetchGetNot())
+    .then()
+    .catch((err) => console.log(err))
     axios
       .get<MyDealsType>(
         `${import.meta.env.VITE_API}/v1/deals/user/${user.id}`,

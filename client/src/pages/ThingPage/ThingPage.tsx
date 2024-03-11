@@ -15,8 +15,9 @@ import axios from 'axios'
 import styles from './ThingPage.module.css'
 import type { ThingType } from '../../types'
 import Modal from '../../components/Widgets/Modal/Modal'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import InitChange from '../../components/ChangeHandlers/InitChange/InitChange'
+import { fetchGetNot } from '../../redux/user/userThunkActions'
 
 type ByMeDealsType = {
   id: number
@@ -58,12 +59,14 @@ export default function ThingPage(): JSX.Element {
   const [modalActive, setModalActive] = useState<boolean>(true)
   const [initiate, setInitiate] = useState<boolean>(false)
   const user = useAppSelector((store) => store.userSlice.user)
+  const dispatcher = useAppDispatch()
 
   const params = useParams()
 
   useEffect(() => {
     void (async () => {
       try {
+        await dispatcher(fetchGetNot())
         const thingRes = await axios.get<ThingType>(
           `${import.meta.env.VITE_API}/v1/things/${params.id}`,
           {

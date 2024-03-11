@@ -24,6 +24,9 @@ export default function CardSimple({
 
   return (
     <>
+      <Modal active={modalActive} setActive={setModalActive}>
+        <ModalThing thingId={thingId} />
+      </Modal>
       <div
         onClick={() => void setModalActive((prev) => !prev)}
         onKeyDown={(event) => event}
@@ -53,9 +56,6 @@ export default function CardSimple({
           </center>
         </div>
       </div>
-      <Modal active={modalActive} setActive={setModalActive}>
-        <ModalThing thingId={thingId} />
-      </Modal>
     </>
   )
 }

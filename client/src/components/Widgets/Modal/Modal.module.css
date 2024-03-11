@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   transform: scale(0);
+  /* z-index: 999; */
 }
 
 .active {
@@ -22,6 +23,7 @@
   align-items: center;
   justify-content: center;
   transform: scale(1);
+  z-index: 999;
 }
 
 .modalContent {
