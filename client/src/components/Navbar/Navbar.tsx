@@ -11,6 +11,7 @@ import { fetchAdminLogout } from '../../redux/admin/adminThunkActions'
 import Avatar from '../Widgets/Avatar/Avatar'
 
 export default function Navbar(): JSX.Element {
+  
   const user = useAppSelector((store) => store.userSlice.user)
   const admin = useAppSelector((store) => store.adminSlice.admin)
   const notifications = useAppSelector<NotType>(
@@ -25,7 +26,7 @@ export default function Navbar(): JSX.Element {
   const logOutAdminHandler = async (): Promise<void> => {
     await dispatch(fetchAdminLogout())
   }
-
+  console.log(`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`);
   return (
     <nav className={styles.navbar}>
       <div className={styles.menu}>
@@ -44,12 +45,17 @@ export default function Navbar(): JSX.Element {
         </Link>
       ) : (
         <div className={styles.menu}>
-          <span>{user.firstName}</span>
-          <Avatar
-            border={0}
-            size={3}
-            src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
-          />
+          {user.id > 0 && (
+            <>
+              <span>{user.firstName}</span>
+              <Avatar
+                border={1}
+                size={3}
+                src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+                letter={user.firstName[0]}
+              />
+            </>
+          )}
 
           <Link className={styles.link} to='/'>
             Главная

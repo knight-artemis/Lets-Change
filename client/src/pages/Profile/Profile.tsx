@@ -83,6 +83,11 @@ export default function Profile(): JSX.Element {
       <div className={styles.userInfo}>
         <h2>Информация о пользователе</h2>
         <div className={styles.avatarDiv}>
+          <Avatar
+            size={5}
+            src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+            letter={user.firstName[0]}
+          />
           {user.avatarUrl ? (
             <div>
               <button
@@ -94,13 +99,10 @@ export default function Profile(): JSX.Element {
               <button type='button' onClick={() => void deleteAvatar()}>
                 Удалить аватар
               </button>
-              <Avatar
-                size={5}
-                src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
-              />
-                {/* 
 
-src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+              {/* 
+
+                src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
 
               <img
                 className={styles.avatar}
