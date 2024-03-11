@@ -8,6 +8,7 @@ import SvgLink from '../Shared/SvgLink/SvgLink'
 import Chip from '../Shared/Chip/Chip'
 import type { NotType } from '../../types'
 import { fetchAdminLogout } from '../../redux/admin/adminThunkActions'
+import Avatar from '../Widgets/Avatar/Avatar'
 
 export default function Navbar(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
@@ -27,17 +28,29 @@ export default function Navbar(): JSX.Element {
 
   return (
     <nav className={styles.navbar}>
-      <Link className={styles.link} to={admin.id ? '/admin' : '/'}>
-        <SvgLink text='LOGO' />
-      </Link>
-      <span>{user.firstName}</span>
+      <div className={styles.menu}>
+        <Link className={styles.link} to={admin.id ? '/admin' : '/'}>
+          <SvgLink text='LOGO' />
+        </Link>
+      </div>
 
       {admin.id > 0 ? (
-        <Link className={styles.link} to='/' onClick={() => void logOutAdminHandler()}>
+        <Link
+          className={styles.link}
+          to='/'
+          onClick={() => void logOutAdminHandler()}
+        >
           Выйти
         </Link>
       ) : (
         <div className={styles.menu}>
+          <span>{user.firstName}</span>
+          <Avatar
+            border={0}
+            size={3}
+            src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+          />
+
           <Link className={styles.link} to='/'>
             Главная
           </Link>

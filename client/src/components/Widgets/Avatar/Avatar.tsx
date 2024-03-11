@@ -5,16 +5,18 @@ type AvatarProps = {
   size?: number
   letter?: string
   src?: string
+  border? : number
 }
 
 export default function Avatar({
   size = 3,
   letter = '?',
+  border = 5,
   src,
 }: AvatarProps): JSX.Element {
   return (
     <div
-      style={{ width: `${size}rem`, height: `${size}rem` }}
+      style={{ width: `${size}rem`, height: `${size}rem`, border: `${border}px solid var( --color-btn-font-neutral)` }}
       className={style.avatar}
     >
       {src ? (

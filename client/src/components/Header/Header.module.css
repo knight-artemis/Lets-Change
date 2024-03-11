@@ -1,7 +1,9 @@
 .header {
-    width: 100dvw;
+    /* width: 100%; */
     background-color: var(--color-main);
     display: flex;
-    padding: 1rem 2rem;
+    padding: .2rem 2rem;
+    height: 3.5rem;
     flex: 0 0 auto;
+    align-items: center;
 }

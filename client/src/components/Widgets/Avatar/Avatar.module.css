@@ -1,6 +1,6 @@
 .avatar {
     border-radius: 50%;
-    border: 5px solid var( --color-btn-font-neutral);
+    /* border: 5px solid var( --color-btn-font-neutral); */
     overflow: hidden;
 }
 
