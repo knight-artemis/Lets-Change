@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import React from 'react'
 import clsx from 'clsx'
-import style from './Button.module.css'
+import style from './Grid.module.css'
 
 type GridProps = {
   children: ReactNode 

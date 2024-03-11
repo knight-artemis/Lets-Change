@@ -11,6 +11,7 @@ import { fetchGetNot } from '../../redux/user/userThunkActions'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
+import Grid from '../../components/PageSkeleton/Grid/Grid'
 
 const ThingInitVal = {
   id: 0,
@@ -61,15 +62,17 @@ export default function MyThings(): JSX.Element {
         </Button>
       </SideBar>
       <MainContent>
-        {things.length !== 0 ? (
-          things.map((thing: SimplifiedThingType) => (
-            <Card key={`card-${thing.id}`} thing={thing} />
-          ))
-        ) : (
-          <div className={style.emptyPage}>
-            <span>Вы ещё не добавили никаких вещей</span>
-          </div>
-        )}
+        <Grid>
+          {things.length !== 0 ? (
+            things.map((thing: SimplifiedThingType) => (
+              <Card key={`card-${thing.id}`} thing={thing} />
+            ))
+          ) : (
+            <div className={style.emptyPage}>
+              <span>Вы ещё не добавили никаких вещей</span>
+            </div>
+          )}
+        </Grid>
       </MainContent>
     </WholePage>
 

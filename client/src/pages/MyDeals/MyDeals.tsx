@@ -19,6 +19,7 @@ import { fetchGetNot } from '../../redux/user/userThunkActions'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
+import Grid from '../../components/PageSkeleton/Grid/Grid'
 
 export default function MyDeals({
   toMe = true,
@@ -126,6 +127,7 @@ export default function MyDeals({
         </Button>
       </SideBar>
       <MainContent>
+      <Grid>
         <div className={style.topContent}>
           <span className={style.span}>{mainText}</span>
         </div>
@@ -147,6 +149,7 @@ export default function MyDeals({
             setSelectedDeals={setSelectedDeals}
           />
         ))}
+        </Grid>
       </MainContent>
       {/* </div> */}
 
