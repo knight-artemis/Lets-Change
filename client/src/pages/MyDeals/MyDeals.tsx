@@ -46,7 +46,7 @@ export default function MyDeals({
       )
       .then((res) => {
         setAllDeals(res.data)
-        setSelectedDeals(toMe ? res.data.toMeDeals : res.data.fromMeDeals)
+        setSelectedDeals(toMe ? res.data.toMeDeals.filter(el => el.status !== 4) : res.data.fromMeDeals.filter(el => el.initiatorNote || el.status !== 4))
         setMainText(
           toMe ? 'у меня хотят забрать эти вещи' : 'я хочу забрать эти вещи',
         )
@@ -125,7 +125,7 @@ export default function MyDeals({
 
           <div className={style.list}>
             {selectedDeals?.map((deal) => (
-              <DealPannel key={deal.id} deal={deal} />
+              <DealPannel key={deal.id} deal={deal} setSelectedDeals={setSelectedDeals}/>
             ))}
           </div>
         </div>
