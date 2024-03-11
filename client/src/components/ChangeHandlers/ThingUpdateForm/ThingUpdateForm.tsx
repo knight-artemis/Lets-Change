@@ -19,6 +19,10 @@ export default function ThingUpdateForm({
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
+    console.log(inputs)
+  }, [inputs])
+
+  useEffect(() => {
     const fetchThingInfo = async (): Promise<void> => {
       try {
         const response = await axios.get<ThingType>(
@@ -62,7 +66,16 @@ export default function ThingUpdateForm({
     }))
   }
 
-  // const updateThingInfo = async (): Promise<void> => {}
+  const updateThingInfo = async (): Promise<void> => {
+    const updatedThing = await axios.put(
+      `${import.meta.env.VITE_API}/v1/things/${inputs.id}`,
+      inputs,
+      {
+        withCredentials: true,
+      },
+    )
+    setInputs(updatedThing.data)
+  }
 
   return (
     <form className={styles.main} encType='multipart/form-data'>
@@ -121,7 +134,9 @@ export default function ThingUpdateForm({
       <h5>Выберите локацию</h5>
 
       {/* <Button onClick={() => handleAccept()}>Подтвердить локацию</Button> */}
-      <button type='button'>Обновить данные</button>
+      <button type='button' onClick={() => void updateThingInfo()}>
+        Обновить данные
+      </button>
     </form>
   )
 }
