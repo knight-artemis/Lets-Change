@@ -33,6 +33,7 @@ export type CategoryType = {
 }
 
 export type PhotoType = {
+  [x: string]: any
   id: number
   photoUrl: string
 }
@@ -44,6 +45,7 @@ export type ShortUserType = {
 }
 
 export type ThingType = {
+  filter(arg0: (el: any) => boolean): ThingType
   id: number
   userId: number
   categoryId: number

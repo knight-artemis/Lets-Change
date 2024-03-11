@@ -216,4 +216,10 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
   }
 })
 
+router.put('/:id', upload.array('photo', 10), async (req, res) => {
+
+
+
+})
+
 module.exports = router
