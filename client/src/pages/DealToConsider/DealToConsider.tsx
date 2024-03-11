@@ -22,26 +22,25 @@ export default function DealToConsider(): JSX.Element {
       .catch((err) => console.log('Ошибка получения подробной сделки', err))
   }, [id])
 
-  const acceptedHandler = async ():  Promise<void>  => {
-    await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
-      status: 1,
-      selectedThingId,
-    },{
-      withCredentials: true,
-    })
-    navigate('/my-deals')
+  const acceptedHandler = async (): Promise<void> => {
+    await axios.patch(
+      `${import.meta.env.VITE_API}/v1/deals/${id}/accepted`,
+      { selectedThingId },
+      { withCredentials: true },
+    )
+    navigate('/my-deals/from-me')
 
     // тут запрос в бд и подтверждение сделки
     // затем навигейт на страницу сделки
   }
   const rejectedHandler = async (): Promise<void> => {
     // тут пишемручку на отказ. мб
-    await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
-      status: 4
-    },{
-      withCredentials: true,
-    })
-    navigate('/my-deals')
+    await axios.patch(
+      `${import.meta.env.VITE_API}/v1/deals/${id}/rejected`,
+      {},
+      { withCredentials: true },
+    )
+    navigate('/my-deals/from-me')
     // тут запрос в бд и отказ от сделки
     // затем навигейт на страницу всех своих сделок
   }
@@ -95,7 +94,11 @@ export default function DealToConsider(): JSX.Element {
         Выбрано: {deal?.initiatorThings[selectedThingId]?.thingName}
       </div>
       <div className={style.bottomLine}>
-        <Button disabled={selectedThingId < 0} color='good' onClick={() => acceptedHandler()}>
+        <Button
+          disabled={selectedThingId < 0}
+          color='good'
+          onClick={() => acceptedHandler()}
+        >
           Давай меняться
         </Button>
         <Button color='danger' onClick={rejectedHandler}>
