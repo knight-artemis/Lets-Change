@@ -102,6 +102,7 @@ export default function DealPannel({
     }
   }, [deal.acceptedByInitiator, deal.initiatorId, deal.status, user.id])
 
+  //! ТУТ ВСЁ НЕ ТАК ) оба хэндлера
   const acceptedHandler = async (id:number):  Promise<void>  => {
     await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
       status: 3,
