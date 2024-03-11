@@ -12,6 +12,10 @@ router.post('/avatarUpd', upload.single('avatar'), async (req, res) => {
     const reqUser = await User.findByPk(req.session.user.id)
     await reqUser.update({ avatarUrl: req.file.filename })
     const finUser = reqUser.get({ plain: true })
+    delete finUser.password
+    req.session.user = { ...finUser }
+    console.log(req.session.user, 'Я юзер из сессии');
+    console.log(finUser, 'Я фин юзер');
     res.status(200).json(finUser)
   } catch (error) {
     res.status(500).json({ err: 'Что-то пошло не так в ручке' })
@@ -23,6 +27,8 @@ router.get('/deleteAvatar', async (req, res) => {
     const reqUser = await User.findByPk(req.session.user.id)
     await reqUser.update({ avatarUrl: '' })
     const finUser = reqUser.get({ plain: true })
+    delete finUser.password
+    req.session.user = { ...finUser }
     res.status(200).json(finUser)
   } catch (error) {
     res.status(500).json({ err: 'Что-то пошло не так в ручке' })
@@ -72,14 +78,18 @@ router.put('/userUpd', async (req, res) => {
     const reqUser = await User.findByPk(user.id)
     if (user.email === req.body.email) {
       await reqUser.update(req.body)
-      delete reqUser.password
+      const finUser = reqUser.get({ plain: true })
+      delete finUser.password
+      req.session.user = { ...finUser }
       res.status(200).json(reqUser)
     } else if (User.findOne({ where: { email: user.email } })) {
       res.status(500).json({ err: 'Что-то пошло не так в ручке' })
     } else {
       await reqUser.update(req.body)
-      delete reqUser.password
-      res.status(200).json(reqUser)
+      const finUser = reqUser.get({ plain: true })
+      delete finUser.password
+      req.session.user = { ...finUser }
+      res.status(200).json(finUser)
     }
   } catch (error) {
     res.status(500).json({ err: 'Что-то пошло не так в ручке' })
