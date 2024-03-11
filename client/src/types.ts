@@ -61,6 +61,7 @@ export type ThingType = {
   User: ShortUserType
   Category: { categoryTitle: string }
   Photos: PhotoType[]
+  issue?: string
 }
 
 export type SimplifiedThingType = {
@@ -75,6 +76,7 @@ export type SimplifiedThingType = {
   photoUrl: string
   inDeal?: boolean
   isApproved?: boolean
+  issue?: string
 }
 
 type OneDealSkeleton = {
@@ -147,4 +149,9 @@ export type MsgType = {
 export type NotType = {
   initiator: number
   reciever: number
+}
+
+export type AdminType = {
+  id: number
+  login: string
 }

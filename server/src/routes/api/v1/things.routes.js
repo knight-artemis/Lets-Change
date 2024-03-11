@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const upload = require('../../../../multerForThings')
 const {
-  User, Thing, Category, Photo,
+  User, Thing, Category, Photo, Issue,
 } = require('../../../../db/models')
 const { stripThings } = require('../../../services/things')
 
@@ -15,9 +15,7 @@ router.get('/categories', async (req, res) => {
     res.status(200).json(categories)
   } catch (error) {
     console.error('Ошибка при поиске категорий', error)
-    res
-      .status(500)
-      .send({ err: { server: 'Ошибка сервера при поиске категорий' } })
+    res.status(500).send({ err: { server: 'Ошибка сервера при поиске категорий' } })
   }
 })
 
@@ -55,14 +53,10 @@ router.get('/categories/:id', async (req, res) => {
     const things = stripThings(thingsRaw)
     res.status(200).json(things)
   } catch (error) {
-    console.error(
-      'Ошибка при получении объявлений в конкретной категории',
-      error,
-    )
+    console.error('Ошибка при получении объявлений в конкретной категории', error)
     res.status(500).send({
       err: {
-        server:
-          'Ошибка сервера при получении объявлений в конкретной категории',
+        server: 'Ошибка сервера при получении объявлений в конкретной категории',
       },
     })
   }
@@ -72,15 +66,7 @@ router.get('/user/:id', async (req, res) => {
   const { id } = req.params
   try {
     const thingsRaw = await Thing.findAll({
-      attributes: [
-        'id',
-        'userId',
-        'categoryId',
-        'thingName',
-        'endDate',
-        'isApproved',
-        'inDeal',
-      ],
+      attributes: ['id', 'userId', 'categoryId', 'thingName', 'endDate', 'isApproved', 'inDeal'],
       include: [
         {
           model: User,
@@ -96,20 +82,32 @@ router.get('/user/:id', async (req, res) => {
           model: Category,
           attributes: ['categoryTitle'],
         },
+        {
+          model: Issue,
+          attributes: ['issue'],
+        },
       ],
       order: [['createdAt', 'ASC']],
     })
 
-    const things = stripThings(thingsRaw, { filter: false })
+    const things = stripThings(thingsRaw, { filter: false }).map((el) => {
+      const thing = el
+      if (thing.Issues.length) {
+        const { issue } = thing.Issues[0]
+        thing.issue = issue
+      }
+      delete thing.Issues
+      return thing
+    })
     res.status(200).json(things)
   } catch (error) {
     console.error('Ошибка при получении всех объявлений', error)
-    res
-      .status(500)
-      .send({ err: { server: 'Ошибка сервера при получении всех объявлений' } })
+    res.status(500).send({ err: { server: 'Ошибка сервера при получении всех объявлений' } })
   }
 })
+
 router.get('/', async (req, res) => {
+  const { query } = req;
   try {
     const thingsRaw = await Thing.findAll({
       attributes: [
@@ -123,6 +121,7 @@ router.get('/', async (req, res) => {
         'endDate',
         'isApproved',
         'inDeal',
+        'description',
       ],
       include: {
         model: Photo,
@@ -133,12 +132,10 @@ router.get('/', async (req, res) => {
     })
 
     const things = stripThings(thingsRaw)
-    res.status(200).json(things)
+    res.status(200).json(query.admin ? thingsRaw : things)
   } catch (error) {
     console.error('Ошибка при получении всех объявлений', error)
-    res
-      .status(500)
-      .send({ err: { server: 'Ошибка сервера при получении всех объявлений' } })
+    res.status(500).send({ err: { server: 'Ошибка сервера при получении всех объявлений' } })
   }
 })
 
@@ -175,11 +172,20 @@ router.get('/:id', async (req, res) => {
           attributes: ['id', 'photoUrl', 'createdAt'],
           order: [['createdAt', 'ASC']],
         },
+        {
+          model: Issue,
+          attributes: ['issue'],
+        },
       ],
     })
 
-    if (thingRaw) {
-      const things = thingRaw.get({ plain: true })
+    const things = thingRaw.get({ plain: true })
+    if (things) {
+      if (things.Issues.length) {
+        const { issue } = things.Issues[0]
+        things.issue = issue
+      }
+      delete things.Issues
       res.status(200).json(things)
     } else {
       res.status(404).send({ err: { notfound: 'нет такой записи' } })
@@ -196,9 +202,7 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
   const { user } = req.session
   try {
     console.log({ userId: user.id, ...req.body })
-    const newThing = (await Thing.create({ userId: user.id, ...req.body })).get(
-      { plain: true },
-    )
+    const newThing = (await Thing.create({ userId: user.id, ...req.body })).get({ plain: true })
     const promises = req.files.map(async (item, index) => {
       const newPhoto = await Photo.create({
         thingId: newThing.id,
@@ -210,9 +214,7 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
     res.status(201).json(newThing)
   } catch (error) {
     console.error('Ошибка при создании объявления', error)
-    res
-      .status(500)
-      .send({ err: { server: 'Ошибка сервера при создании объявления' } })
+    res.status(500).send({ err: { server: 'Ошибка сервера при создании объявления' } })
   }
 })
 

@@ -109,7 +109,7 @@ export default function DealToConsider(): JSX.Element {
         >
           Давай меняться
         </Button>
-        <Button color='danger' onClick={() => void rejectedHandler}>
+        <Button color='danger' onClick={() => void rejectedHandler()}>
           Не хочу меняться
         </Button>
       </div>

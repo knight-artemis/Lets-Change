@@ -128,6 +128,7 @@ router.put('/passUpd', async (req, res) => {
 router.get('/notifications', async (req, res) => {
   // console.log('USERID+++++++>', req.session.user?.id)
   try {
+    if (!req.session.user) return res.sendStatus(200)
     const { id } = req.session.user
     const initiator = await Deal.findAll({
       where: { initiatorId: id, initiatorNote: true },

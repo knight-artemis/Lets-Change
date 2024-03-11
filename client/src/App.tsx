@@ -14,6 +14,7 @@ import NewThing from './pages/NewThing/NewThing'
 import Profile from './pages/Profile/Profile'
 import DealToConsider from './pages/DealToConsider/DealToConsider'
 import Deal from './pages/Deal/Deal'
+import Admin from './pages/Admin/Admin'
 // import { setPosition } from './redux/user/userSlice'
 // import useGeoLocation from './hooks/useGeoLocation'
 
@@ -61,6 +62,7 @@ function App(): JSX.Element {
           <Route path='/thing/:id' element={<ThingPage />} />
           <Route path='/deal-to-consider/:id' element={<DealToConsider />} />
           <Route path='/deal/:id' element={<Deal />} />
+          <Route path='/admin' element={<Admin />} />
         </Routes>
       </main>
       <Footer />
