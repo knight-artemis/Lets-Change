@@ -14,8 +14,8 @@ type CardProps = {
 }
 
 export default function Card({ thing, isMain }: CardProps): JSX.Element {
-
   const user = useAppSelector((store) => store.userSlice.user)
+  // console.log(thing)
 
   function getTimeLeft(endDate: Date): string {
     const msDelta = new Date(endDate).getTime() - new Date().getTime()
@@ -49,27 +49,71 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
   const navigate = useNavigate()
 
   return (
-    <Button key={thing.id} link onClick={() => void navigate(`/thing/${thing.id}`)}>
-
+    <Button
+      key={thing.id}
+      link
+      onClick={() => void navigate(`/thing/${thing.id}`)}
+    >
       <div className={style.card}>
+        <Chip top={0.5} left={0.5}>
+          {getTimeLeft(thing.endDate)}
+        </Chip>
+        {(thing.inDeal || !thing.isApproved) && (
+          <Chip
+            top={0.5}
+            right={0.5}
+            color={
+              (thing.inDeal && 'good') || (thing.issue && 'danger') || 'warning'
+            }
+          >
+            {(thing.inDeal && 'в сделке') ||
+              (thing.issue && 'отказ в публикации') ||
+              'на модерации'}
+          </Chip>
+        )}
+        {isMain && thing.userId === user.id && (
+          <Chip top={0.5} right={0.5} color='neutral'>
+            Моя вещь
+          </Chip>
+        )}
+        {isMain && thing.userId !== user.id && (
+          <Chip top={0} right={-0.5} color='none'>
+            <SvgLink icon='./assets/icons/star-favorite.svg' />
+          </Chip>
+        )}
 
-        <Chip top={.5} left={.5}>{getTimeLeft(thing.endDate)}</Chip>
-        {(thing.inDeal || !thing.isApproved) && 
-          <Chip top={.5} right={.5} color={thing.inDeal ? 'good' : 'warning'}>{thing.inDeal ? 'в сделке' : 'на модерации'}</Chip>}
-        {isMain && thing.userId === user.id && <Chip top={.5} right={.5} color='neutral'>Моя вещь</Chip> }      
-        {isMain && thing.userId !== user.id && 
-          <Chip top={0} right={-.5} color='none'><SvgLink icon='./assets/icons/star-favorite.svg'/></Chip> }      
-                
-        <div className={clsx(style.center, style.photoWrapper, (thing.inDeal || !thing.isApproved) && style.notActive)}>
-          <img className={clsx(style.center, style.photoBg)} src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка' />
-          <img className={clsx(style.center, style.photo)} src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`} alt='фотка-шмотка' />
+        <div
+          className={clsx(
+            style.center,
+            style.photoWrapper,
+            (thing.inDeal || !thing.isApproved) && style.notActive,
+          )}
+        >
+          <img
+            className={clsx(style.center, style.photoBg)}
+            src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
+            alt='фотка-шмотка'
+          />
+          <img
+            className={clsx(style.center, style.photo)}
+            src={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
+            alt='фотка-шмотка'
+          />
         </div>
 
         <div className={style.name}>
-          <center>{thing.thingName.length < 40 ? thing.thingName : `${thing.thingName.slice(0,37)}...`}</center>
+          <center>
+            {thing.thingName.length < 40
+              ? thing.thingName
+              : `${thing.thingName.slice(0, 37)}...`}
+          </center>
         </div>
 
-        <div className={clsx(Math.random() > 0.5 ? style.favorite : style.notFavorite)}/>
+        <div
+          className={clsx(
+            Math.random() > 0.5 ? style.favorite : style.notFavorite,
+          )}
+        />
       </div>
     </Button>
   )
