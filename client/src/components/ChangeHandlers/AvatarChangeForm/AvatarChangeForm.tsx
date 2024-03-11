@@ -50,7 +50,7 @@ export default function AvatarChangeForm({ setActive }: SetProps): JSX.Element {
 
   return (
     <form className={styles.form} encType='multipart/form-data'>
-      <h3>Avatar</h3>
+      <h3>Аватар</h3>
       <input
         type='file'
         name='avatar'

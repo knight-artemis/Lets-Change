@@ -66,7 +66,7 @@ export default function DealToConsider(): JSX.Element {
       <div className={style.textCol}>Моя вещь:</div>
       <div className={style.topLine}>
         <div className={style.oneThing}>
-          <CardSimple hoverable thing={deal?.Thing} />
+          <CardSimple hoverable thing={deal?.Thing} thingId={deal?.thingId} />
         </div>
       </div>
       <div className={style.textCol}>
@@ -89,7 +89,7 @@ export default function DealToConsider(): JSX.Element {
               className={style.radioLabel}
             >
               <div className={style.borderWrapper}>
-                <CardSimple hoverable thing={hisOneThing} />
+                <CardSimple hoverable thing={hisOneThing} thingId={hisOneThing.id} />
               </div>
             </label>
             <Button onClick={() => selectorHandler(hisOneThing.id)}>
@@ -105,11 +105,11 @@ export default function DealToConsider(): JSX.Element {
         <Button
           disabled={selectedThingId < 0}
           color='good'
-          onClick={() => acceptedHandler()}
+          onClick={() => void acceptedHandler()}
         >
           Давай меняться
         </Button>
-        <Button color='danger' onClick={rejectedHandler}>
+        <Button color='danger' onClick={() => void rejectedHandler}>
           Не хочу меняться
         </Button>
       </div>

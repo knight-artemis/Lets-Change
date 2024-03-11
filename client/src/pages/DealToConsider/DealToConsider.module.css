@@ -53,7 +53,7 @@
 .bottomLine {}
 
 .oneThing>.checkbox:not(:checked)+.radioLabel {
-    filter: grayscale(100%) brightness(.5);
+    /* filter: grayscale(100%) brightness(.5); */
 }
 
 /* .borderWrapper {
