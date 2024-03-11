@@ -1,0 +1,37 @@
+.sidebar {
+    background-color: var(--color-main-accent);
+    /* border-radius: 10px; */
+    /* padding: 2rem; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* gap: 1rem; */
+    /* line-height: 2rem; */
+
+    /* >* {
+        font-size: large;
+    } */
+    height: 100%;
+
+    flex: 0 0 auto; 
+    min-width: min-content; 
+}
+
+/* Десктопная версия */
+@media screen and (min-width: 768px) {
+    .sidebar {
+      width: 30%; 
+      overflow: auto;
+    }
+  }
+
+
+  
+/* Мобильная версия */
+@media screen and (max-width: 767px) {
+
+    .sidebar {
+      width: 100%; 
+      overflow-x: auto; 
+      white-space: nowrap; 
+    }
+  }
