@@ -306,7 +306,7 @@ router.patch('/:id/note', async (req, res) => {
   try {
     const deal = await Deal.findByPk(req.params.id)
     await deal.update(req.body)
-    res.sendStatus(200)
+    res.json(deal)
   } catch (error) {
     console.error('Ошибка при обновлении сделки', error)
     res.status(500).send({ err: { server: 'Ошибка сервера при обновлении сделки' } })

@@ -3,15 +3,18 @@ import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import axios from 'axios'
 import type { OneDealFromMe, OneDealToMe } from '../../../types'
-import { useAppSelector } from '../../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
 import Button from '../../Shared/Button/Button'
 import CardSimple from '../CardSimple/CardSimple'
+import { fetchGetNot } from '../../../redux/user/userThunkActions'
 
 export default function DealPannel({
   deal,
+  setSelectedDeals,
 }: {
   deal: OneDealToMe | OneDealFromMe
+  setSelectedDeals: React.Dispatch<React.SetStateAction<OneDealToMe[] | OneDealFromMe[]>>
 }): JSX.Element {
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
@@ -22,6 +25,7 @@ export default function DealPannel({
     btnText: '',
     color: '',
   })
+  const dispatcher = useAppDispatch()
 
   useEffect(() => {
     switch (deal.status) {
@@ -103,25 +107,47 @@ export default function DealPannel({
   }, [deal.acceptedByInitiator, deal.initiatorId, deal.status, user.id])
 
   //! ТУТ ВСЁ НЕ ТАК ) оба хэндлера
-  const acceptedHandler = async (id:number):  Promise<void>  => {
-    await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
-      status: 3,
-    },{
-      withCredentials: true,
-    })
+  const acceptedHandler = async (id: number): Promise<void> => {
+    await axios.patch(
+      `${import.meta.env.VITE_API}/v1/deals/${id}`,
+      {
+        status: 3,
+      },
+      {
+        withCredentials: true,
+      },
+    )
     // тут запрос в бд и подтверждение сделки
     // затем навигейт на страницу сделки
   }
 
   const rejectedHandler = async (id: number): Promise<void> => {
     // тут пишемручку на отказ. мб
-    await axios.patch(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
-      status: 4
-    },{
-      withCredentials: true,
-    })
+    await axios.patch(
+      `${import.meta.env.VITE_API}/v1/deals/${id}`,
+      {
+        status: 4,
+      },
+      {
+        withCredentials: true,
+      },
+    )
     // тут запрос в бд и отказ от сделки
     // затем навигейт на страницу всех своих сделок
+  }
+
+  const archiveHandler = async (id: number): Promise<void> => {
+    const resDeal = await axios.patch(
+      `${import.meta.env.VITE_API}/v1/deals/${id}/note`,
+      {
+        initiatorNote: false,
+      },
+      {
+        withCredentials: true,
+      },
+    )
+    await dispatcher(fetchGetNot())
+    setSelectedDeals((prev) => prev.filter(el=> el.id !== deal.id))
   }
 
   const btnHandler = async (id: number): Promise<void> => {
@@ -134,11 +160,16 @@ export default function DealPannel({
         break
       case 'подтвердить':
         // тут в ручку стук и удалить (или модалка с подтверждением)
-       await acceptedHandler(id)
+        await acceptedHandler(id)
         break
       case 'отменить':
         // тут в ручку стук и удалить (или модалка с подтверждением)
         await rejectedHandler(id)
+        break
+      case 'скрыть':
+        // тут в ручку стук и удалить (или модалка с подтверждением)
+        console.log('archive')
+        await archiveHandler(id)
         break
       default:
         break
@@ -158,7 +189,12 @@ export default function DealPannel({
       )}
     >
       <div className={style.photo}>
-        <CardSimple hoverable size={150} thing={deal.Thing} thingId={deal.thingId} />
+        <CardSimple
+          hoverable
+          size={150}
+          thing={deal.Thing}
+          thingId={deal.thingId}
+        />
       </div>
       {/* 
       <div className={style.photo}>
