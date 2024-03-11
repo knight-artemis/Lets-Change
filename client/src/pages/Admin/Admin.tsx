@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import type { AdminType, SimplifiedThingType, ThingType } from '../../types'
+import type { CategoryType, ThingType } from '../../types'
 import Input from '../../components/Shared/Input/Input'
 import Button from '../../components/Shared/Button/Button'
 import { fetchCheck } from '../../redux/user/userThunkActions'
@@ -10,6 +10,7 @@ import {
   fetchAuthAdmin,
   fetchCheckAdmin,
 } from '../../redux/admin/adminThunkActions'
+import Card from './Card'
 
 export default function Admin(): JSX.Element {
   const admin = useAppSelector((store) => store.adminSlice.admin)
@@ -19,28 +20,25 @@ export default function Admin(): JSX.Element {
     login: '',
     password: '',
   })
-  type CategoryType = {
-	id: number
-	categoryTitle: string
-  }
+  
   const [categories, setCategories] = useState<CategoryType[]>([])
   const navigate = useNavigate()
   const dispatcher = useAppDispatch()
 
-  
-
   useEffect(() => {
     void (async () => {
       await dispatcher(fetchCheckAdmin())
-	  const resCat = await axios
-      .get<CategoryType[]>(`${import.meta.env.VITE_API}/v1/things/categories`, {
-        withCredentials: true,
-      })
+      const resCat = await axios.get<CategoryType[]>(
+        `${import.meta.env.VITE_API}/v1/things/categories`,
+        {
+          withCredentials: true,
+        },
+      )
       const resThings = await axios.get<ThingType[]>(
         `${import.meta.env.VITE_API}/v1/things?admin=true`,
         { withCredentials: true },
       )
-	  setCategories(resCat.data)
+      setCategories(resCat.data)
       setThings(resThings.data.filter((el) => !el.isApproved))
     })()
   }, [user])
@@ -55,25 +53,12 @@ export default function Admin(): JSX.Element {
     await dispatcher(fetchCheck())
     // navigate('/admin')
   }
-  console.log(things)
 
   if (admin.id)
     return (
       <div>
-        {things.map((thing) => (
-          <div key={`thing-${thing.id}`}>
-            <p>название: {thing.thingName}</p>
-            <p>Описание: {thing.description}</p>
-			<p>Категория: {categories.find(el => el.id === thing.categoryId)?.categoryTitle}</p>
-            {thing.Photos?.map((photo) => (
-              <img key={`photo-${photo.id}`} style={{width: '100px', height: '100px'}}
-                src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
-                alt='фотка-шмотка'
-              />
-            ))}
-			<Button color='good'>Подтвердить</Button>
-			<Button color='danger'>Отказать</Button>
-          </div>
+        {things.length > 0 && things.map((thing) => (
+          <Card key={`thing-${thing.id}`} thing={thing} setThings={setThings} categories={categories}/>
         ))}
       </div>
     )

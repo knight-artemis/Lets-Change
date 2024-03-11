@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
+const { Thing, Issue } = require('../../../../db/models')
 // const { checkUser, secureRoute } = require('../../../../miiddleWares/common');
 
 const { Admin } = require('../../../../db/models')
@@ -40,6 +41,52 @@ router.post('/log', async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ err: { server: 'ошибка сервера' } })
+  }
+})
+
+router.patch('/accept/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    const thing = await Thing.findByPk(id)
+    const issue = await Issue.findOne({
+      where: {
+        thingId: id,
+      },
+    })
+    issue.destroy()
+    await thing.update({ isApproved: true })
+    res.json(thing)
+  } catch (error) {
+    res.status(500).json({ err: { server: 'ошибка сервера' } })
+  }
+})
+
+router.post('/reject/:id', async (req, res) => {
+  const { id } = req.params
+  const { oldIssue, issue } = req.body
+  try {
+    // const newIssue = Issue.upsert({
+    //   issue,
+    //   thingId: id,
+    //   badGuyId: 1,
+    //   victimId: 1,
+    // })
+    if (oldIssue) {
+      const iss = await Issue.findOne({ where: { issue: oldIssue } })
+      await iss.update({ issue })
+      console.log(iss, issue, oldIssue)
+      res.json(iss)
+    } else {
+      const newIssue = await Issue.create({
+        issue,
+        thingId: id,
+        badGuyId: 1,
+        victimId: 1,
+      })
+      res.json(newIssue)
+    }
+  } catch (error) {
+    res.status(500).json(error)
   }
 })
 

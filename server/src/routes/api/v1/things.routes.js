@@ -107,7 +107,7 @@ router.get('/user/:id', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-  const { query } = req;
+  const { query } = req
   try {
     const thingsRaw = await Thing.findAll({
       attributes: [
@@ -123,16 +123,35 @@ router.get('/', async (req, res) => {
         'inDeal',
         'description',
       ],
-      include: {
-        model: Photo,
-        attributes: ['photoUrl'],
-        order: [['createdAt', 'ASC']],
-      },
+      include: [
+        {
+          model: Photo,
+          attributes: ['id', 'photoUrl'],
+          order: [['createdAt', 'ASC']],
+        },
+        {
+          model: Issue,
+          attributes: ['issue'],
+        },
+      ],
       order: [['createdAt', 'ASC']],
     })
 
     const things = stripThings(thingsRaw)
-    res.status(200).json(query.admin ? thingsRaw : things)
+    console.log(thingsRaw.map((el) => el.get({ plain: true })))
+    res.status(200).json(
+      query.admin
+        ? thingsRaw.map((el) => {
+          const thing = el.get({plain: true})
+          if (thing.Issues.length) {
+            const { issue } = thing.Issues[0]
+            thing.issue = issue
+          }
+          delete thing.Issues
+          return thing
+        })
+        : things,
+    )
   } catch (error) {
     console.error('Ошибка при получении всех объявлений', error)
     res.status(500).send({ err: { server: 'Ошибка сервера при получении всех объявлений' } })
@@ -217,6 +236,7 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
     res.status(500).send({ err: { server: 'Ошибка сервера при создании объявления' } })
   }
 })
+
 
 // router.put('/:id', upload.array('photo', 10), async (req, res) => {
 //   try {
