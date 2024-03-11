@@ -115,10 +115,7 @@ export default function Main(): JSX.Element {
 
   return (
     <WholePage>
-
-    {/* <div className={style.wrapper}> */}
-     
-
+    {/* <div className={style.wrapper}> */}     
       {/* <div className={style.mainContent}> */}
         <SideBar>
           {/* <div className={style.sidebar}> */}
@@ -169,7 +166,7 @@ export default function Main(): JSX.Element {
           />
         </div>
       </div>
-      
+
 
         <div className={style.content}>
           {isChecked ? (
