@@ -13,9 +13,8 @@ import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 
-type AxiosFinishType =
-  | { acceptedByInitiator: true }
-  | { acceptedByReceiver: true }
+type AxiosFinishType = { acceptedByInitiator: boolean} | {acceptedByReceiver: boolean }
+type AxiosFinishReturnType = { succes: boolean }
 
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
@@ -55,15 +54,15 @@ export default function Deal(): JSX.Element {
   }, [id])
 
   const finishHandler = async (): Promise<void> => {
-    const axiosRequest =
+    const axiosRequest: AxiosFinishType =
       user.id === deal?.initiatorId
         ? { acceptedByInitiator: true }
         : { acceptedByReceiver: true }
     await axios
-      .patch(
+      .patch<AxiosFinishType, AxiosFinishReturnType>(
         `${import.meta.env.VITE_API}/v1/deals/${id}/finished`,
+        { data: axiosRequest },
         { withCredentials: true },
-        axiosRequest,
       )
       .then((res) => console.log('Успешно закрыл'))
       .catch((err) => console.log('Ошибка получения подробной сделки', err))
@@ -98,7 +97,9 @@ export default function Deal(): JSX.Element {
         {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
         {/* </div> */}
         <div className={style.text}>Нажми, если вы уже обменялись</div>
-        <Button color='good' onClick={(e) => finishHandler()}>Сделка завершена</Button>
+        <Button color='good' onClick={() => finishHandler()}>
+          Сделка завершена
+        </Button>
         {/* </div> */}
       </SideBar>
       {/* <div className={style.right}> */}
