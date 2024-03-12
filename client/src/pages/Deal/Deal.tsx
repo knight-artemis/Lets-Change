@@ -13,6 +13,10 @@ import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 
+type AxiosFinishType =
+  | { acceptedByInitiator: true }
+  | { acceptedByReceiver: true }
+
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
   const user = useAppSelector((store) => store.userSlice.user)
@@ -50,6 +54,21 @@ export default function Deal(): JSX.Element {
     //   .catch((err) => console.log('Ошибка получения подробной сделки', err))
   }, [id])
 
+  const finishHandler = async (): Promise<void> => {
+    const axiosRequest =
+      user.id === deal?.initiatorId
+        ? { acceptedByInitiator: true }
+        : { acceptedByReceiver: true }
+    await axios
+      .patch(
+        `${import.meta.env.VITE_API}/v1/deals/${id}/finished`,
+        { withCredentials: true },
+        axiosRequest,
+      )
+      .then((res) => console.log('Успешно закрыл'))
+      .catch((err) => console.log('Ошибка получения подробной сделки', err))
+  }
+
   if (!deal) return <div /> //! тут потом будет спиннер
   return (
     <WholePage>
@@ -57,31 +76,29 @@ export default function Deal(): JSX.Element {
       <SideBar center>
         {/* <div className={style.left}> */}
         {/* <div className={style.thing}> */}
-          <div className={style.text}>
-            {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
-          </div>
-          <CardSimple
-            hoverable
-            thing={deal && deal.Thing}
-            thingId={deal.thingId}
-          />
-          {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.initiatorThings[0] : deal.Thing} /> */}
-          <div className={style.text}>
-            {deal && deal.initiatorId === user.id
-              ? 'ты предлагаешь'
-              : 'меняют на'}
-          </div>
-          <CardSimple
-            hoverable
-            thing={deal && deal.initiatorThings[0]}
-            thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
-          />
-          {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
-        {/* </div> */}
         <div className={style.text}>
-            Нажми, если вы уже обменялись
-          </div>
-        <Button color='good'>Сделка завершена</Button>
+          {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
+        </div>
+        <CardSimple
+          hoverable
+          thing={deal && deal.Thing}
+          thingId={deal.thingId}
+        />
+        {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.initiatorThings[0] : deal.Thing} /> */}
+        <div className={style.text}>
+          {deal && deal.initiatorId === user.id
+            ? 'ты предлагаешь'
+            : 'меняют на'}
+        </div>
+        <CardSimple
+          hoverable
+          thing={deal && deal.initiatorThings[0]}
+          thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
+        />
+        {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
+        {/* </div> */}
+        <div className={style.text}>Нажми, если вы уже обменялись</div>
+        <Button color='good' onClick={() => finishHandler()}>Сделка завершена</Button>
         {/* </div> */}
       </SideBar>
       {/* <div className={style.right}> */}

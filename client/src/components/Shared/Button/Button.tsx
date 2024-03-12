@@ -4,11 +4,11 @@ import clsx from 'clsx'
 import style from './Button.module.css'
 
 type ButtonProps = {
-  children: ReactNode 
-  onClick?: (e) => void 
+  children: ReactNode
+  onClick?: ((e) => void) | ((e) => Promise<void>)
   link?: boolean // кнопка-ссылка или обычная кнопка
   disabled?: boolean // заблочить
-  color?: 'neutral' | 'danger' | 'good' | 'warning' | 'gray'| undefined // цвет
+  color?: 'neutral' | 'danger' | 'good' | 'warning' | 'gray' | undefined // цвет
 }
 
 export default function Button({
