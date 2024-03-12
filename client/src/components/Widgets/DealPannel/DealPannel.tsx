@@ -2,12 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import axios from 'axios'
-import type { OneDealFromMe, OneDealToMe } from '../../../types'
+import { string } from 'prop-types'
+import type { ColorTypes, OneDealFromMe, OneDealToMe } from '../../../types'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
 import Button from '../../Shared/Button/Button'
 import CardSimple from '../CardSimple/CardSimple'
 import { fetchGetNot } from '../../../redux/user/userThunkActions'
+
+type DealPannelButtonType = {
+  status: string
+  isBtn: boolean
+  btnText: string
+  color: ColorTypes
+}
 
 export default function DealPannel({
   deal,
@@ -21,7 +29,7 @@ export default function DealPannel({
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<DealPannelButtonType>({
     status: '',
     isBtn: false,
     btnText: '',

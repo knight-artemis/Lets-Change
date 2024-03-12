@@ -13,6 +13,7 @@ import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import Card from '../../components/Widgets/Card/Card'
 import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
+import Input from '../../components/Shared/Input/Input'
 
 type FormData = {
   thingName: string
@@ -185,7 +186,14 @@ export default function NewThing(): JSX.Element {
         <form className={styles.main} encType='multipart/form-data'>
           <h1>Добавить вещь</h1>
           <h5>Добавьте название</h5>
-          <input
+          {/* <input
+            type='text'
+            name='thingName'
+            value={formData.thingName}
+            onChange={(e) => void handleChange(e)}
+            placeholder='Введите заголовок'
+          /> */}
+          <Input
             type='text'
             name='thingName'
             value={formData.thingName}
@@ -193,7 +201,7 @@ export default function NewThing(): JSX.Element {
             placeholder='Введите заголовок'
           />
           <h5>Добавьте описание</h5>
-          <input
+          <Input
             type='text'
             name='description'
             value={formData.description}
@@ -221,6 +229,7 @@ export default function NewThing(): JSX.Element {
             value={days}
             onChange={(e) => handleSliderChange(e)}
           />
+         
           <h5>Выберите фото</h5>
           <input
             ref={fileInputRef}
