@@ -1,9 +1,21 @@
 .header {
     /* width: 100%; */
-    background-color: var(--color-main);
+    background-color: var(--light-beige);
     display: flex;
     padding: .2rem 2rem;
-    height: 3.5rem;
+    height: 5.5rem;
     flex: 0 0 auto;
     align-items: center;
+    font-size: 1.125rem;
+}
+
+
+.left {
+    padding: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex: 0 0 auto;
+    min-width: min-content;
+    width: 20%;
+
 }
