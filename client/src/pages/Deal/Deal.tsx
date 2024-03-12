@@ -9,6 +9,9 @@ import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
 import Chat from '../../components/Chat/Chat'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
+import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
+import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
+import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
@@ -49,9 +52,11 @@ export default function Deal(): JSX.Element {
 
   if (!deal) return <div /> //! тут потом будет спиннер
   return (
-    <div className={style.wrapper}>
-      <div className={style.left}>
-        <div className={style.thing}>
+    <WholePage>
+      {/* <div className={style.wrapper}> */}
+      <SideBar center>
+        {/* <div className={style.left}> */}
+        {/* <div className={style.thing}> */}
           <div className={style.text}>
             {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
           </div>
@@ -72,13 +77,19 @@ export default function Deal(): JSX.Element {
             thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
           />
           {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
-        </div>
+        {/* </div> */}
+        <div className={style.text}>
+            Нажми, если вы уже обменялись
+          </div>
         <Button color='good'>Сделка завершена</Button>
-      </div>
-
-      <div className={style.right}>
+        {/* </div> */}
+      </SideBar>
+      {/* <div className={style.right}> */}
+      <MainContent>
         <Chat deal={deal} />
-      </div>
-    </div>
+      </MainContent>
+      {/* </div> */}
+      {/* </div> */}
+    </WholePage>
   )
 }

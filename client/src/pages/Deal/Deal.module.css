@@ -1,17 +1,21 @@
-
-.wrapper, .left,.right, .input {
+.wrapper,
+.left,
+.right,
+.input {
     display: flex;
     gap: 1rem;
 }
 
-.left,.right {
+.left,
+.right {
     flex-direction: column;
     align-items: center;
 }
 
-.wrapper{
+.wrapper {
     width: 80%;
 }
+
 .right {
     width: 100%;
 }
@@ -24,6 +28,7 @@
 
 .text {
     font-size: large;
+    text-align: center;
 }
 
 .chat {
@@ -54,8 +59,9 @@
 
 .myMsg {
     align-self: flex-end;
-    background-color: var( --color-secondary-accent);
+    background-color: var(--color-secondary-accent);
 }
+
 .hisMsg {
     align-self: start;
     background-color: var(--color-bg);

@@ -16,6 +16,10 @@ import type {
 import DealPannel from '../../components/Widgets/DealPannel/DealPannel'
 import Chip from '../../components/Shared/Chip/Chip'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
+import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
+import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
+import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
+import Grid from '../../components/PageSkeleton/Grid/Grid'
 
 export default function MyDeals({
   toMe = true,
@@ -30,15 +34,15 @@ export default function MyDeals({
 
   const [allDeals, setAllDeals] = useState<MyDealsType>()
   const [selectedDeals, setSelectedDeals] = useState<
-  OneDealToMe[] | OneDealFromMe[]
+    OneDealToMe[] | OneDealFromMe[]
   >()
   const [mainText, setMainText] = useState<string>('Мои сделки')
   const dispatcher = useAppDispatch()
 
   useEffect(() => {
     dispatcher(fetchGetNot())
-    .then()
-    .catch((err) => console.log(err))
+      .then()
+      .catch((err) => console.log(err))
     axios
       .get<MyDealsType>(
         `${import.meta.env.VITE_API}/v1/deals/user/${user.id}`,
@@ -46,7 +50,13 @@ export default function MyDeals({
       )
       .then((res) => {
         setAllDeals(res.data)
-        setSelectedDeals(toMe ? res.data.toMeDeals.filter(el => el.status !== 4) : res.data.fromMeDeals.filter(el => el.initiatorNote || el.status !== 4))
+        setSelectedDeals(
+          toMe
+            ? res.data.toMeDeals.filter((el) => el.status !== 4)
+            : res.data.fromMeDeals.filter(
+                (el) => el.initiatorNote || el.status !== 4,
+              ),
+        )
         setMainText(
           toMe ? 'у меня хотят забрать эти вещи' : 'я хочу забрать эти вещи',
         )
@@ -96,40 +106,52 @@ export default function MyDeals({
   // }
 
   return (
-    <>
-      <div className={style.wrapper}>
-        <div className={style.topContent}>
-          <span className={style.span}>{mainText}</span>
-        </div>
+    <WholePage>
+      {/* <div className={style.wrapper}> */}
 
-        <div className={style.mainContent}>
-          <div className={style.sidebar}>
-            <Button link onClick={() => void fromMeDeals()}>
-              <SvgLink  icon='./../assets/icons/shirt.svg' text='Я хочу' />
-              {/* <Chip bottom={0.5} right={-0.5} small color='neutral'>
+      <SideBar>
+        <Button link onClick={() => void fromMeDeals()}>
+          <SvgLink icon='./../assets/icons/shirt.svg' text='Я хочу' />
+          {/* <Chip bottom={0.5} right={-0.5} small color='neutral'>
                 {(notifications?.initiator || 0) +
                   (notifications?.reciever || 0)}
               </Chip> */}
-            </Button>
-            <Button link onClick={() => void toMeDeals()}>
-             
-              <SvgLink  icon='./../assets/icons/shirt.svg'  text=' У меня хотят' />
-              
-              {/* <Chip bottom={12} right={12} small color='neutral'>
+        </Button>
+        <Button link onClick={() => void toMeDeals()}>
+          <SvgLink icon='./../assets/icons/shirt.svg' text=' У меня хотят' />
+
+          {/* <Chip bottom={12} right={12} small color='neutral'>
                 {(notifications?.initiator || 0) +
                   (notifications?.reciever || 0)}
               </Chip> */}
-                  
-            </Button>
+        </Button>
+      </SideBar>
+      <MainContent>
+        <Grid center>
+          <div className={style.topContent}>
+            <span className={style.span}>{mainText}</span>
           </div>
 
-          <div className={style.list}>
-            {selectedDeals?.map((deal) => (
-              <DealPannel key={deal.id} deal={deal} setSelectedDeals={setSelectedDeals}/>
-            ))}
-          </div>
-        </div>
-      </div>
+          {/* <div className={style.mainContent}> */}
+          {/* <div className={style.sidebar}>
+          
+          </div> */}
+
+          {/* <div className={style.list}>
+          
+          </div> */}
+          {/* </div> */}
+
+          {selectedDeals?.map((deal) => (
+            <DealPannel
+              key={deal.id}
+              deal={deal}
+              setSelectedDeals={setSelectedDeals}
+            />
+          ))}
+        </Grid>
+      </MainContent>
+      {/* </div> */}
 
       {/* <form
       action='http://localhost:3003/api/v1/test/testUpload'
@@ -139,6 +161,6 @@ export default function MyDeals({
       <input type='file' name='photo' multiple />
       <button type='submit'>Загрузить файл</button>
     </form> */}
-    </>
+    </WholePage>
   )
 }

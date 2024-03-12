@@ -60,3 +60,16 @@
     border-radius: 15px;
     border: solid 3px var(--color-main);
 } */
+
+.topContent {
+    margin: 1rem auto;
+    display: flex;
+    justify-self: start;
+}
+
+.span {
+    line-height: 2rem;
+    font-size: larger;
+}
+
+.selectedText {}

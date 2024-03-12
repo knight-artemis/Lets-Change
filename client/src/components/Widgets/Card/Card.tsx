@@ -76,11 +76,11 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
             Моя вещь
           </Chip>
         )}
-        {isMain && thing.userId !== user.id && (
+        {/* {isMain && thing.userId !== user.id && (
           <Chip top={0} right={-0.5} color='none'>
             <SvgLink icon='./assets/icons/star-favorite.svg' />
           </Chip>
-        )}
+        )} */}
 
         <div
           className={clsx(

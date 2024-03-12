@@ -8,6 +8,10 @@ import style from './MyThings.module.css'
 import Button from '../../components/Shared/Button/Button'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
+import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
+import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
+import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
+import Grid from '../../components/PageSkeleton/Grid/Grid'
 
 const ThingInitVal = {
   id: 0,
@@ -30,8 +34,8 @@ export default function MyThings(): JSX.Element {
 
   useEffect(() => {
     dispatcher(fetchGetNot())
-    .then()
-    .catch((err) => console.log(err))
+      .then()
+      .catch((err) => console.log(err))
     axios
       .get<SimplifiedThingType[]>(
         `${import.meta.env.VITE_API}/v1/things/user/${user.id}`,
@@ -42,29 +46,41 @@ export default function MyThings(): JSX.Element {
   }, [user.id])
 
   return (
-    <div className={style.wrapper}>
-
-    <div className={style.content}>
-      {things.length !== 0 ? (
-        things.map((thing: SimplifiedThingType) => <Card key={`card-${thing.id}`} thing={thing} />)
-        ) : (
-          <div className={style.emptyPage}>
-          <span>Вы ещё не добавили никаких вещей</span>
+    <WholePage>
+      <SideBar>
+        <Button link onClick={() => void navigate(`/new-thing`)}>
+          <SvgLink
+            icon='src/assets/icons/add-thing.svg'
+            text='Добавить свою вещь для обмена'
+          />
+        </Button>
+        <Button link onClick={() => void navigate(`/`)}>
+          <SvgLink
+            icon='./src/assets/icons/search-large.svg'
+            text='Посмотреть вещи других пользователей'
+          />
+        </Button>
+      </SideBar>
+      <MainContent>
+        <Grid center>
+          {things.length !== 0 ? (
+            things.map((thing: SimplifiedThingType) => (
+              <Card key={`card-${thing.id}`} thing={thing} />
+            ))
+          ) : (
+            <div className={style.emptyPage}>
+              <span>Вы ещё не добавили никаких вещей</span>
             </div>
-      )}
-    </div>
-          <Button link onClick={() => void navigate(`/new-thing`)}>
-            <SvgLink
-              icon='src/assets/icons/add-thing.svg'
-              text='Добавить свою вещь для обмена'
-              />
-          </Button>
-          <Button link onClick={() => void navigate(`/`)}>
-            <SvgLink
-              icon='./src/assets/icons/search-large.svg'
-              text='Посмотреть вещи других пользователей'
-              />
-          </Button>
-              </div>
+          )}
+        </Grid>
+      </MainContent>
+    </WholePage>
+
+    // <div className={style.wrapper}>
+    //   <div className={style.content}>
+
+    //   </div>
+
+    // </div>
   )
 }

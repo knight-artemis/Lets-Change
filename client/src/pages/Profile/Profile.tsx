@@ -13,6 +13,12 @@ import AddressChangeForm from '../../components/ChangeHandlers/AddressChangeForm
 import SubForm from '../../components/ChangeHandlers/SubForm/SubForm'
 import { fetchGetNot, fetchUpd } from '../../redux/user/userThunkActions'
 import type { UserType } from '../../types'
+import Avatar from '../../components/Widgets/Avatar/Avatar'
+import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
+import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
+import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
+import Grid from '../../components/PageSkeleton/Grid/Grid'
+import Button from '../../components/Shared/Button/Button'
 
 export default function Profile(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -77,165 +83,147 @@ export default function Profile(): JSX.Element {
 
   //! Разобратся с парсингом даты окончания подписки и определиться, как мы ее будет отображать (только дату или дней до окончания и т.д.)
 
+  //! убрать. это отсележивал нэйминг отсутствия аватаров
+  console.log(`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`)
+
   return (
-    <div className={styles.main}>
-      <div className={styles.userInfo}>
-        <h2>Информация о пользователе</h2>
-        <div className={styles.avatarDiv}>
-          {user.avatarUrl ? (
-            <div>
-              <button
-                type='button'
-                onClick={() => setModalActive1((prev) => !prev)}
-              >
-                Изменить аватар
-              </button>
-              <button type='button' onClick={() => void deleteAvatar()}>
-                Удалить аватар
-              </button>
-              <img
-                className={styles.avatar}
-                src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
-                alt=''
-              />
-            </div>
-          ) : (
-            <button
-              type='button'
-              onClick={() => setModalActive1((prev) => !prev)}
-            >
-              Добавить аватар
-            </button>
-          )}
-          <Modal active={modalActive1} setActive={setModalActive1}>
-            <AvatarChangeForm setActive={setModalActive1} />
-          </Modal>
-        </div>
-        {user.lastName && user.middleName && user.firstName ? (
-          <span>
-            ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
-            <button
-              type='button'
-              onClick={() => setModalActive2((prev) => !prev)}
-            >
-              Изменить ФИО
-            </button>
-          </span>
+    <WholePage>
+      <SideBar>
+        <center  className={styles.header}>Информация о пользователе</center>
+        <div className={styles.center}>
+
+        <Avatar
+          size={15}
+          src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+          letter={user.firstName[0]}
+          />
+          </div>
+        {user.avatarUrl ? (
+          <>
+            <Button onClick={() => setModalActive1((prev) => !prev)}>
+              Изменить аватар
+            </Button>
+            <Button onClick={() => void deleteAvatar()}>Удалить аватар</Button>
+          </>
         ) : (
-          <span>
-            ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
-            <button
-              type='button'
-              onClick={() => setModalActive2((prev) => !prev)}
-            >
-              Дополнить{' '}
-            </button>
-          </span>
+          <Button onClick={() => setModalActive1((prev) => !prev)}>
+            Добавить аватар
+          </Button>
         )}
+        <Modal active={modalActive1} setActive={setModalActive1}>
+          <AvatarChangeForm setActive={setModalActive1} />
+        </Modal>
+        {user.lastName && user.middleName && user.firstName ? (
+          <>
+            <span>
+              ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
+            </span>
+            <Button onClick={() => setModalActive2((prev) => !prev)}>
+              Изменить ФИО
+            </Button>
+          </>
+        ) : (
+          <>
+            <span>
+              ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
+            </span>
+            <Button onClick={() => setModalActive2((prev) => !prev)}>
+              Дополнить
+            </Button>
+          </>
+        )}{' '}
         <Modal active={modalActive2} setActive={setModalActive2}>
           <InitialsChangeForm user={user} setActive={setModalActive2} />
         </Modal>
         <span>
           Почта:
           {user?.email}
-          <button
-            type='button'
-            onClick={() => setModalActive3((prev) => !prev)}
-          >
-            Изменить почту
-          </button>
         </span>
+        <Button onClick={() => setModalActive3((prev) => !prev)}>
+          Изменить почту
+        </Button>
         <Modal active={modalActive3} setActive={setModalActive3}>
           <MailChahgeForm user={user} setActive={setModalActive3} />
         </Modal>
         {user.phone ? (
-          <span>
-            Телефон: {user?.phone}
-            <button
-              type='button'
-              onClick={() => setModalActive4((prev) => !prev)}
-            >
+          <>
+            <span>Телефон: {user?.phone}</span>
+            <Button onClick={() => setModalActive4((prev) => !prev)}>
               Изменить телефон
-            </button>
-          </span>
+            </Button>
+          </>
         ) : (
-          <span>
-            <button
-              type='button'
-              onClick={() => setModalActive4((prev) => !prev)}
-            >
-              {' '}
-              Добавить телефон{' '}
-            </button>
-          </span>
+          <>
+            <span>Вы не добавили телефон</span>
+            <Button onClick={() => setModalActive4((prev) => !prev)}>
+              Добавить телефон
+            </Button>
+          </>
         )}
         <Modal active={modalActive4} setActive={setModalActive4}>
           <PhoneChahgeForm user={user} setActive={setModalActive4} />
         </Modal>
         {user.userAddress ? (
-          <span>
-            Адрес: {user?.userAddress}
-            <button
-              type='button'
-              onClick={() => setModalActive5((prev) => !prev)}
-            >
-              {' '}
+          <>
+            <span>Адрес: {user?.userAddress}</span>
+            <Button onClick={() => setModalActive5((prev) => !prev)}>
               Изменить Адрес
-            </button>
-          </span>
+            </Button>
+          </>
         ) : (
-          <span>
-            <button
-              type='button'
-              onClick={() => setModalActive5((prev) => !prev)}
-            >
-              {' '}
-              Добавить адрес{' '}
-            </button>
-          </span>
+          <>
+            <span>Вы не добавили адрес</span>
+            <Button onClick={() => setModalActive5((prev) => !prev)}>
+              Добавить адрес
+            </Button>
+          </>
         )}
         <Modal active={modalActive5} setActive={setModalActive5}>
           <AddressChangeForm setActive={setModalActive5} />
         </Modal>
-        <button type='button' onClick={() => setModalActive6((prev) => !prev)}>
+        <Button onClick={() => setModalActive6((prev) => !prev)}>
           Изменить пароль
-        </button>
+        </Button>{' '}
         <Modal active={modalActive6} setActive={setModalActive6}>
           <PasswordChangeForm user={user} setActive={setModalActive6} />
         </Modal>
-      </div>
-      <div className={styles.commonInfo}>
-        <h2>Прочие данные</h2>
-        <span>Общее количество вещей: {user?.thingsCount}</span>
-        <span>Количество совершенных обменов: {user?.dealsCount}</span>
-        <span>
-          Количество вещей, переданных на благотворительность:{' '}
-          {user?.charityCount}
-        </span>
-        {/* <span>Статус подписки:</span> */}
-        <span>
-          {user.subStatus ? (
-            <>
-              Статус подписки: Ваш уровень подписки {user.subStatus}, она
-              истекает {user.subExp}.
-            </>
-          ) : (
-            <>
-              Статус подписки: подписка не активна.
-              <button
-                type='button'
-                onClick={() => setModalActive7((prev) => !prev)}
-              >
-                Оформить подписку
-              </button>
-            </>
-          )}
-        </span>
-        <Modal active={modalActive7} setActive={setModalActive7}>
-          <SubForm />
-        </Modal>
-        <span>Рейтинг пользователя: {user?.rating}</span>
-      </div>
-    </div>
+      </SideBar>
+      <MainContent>
+      {/* <div className={styles.main}> */}
+        <div className={styles.userInfo}>
+          {/* <div className={styles.avatarDiv}></div> */}
+        </div>
+        <div className={styles.commonInfo}>
+          <h2>Прочие данные</h2>
+          <span>Общее количество вещей: {user?.thingsCount}</span>
+          <span>Количество совершенных обменов: {user?.dealsCount}</span>
+          <span>
+            Количество вещей, переданных на благотворительность:{' '}
+            {user?.charityCount}
+          </span>
+          {/* <span>Статус подписки:</span> */}
+          <span>
+            {user.subStatus ? (
+              <>
+                Статус подписки: Ваш уровень подписки {user.subStatus}, она
+                истекает {user.subExp}.
+              </>
+            ) : (
+              <>
+                Статус подписки: подписка не активна.
+                <Button onClick={() => setModalActive7((prev) => !prev)}>
+                  Оформить подписку
+                </Button>
+              </>
+            )}
+          </span>
+          <Modal active={modalActive7} setActive={setModalActive7}>
+            <SubForm />
+          </Modal>
+          <span>Рейтинг пользователя: {user?.rating}</span>
+        </div>
+      {/* </div>  */}
+      </MainContent>
+    </WholePage>
   )
 }

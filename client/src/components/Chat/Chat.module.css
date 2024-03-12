@@ -1,4 +1,7 @@
-.wrapper, .left,.right, .input {
+.wrapper,
+.left,
+.right,
+.input {
     display: flex;
     gap: 1rem;
 }
@@ -12,9 +15,9 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column-reverse;
-    overflow:scroll;
+    overflow: scroll;
     width: 100%;
-    height: 600px;
+    /* height: 600px; */
     gap: 1rem;
 }
 
@@ -32,10 +35,10 @@
 
 .myMsg {
     align-self: flex-end;
-    background-color: var( --color-secondary-accent);
+    background-color: var(--color-secondary-accent);
 }
+
 .hisMsg {
     align-self: start;
-    background-color: var(--color-bg);
-
+    background-color: var(--color-secondary);
 }
