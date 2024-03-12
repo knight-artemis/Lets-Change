@@ -191,7 +191,11 @@ export default function ThingPage(): JSX.Element {
         <InitChange thingId={thing.id} />
       </Modal>
       <Modal active={modalActive2} setActive={setModalActive2}>
-        <ThingUpdateForm thingId={thing.id} initialThing={initialThing} />
+        <ThingUpdateForm
+          thing={thing}
+          setThing={setThing}
+          setActive={setModalActive2}
+        />
       </Modal>
     </>
   )
