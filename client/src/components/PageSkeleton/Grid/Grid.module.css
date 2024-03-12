@@ -1,6 +1,6 @@
 .wrapper {
     display: flex;
-    gap: 1rem;
+    /* gap: 1rem; */
     /* align-items: center; */
     /* justify-content: center; */
     /* width: max-content; */
@@ -13,5 +13,12 @@
     gap: 1rem; */
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 5rem;  width: 100%;
 }
+
+@media screen and (max-width: 767px) {
+    .wrapper {
+      align-items: center;
+      justify-content: center;
+    }
+}  

@@ -9,12 +9,12 @@
 
 .link {
   text-decoration: none;
-  color: black;
+  /* color: black; */
 }
 
 .link:hover {
   text-decoration: underline;
-  color: var(--color-main-accent);
+  /* color: var(--color-main-accent); */
 }
 
 .menu {
@@ -26,3 +26,5 @@
 .relative {
   position: relative;
 }
+
+

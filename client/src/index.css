@@ -11,6 +11,33 @@
 
   --transition-duration: 0.5s;
 
+
+  --dark-olive: #566B30;
+  --light-olive: #A9A453;
+  --olive: #8DA057;
+  --light-beige: #F1E4D4;
+  --dark-beige: #B37A47;
+  --black: #151618;
+  --light-black: #343232;
+  --black-50: #15161880;
+  --brown: #635959;
+  --gray: #D9D9D9;
+  --red:#B34747;
+  --font-white:#fff;
+
+  --card-width: 280px;
+  --card-height:200px;
+  
+
+
+
+
+
+
+
+
+
+
   --color-main-black: #000;
   --color-main-white: #fff;
 
@@ -53,7 +80,7 @@
   --color-chip-font-good: #055813;
   --color-chip-font-gray: #464646;
 
-  color: var(--font-main);
+  color: var(--brown);
   font-size: 1rem;
 }
 

@@ -1,19 +1,16 @@
-.icon {
+/* .icon {
     width: 2rem;
     height: 100%;
-}
+} */
 
 .card {
     background-color: var( --color-bg-gray);
-    border-radius: 10px;
-    width: 250px;
-    height: 250px;
+    border-radius: 5px;
+    width: var(--card-width);
+    height: var(--card-height);
     padding: 0;
     position: relative;
     overflow: hidden;
-    /* transition-property: transform, transition-duration;
-    transition-duration: 0.2s; */
-    /* тут кароч коостыль такой что б фотка за гнраницы не лезла */
 }
 
 .center {
@@ -28,16 +25,14 @@
 }
 
 .photoBg {
-    min-width: 250px;
-    min-height: 250px;
-    /* z-index: 100; */
-    /* background-size: cover;  */
+    min-width: var(--card-width);
+    min-height: var(--card-height);
     filter: blur(5px);
 }
 
 .photo {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: var(--card-width);
+    max-height: var(--card-height);
 }
 
 .card:hover {
@@ -57,22 +52,25 @@
     }
 }
 
-/* .card: {
-    transition-duration: var(--transition-duration);
-} */
-
-/* .chip {   
-    position: absolute;
-    left: .5rem;
-    font-size: smaller;
-    z-index: 1;
-    color: var(--font-accent);
-    padding: .5rem;
-    border-radius: 1rem;
-} */
-
 .notActive {
     filter: invert(30%) grayscale(60%) brightness(0.6);
+}
+
+.name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    line-height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--black-50);
+    color: var(--light-beige);
+    text-wrap: balance;
+    word-break: break-word;
+    height: 80px;
 }
 
 /* .hide {
@@ -91,7 +89,6 @@
     color: var(--font-accent);
 } */
 
-
 /* 
 .timeLeft {
     position: absolute;
@@ -105,17 +102,6 @@
     border-radius: 1rem;
 } */
 
-.name {
-    font-size: large;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    line-height: 3rem;
-    background-color: var(--color-chip-gray);
-    color: var(--font-accent);
-    text-wrap: balance;
-    word-break: break-word;
-}
 
 /* 
 .favorite {

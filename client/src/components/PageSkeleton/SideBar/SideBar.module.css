@@ -1,23 +1,27 @@
 .sidebar {
-    background-color: var(--color-main-accent);
-    /* border-radius: 10px; */
-    padding: 2rem;
+    padding: 0 5rem; 
     display: flex;
-    /* flex-direction: column; */
     gap: 1rem;
-    /* line-height: 2rem; */
-    /* height: 100%; */
-    /* min-height: 100%;  */
-    /*! Говна кусок не работает! */
     flex: 0 0 auto;
     min-width: min-content;
     flex-direction: column;
-    /* justify-content: center; */
-    width: 30%;
-    /* overflow: auto; */
+    width: 20%;
 
     >* {
-        font-size: large;
+        font-size: 1.125rem;
+    }
+}
+.sidebarWide {
+    padding: 0 8rem; 
+    display: flex;
+    gap: 1rem;
+    flex: 0 0 auto;
+    min-width: min-content;
+    flex-direction: column;
+    width: 40%;
+
+    >* {
+        font-size: 1.125rem;
     }
 }
 

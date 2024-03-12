@@ -1,8 +1,16 @@
 .footer {
   width: 100dvw;
-  background-color: var(--color-main);
+  background-color: var(--brown);
   display: flex;
   padding: 1rem 2rem;
   flex: 0 0 auto;
   font-size: .8rem;
+  justify-content: center;
+  height: 5.5rem;
+  box-shadow: 0 -5px 20px #00000040;
+}
+
+.logo {
+  fill: var(--light-beige);
+  stroke: var(--light-beige);
 }

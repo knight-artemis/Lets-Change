@@ -24,6 +24,7 @@ import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
+import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 
 const ThingsInitVal = {
   id: 0,
@@ -139,7 +140,8 @@ export default function Main(): JSX.Element {
       </SideBar>
       <MainContent>
         <div className={style.topContent}>
-          <div className={style.topLine}>
+          <TopLine>
+            {/* <div className={style.topLine}> */}
             <span className={style.span}>Посмотреть объявления списком</span>
             <SvgLink icon='./src/assets/icons/blocks.svg' />
             <SvgLink icon='./src/assets/icons/list-color.svg' />
@@ -155,7 +157,8 @@ export default function Main(): JSX.Element {
             <SvgLink icon='src/assets/icons/globus-color.svg' />
             <SvgLink icon='src/assets/icons/globus.svg' />
             <span className={style.span}>или на карте</span>
-          </div>
+            {/* </div> */}
+          </TopLine>
           <div className={style.topLine}>
             <SvgLink icon='assets/icons/search-large.svg' />
             <Input
@@ -168,15 +171,15 @@ export default function Main(): JSX.Element {
         </div>
 
         {/* <div className={style.content}> */}
-        <Grid centerHorizontal>
+        <Grid>
           {isChecked ? (
             <div
-              style={{ width: '800px', height: '100%', borderRadius: '20px' }}
+              // style={{ width: '800px', height: '100%', borderRadius: '20px' }}
             >
               {/* {location.length > 0 && ( */}
               <Map
                 // onClick={(e) => handleClick(e.get('coords'))}
-                width='800px'
+                width='800%'
                 height='100%'
                 defaultState={{
                   center: location,

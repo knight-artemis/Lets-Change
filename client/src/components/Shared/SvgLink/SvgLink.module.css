@@ -5,6 +5,7 @@
 .svgLink {
     display: flex;
     gap: 1rem;
+    text-align: left;
 }
 
 .relative{

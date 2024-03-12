@@ -12,6 +12,7 @@ import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
+import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 
 const ThingInitVal = {
   id: 0,
@@ -51,18 +52,22 @@ export default function MyThings(): JSX.Element {
         <Button link onClick={() => void navigate(`/new-thing`)}>
           <SvgLink
             icon='src/assets/icons/add-thing.svg'
-            text='Добавить свою вещь для обмена'
+            text='Добавить вещь'
           />
         </Button>
         <Button link onClick={() => void navigate(`/`)}>
           <SvgLink
             icon='./src/assets/icons/search-large.svg'
-            text='Посмотреть вещи других пользователей'
+            text='Посмотреть вещи других'
           />
         </Button>
       </SideBar>
       <MainContent >
-        <Grid centerHorizontal >
+        <TopLine><h1>
+          Мои вещи
+          </h1>
+          </TopLine>
+        <Grid  >
           {things.length !== 0 ? (
             things.map((thing: SimplifiedThingType) => (
               <Card key={`card-${thing.id}`} thing={thing} />

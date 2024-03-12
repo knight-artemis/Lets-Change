@@ -1,7 +1,18 @@
 import React from 'react'
+import type { ReactNode } from 'react'
+import style from './TopLine.module.css'
 
-export default function TopLine():JSX.Element {
+type TopLineProps = {
+  children: ReactNode
+}
+
+export default function TopLine({ children }:TopLineProps): JSX.Element {
   return (
-    <div>TopLine</div>
+    <div className={style.topLine}>
+      {children}
+      {/* <span className={style.span}>Посмотреть объявления списком</span>
+
+      <span className={style.span}>или на карте</span> */}
+    </div>
   )
 }
