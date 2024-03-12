@@ -156,4 +156,10 @@ export type AdminType = {
   login: string
 }
 
-export type ColorTypes = 'neutral' | 'danger' | 'good' | 'warning' | 'gray' | undefined
+export type ColorTypes =
+  | 'neutral'
+  | 'danger'
+  | 'good'
+  | 'warning'
+  | 'gray'
+  | undefined
