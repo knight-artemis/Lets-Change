@@ -66,8 +66,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-chip-gray);
-    color: var(--font-accent);
+    background-color: var(--black-50);
+    color: var(--light-beige);
     text-wrap: balance;
     word-break: break-word;
     height: 80px;

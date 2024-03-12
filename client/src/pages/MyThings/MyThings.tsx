@@ -51,13 +51,13 @@ export default function MyThings(): JSX.Element {
         <Button link onClick={() => void navigate(`/new-thing`)}>
           <SvgLink
             icon='src/assets/icons/add-thing.svg'
-            text='Добавить свою вещь для обмена'
+            text='Добавить вещь'
           />
         </Button>
         <Button link onClick={() => void navigate(`/`)}>
           <SvgLink
             icon='./src/assets/icons/search-large.svg'
-            text='Посмотреть вещи других пользователей'
+            text='Посмотреть вещи других'
           />
         </Button>
       </SideBar>
