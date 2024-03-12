@@ -168,7 +168,7 @@ export default function Main(): JSX.Element {
         </div>
 
         {/* <div className={style.content}> */}
-        <Grid>
+        <Grid center>
           {isChecked ? (
             <div
               style={{ width: '800px', height: '100%', borderRadius: '20px' }}

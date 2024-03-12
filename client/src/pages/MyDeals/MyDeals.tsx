@@ -127,7 +127,7 @@ export default function MyDeals({
         </Button>
       </SideBar>
       <MainContent>
-        <Grid>
+        <Grid center>
           <div className={style.topContent}>
             <span className={style.span}>{mainText}</span>
           </div>

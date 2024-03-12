@@ -62,7 +62,7 @@ export default function MyThings(): JSX.Element {
         </Button>
       </SideBar>
       <MainContent>
-        <Grid>
+        <Grid center>
           {things.length !== 0 ? (
             things.map((thing: SimplifiedThingType) => (
               <Card key={`card-${thing.id}`} thing={thing} />
