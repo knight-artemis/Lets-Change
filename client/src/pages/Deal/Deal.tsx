@@ -98,7 +98,7 @@ export default function Deal(): JSX.Element {
         {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
         {/* </div> */}
         <div className={style.text}>Нажми, если вы уже обменялись</div>
-        <Button color='good' onClick={() => finishHandler()}>Сделка завершена</Button>
+        <Button color='good' onClick={(e) => finishHandler()}>Сделка завершена</Button>
         {/* </div> */}
       </SideBar>
       {/* <div className={style.right}> */}

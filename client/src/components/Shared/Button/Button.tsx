@@ -5,7 +5,11 @@ import style from './Button.module.css'
 
 type ButtonProps = {
   children: ReactNode
-  onClick?: ((e) => void) | ((e) => Promise<void>)
+  onClick?:
+    | (() => void)
+    | (() => Promise<void>)
+    | ((e: MouseEvent) => void)
+    | ((e: MouseEvent) => Promise<void>)
   link?: boolean // кнопка-ссылка или обычная кнопка
   disabled?: boolean // заблочить
   color?: 'neutral' | 'danger' | 'good' | 'warning' | 'gray' | undefined // цвет
