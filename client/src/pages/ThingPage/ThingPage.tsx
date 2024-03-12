@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import {
   CarouselProvider,
   Slider,
@@ -68,7 +68,7 @@ export default function ThingPage(): JSX.Element {
   const [initiate, setInitiate] = useState<boolean>(false)
   const user = useAppSelector((store) => store.userSlice.user)
   const dispatcher = useAppDispatch()
-
+  const navigate = useNavigate()
   const params = useParams()
 
   useEffect(() => {
@@ -103,7 +103,9 @@ export default function ThingPage(): JSX.Element {
   return (
     <WholePage>
       <SideBar>
-        <Button link>{'<'} Назад</Button>
+        <Button link onClick={() => navigate(-1)}>
+          {'<'} Назад
+        </Button>
 
         <h1>{thing.thingName}</h1>
         {thing.issue && <h2 style={{ color: 'red' }}>{thing.issue}</h2>}
@@ -136,7 +138,6 @@ export default function ThingPage(): JSX.Element {
         </div>
       </SideBar>
       <MainContent centerHorizontal>
-        
         <div className={style.timeLeft}>{thing.endDate.toLocaleString()}</div>
 
         <div className={style.ownerName}>
@@ -152,8 +153,8 @@ export default function ThingPage(): JSX.Element {
           {/* {location.length > 0 && ( */}
           <Map
             // onClick={(e) => handleClick(e.get('coords'))}
-            width='100%'
-            height='100%'
+            width='80%'
+            height='80%'
             defaultState={{
               center: [thing.thingLat, thing.thingLon],
               zoom: 15,
@@ -190,9 +191,7 @@ export default function ThingPage(): JSX.Element {
             </Button>
           )}
           {user.id !== 0 && user.id === thing.userId ? (
-            <Button
-              onClick={() => setModalActive2((prev) => !prev)}
-            >
+            <Button onClick={() => setModalActive2((prev) => !prev)}>
               Изменить
             </Button>
           ) : (
