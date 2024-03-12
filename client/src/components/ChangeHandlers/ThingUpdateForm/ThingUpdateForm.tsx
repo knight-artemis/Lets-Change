@@ -7,7 +7,7 @@ import type { CategoryType, PhotoType, ThingType } from '../../../types'
 import styles from './ThingUpdateForm.module.css'
 import Modal from '../../Widgets/Modal/Modal'
 import Button from '../../Shared/Button/Button'
-import { useAppDispatch } from '../../../redux/hooks'
+import { notifySuccess } from '../../../toasters'
 
 export default function ThingUpdateForm({
   thing,
@@ -49,7 +49,10 @@ export default function ThingUpdateForm({
   const [inputs, setInputs] = useState<UpdThingtype>(initialsInputs)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [modalActive, setModalActive] = useState<boolean>(true)
-  const [location, setLocation] = useState<number[]>([])
+  const [location, setLocation] = useState<number[]>([
+    thing.thingLat,
+    thing.thingLon,
+  ])
   const [address, setAddress] = useState<string>(thing.thingAddress)
 
   useEffect(() => {
@@ -117,6 +120,7 @@ export default function ThingUpdateForm({
     })
     setThing(updatedThing.data)
     setActive((prev) => !prev)
+    notifySuccess('Карточка вещи была успешно обновлена.')
     navigate('/my-things')
   }
 
@@ -195,7 +199,7 @@ export default function ThingUpdateForm({
         onChange={(e) => void changeHandler(e)}
         placeholder='Введите описание'
       />
-      <h5>Категория категорию</h5>
+      <h5>Категория</h5>
       <select
         name='categoryId'
         value={inputs.categoryId}
