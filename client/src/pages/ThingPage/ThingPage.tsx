@@ -148,12 +148,12 @@ export default function ThingPage(): JSX.Element {
         <div className={style.address}>{thing.description}</div>
         <div className={style.address}>{thing.thingAddress}</div>
 
-        <div className={`${style.mapDiv}`}>
+        <div className={style.mapDiv}>
           {/* {location.length > 0 && ( */}
           <Map
             // onClick={(e) => handleClick(e.get('coords'))}
-            width='600px'
-            height='500px'
+            width='100%'
+            height='100%'
             defaultState={{
               center: [thing.thingLat, thing.thingLon],
               zoom: 15,

@@ -20,7 +20,7 @@ export default function Button({
   children,
   onClick,
   link = false,
-  color = 'good',
+  color,
   disabled = false,
 }: ButtonProps): JSX.Element {
   return (
