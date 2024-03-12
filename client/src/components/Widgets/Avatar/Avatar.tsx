@@ -5,7 +5,7 @@ type AvatarProps = {
   size?: number
   letter?: string
   src?: string
-  border? : number
+  border?: number
 }
 
 export default function Avatar({
@@ -14,11 +14,15 @@ export default function Avatar({
   border = 5,
   src,
 }: AvatarProps): JSX.Element {
-  const isValidSrc = src && !src.endsWith('/null');
+  const isValidSrc = src && !src.endsWith('/null')  && !src.endsWith('/')
 
   return (
     <div
-      style={{ width: `${size}rem`, height: `${size}rem`, border: `${border}px solid var( --color-btn-font-neutral)` }}
+      style={{
+        width: `${size}rem`,
+        height: `${size}rem`,
+        border: `${border}px solid var( --color-btn-font-neutral)`,
+      }}
       className={style.avatar}
     >
       {isValidSrc ? (

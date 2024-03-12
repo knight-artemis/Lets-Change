@@ -1,7 +1,7 @@
 :root {
 
   /* color-scheme: light dark; */
-  
+
   /* font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -10,11 +10,11 @@
 
 
   --transition-duration: 0.5s;
-  
-  --color-main-black:#000;
+
+  --color-main-black: #000;
   --color-main-white: #fff;
-  
-  
+
+
   --color-bg: #ffffff;
   --color-main: #4fb6e6;
   --color-main-accent: #a6e93c;
@@ -22,12 +22,12 @@
   --color-secondary-accent: #b9f398;
   --color-bg-gray: #efe4d4;
 
-  
+
   --font-main: #151618;
   --font-accent: #ffffff;
   --font-secondary: #b4b4b4;
 
-  
+
   --color-btn-neutral: #84a9ee;
   --color-btn-danger: #e47474;
   --color-btn-warning: #f3c38b;
@@ -44,8 +44,8 @@
   --color-chip-neutral: #181bb3ad;
   --color-chip-danger: #881111ad;
   --color-chip-warning: #d88423ad;
-  --color-chip-good:#13b12dad;
-  --color-chip-gray:#2e2e2ead;
+  --color-chip-good: #13b12dad;
+  --color-chip-gray: #2e2e2ead;
 
   --color-chip-font-neutral: #181ab3;
   --color-chip-font-danger: #881111;
@@ -66,5 +66,6 @@
 }
 
 
-body {    overflow-x: hidden;
+body {
+  overflow-x: hidden;
 }

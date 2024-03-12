@@ -3,7 +3,7 @@
     /* border: 5px solid var( --color-btn-font-neutral); */
     overflow: hidden;
 
-     /* сей костыль добавлен ибо буквы блин кривые*/
+     /* сей костыль добавлен ибо буквы комфорты блин кривые*/
     position: relative;
 }
 
@@ -20,7 +20,7 @@
     justify-content: center;
     align-items: center;*/
     
-    /* сей костыль добавлен ибо буквы блин кривые*/
+    /* сей костыль добавлен ибо буквы комфорты блин кривые*/
     position: absolute; 
     top: 56%;
     left: 51%;
