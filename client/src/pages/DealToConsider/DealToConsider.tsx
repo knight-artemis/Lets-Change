@@ -72,11 +72,14 @@ export default function DealToConsider(): JSX.Element {
         </div>
       </SideBar>
       <MainContent>
+        <div className={style.topContent}>
+            <span className={style.span}>Одну из этих вещей мне предлагают в обмен:</span>
+          </div>
         <Grid>
           {deal?.initiatorThings.map((hisOneThing) => (
             <div key={hisOneThing.id} className={style.oneThing}>
               <input
-                // style={{ display: 'none' }}
+                style={{ display: 'none' }}
                 className={style.checkbox}
                 type='radio'
                 id={`thing-${hisOneThing.id}`}

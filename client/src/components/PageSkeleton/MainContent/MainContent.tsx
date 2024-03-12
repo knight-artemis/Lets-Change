@@ -9,7 +9,7 @@ type MainContentProps = {
 
 export default function MainContent({ children, center }: MainContentProps): JSX.Element {
   return (
-    <div style={center ? { justifyContent: 'center' } : {}} className={style.mainContent}>
+    <div style={center ? { alignContent: 'center' } : {}} className={style.mainContent}>
       {children}
     </div>
   )
