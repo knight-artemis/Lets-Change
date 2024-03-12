@@ -99,9 +99,14 @@ export default function DealToConsider(): JSX.Element {
                   />
                 </div>
               </label>
+              {selectedThingId === hisOneThing.id ?
+              <Button color='good' onClick={() => selectorHandler(hisOneThing.id)}>
+                выбрано
+              </Button> :
               <Button onClick={() => selectorHandler(hisOneThing.id)}>
                 выбрать
               </Button>
+              }
             </div>
           ))}
         </Grid>
