@@ -1,0 +1,14 @@
+.topLine {
+    display: flex;
+    gap: 1rem;
+
+    > h1 {
+        font-size: 2.5rem;
+    }
+}
+
+
+.span {
+    line-height: 2rem;
+    font-size: larger;
+}
