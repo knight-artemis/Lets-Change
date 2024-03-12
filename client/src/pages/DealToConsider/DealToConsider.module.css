@@ -66,7 +66,10 @@
     display: flex;
     justify-self: start;
 }
+
 .span {
     line-height: 2rem;
     font-size: larger;
 }
+
+.selectedText {}

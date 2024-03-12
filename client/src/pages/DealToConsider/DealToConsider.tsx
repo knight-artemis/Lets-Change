@@ -57,9 +57,11 @@ export default function DealToConsider(): JSX.Element {
     setSelectedThingId(thingId)
   }
 
-  // const findSelectedIndex = (things: ) => {
-
-  // }
+  const findSelectedIndex = (): string => {
+    if (selectedThingId < 0) return 'ничего'
+    return deal?.initiatorThings.find((hisThing) => hisThing.id === selectedThingId)
+      ?.thingName as string
+  }
 
   return (
     <WholePage>
@@ -73,8 +75,10 @@ export default function DealToConsider(): JSX.Element {
       </SideBar>
       <MainContent>
         <div className={style.topContent}>
-            <span className={style.span}>Одну из этих вещей мне предлагают в обмен:</span>
-          </div>
+          <span className={style.span}>
+            Одну из этих вещей мне предлагают в обмен:
+          </span>
+        </div>
         <Grid>
           {deal?.initiatorThings.map((hisOneThing) => (
             <div key={hisOneThing.id} className={style.oneThing}>
@@ -99,33 +103,35 @@ export default function DealToConsider(): JSX.Element {
                   />
                 </div>
               </label>
-              {selectedThingId === hisOneThing.id ?
-              <Button color='good' onClick={() => selectorHandler(hisOneThing.id)}>
-                выбрано
-              </Button> :
-              <Button onClick={() => selectorHandler(hisOneThing.id)}>
-                выбрать
-              </Button>
-              }
+              {selectedThingId === hisOneThing.id ? (
+                <Button
+                  color='good'
+                  onClick={() => selectorHandler(hisOneThing.id)}
+                >
+                  ВЫБРАНО
+                </Button>
+              ) : (
+                <Button onClick={() => selectorHandler(hisOneThing.id)}>
+                  выбрать
+                </Button>
+              )}
             </div>
           ))}
         </Grid>
-      
-      <div className={style.selectedText}>
-        Выбрано: {deal?.initiatorThings[selectedThingId]?.thingName}
-      </div>
-      <div className={style.bottomLine}>
-        <Button
-          disabled={selectedThingId < 0}
-          color='good'
-          onClick={() => void acceptedHandler()}
-        >
-          Давай меняться
-        </Button>
-        <Button color='danger' onClick={() => void rejectedHandler()}>
-          Не хочу меняться
-        </Button>
-      </div>
+
+        <div className={style.selectedText}>Выбрано: {findSelectedIndex()}</div>
+        <div className={style.bottomLine}>
+          <Button
+            disabled={selectedThingId < 0}
+            color='good'
+            onClick={() => void acceptedHandler()}
+          >
+            Давай меняться
+          </Button>
+          <Button color='danger' onClick={() => void rejectedHandler()}>
+            Не хочу меняться
+          </Button>
+        </div>
       </MainContent>
     </WholePage>
   )
