@@ -7,6 +7,13 @@ import type { CategoryType } from '../../types'
 import { useAppDispatch } from '../../redux/hooks'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
 import Modal from '../../components/Widgets/Modal/Modal'
+import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
+import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
+import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
+import Grid from '../../components/PageSkeleton/Grid/Grid'
+import Card from '../../components/Widgets/Card/Card'
+import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
+import Input from '../../components/Shared/Input/Input'
 
 type FormData = {
   thingName: string
@@ -174,99 +181,137 @@ export default function NewThing(): JSX.Element {
   }
 
   return (
-    <form className={styles.main} encType='multipart/form-data'>
-      <h1>Добавить вещь</h1>
-      <h5>Добавьте название</h5>
-      <input
-        type='text'
-        name='thingName'
-        value={formData.thingName}
-        onChange={(e) => void handleChange(e)}
-        placeholder='Введите заголовок'
-      />
-      <h5>Добавьте описание</h5>
-      <input
-        type='text'
-        name='description'
-        value={formData.description}
-        onChange={(e) => void handleChange(e)}
-        placeholder='Введите описание'
-      />
-      <h5>Выберите категорию</h5>
-      <select
-        name='categoryId'
-        value={formData.categoryId}
-        onChange={(e) => void handleChange(e)}
-      >
-        {categories.map((el) => (
-          <option key={`opt-${el.id}}`} value={`${el.id}`}>
-            {el.categoryTitle}
-          </option>
-        ))}
-      </select>
-      <h5>Выберите длительность размещения</h5>
-      <p>Дней: {days}</p>
-      <input
-        type='range'
-        min='1'
-        max='30'
-        value={days}
-        onChange={(e) => handleSliderChange(e)}
-      />
-      <h5>Выберите фото</h5>
-      <input
-        ref={fileInputRef}
-        type='file'
-        name='photo'
-        multiple
-        accept='.jpg, .jpeg, .png'
-        // onChange={handleFileChange}
-      />
-      {/* <MyPlacemarkUpload /> */}
-      <h5>{address.length ? address : 'Выберите локацию'}</h5>
-      <Button onClick={() => void setModalActive((prev) => !prev)}>
-        {address.length ? 'изменить местоположение' : 'выбрать местоположение'}
-      </Button>
-      <Modal active={modalActive} setActive={setModalActive}>
-        <>
-          <Map
-            onClick={(e: { get: (arg0: string) => number[] }) =>
-              handleClick(e.get('coords'))
-            }
-            width='600px'
-            height='500px'
-            defaultState={{
-              center: location,
-              zoom: 15,
-              controls: ['zoomControl', 'fullscreenControl'],
-            }}
-            state={{
-              center: location,
-              zoom: 15,
-              controls: ['zoomControl', 'fullscreenControl'],
-            }}
+    <WholePage>
+      <SideBar>
+        <form className={styles.main} encType='multipart/form-data'>
+          <h1>Добавить вещь</h1>
+          <h5>Добавьте название</h5>
+          {/* <input
+            type='text'
+            name='thingName'
+            value={formData.thingName}
+            onChange={(e) => void handleChange(e)}
+            placeholder='Введите заголовок'
+          /> */}
+          <Input
+            type='text'
+            name='thingName'
+            value={formData.thingName}
+            onChange={(e) => void handleChange(e)}
+            placeholder='Введите заголовок'
+          />
+          <h5>Добавьте описание</h5>
+          <Input
+            type='text'
+            name='description'
+            value={formData.description}
+            onChange={(e) => void handleChange(e)}
+            placeholder='Введите описание'
+          />
+          <h5>Выберите категорию</h5>
+          <select
+            name='categoryId'
+            value={formData.categoryId}
+            onChange={(e) => void handleChange(e)}
           >
-            <GeolocationControl options={{ float: 'left' }} />
-            {address.length > 0 && (
-              <Placemark
-                onClick={() => console.log('click')}
-                geometry={location}
-                properties={{
-                  balloonContentBody:
-                    'This is balloon loaded by the Yandex.Maps API module system',
+            {categories.map((el) => (
+              <option key={`opt-${el.id}}`} value={`${el.id}`}>
+                {el.categoryTitle}
+              </option>
+            ))}
+          </select>
+          <h5>Выберите длительность размещения</h5>
+          <p>Дней: {days}</p>
+          <input
+            type='range'
+            min='1'
+            max='30'
+            value={days}
+            onChange={(e) => handleSliderChange(e)}
+          />
+         
+          <h5>Выберите фото</h5>
+          <input
+            ref={fileInputRef}
+            type='file'
+            name='photo'
+            multiple
+            accept='.jpg, .jpeg, .png'
+            // onChange={handleFileChange}
+          />
+          {/* <MyPlacemarkUpload /> */}
+          <h5>{address.length ? address : 'Выберите локацию'}</h5>
+          <Button onClick={() => void setModalActive((prev) => !prev)}>
+            {address.length
+              ? 'изменить местоположение'
+              : 'выбрать местоположение'}
+          </Button>
+          <Modal active={modalActive} setActive={setModalActive}>
+            <>
+              <Map
+                onClick={(e: { get: (arg0: string) => number[] }) =>
+                  handleClick(e.get('coords'))
+                }
+                width='600px'
+                height='500px'
+                defaultState={{
+                  center: location,
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
                 }}
-              />
-            )}
-          </Map>
-          {address.length > 0 ? <p>{address}</p> : <p> </p>}
-          {/* <Button color='good'>Загрузить</Button>
+                state={{
+                  center: location,
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
+                }}
+              >
+                <GeolocationControl options={{ float: 'left' }} />
+                {address.length > 0 && (
+                  <Placemark
+                    onClick={() => console.log('click')}
+                    geometry={location}
+                    properties={{
+                      balloonContentBody:
+                        'This is balloon loaded by the Yandex.Maps API module system',
+                    }}
+                  />
+                )}
+              </Map>
+              {address.length > 0 ? <p>{address}</p> : <p> </p>}
+              {/* <Button color='good'>Загрузить</Button>
       <Button color='warning'>Загрузить</Button>
       <Button color='neutral'>Загрузить</Button>
       <Button color='danger'>Загрузить</Button> */}
-          <Button disabled={!address.length} onClick={() => handleAccept()}>Подтвердить локацию</Button>
-        </>
-      </Modal>
-      <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
-    </form>
+              <Button disabled={!address.length} onClick={() => handleAccept()}>
+                Подтвердить локацию
+              </Button>
+            </>
+          </Modal>
+          <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
+        </form>
+      </SideBar>
+      <MainContent>
+        <center>
+          <h2>Загруженные фотки</h2>
+        </center>
+        <Grid centerHorizontal>
+          {Array.from({ length: 5 }).map((el) => (
+            <div>
+              <div
+                style={{
+                  width: '250px',
+                  height: '250px',
+                  backgroundColor: '#999',
+                }}
+              >
+                фотка
+              </div>
+              <Button color='danger'>удОли</Button>
+            </div>
+          ))}
+          {/* {formData?.photo?.map(photo => console.log('==>>',photo))} */}
+        </Grid>
+      </MainContent>
+    </WholePage>
   )
 }

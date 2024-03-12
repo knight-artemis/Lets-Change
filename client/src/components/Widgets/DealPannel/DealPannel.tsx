@@ -2,49 +2,71 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import axios from 'axios'
-import type { OneDealFromMe, OneDealToMe } from '../../../types'
+import { string } from 'prop-types'
+import type { ColorTypes, OneDealFromMe, OneDealToMe } from '../../../types'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import style from './DealPannel.module.css'
 import Button from '../../Shared/Button/Button'
 import CardSimple from '../CardSimple/CardSimple'
 import { fetchGetNot } from '../../../redux/user/userThunkActions'
 
+type BtnStatusesType =
+  | 'подробнее'
+  | 'обсудить'
+  | 'в чат'
+  | 'скрыть'
+  | 'подтвердить'
+  | 'отменить'
+
+type DealPannelButtonType = {
+  status: string
+  isBtn: boolean
+  btnText?: BtnStatusesType
+  color?: ColorTypes
+}
+
 export default function DealPannel({
   deal,
   setSelectedDeals,
 }: {
   deal: OneDealToMe | OneDealFromMe
-  setSelectedDeals: React.Dispatch<React.SetStateAction<OneDealToMe[] | OneDealFromMe[]>>
+  setSelectedDeals: React.Dispatch<
+    React.SetStateAction<OneDealToMe[] | OneDealFromMe[]>
+  >
 }): JSX.Element {
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<DealPannelButtonType>({
     status: '',
     isBtn: false,
-    btnText: '',
-    color: '',
   })
   const dispatcher = useAppDispatch()
 
   useEffect(() => {
     switch (deal.status) {
       case 0:
-        setState(
-          user.id === deal.initiatorId
-            ? {
-                status: 'ожидает подтверждения',
-                isBtn: true,
-                btnText: 'отменить',
-                color: 'danger',
-              }
-            : {
-                status: 'ожидает подтверждения',
-                isBtn: true,
-                btnText: 'подробнее',
-                color: 'neutral',
-              },
-        )
+        setState({
+          status: 'ожидает решения',
+          isBtn: true,
+          btnText: 'подробнее',
+          color: 'neutral',
+        })
+        // setState(
+        //   user.id === deal.initiatorId
+        //     ? {
+        //         status: 'ожидает подтверждения',
+        //         isBtn: true,
+        //         btnText: 'отменить',
+        //         color: 'danger',
+        //       }
+        //     : {
+        //         status: 'ожидает подтверждения',
+        //         isBtn: true,
+        //         btnText: 'подробнее',
+        //         color: 'neutral',
+        //       },
+        // )
         break
       case 1:
         setState({
@@ -55,28 +77,51 @@ export default function DealPannel({
         })
         break
       case 2:
-        setState(
-          user.id === deal.initiatorId && deal.acceptedByInitiator
-            ? {
-                status: 'сделка завершена',
-                isBtn: false,
-                btnText: '',
-                color: '',
-              }
-            : {
-                status: 'ожидает подтверждения обмена',
-                isBtn: true,
-                btnText: 'подтвердить',
-                color: 'good',
-              },
-        )
+        setState({
+          status: 'ожидает подтверждения обмена',
+          isBtn: true,
+          btnText: 'в чат',
+          color: 'warning',
+        })
+        // setState(
+        //   ((user.id === deal.initiatorId) && deal.acceptedByInitiator) ||
+        //     ((user.id !== deal.initiatorId) && deal.acceptedByReceiver)
+        //     ? {
+        //         status: 'сделка состоялась',
+        //         isBtn: true,
+        //         btnText: 'скрыть',
+        //         color: 'gray',
+        //       }
+        //     : {
+        //         status: 'ожидает подтверждения обмена',
+        //         isBtn: true,
+        //         btnText: 'в чат',
+        //         color: 'warning',
+        //       },
+        // )
+
+        // setState(
+        //   user.id === deal.initiatorId && deal.acceptedByInitiator
+        //     ? {
+        //         status: 'сделка завершена',
+        //         isBtn: false,
+        //         btnText: '',
+        //         color: '',
+        //       }
+        //     : {
+        //         status: 'ожидает подтверждения обмена',
+        //         isBtn: true,
+        //         btnText: 'подтвердить',
+        //         color: 'good',
+        //       },
+        // )
         break
       case 3:
         setState({
           status: 'сделка завершена',
-          isBtn: false,
-          btnText: '',
-          color: '',
+          isBtn: true,
+          btnText: 'скрыть',
+          color: 'gray',
         })
         break
       case 4: //  а у отказавшегося вообще убрать показ этой сделки
@@ -100,11 +145,15 @@ export default function DealPannel({
         setState({
           status: 'статус не ясен О_о',
           isBtn: false,
-          btnText: '',
-          color: '',
         })
     }
-  }, [deal.acceptedByInitiator, deal.initiatorId, deal.status, user.id])
+  }, [
+    deal.acceptedByInitiator,
+    deal.acceptedByReceiver,
+    deal.initiatorId,
+    deal.status,
+    user.id,
+  ])
 
   //! ТУТ ВСЁ НЕ ТАК ) оба хэндлера
   const acceptedHandler = async (id: number): Promise<void> => {
@@ -117,8 +166,6 @@ export default function DealPannel({
         withCredentials: true,
       },
     )
-    // тут запрос в бд и подтверждение сделки
-    // затем навигейт на страницу сделки
   }
 
   const rejectedHandler = async (id: number): Promise<void> => {
@@ -132,8 +179,6 @@ export default function DealPannel({
         withCredentials: true,
       },
     )
-    // тут запрос в бд и отказ от сделки
-    // затем навигейт на страницу всех своих сделок
   }
 
   const archiveHandler = async (id: number): Promise<void> => {
@@ -147,7 +192,7 @@ export default function DealPannel({
       },
     )
     await dispatcher(fetchGetNot())
-    setSelectedDeals((prev) => prev.filter(el=> el.id !== deal.id))
+    setSelectedDeals((prev) => prev.filter((el) => el.id !== deal.id))
   }
 
   const btnHandler = async (id: number): Promise<void> => {
@@ -155,15 +200,20 @@ export default function DealPannel({
       case 'обсудить':
         navigate(`/deal/${id}`)
         break
+      case 'в чат':
+        navigate(`/deal/${id}`)
+        break
       case 'подробнее':
         navigate(`/deal-to-consider/${id}`)
         break
       case 'подтвердить':
         // тут в ручку стук и удалить (или модалка с подтверждением)
+        //! этот функционал удалён
         await acceptedHandler(id)
         break
       case 'отменить':
         // тут в ручку стук и удалить (или модалка с подтверждением)
+        //! этот функционал удалён
         await rejectedHandler(id)
         break
       case 'скрыть':
@@ -231,6 +281,7 @@ export default function DealPannel({
       </div>
       <div className={style.textCol}>
         <div className={style.status}>
+          {/* Статус: {state.status} */}
           Статус - {deal.status}: {state.status}
         </div>
         {state.isBtn && (

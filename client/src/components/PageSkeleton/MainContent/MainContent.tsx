@@ -4,12 +4,24 @@ import style from './MainContent.module.css'
 
 type MainContentProps = {
   children: ReactNode
-  center?: boolean
+  // center?: boolean
+  centerHorizontal?: boolean
+  centerVertical?: boolean
 }
 
-export default function MainContent({ children, center }: MainContentProps): JSX.Element {
+export default function MainContent({
+  children,
+  centerHorizontal,
+  centerVertical,
+}: MainContentProps): JSX.Element {
   return (
-    <div style={center ? { alignContent: 'center' } : {}} className={style.mainContent}>
+    <div
+      style={{
+        justifyContent: centerHorizontal ? 'center' : 'initial',
+        alignItems: centerVertical ? 'center' : 'initial',
+      }}
+      className={style.mainContent}
+    >
       {children}
     </div>
   )

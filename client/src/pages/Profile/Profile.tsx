@@ -188,7 +188,7 @@ export default function Profile(): JSX.Element {
           <PasswordChangeForm user={user} setActive={setModalActive6} />
         </Modal>
       </SideBar>
-      <MainContent>
+      <MainContent centerHorizontal centerVertical>
       {/* <div className={styles.main}> */}
         <div className={styles.userInfo}>
           {/* <div className={styles.avatarDiv}></div> */}

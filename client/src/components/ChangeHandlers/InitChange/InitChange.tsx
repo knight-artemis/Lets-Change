@@ -23,15 +23,17 @@ export default function InitChange({
   )
 
   useEffect(() => {
-    axios
-      .get<SimplifiedThingType[]>(
-        `${import.meta.env.VITE_API}/v1/things/user/${user.id}`,
-        { withCredentials: true },
-      )
-      .then((res) =>
-        setMyThings(res.data.filter((el) => !el.inDeal && el.isApproved)),
-      )
-      .catch((err) => console.log('Ошибка получения всех СВОИХ вещей', err))
+    if (user.id) {
+      axios
+        .get<SimplifiedThingType[]>(
+          `${import.meta.env.VITE_API}/v1/things/user/${user.id}`,
+          { withCredentials: true },
+        )
+        .then((res) =>
+          setMyThings(res.data.filter((el) => !el.inDeal && el.isApproved)),
+        )
+        .catch((err) => console.log('Ошибка получения всех СВОИХ вещей', err))
+    }
   }, [user])
   // console.log(user, myThings)
 
@@ -113,7 +115,10 @@ export default function InitChange({
         </div>
       </div>
       <div>
-        <Button disabled={!selectedThings.length} onClick={() => void handlerNewDeal()}>
+        <Button
+          disabled={!selectedThings.length}
+          onClick={() => void handlerNewDeal()}
+        >
           Меняюсь
         </Button>
       </div>
