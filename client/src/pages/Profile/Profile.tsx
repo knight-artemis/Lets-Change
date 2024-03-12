@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Bounce, toast } from 'react-toastify'
 import styles from './Profile.module.css'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import Modal from '../../components/Widgets/Modal/Modal'
@@ -19,37 +18,10 @@ import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import Button from '../../components/Shared/Button/Button'
+import { notifySuccess, notifyWarning } from '../../toasters'
 
 export default function Profile(): JSX.Element {
   const dispatch = useAppDispatch()
-
-  const notifySuccess = (message: string): void => {
-    toast.success(message, {
-      position: 'top-center',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-      transition: Bounce,
-    })
-  }
-
-  const notifyWarning = (message: string): void => {
-    toast.warn(message, {
-      position: 'top-center',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-      transition: Bounce,
-    })
-  }
 
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)
@@ -64,7 +36,7 @@ export default function Profile(): JSX.Element {
     dispatch(fetchGetNot())
       .then()
       .catch((err) => console.log(err))
-  }, [])
+  }, [dispatch])
 
   const deleteAvatar = async (): Promise<void> => {
     try {
@@ -89,15 +61,14 @@ export default function Profile(): JSX.Element {
   return (
     <WholePage>
       <SideBar>
-        <center  className={styles.header}>Информация о пользователе</center>
+        <center className={styles.header}>Информация о пользователе</center>
         <div className={styles.center}>
-
-        <Avatar
-          size={15}
-          src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
-          letter={user.firstName[0]}
+          <Avatar
+            size={15}
+            src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+            letter={user.firstName[0]}
           />
-          </div>
+        </div>
         {user.avatarUrl ? (
           <>
             <Button onClick={() => setModalActive1((prev) => !prev)}>
@@ -179,7 +150,7 @@ export default function Profile(): JSX.Element {
           </>
         )}
         <Modal active={modalActive5} setActive={setModalActive5}>
-          <AddressChangeForm setActive={setModalActive5} />
+          <AddressChangeForm user={user} setActive={setModalActive5} />
         </Modal>
         <Button onClick={() => setModalActive6((prev) => !prev)}>
           Изменить пароль
@@ -188,6 +159,7 @@ export default function Profile(): JSX.Element {
           <PasswordChangeForm user={user} setActive={setModalActive6} />
         </Modal>
       </SideBar>
+
       <MainContent centerHorizontal centerVertical>
       {/* <div className={styles.main}> */}
         <div className={styles.userInfo}>
@@ -218,11 +190,11 @@ export default function Profile(): JSX.Element {
             )}
           </span>
           <Modal active={modalActive7} setActive={setModalActive7}>
-            <SubForm />
+            <SubForm user={user} setActive={setModalActive7} />
           </Modal>
           <span>Рейтинг пользователя: {user?.rating}</span>
         </div>
-      {/* </div>  */}
+        {/* </div>  */}
       </MainContent>
     </WholePage>
   )

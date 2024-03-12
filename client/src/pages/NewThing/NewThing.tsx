@@ -7,6 +7,7 @@ import type { CategoryType } from '../../types'
 import { useAppDispatch } from '../../redux/hooks'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
 import Modal from '../../components/Widgets/Modal/Modal'
+import { notifySuccess } from '../../toasters'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
@@ -147,6 +148,7 @@ export default function NewThing(): JSX.Element {
       console.log('Ответ от сервера:', response.data)
       fileInputRef.current.value = ''
       setFormData(initialFormsData)
+      notifySuccess('Вещь была успешно добавлена и направлена на модерацию, которая займет некоторое время.')
     } catch (error) {
       console.error('Ошибка при загрузке файла:', error)
     }
