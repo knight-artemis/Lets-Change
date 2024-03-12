@@ -72,7 +72,7 @@ export default function Main(): JSX.Element {
     // список объявлений по свежести
     setAllThings()
     dispatcher(fetchGetNot())
-      .then()
+      // .then()
       .catch((err) => console.log(err))
 
     // список категорий

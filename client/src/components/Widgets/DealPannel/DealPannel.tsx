@@ -10,11 +10,19 @@ import Button from '../../Shared/Button/Button'
 import CardSimple from '../CardSimple/CardSimple'
 import { fetchGetNot } from '../../../redux/user/userThunkActions'
 
+type BtnStatusesType =
+  | 'подробнее'
+  | 'обсудить'
+  | 'в чат'
+  | 'скрыть'
+  | 'подтвердить'
+  | 'отменить'
+
 type DealPannelButtonType = {
   status: string
   isBtn: boolean
-  btnText: string
-  color: ColorTypes
+  btnText?: BtnStatusesType
+  color?: ColorTypes
 }
 
 export default function DealPannel({
@@ -32,8 +40,6 @@ export default function DealPannel({
   const [state, setState] = useState<DealPannelButtonType>({
     status: '',
     isBtn: false,
-    btnText: '',
-    color: '',
   })
   const dispatcher = useAppDispatch()
 
@@ -71,21 +77,29 @@ export default function DealPannel({
         })
         break
       case 2:
-        setState(
-          user.id === deal.initiatorId && deal.acceptedByInitiator
-            ? {
-                status: 'посмотреть чат и закрыть сделку',
-                isBtn: true,
-                btnText: 'в чат',
-                color: 'good',
-              }
-            : {
-                status: 'ожидает подтверждения обмена',
-                isBtn: true,
-                btnText: 'в чат',
-                color: 'good',
-              },
-        )
+        setState({
+          status: 'ожидает подтверждения обмена',
+          isBtn: true,
+          btnText: 'в чат',
+          color: 'warning',
+        })
+        // setState(
+        //   ((user.id === deal.initiatorId) && deal.acceptedByInitiator) ||
+        //     ((user.id !== deal.initiatorId) && deal.acceptedByReceiver)
+        //     ? {
+        //         status: 'сделка состоялась',
+        //         isBtn: true,
+        //         btnText: 'скрыть',
+        //         color: 'gray',
+        //       }
+        //     : {
+        //         status: 'ожидает подтверждения обмена',
+        //         isBtn: true,
+        //         btnText: 'в чат',
+        //         color: 'warning',
+        //       },
+        // )
+
         // setState(
         //   user.id === deal.initiatorId && deal.acceptedByInitiator
         //     ? {
@@ -105,9 +119,9 @@ export default function DealPannel({
       case 3:
         setState({
           status: 'сделка завершена',
-          isBtn: false,
-          btnText: '',
-          color: '',
+          isBtn: true,
+          btnText: 'скрыть',
+          color: 'gray',
         })
         break
       case 4: //  а у отказавшегося вообще убрать показ этой сделки
@@ -131,11 +145,15 @@ export default function DealPannel({
         setState({
           status: 'статус не ясен О_о',
           isBtn: false,
-          btnText: '',
-          color: '',
         })
     }
-  }, [deal.acceptedByInitiator, deal.initiatorId, deal.status, user.id])
+  }, [
+    deal.acceptedByInitiator,
+    deal.acceptedByReceiver,
+    deal.initiatorId,
+    deal.status,
+    user.id,
+  ])
 
   //! ТУТ ВСЁ НЕ ТАК ) оба хэндлера
   const acceptedHandler = async (id: number): Promise<void> => {
@@ -148,8 +166,6 @@ export default function DealPannel({
         withCredentials: true,
       },
     )
-    // тут запрос в бд и подтверждение сделки
-    // затем навигейт на страницу сделки
   }
 
   const rejectedHandler = async (id: number): Promise<void> => {
@@ -163,8 +179,6 @@ export default function DealPannel({
         withCredentials: true,
       },
     )
-    // тут запрос в бд и отказ от сделки
-    // затем навигейт на страницу всех своих сделок
   }
 
   const archiveHandler = async (id: number): Promise<void> => {
@@ -194,10 +208,12 @@ export default function DealPannel({
         break
       case 'подтвердить':
         // тут в ручку стук и удалить (или модалка с подтверждением)
+        //! этот функционал удалён
         await acceptedHandler(id)
         break
       case 'отменить':
         // тут в ручку стук и удалить (или модалка с подтверждением)
+        //! этот функционал удалён
         await rejectedHandler(id)
         break
       case 'скрыть':
@@ -265,8 +281,8 @@ export default function DealPannel({
       </div>
       <div className={style.textCol}>
         <div className={style.status}>
-          Статус: {state.status}
-          {/* Статус - {deal.status}: {state.status} */}
+          {/* Статус: {state.status} */}
+          Статус - {deal.status}: {state.status}
         </div>
         {state.isBtn && (
           <Button color={state.color} onClick={() => void btnHandler(deal.id)}>

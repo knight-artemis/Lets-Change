@@ -140,14 +140,14 @@ router.get('/', async (req, res) => {
     res.status(200).json(
       query.admin
         ? thingsRaw.map((el) => {
-            const thing = el.get({ plain: true })
-            if (thing.Issues.length) {
-              const { issue } = thing.Issues[0]
-              thing.issue = issue
-            }
-            delete thing.Issues
-            return thing
-          })
+          const thing = el.get({ plain: true })
+          if (thing.Issues.length) {
+            const { issue } = thing.Issues[0]
+            thing.issue = issue
+          }
+          delete thing.Issues
+          return thing
+        })
         : things,
     )
   } catch (error) {

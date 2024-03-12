@@ -53,7 +53,7 @@ router.patch('/accept/:id', async (req, res) => {
         thingId: id,
       },
     })
-    issue.destroy()
+    if (issue) issue.destroy()
     await thing.update({ isApproved: true })
     res.json(thing)
   } catch (error) {
