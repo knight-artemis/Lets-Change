@@ -235,7 +235,7 @@ router.patch('/:id/accepted', async (req, res) => {
         const promises = selectedThings.map(async (elem) => {
           const plainSelectedThing = elem
           if (plainSelectedThing.offeredThingId === selectedThingId) {
-			//   console.log('THING=====> ',plainSelectedThing.offeredThingId, selectedThingId)
+            //   console.log('THING=====> ',plainSelectedThing.offeredThingId, selectedThingId)
             plainSelectedThing.isSelected = true
             await plainSelectedThing.save()
           } else {
@@ -306,6 +306,23 @@ router.patch('/:id/note', async (req, res) => {
   try {
     const deal = await Deal.findByPk(req.params.id)
     await deal.update(req.body)
+    res.json(deal)
+  } catch (error) {
+    console.error('Ошибка при обновлении сделки', error)
+    res.status(500).send({ err: { server: 'Ошибка сервера при обновлении сделки' } })
+  }
+})
+
+router.patch('/:id/finished', async (req, res) => {
+  const { body } = req
+  try {
+    const deal = await Deal.findByPk(req.params.id)
+    await deal.update({
+      ...body,
+      status: deal.status === 2 ? 3 : 2,
+      recieverNote: deal.status === 1 && !!body.acceptedByInitiator,
+      initiatorNote: deal.status === 1 && !!body.acceptedByReceiver,
+    })
     res.json(deal)
   } catch (error) {
     console.error('Ошибка при обновлении сделки', error)
