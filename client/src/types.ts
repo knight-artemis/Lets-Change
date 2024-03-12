@@ -45,7 +45,6 @@ export type ShortUserType = {
 }
 
 export type ThingType = {
-  filter(arg0: (el: any) => boolean): ThingType
   id: number
   userId: number
   categoryId: number
