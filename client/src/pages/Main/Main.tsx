@@ -137,7 +137,7 @@ export default function Main(): JSX.Element {
         ))}
         {/* </div> */}
       </SideBar>
-      <MainContent >
+      <MainContent>
         <div className={style.topContent}>
           <div className={style.topLine}>
             <span className={style.span}>Посмотреть объявления списком</span>
