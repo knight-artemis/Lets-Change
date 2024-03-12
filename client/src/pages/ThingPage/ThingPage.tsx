@@ -110,110 +110,111 @@ export default function ThingPage(): JSX.Element {
         {!thing.isApproved && !thing.issue?.length && (
           <h2 style={{ color: 'orange' }}>Вещь пока на модерации</h2>
         )}
-      
-            <div className={style.category}>{thing.Category.categoryTitle}</div>
-        
-          <div className={`${style.photoBlock}`}>
-            <CarouselProvider
-              naturalSlideWidth={100}
-              naturalSlideHeight={100}
-              totalSlides={thing.Photos.length}
-            >
-              <Slider>
-                {thing.Photos.map((photo, index) => (
-                  <Slide key={`img-${photo.id}`} index={index}>
-                    <ImageWithZoom
-                      className={`${style.photo}`}
-                      src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
-                      alt='Штанi'
-                    />
-                  </Slide>
-                ))}
-              </Slider>
-              <ButtonBack>Back</ButtonBack>
-              <ButtonNext>Next</ButtonNext>
-            </CarouselProvider>
-          </div>
+
+        <div className={style.category}>{thing.Category.categoryTitle}</div>
+
+        <div className={`${style.photoBlock}`}>
+          <CarouselProvider
+            naturalSlideWidth={100}
+            naturalSlideHeight={100}
+            totalSlides={thing.Photos.length}
+          >
+            <Slider>
+              {thing.Photos.map((photo, index) => (
+                <Slide key={`img-${photo.id}`} index={index}>
+                  <ImageWithZoom
+                    className={`${style.photo}`}
+                    src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
+                    alt='Штанi'
+                  />
+                </Slide>
+              ))}
+            </Slider>
+            <ButtonBack>Back</ButtonBack>
+            <ButtonNext>Next</ButtonNext>
+          </CarouselProvider>
+        </div>
       </SideBar>
-      <MainContent>
+      <MainContent centerHorizontal>
+        
         <div className={style.timeLeft}>{thing.endDate.toLocaleString()}</div>
 
-      <h2>
+        <div className={style.ownerName}>
           {thing.User.lastName
             ? `${thing.User.firstName} ${thing.User.lastName}`
             : `${thing.User.firstName}`}
-        </h2>
+        </div>
 
         <div className={style.address}>{thing.description}</div>
         <div className={style.address}>{thing.thingAddress}</div>
 
-      <div className={`${style.mapDiv}`}>
-              {/* {location.length > 0 && ( */}
-              <Map
-                // onClick={(e) => handleClick(e.get('coords'))}
-                width='600px'
-                height='500px'
-                defaultState={{
-                  center: [thing.thingLat, thing.thingLon],
-                  zoom: 15,
-                  controls: ['zoomControl', 'fullscreenControl'],
-                }}
-                state={{
-                  center: [thing.thingLat, thing.thingLon],
-                  zoom: 15,
-                  controls: ['zoomControl', 'fullscreenControl'],
-                }}
-              >
-                <GeolocationControl options={{ float: 'left' }} />
-                {/* {address.length > 0 && ( */}
-                <Placemark
-                  onClick={() => console.log('click')}
-                  geometry={[thing.thingLat, thing.thingLon]}
-                  properties={{
-                    balloonContentBody:
-                      'This is balloon loaded by the Yandex.Maps API module system',
-                  }}
-                />
-                {/* )} */}
-              </Map>
-              {/* )} */}
-            </div>
+        <div className={`${style.mapDiv}`}>
+          {/* {location.length > 0 && ( */}
+          <Map
+            // onClick={(e) => handleClick(e.get('coords'))}
+            width='600px'
+            height='500px'
+            defaultState={{
+              center: [thing.thingLat, thing.thingLon],
+              zoom: 15,
+              controls: ['zoomControl', 'fullscreenControl'],
+            }}
+            state={{
+              center: [thing.thingLat, thing.thingLon],
+              zoom: 15,
+              controls: ['zoomControl', 'fullscreenControl'],
+            }}
+          >
+            <GeolocationControl options={{ float: 'left' }} />
+            {/* {address.length > 0 && ( */}
+            <Placemark
+              onClick={() => console.log('click')}
+              geometry={[thing.thingLat, thing.thingLon]}
+              properties={{
+                balloonContentBody:
+                  'This is balloon loaded by the Yandex.Maps API module system',
+              }}
+            />
+            {/* )} */}
+          </Map>
+          {/* )} */}
+        </div>
+
+        <div className={`${style.buttonDiv}`}>
+          {user.id !== thing.userId && !initiate && (
+            <Button
+              // className={`${style.button}`}
+              onClick={() => setModalActive1((prev) => !prev)}
+            >
+              Давай меняться
+            </Button>
+          )}
+          {user.id !== 0 && user.id === thing.userId ? (
+            <Button
+              onClick={() => setModalActive2((prev) => !prev)}
+            >
+              Изменить
+            </Button>
+          ) : (
+            <> </>
+          )}
+        </div>
+        <Modal active={modalActive1} setActive={setModalActive1}>
+          <InitChange thingId={thing.id} />
+        </Modal>
+        <Modal active={modalActive2} setActive={setModalActive2}>
+          <ThingUpdateForm thingId={thing.id} initialThing={initialThing} />
+        </Modal>
       </MainContent>
-      <div className={`${style.post}`}>
+      {/* <div className={`${style.post}`}>
         <div className={`${style.mainContent}`}>
           <div className={`${style.addContent}`}>
             <div className={`${style.description}`}>{thing.description}</div>
-            <div className={`${style.buttonDiv}`}>
-              {user.id !== thing.userId && !initiate && (
-                <button
-                  type='button'
-                  className={`${style.button}`}
-                  onClick={() => setModalActive1((prev) => !prev)}
-                >
-                  Давай меняться
-                </button>
-              )}
-              {user.id !== 0 && user.id === thing.userId ? (
-                <button
-                  type='button'
-                  onClick={() => setModalActive2((prev) => !prev)}
-                >
-                  Изменить
-                </button>
-              ) : (
-                <> </>
-              )}
-            </div>
+            
             
           </div>
         </div>
-      </div>
-      <Modal active={modalActive1} setActive={setModalActive1}>
-        <InitChange thingId={thing.id} />
-      </Modal>
-      <Modal active={modalActive2} setActive={setModalActive2}>
-        <ThingUpdateForm thingId={thing.id} initialThing={initialThing} />
-      </Modal>
+      </div> */}
     </WholePage>
   )
 }
