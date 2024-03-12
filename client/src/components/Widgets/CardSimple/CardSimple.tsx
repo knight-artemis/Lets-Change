@@ -6,7 +6,7 @@ import ModalThing from '../ModalThing/ModalThing'
 
 type CardSimpleProps = {
   thing?: {
-    thingName: string
+    thingName?: string
     photoUrl: string
   },
   thingId?: number

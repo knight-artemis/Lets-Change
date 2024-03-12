@@ -137,7 +137,7 @@ export default function Main(): JSX.Element {
         ))}
         {/* </div> */}
       </SideBar>
-      <MainContent>
+      <MainContent >
         <div className={style.topContent}>
           <div className={style.topLine}>
             <span className={style.span}>Посмотреть объявления списком</span>
@@ -168,7 +168,7 @@ export default function Main(): JSX.Element {
         </div>
 
         {/* <div className={style.content}> */}
-        <Grid center>
+        <Grid centerHorizontal>
           {isChecked ? (
             <div
               style={{ width: '800px', height: '100%', borderRadius: '20px' }}
