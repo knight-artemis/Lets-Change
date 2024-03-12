@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
   },
   filename(req, file, cb) {
     const index = req.files ? req.files.length - 1 : 1;
-    cb(null, `${index}-${Date.now().toString().replace(' ', '_')}.${file.originalname.split('.').at(-1)}`)
+    cb(null, `${Date.now().toString().replace(' ', '_')}-${index}.${file.originalname.split('.').at(-1)}`)
   },
 })
 

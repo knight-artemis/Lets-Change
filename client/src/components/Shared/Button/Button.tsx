@@ -2,13 +2,18 @@ import type { ReactNode, MouseEvent } from 'react'
 import React from 'react'
 import clsx from 'clsx'
 import style from './Button.module.css'
+import type { ColorTypes } from '../../../types'
 
 type ButtonProps = {
-  children: ReactNode 
-  onClick?: (e) => void 
+  children: ReactNode
+  onClick?:
+    | (() => void)
+    | (() => Promise<void>)
+    | ((e: MouseEvent) => void)
+    | ((e: MouseEvent) => Promise<void>)
   link?: boolean // кнопка-ссылка или обычная кнопка
   disabled?: boolean // заблочить
-  color?: 'neutral' | 'danger' | 'good' | 'warning' | 'gray'| undefined // цвет
+  color?: ColorTypes
 }
 
 export default function Button({

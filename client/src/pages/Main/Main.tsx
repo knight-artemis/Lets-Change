@@ -72,7 +72,7 @@ export default function Main(): JSX.Element {
     // список объявлений по свежести
     setAllThings()
     dispatcher(fetchGetNot())
-      .then()
+      // .then()
       .catch((err) => console.log(err))
 
     // список категорий
@@ -168,7 +168,7 @@ export default function Main(): JSX.Element {
         </div>
 
         {/* <div className={style.content}> */}
-        <Grid center>
+        <Grid centerHorizontal>
           {isChecked ? (
             <div
               style={{ width: '800px', height: '100%', borderRadius: '20px' }}

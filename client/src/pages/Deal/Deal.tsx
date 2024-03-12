@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import clsx from 'clsx'
 import style from './Deal.module.css'
@@ -13,11 +13,18 @@ import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 
+type AxiosFinishedType = {
+  acceptedByInitiator?: boolean
+  acceptedByReceiver?: boolean
+}
+type AxiosFinishedReturnType = { succes: boolean }
+
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
   const user = useAppSelector((store) => store.userSlice.user)
   const { id } = useParams()
   const dispatcher = useAppDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     console.log('RERENDER')
@@ -50,6 +57,32 @@ export default function Deal(): JSX.Element {
     //   .catch((err) => console.log('Ошибка получения подробной сделки', err))
   }, [id])
 
+  const finishedHandler = async (): Promise<void> => {
+    const axiosRequest: AxiosFinishedType = {}
+    if (deal) {
+      if (user.id === deal.initiatorId) axiosRequest.acceptedByInitiator = true
+      else if (user.id === deal.receiverId)
+        axiosRequest.acceptedByReceiver = true
+    }
+
+    // const axiosRequest: AxiosFinishedType =
+    //   user.id === deal?.initiatorId
+    //     ? { acceptedByInitiator: true }
+    //     : { acceptedByReceiver: true }
+    try {
+      await axios.patch<AxiosFinishedType, AxiosFinishedReturnType>(
+        `${import.meta.env.VITE_API}/v1/deals/${id}/finished`,
+        { data: axiosRequest },
+        { withCredentials: true },
+      )
+      console.log('Успешно закрыл')
+
+      navigate(-1)
+    } catch (error) {
+      console.log('Ошибка закрытия сделки', error)
+    }
+  }
+
   if (!deal) return <div /> //! тут потом будет спиннер
   return (
     <WholePage>
@@ -57,31 +90,35 @@ export default function Deal(): JSX.Element {
       <SideBar center>
         {/* <div className={style.left}> */}
         {/* <div className={style.thing}> */}
-          <div className={style.text}>
-            {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
-          </div>
-          <CardSimple
-            hoverable
-            thing={deal && deal.Thing}
-            thingId={deal.thingId}
-          />
-          {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.initiatorThings[0] : deal.Thing} /> */}
-          <div className={style.text}>
-            {deal && deal.initiatorId === user.id
-              ? 'ты предлагаешь'
-              : 'меняют на'}
-          </div>
-          <CardSimple
-            hoverable
-            thing={deal && deal.initiatorThings[0]}
-            thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
-          />
-          {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
-        {/* </div> */}
         <div className={style.text}>
-            Нажми, если вы уже обменялись
-          </div>
-        <Button color='good'>Сделка завершена</Button>
+          {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
+        </div>
+        <CardSimple
+          hoverable
+          thing={deal && deal.Thing}
+          thingId={deal.thingId}
+        />
+        {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.initiatorThings[0] : deal.Thing} /> */}
+        <div className={style.text}>
+          {deal && deal.initiatorId === user.id
+            ? 'ты предлагаешь'
+            : 'меняют на'}
+        </div>
+        <CardSimple
+          hoverable
+          thing={deal && deal.initiatorThings[0]}
+          thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
+        />
+        {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
+        {/* </div> */}
+        <div className={style.text}>Нажми, если вы уже обменялись</div>
+
+        {((user.id === deal.initiatorId && deal.acceptedByInitiator) ||
+          (user.id !== deal.initiatorId && deal.acceptedByReceiver)) && (
+          <Button color='good' onClick={() => finishedHandler()}>
+            Сделка завершена
+          </Button>
+        )}
         {/* </div> */}
       </SideBar>
       {/* <div className={style.right}> */}

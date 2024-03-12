@@ -52,10 +52,11 @@ export default function MyDeals({
         setAllDeals(res.data)
         setSelectedDeals(
           toMe
-            ? res.data.toMeDeals.filter((el) => el.status !== 4)
-            : res.data.fromMeDeals.filter(
-                (el) => el.initiatorNote || el.status !== 4,
-              ),
+            ? res.data.toMeDeals
+                .filter((el) => el.status < 3)
+            : res.data.fromMeDeals
+                .filter((el) => el.initiatorNote || el.status < 3)
+                //! Это костылище ! костыличещное 
         )
         setMainText(
           toMe ? 'у меня хотят забрать эти вещи' : 'я хочу забрать эти вещи',
@@ -127,7 +128,7 @@ export default function MyDeals({
         </Button>
       </SideBar>
       <MainContent>
-        <Grid center>
+        <Grid centerHorizontal>
           <div className={style.topContent}>
             <span className={style.span}>{mainText}</span>
           </div>

@@ -154,3 +154,11 @@ export type AdminType = {
   id: number
   login: string
 }
+
+export type ColorTypes =
+  | 'neutral'
+  | 'danger'
+  | 'good'
+  | 'warning'
+  | 'gray'
+  | undefined

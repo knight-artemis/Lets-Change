@@ -6,7 +6,7 @@ import style from './DealToConsider.module.css'
 import type { OneDealDetailed } from '../../types'
 import Button from '../../components/Shared/Button/Button'
 import CardSimple from '../../components/Widgets/CardSimple/CardSimple'
-import { useAppDispatch } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
@@ -20,6 +20,7 @@ export default function DealToConsider(): JSX.Element {
   const { id } = useParams()
   const navigate = useNavigate()
   const dispatcher = useAppDispatch()
+  const user = useAppSelector((store) => store.userSlice.user)
 
   useEffect(() => {
     axios
