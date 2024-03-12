@@ -201,9 +201,14 @@ export default function ThingPage(): JSX.Element {
         <Modal active={modalActive1} setActive={setModalActive1}>
           <InitChange thingId={thing.id} />
         </Modal>
-        <Modal active={modalActive2} setActive={setModalActive2}>
-          <ThingUpdateForm thingId={thing.id} initialThing={initialThing} />
-        </Modal>
+        <Modal active={modalActive2} setActive={setModalActive2}>          
+           <ThingUpdateForm
+          thing={thing}
+          setThing={setThing}
+          setActive={setModalActive2}
+        />          
+          {/* <ThingUpdateForm thingId={thing.id}  initialThing={initialThing} />  */}         
+          </Modal>
       </MainContent>
       {/* <div className={`${style.post}`}>
         <div className={`${style.mainContent}`}>
@@ -213,6 +218,7 @@ export default function ThingPage(): JSX.Element {
             
           </div>
         </div>
+
       </div> */}
     </WholePage>
   )

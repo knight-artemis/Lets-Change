@@ -235,93 +235,47 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
   }
 })
 
-// router.put('/:id', upload.array('photo', 10), async (req, res) => {
-//   try {
-//     const oldThing = await Thing.findByPk(req.params.id)
-//     await oldThing.update(req.body)
-//     const finalThing = oldThing.get({ plain: true })
-//     const existingPhotoUrls = finalThing.Photos.map((photo) => photo.photoUrl);
-//     if (req.body.Photos) {
-//       const newPhotoUrls = req.body.Photos.map((photo) => photo.photoUrl);
-//       const photoUrlsToDelete = existingPhotoUrls.filter((url) => !newPhotoUrls.includes(url));
-//       await Photo.destroy({ where: { photoUrl: { $in: photoUrlsToDelete } } });
-//     }
-//     res.status(200).json(finalThing)
-//   } catch (error) {
-//     res.status(500).json({ err: error })
-//   }
-// })
+router.put('/:id', upload.array('newPhotos', 10), async (req, res) => {
+  try {
+    console.log(req.body.newPhoto, 'Я новые фотки');
+    const rawData = req.body
+    const updatedInfo = {
+      ...rawData, thingLat: Number(rawData.thingLat), thingLon: Number(rawData.thingLon), categoryId: Number(rawData.categoryId),
+    }
+    console.log('🚀 ~ router.put ~ updatedInfo:', updatedInfo)
+    const oldThing = await Thing.findByPk(req.params.id)
+    console.log('🚀 ~ router.put ~ oldThing:', oldThing)
+    await oldThing.update(updatedInfo)
+    const finalThing = oldThing.get({ plain: true })
+    await Photo.destroy({ where: { thingId: req.params.id } })
+    if (req.body.photos) {
+      const reqPhotos = req.body.photos
+      const finReqPhotos = reqPhotos.map((el) => (
+        {
+          photoUrl: el, thingId: Number(req.params.id), createdAt: new Date(), updatedAt: new Date(),
+        }
+      ))
+      const promises1 = finReqPhotos.map(async (item) => {
+        const newPhoto = await Photo.create(item)
+        return newPhoto
+      })
+      await Promise.all(promises1)
+    }
+    if (req.files.length) {
+      const promises2 = req.files.map(async (item, index) => {
+        const newPhoto = await Photo.create({
+          thingId: req.params.id,
+          photoUrl: item.filename,
+        })
+        return newPhoto
+      })
+      await Promise.all(promises2)
+    }
+    res.status(200).json(finalThing)
+  } catch (error) {
+    res.status(500).json({ err: error })
+  }
+})
 
-// router.put('/:id', upload.array('photo', 10), async (req, res) => {
-//   try {
-//     const oldThing = await Thing.findByPk(req.params.id);
-//     if (!oldThing) {
-//       res.status(404).json({ error: 'Thing not found' });
-//     }
-//     await oldThing.update(req.body);
-//     const finalThing = oldThing.get({ plain: true });
-//     if (req.body.Photos) {
-//       const existingPhotoUrls = await Photo.findAll({ where: { thingId: req.params.id } }).map((photo) => photo.photoUrl);
-//       const newPhotoUrls = req.body.Photos.map((photo) => photo.photoUrl);
-//       const photoUrlsToDelete = existingPhotoUrls.filter((url) => !newPhotoUrls.includes(url));
-//       await Photo.destroy({ where: { photoUrl: { $in: photoUrlsToDelete }, thingId: req.params.id } });
-//     }
-//     res.status(200).json(finalThing);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
-// router.put('/:id', upload.array('photo', 10), async (req, res) => {
-//   try {
-//     const oldThing = await Thing.findByPk(req.params.id);
-//     if (!oldThing) {
-//       res.status(404).json({ error: 'Thing not found' });
-//     }
-//     await oldThing.update(req.body);
-//     const finalThing = oldThing.get({ plain: true });
-//     if (req.body.Photos) {
-//       const existingPhotos = await Photo.findAll({ where: { thingId: req.params.id } });
-//       if (existingPhotos) {
-//         const existingPhotoUrls = existingPhotos.map((photo) => photo.photoUrl);
-//         const newPhotoUrls = req.body.Photos.map((photo) => photo.photoUrl);
-//         const photoUrlsToDelete = existingPhotoUrls.filter((url) => !newPhotoUrls.includes(url));
-//         if (photoUrlsToDelete.length > 0) {
-//           await Photo.destroy({ where: { photoUrl: { $in: photoUrlsToDelete }, thingId: req.params.id } });
-//         }
-//       }
-//     }
-//     res.status(200).json(finalThing);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
-// router.put('/:id', upload.array('photo', 10), async (req, res) => {
-//   try {
-//     const oldThing = await Thing.findByPk(req.params.id);
-//     if (!oldThing) {
-//       res.status(404).json({ error: 'Thing not found' });
-//     }
-//     await oldThing.update(req.body);
-//     const finalThing = oldThing.get({ plain: true });
-//     if (req.body.Photos && req.body.Photos.length > 0) {
-//       const existingPhotos = await Photo.findAll({ where: { thingId: req.params.id } });
-//       if (existingPhotos.length > 0) {
-//         const existingPhotoUrls = existingPhotos.map((photo) => photo.photoUrl);
-//         const newPhotoUrls = req.body.Photos.map((photo) => photo.photoUrl);
-//         const photoUrlsToDelete = existingPhotoUrls.filter((url) => !newPhotoUrls.includes(url));
-//         if (photoUrlsToDelete.length > 0) {
-//           await Photo.destroy({ where: { photoUrl: { [Op.in]: photoUrlsToDelete }, thingId: req.params.id } });
-//         }
-//       }
-//     } else {
-//       await Photo.destroy({ where: { thingId: req.params.id } });
-//     }
-//     res.status(200).json(finalThing);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
 
 module.exports = router
