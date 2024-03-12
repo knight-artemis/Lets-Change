@@ -1,8 +1,6 @@
 const router = require('express').Router()
 const upload = require('../../../../multerForThings')
-const {
-  User, Thing, Category, Photo, Issue,
-} = require('../../../../db/models')
+const { User, Thing, Category, Photo, Issue } = require('../../../../db/models')
 const { stripThings } = require('../../../services/things')
 
 router.get('/categories', async (req, res) => {
@@ -142,14 +140,14 @@ router.get('/', async (req, res) => {
     res.status(200).json(
       query.admin
         ? thingsRaw.map((el) => {
-          const thing = el.get({plain: true})
-          if (thing.Issues.length) {
-            const { issue } = thing.Issues[0]
-            thing.issue = issue
-          }
-          delete thing.Issues
-          return thing
-        })
+            const thing = el.get({ plain: true })
+            if (thing.Issues.length) {
+              const { issue } = thing.Issues[0]
+              thing.issue = issue
+            }
+            delete thing.Issues
+            return thing
+          })
         : things,
     )
   } catch (error) {
@@ -197,15 +195,15 @@ router.get('/:id', async (req, res) => {
         },
       ],
     })
-
-    const things = thingRaw.get({ plain: true })
-    if (things) {
-      if (things.Issues.length) {
-        const { issue } = things.Issues[0]
-        things.issue = issue
+    // console.log(thingRaw)
+    if (thingRaw) {
+      const thing = thingRaw.get({ plain: true })
+      if (thing.Issues.length) {
+        const { issue } = thing.Issues[0]
+        thing.issue = issue
       }
-      delete things.Issues
-      res.status(200).json(things)
+      delete thing.Issues
+      res.status(200).json(thing)
     } else {
       res.status(404).send({ err: { notfound: 'нет такой записи' } })
     }
@@ -236,7 +234,6 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
     res.status(500).send({ err: { server: 'Ошибка сервера при создании объявления' } })
   }
 })
-
 
 // router.put('/:id', upload.array('photo', 10), async (req, res) => {
 //   try {

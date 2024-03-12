@@ -121,14 +121,16 @@ router.get('/user/:id', async (req, res) => {
 
 router.get('/initiate-by-me', async (req, res) => {
   const { user } = req.session
-  console.log(user.id)
+  // console.log(user.id)
   try {
-    const deals = await Deal.findAll({
-      where: { initiatorId: user.id },
-      attributes: ['id', 'thingId', 'status'],
-    })
-    console.log(deals.map((el) => el.get({ plain: true })))
-    res.json(deals)
+    if (user) {
+      const deals = await Deal.findAll({
+        where: { initiatorId: user.id },
+        attributes: ['id', 'thingId', 'status'],
+      })
+      console.log(deals.map((el) => el.get({ plain: true })))
+      res.json(deals)
+    } else res.sendStatus(200)
   } catch (error) {
     console.error('Ошибка при получении сделок инициированных мной', error)
     res
