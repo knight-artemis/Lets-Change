@@ -153,8 +153,8 @@ export default function ThingPage(): JSX.Element {
           {/* {location.length > 0 && ( */}
           <Map
             // onClick={(e) => handleClick(e.get('coords'))}
-            width='80%'
-            height='80%'
+            width='800px'
+            height='200px'
             defaultState={{
               center: [thing.thingLat, thing.thingLon],
               zoom: 15,
