@@ -104,7 +104,7 @@ export default function Deal(): JSX.Element {
         {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.initiatorThings[0] : deal.Thing} /> */}
         <div className={style.text}>
           {deal && deal.initiatorId === user.id
-            ? 'ты предлагаешь'
+            ? 'у тебя хотят'
             : 'меняют на'}
         </div>
         <CardSimple
