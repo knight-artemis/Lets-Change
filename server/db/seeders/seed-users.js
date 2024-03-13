@@ -6,12 +6,14 @@ module.exports = {
   async up(queryInterface) {
     await queryInterface.bulkInsert('Users', [
       {
-        firstName: 'first',
+        firstName: 'Женя',
+        lastName: 'Белан',
         email: '1@1.ru',
         password: await bcrypt.hash('1', 10),
       },
       {
-        firstName: 'second',
+        firstName: 'Ярик',
+        lastName: 'Уткин',
         email: '2@2.ru',
         password: await bcrypt.hash('1', 10),
       },
