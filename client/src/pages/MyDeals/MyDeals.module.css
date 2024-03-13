@@ -7,8 +7,7 @@
 }
 
 .topContent {
-    margin: 1rem auto;
-    display: flex;
+    margin: 0 auto;
 }
 
 .mainContent {
@@ -18,10 +17,6 @@
     padding: 0 auto;
 }
 
-.span {
-    line-height: 2rem;
-    font-size: larger;
-}
 
 .sidebar {
     background-color: var(--color-main-accent);

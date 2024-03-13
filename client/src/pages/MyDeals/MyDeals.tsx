@@ -20,6 +20,7 @@ import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
+import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 
 export default function MyDeals({
   toMe = true,
@@ -108,8 +109,6 @@ export default function MyDeals({
 
   return (
     <WholePage>
-      {/* <div className={style.wrapper}> */}
-
       <SideBar>
         <Button link onClick={() => void fromMeDeals()}>
           <div className={style.btn}>
@@ -132,41 +131,29 @@ export default function MyDeals({
           </div>
         </Button>
       </SideBar>
+
       <MainContent>
-        <Grid centerHorizontal>
+        <TopLine>
           <div className={style.topContent}>
-            <span className={style.span}>{mainText}</span>
+            <h1>{mainText}</h1>
           </div>
-
-          {/* <div className={style.mainContent}> */}
-          {/* <div className={style.sidebar}>
-          
-          </div> */}
-
-          {/* <div className={style.list}>
-          
-          </div> */}
-          {/* </div> */}
-
-          {selectedDeals?.map((deal) => (
-            <DealPannel
-              key={deal.id}
-              deal={deal}
-              setSelectedDeals={setSelectedDeals}
-            />
-          ))}
-        </Grid>
+        </TopLine>
+        {selectedDeals && selectedDeals.length > 0 ? (
+          <Grid centerHorizontal>
+            {selectedDeals?.map((deal) => (
+              <DealPannel
+                key={deal.id}
+                deal={deal}
+                setSelectedDeals={setSelectedDeals}
+              />
+            ))}
+          </Grid>
+        ) : (
+          <Grid centerHorizontal centerVertical>
+            <h2>У тебя ещё нет сделок в этой категории</h2>
+          </Grid>
+        )}
       </MainContent>
-      {/* </div> */}
-
-      {/* <form
-      action='http://localhost:3003/api/v1/test/testUpload'
-      method='post'
-      encType='multipart/form-data'
-    >
-      <input type='file' name='photo' multiple />
-      <button type='submit'>Загрузить файл</button>
-    </form> */}
     </WholePage>
   )
 }
