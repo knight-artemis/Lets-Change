@@ -26,6 +26,9 @@ export default function Deal(): JSX.Element {
   const dispatcher = useAppDispatch()
   const navigate = useNavigate()
 
+  const accepted = user.id === deal?.initiatorId ? deal?.acceptedByInitiator : deal?.acceptedByReceiver
+  console.log(deal?.acceptedByInitiator , deal?.acceptedByReceiver)
+
   useEffect(() => {
     console.log('RERENDER')
     void (async () => {
@@ -111,13 +114,14 @@ export default function Deal(): JSX.Element {
         />
         {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
         {/* </div> */}
-        <div className={style.text}>Нажми, если вы уже обменялись</div>
 
-        {((user.id === deal.initiatorId && deal.acceptedByInitiator) ||
-          (user.id !== deal.initiatorId && deal.acceptedByReceiver)) && (
-          <Button color='good' onClick={() => finishedHandler()}>
-            Сделка завершена
-          </Button>
+        {!accepted && (
+          <>
+            <Button color='good' onClick={() => finishedHandler()}>
+              Мы поменялись
+            </Button>
+            <span className={style.text}>Нажми, если вы уже обменялись</span>
+          </>
         )}
         {/* </div> */}
       </SideBar>

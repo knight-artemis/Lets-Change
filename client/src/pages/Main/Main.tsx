@@ -139,28 +139,10 @@ export default function Main(): JSX.Element {
         {/* </div> */}
       </SideBar>
       <MainContent>
-        <div className={style.topContent}>
-          <TopLine>
-            {/* <div className={style.topLine}> */}
-            <span className={style.span}>Посмотреть объявления списком</span>
-            <SvgLink icon='./src/assets/icons/blocks.svg' />
-            <SvgLink icon='./src/assets/icons/list-color.svg' />
-            <label htmlFor='toggleSwitch' className={switchStyle.switch}>
-              <input
-                id='toggleSwitch'
-                type='checkbox'
-                checked={isChecked}
-                onChange={handleToggleChange}
-              />
-              <span className={switchStyle.slider} />
-            </label>
-            <SvgLink icon='src/assets/icons/globus-color.svg' />
-            <SvgLink icon='src/assets/icons/globus.svg' />
-            <span className={style.span}>или на карте</span>
-            {/* </div> */}
-          </TopLine>
-          <div className={style.topLine}>
-            <SvgLink icon='assets/icons/search-large.svg' />
+        {/* <div className={style.topContent}> */}
+        <TopLine>
+          <div className={style.search}>
+            {/* <SvgLink icon='assets/icons/search-large.svg' /> */}
             <Input
               name='toSearch'
               placeholder='Что ищем?'
@@ -168,13 +150,29 @@ export default function Main(): JSX.Element {
               value={searchInput}
             />
           </div>
-        </div>
+          <SvgLink icon='./src/assets/icons/blocks.svg' />
+          <span className={style.span}>списком</span>
+          {/* <SvgLink icon='./src/assets/icons/list-color.svg' /> */}
+          <label htmlFor='toggleSwitch' className={switchStyle.switch}>
+            <input
+              id='toggleSwitch'
+              type='checkbox'
+              checked={isChecked}
+              onChange={handleToggleChange}
+            />
+            <span className={switchStyle.slider} />
+          </label>
+          {/* <SvgLink icon='src/assets/icons/globus-color.svg' /> */}
+          <SvgLink icon='src/assets/icons/globus.svg' />
+          <span className={style.span}>на карте</span>
+        </TopLine>
+        {/* </div> */}
 
         {/* <div className={style.content}> */}
         <Grid>
           {isChecked ? (
             <div
-              // style={{ width: '800px', height: '100%', borderRadius: '20px' }}
+            // style={{ width: '800px', height: '100%', borderRadius: '20px' }}
             >
               {/* {location.length > 0 && ( */}
               <Map

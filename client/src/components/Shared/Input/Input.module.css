@@ -1,11 +1,12 @@
 .input {
-    background-color: var(--color-btn-neutral);
+    background-color: var(--gray);
     border: none;
-    color: var(--color-btn-font-neutral);
+    color: var(--brown);
     line-height: 1.5rem;
     padding: .2rem;
     padding-left: 1rem;
     width: 100%;
+    height: 2rem;
     /* width: 300px; */
     border-radius: 15px;
     /* font-size: 1.2rem; */
@@ -14,5 +15,5 @@
 .input:focus {
     outline: none;
     border: none;
-    box-shadow: inset 0 0 10px 1px var(--color-btn-font-neutral);
+    /* box-shadow: inset 0 0 10px 1px var(--color-btn-font-neutral); */
 }

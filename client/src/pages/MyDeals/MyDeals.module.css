@@ -81,3 +81,7 @@
         object-fit: cover;
     }
 }
+
+.btn {
+    position: relative;
+}

@@ -10,6 +10,8 @@ import Modal from '../Widgets/Modal/Modal'
 import ForgetPassForm from '../ChangeHandlers/ForgetPassForm/ForgetPassForm'
 import 'react-toastify/dist/ReactToastify.css'
 import { notifySuccess, notifyWarning } from '../../toasters'
+import SvgLink from '../Shared/SvgLink/SvgLink'
+import Input from '../Shared/Input/Input'
 
 export default function Auth(): JSX.Element {
   const initialState = { email: '', password: '', firstName: '' }
@@ -100,7 +102,7 @@ export default function Auth(): JSX.Element {
       //   notifySuccess('C возвращением на портал "Давай меняться."')
       // } else if (!isLogin) {
       //   notifySuccess('Благодарим за регистрацию на портале "Давай меняться".')
-        // }
+      // }
       // }
     } catch (error) {
       console.log(error)
@@ -109,50 +111,67 @@ export default function Auth(): JSX.Element {
 
   return (
     <form className={styles.form}>
-      {!isLogin && (
-        <input
+      <div className={styles.inputs}>
+        {!isLogin && (
+          <Input
+            onChange={changeHandler}
+            name='firstName'
+            type='text'
+            required
+            value={inputs.firstName}
+            placeholder='firstName'
+          />
+        )}
+        <Input
           onChange={changeHandler}
-          name='firstName'
+          name='email'
           type='text'
           required
-          value={inputs.firstName}
-          placeholder='firstName'
+          value={inputs.email}
+          placeholder='email'
         />
-      )}
-      <input
-        onChange={changeHandler}
-        name='email'
-        type='text'
-        required
-        value={inputs.email}
-        placeholder='email'
-      />
-
-      <input
-        onChange={changeHandler}
-        name='password'
-        type={showPassword ? 'text' : 'password'}
-        required
-        value={inputs.password}
-        placeholder='password'
-      />
-      <Button onClick={() => void addUserHandler()}>
-        {isLogin ? 'Авторизоваться' : 'Зарегистрироваться'}
-      </Button>
-      <Button onClick={() => void setShowPassword((prev) => !prev)}>
-        Показать пароль
-      </Button>
-      {isLogin && (
-        <Button onClick={() => setModalActive((prev) => !prev)}>
-          Забыли пароль?
+        <div className={styles.pass}>
+          <Input
+            onChange={changeHandler}
+            name='password'
+            type={showPassword ? 'text' : 'password'}
+            required
+            value={inputs.password}
+            placeholder='password'
+          />
+          <Button link onClick={() => void setShowPassword((prev) => !prev)}>
+            {showPassword ? (
+              <img
+                className={styles.icon}
+                src='./src/assets/icons/eye-off-outline.svg'
+                alt='svg'
+              />
+            ) : (
+              <img
+                className={styles.icon}
+                src='./src/assets/icons/eye-outline.svg'
+                alt='svg'
+              />
+            )}
+          </Button>
+        </div>
+        {isLogin && (
+          <Button link onClick={() => setModalActive((prev) => !prev)}>
+            Забыли пароль?
+          </Button>
+        )}
+      </div>
+      <div className={styles.btns}>
+        <Button onClick={() => void addUserHandler()}>
+          {isLogin ? 'Авторизоваться' : 'Зарегистрироваться'}
         </Button>
-      )}
+        <Button link onClick={() => void authHandler()}>
+          {isLogin ? 'Хочу зарегистрироваться' : 'Уже зарегистрирован?'}
+        </Button>
+      </div>
       <Modal active={modalActive} setActive={setModalActive}>
         <ForgetPassForm setActive={setModalActive} />
       </Modal>
-      <Button link onClick={() => void authHandler()}>
-        {isLogin ? 'Хочу зарегистрироваться' : 'Уже зарегистрирован?'}
-      </Button>
       {/* {message && <p styles={{ color: '#1D9947' }}>{message}</p>} */}
       {/* {error && <p styles={{ color: '#fa6a6a' }}>{error}</p>} */}
     </form>

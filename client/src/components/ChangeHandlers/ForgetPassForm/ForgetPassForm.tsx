@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 import type { ChangeEvent } from 'react'
 import type { SetProps } from '../../../types'
 import { notifySuccess, notifyWarning } from '../../../toasters'
+import styles from './ForgetPassForm.module.css'
+import Input from '../../Shared/Input/Input'
+import Button from '../../Shared/Button/Button'
 
 export default function ForgetPassForm({ setActive }: SetProps): JSX.Element {
   type EmailType = {
@@ -56,17 +59,18 @@ export default function ForgetPassForm({ setActive }: SetProps): JSX.Element {
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <div>Укажите почтовый адрес, привязанный к профилю</div>
-      <input
+      <Input
         type='email'
         name='email'
         onChange={changeHandler}
         value={input.email}
+        placeholder='e-mail'
       />
-      <button type='button' onClick={() => void resetPassword()}>
+      <Button onClick={() => void resetPassword()}>
         Запросить временный пароль
-      </button>
-    </>
+      </Button>
+    </div>
   )
 }

@@ -9,7 +9,7 @@
     /* overflow-x: hidden; */
     /* min-height: 100%; */
     flex:1;
-    padding: 4rem 0;
+    padding: 2rem 0;
 } 
 
 @media screen and (max-width: 767px) {

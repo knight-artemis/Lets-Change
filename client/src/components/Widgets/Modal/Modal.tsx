@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import style from './Modal.module.css'
+import Button from '../../Shared/Button/Button'
 
 type ModalProps = {
   active: boolean
@@ -8,8 +9,11 @@ type ModalProps = {
   children: JSX.Element
 }
 
-export default function Modal({ active, setActive, children }: ModalProps): JSX.Element {
-  
+export default function Modal({
+  active,
+  setActive,
+  children,
+}: ModalProps): JSX.Element {
   //! Попытка открывать и закрывать модалку по нажатию клавиш, можно потом попробовать добить в родительском элементе
   //   const handleKeyDown = (event: React.KeyboardEvent): void => {
   //     if (event.key === 'Escape' && active) {
@@ -34,8 +38,16 @@ export default function Modal({ active, setActive, children }: ModalProps): JSX.
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(event) => event}
       >
-        <button className={style.close} type='button' onClick={() => setActive((prev) => !prev)}>
-         X
+        <button
+          className={clsx(style.close, style.link)}
+          type='button'
+          onClick={() => setActive((prev) => !prev)}
+        >
+          <img
+            className={style.icon}
+            src='./src/assets/icons/close-circle-outline.svg'
+            alt='svg'
+          />
         </button>
         {children}
       </div>
