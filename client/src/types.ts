@@ -17,10 +17,6 @@ export type UserType = {
   rating?: number
 }
 
-export type SetProps = {
-  setActive: React.Dispatch<React.SetStateAction<boolean>>
-}
-
 export type UserDataType = {
   firstName: string
   email: string

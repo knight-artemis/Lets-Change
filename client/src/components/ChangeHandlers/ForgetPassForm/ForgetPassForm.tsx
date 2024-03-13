@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import type { ChangeEvent } from 'react'
-import type { SetProps, UserDataType } from '../../../types'
+import type { UserDataType } from '../../../types'
 import { notifySuccess, notifyWarning } from '../../../toasters'
 import styles from './ForgetPassForm.module.css'
 import Input from '../../Shared/Input/Input'
@@ -10,15 +10,17 @@ import Button from '../../Shared/Button/Button'
 export default function ForgetPassForm({
   setActive,
   inputs,
+  modalActive,
 }: {
   setActive: React.Dispatch<React.SetStateAction<boolean>>
   inputs: UserDataType
+  modalActive: boolean
 }): JSX.Element {
   type EmailType = {
     email: string
   }
 
-  const [input, setInput] = useState<EmailType>({email: inputs.email})
+  const [input, setInput] = useState<EmailType>({ email:''})
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
     setInput((prev) => ({
@@ -28,8 +30,8 @@ export default function ForgetPassForm({
   }
 
   useEffect(() => {
-    console.log(input)
-  }, [input])
+    setInput({ email: inputs.email })
+  }, [modalActive])
 
   const resetPassword = async (): Promise<void> => {
     const checkMail = await axios.post(

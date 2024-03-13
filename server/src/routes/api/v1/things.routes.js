@@ -61,7 +61,10 @@ router.get('/categories/:id', async (req, res) => {
 })
 
 router.get('/user/:id', async (req, res) => {
+  console.log('Мама, я в ручке');
+  console.log(req.params, 'Я рек парамс');
   const { id } = req.params
+  console.log(id, 'Мама, я айдишник');
   try {
     const thingsRaw = await Thing.findAll({
       attributes: ['id', 'userId', 'categoryId', 'thingName', 'endDate', 'isApproved', 'inDeal'],
@@ -97,6 +100,7 @@ router.get('/user/:id', async (req, res) => {
       delete thing.Issues
       return thing
     })
+    console.log(things, 'Мама, мы вещи на отправку');
     res.status(200).json(things)
   } catch (error) {
     console.error('Ошибка при получении всех объявлений', error)

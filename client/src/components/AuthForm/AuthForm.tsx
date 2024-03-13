@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import styles from './AuthForm.module.css'
@@ -172,7 +172,11 @@ export default function Auth(): JSX.Element {
         </Button>
       </div>
       <Modal active={modalActive} setActive={setModalActive}>
-        <ForgetPassForm setActive={setModalActive} inputs={inputs} />
+        <ForgetPassForm
+          setActive={setModalActive}
+          inputs={inputs}
+          modalActive={modalActive}
+        />
       </Modal>
       {/* {message && <p styles={{ color: '#1D9947' }}>{message}</p>} */}
       {/* {error && <p styles={{ color: '#fa6a6a' }}>{error}</p>} */}
