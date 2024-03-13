@@ -172,7 +172,7 @@ export default function Auth(): JSX.Element {
         </Button>
       </div>
       <Modal active={modalActive} setActive={setModalActive}>
-        <ForgetPassForm setActive={setModalActive} />
+        <ForgetPassForm setActive={setModalActive} inputs={inputs} />
       </Modal>
       {/* {message && <p styles={{ color: '#1D9947' }}>{message}</p>} */}
       {/* {error && <p styles={{ color: '#fa6a6a' }}>{error}</p>} */}

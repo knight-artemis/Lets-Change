@@ -1,22 +1,24 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type { ChangeEvent } from 'react'
-import type { SetProps } from '../../../types'
+import type { SetProps, UserDataType } from '../../../types'
 import { notifySuccess, notifyWarning } from '../../../toasters'
 import styles from './ForgetPassForm.module.css'
 import Input from '../../Shared/Input/Input'
 import Button from '../../Shared/Button/Button'
 
-export default function ForgetPassForm({ setActive }: SetProps): JSX.Element {
+export default function ForgetPassForm({
+  setActive,
+  inputs,
+}: {
+  setActive: React.Dispatch<React.SetStateAction<boolean>>
+  inputs: UserDataType
+}): JSX.Element {
   type EmailType = {
     email: string
   }
 
-  const initialValue = {
-    email: '',
-  }
-
-  const [input, setInput] = useState<EmailType>(initialValue)
+  const [input, setInput] = useState<EmailType>({email: inputs.email})
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
     setInput((prev) => ({
@@ -25,6 +27,9 @@ export default function ForgetPassForm({ setActive }: SetProps): JSX.Element {
     }))
   }
 
+  useEffect(() => {
+    console.log(input)
+  }, [input])
 
   const resetPassword = async (): Promise<void> => {
     const checkMail = await axios.post(
@@ -51,9 +56,10 @@ export default function ForgetPassForm({ setActive }: SetProps): JSX.Element {
             withCredentials: true,
           },
         )
-        .then((res) => console.log(res))
         .then(() => setActive((prev) => !prev))
-        .then(() => notifySuccess('Временный пароль был направлен на вашу почту.'))
+        .then(() =>
+          notifySuccess('Временный пароль был направлен на вашу почту.'),
+        )
         .catch((err) => console.log(err))
     }
   }
