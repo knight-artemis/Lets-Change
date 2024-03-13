@@ -56,7 +56,7 @@ export default function NewThing(): JSX.Element {
     thingLat: 0,
     thingLon: 0,
     endDate: calculateEndDate(7),
-    isApproved: true, //! убрать когда будет админ
+    isApproved: false, //! убрать когда будет админ
   }
   const [location, setLocation] = useState<number[]>([])
   const [address, setAddress] = useState<string>('')
