@@ -25,6 +25,7 @@ import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 import Button from '../../components/Shared/Button/Button'
+import Card from '../../components/Widgets/Card/Card'
 
 type ByMeDealsType = {
   id: number
@@ -62,7 +63,10 @@ export default function ThingPage(): JSX.Element {
     ],
   }
 
+  //! в комментах попытки сделать раздел "Ещё от данного пользователя", но асинхронщина оказалась сильнее
+
   const [thing, setThing] = useState<ThingType>(initialThing)
+  // const [otherThings, setOtherThings] = useState<ThingType[]>([])
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)
   const [initiate, setInitiate] = useState<boolean>(false)
@@ -81,14 +85,13 @@ export default function ThingPage(): JSX.Element {
             withCredentials: true,
           },
         )
+        setThing(thingRes.data)
         const myDealsRes = await axios.get<ByMeDealsType[]>(
           `${import.meta.env.VITE_API}/v1/deals/initiate-by-me`,
           {
             withCredentials: true,
           },
         )
-        // console.log(thingRes.data, myDealsRes.data)
-        setThing(thingRes.data)
         setInitiate(
           !!myDealsRes.data.find(
             (el) => el.thingId === thingRes.data.id && el.status !== 4,
@@ -99,6 +102,18 @@ export default function ThingPage(): JSX.Element {
       }
     })()
   }, [])
+
+  // useEffect(() => {
+  //   const thingsOther = axios
+  //     .get<ThingType[]>(
+  //       `${import.meta.env.VITE_API}/v1/things/user/${thing.userId}`,
+  //       {
+  //         withCredentials: true,
+  //       },
+  //     )
+  //     .then((res) => setOtherThings(res))
+  //   console.log(typeof otherThings, 'Мы прочие вещи')
+  // }, [thing])
 
   return (
     <WholePage>
@@ -198,17 +213,32 @@ export default function ThingPage(): JSX.Element {
             <> </>
           )}
         </div>
+        {user.id !== thing.userId && thing.id ? (
+          <div>
+            <span>Еще от данного пользователя</span>
+            {/* <div>
+              {otherThings.map((el) => (
+                <Card
+                  thing={{ ...el, photoUrl: el.Photos[0].photoUrl }}
+                  isMain={false}
+                />
+              ))}
+            </div> */}
+          </div>
+        ) : (
+          <div />
+        )}
         <Modal active={modalActive1} setActive={setModalActive1}>
           <InitChange thingId={thing.id} />
         </Modal>
-        <Modal active={modalActive2} setActive={setModalActive2}>          
-           <ThingUpdateForm
-          thing={thing}
-          setThing={setThing}
-          setActive={setModalActive2}
-        />          
-          {/* <ThingUpdateForm thingId={thing.id}  initialThing={initialThing} />  */}         
-          </Modal>
+        <Modal active={modalActive2} setActive={setModalActive2}>
+          <ThingUpdateForm
+            thing={thing}
+            setThing={setThing}
+            setActive={setModalActive2}
+          />
+          {/* <ThingUpdateForm thingId={thing.id}  initialThing={initialThing} />  */}
+        </Modal>
       </MainContent>
       {/* <div className={`${style.post}`}>
         <div className={`${style.mainContent}`}>

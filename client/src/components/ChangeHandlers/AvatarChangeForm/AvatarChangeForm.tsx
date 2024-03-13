@@ -2,12 +2,12 @@ import React, { useRef } from 'react'
 import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 import styles from './AvatarChangeForm.module.css'
-import type { SetProps, UserType } from '../../../types'
+import type { UserType } from '../../../types'
 import { useAppDispatch } from '../../../redux/hooks'
 import { fetchUpd } from '../../../redux/user/userThunkActions'
 import { notifySuccess, notifyWarning } from '../../../toasters'
 
-export default function AvatarChangeForm({ setActive }: SetProps): JSX.Element {
+export default function AvatarChangeForm({ setActive }: {setActive: React.Dispatch<React.SetStateAction<boolean>>}): JSX.Element {
   const dispatch = useAppDispatch()
 
   type RequestType = {
