@@ -317,13 +317,16 @@ router.patch('/:id/note', async (req, res) => {
 
 router.patch('/:id/finished', async (req, res) => {
   const { body } = req
+  console.log('BODY', body)
   try {
     const deal = await Deal.findByPk(req.params.id)
     await deal.update({
       ...body,
       status: deal.status === 2 ? 3 : 2,
-      recieverNote: deal.status === 1 && !!body.acceptedByInitiator,
-      initiatorNote: deal.status === 1 && !!body.acceptedByReceiver,
+      recieverNote: deal.status === 1 && !!body.data.acceptedByInitiator,
+      initiatorNote: deal.status === 1 && !!body.data.acceptedByReceiver,
+      acceptedByInitiator: body.data.acceptedByInitiator || deal.acceptedByInitiator,
+      acceptedByReceiver: body.data.acceptedByReceiver || deal.acceptedByReceiver,
     })
     res.json(deal)
   } catch (error) {
