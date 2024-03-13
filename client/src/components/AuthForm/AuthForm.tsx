@@ -35,75 +35,77 @@ export default function Auth(): JSX.Element {
   //! Для того, чтобы заработали валидации необходимо раскомментировать все внутри addUserHandler
 
   const addUserHandler = async (): Promise<void> => {
-    // const checkMail = await axios.post(
-    //   `${import.meta.env.VITE_API}/v1/auth/checkmail`,
-    //   { email: inputs.email },
-    //   {
-    //     withCredentials: true,
-    //   },
-    // )
+    const checkMail = await axios.post(
+      `${import.meta.env.VITE_API}/v1/auth/checkmail`,
+      { email: inputs.email },
+      {
+        withCredentials: true,
+      },
+    )
 
-    // const checkPass = await axios.post(
-    //   `${import.meta.env.VITE_API}/v1/auth/checkPass`,
-    //   {
-    //     email: inputs.email,
-    //     password: inputs.password,
-    //   },
-    //   {
-    //     withCredentials: true,
-    //   },
-    // )
+    const checkPass = await axios.post(
+      `${import.meta.env.VITE_API}/v1/auth/checkPass`,
+      {
+        email: inputs.email,
+        password: inputs.password,
+      },
+      {
+        withCredentials: true,
+      },
+    )
 
     try {
-      // if (!inputs.firstName && !isLogin) {
-      //   notifyWarning('Пожалуйста, введите Ваше имя.')
-      // } else if (
-      //   !isLogin &&
-      //   !/^[a-zA-Zа-яА-Я0-9]{3,}$/.test(inputs.firstName)
-      // ) {
-      //   notifyWarning(
-      //     'Ваше имя должно быть не короче 3 символов и не должно содержать специальных символов.',
-      //   )
-      // } else if (!inputs.email) {
-      //   notifyWarning('Пожалуйста, введите Вашу почту.')
-      // } else if (
-      //   inputs.email &&
-      //   !/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i.test(
-      //     inputs.email,
-      //   )
-      // ) {
-      //   notifyWarning('Неверный формат почты.')
-      // } else if (!inputs.password && !isLogin) {
-      //   notifyWarning('Пожалуйста, придумайте пароль.')
-      // } else if (
-      //   !isLogin &&
-      //   inputs.password &&
-      //   !/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=;:,./?|`~[]{}]).*$/.test(
-      //     inputs.password,
-      //   )
-      // ) {
-      //   notifyWarning(
-      //     'Пароль должен быть не менее 8 символов длинной, содержать в себе минимум одну цифру и какой-либо из следующих символов: !@#$%^&*()-_+=;:,./?|`~[]{}.',
-      //   )
-      // } else if (!inputs.password && isLogin) {
-      //   notifyWarning('Пожалуйста, введите пароль.')
-      // } else if (!isLogin && checkMail.data) {
-      //   notifyWarning('Пользователь с такой почтой уже существует.')
-      // } else if (isLogin && !checkMail.data) {
-      //   notifyWarning('Пользователя с такой почтой не существует.')
-      // } else if (isLogin && checkMail.data && !checkPass.data) {
-      //   notifyWarning('Неверный пароль.')
-      // } else {
-      await dispatch(
-        fetchAuth({ type: !isLogin ? 'reg' : 'log', data: inputs }),
-      )
-      navigate('/')
-      // if (isLogin) {
-      //   notifySuccess('C возвращением на портал "Давай меняться."')
-      // } else if (!isLogin) {
-      //   notifySuccess('Благодарим за регистрацию на портале "Давай меняться".')
-      // }
-      // }
+      if (!inputs.firstName && !isLogin) {
+        notifyWarning('Пожалуйста, введите Ваше имя.')
+      } else if (
+        !isLogin &&
+        !/^[a-zA-Zа-яА-Я0-9]{3,}$/.test(inputs.firstName)
+      ) {
+        notifyWarning(
+          'Ваше имя должно быть не короче 3 символов и не должно содержать специальных символов.',
+        )
+      } else if (!inputs.email) {
+        notifyWarning('Пожалуйста, введите Вашу почту.')
+      } else if (
+        inputs.email &&
+        !/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i.test(
+          inputs.email,
+        )
+      ) {
+        notifyWarning('Неверный формат почты.')
+      } else if (!inputs.password && !isLogin) {
+        notifyWarning('Пожалуйста, придумайте пароль.')
+      } else if (
+        !isLogin &&
+        inputs.password &&
+        !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
+          inputs.password,
+        )
+      ) {
+        notifyWarning(
+          'Пароль должен быть не менее 8 символов длинной, содержать в себе строчные и заглавные буквы, минимум одну цифру и какой-либо из следующих символов: #?!@$%^&*-',
+        )
+      } else if (!inputs.password && isLogin) {
+        notifyWarning('Пожалуйста, введите пароль.')
+      } else if (!isLogin && checkMail.data) {
+        notifyWarning('Пользователь с такой почтой уже существует.')
+      } else if (isLogin && !checkMail.data) {
+        notifyWarning('Пользователя с такой почтой не существует.')
+      } else if (isLogin && checkMail.data && !checkPass.data) {
+        notifyWarning('Неверный пароль.')
+      } else {
+        await dispatch(
+          fetchAuth({ type: !isLogin ? 'reg' : 'log', data: inputs }),
+        )
+        navigate('/')
+        if (isLogin) {
+          notifySuccess('C возвращением на портал "Давай меняться."')
+        } else if (!isLogin) {
+          notifySuccess(
+            'Благодарим за регистрацию на портале "Давай меняться".',
+          )
+        }
+      }
     } catch (error) {
       console.log(error)
     }

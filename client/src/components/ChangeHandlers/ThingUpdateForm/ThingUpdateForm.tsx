@@ -164,21 +164,21 @@ export default function ThingUpdateForm({
     setLocation(coords)
   }
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation([position.coords.latitude, position.coords.longitude])
-        },
-        (error) => {
-          setLocation([55.74, 37.61])
-          console.error('Error getting geolocation:', error)
-        },
-      )
-    } else {
-      console.error('Geolocation is not supported by this browser.')
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         setLocation([position.coords.latitude, position.coords.longitude])
+  //       },
+  //       (error) => {
+  //         setLocation([55.74, 37.61])
+  //         console.error('Error getting geolocation:', error)
+  //       },
+  //     )
+  //   } else {
+  //     console.error('Geolocation is not supported by this browser.')
+  //   }
+  // }, [])
 
   return (
     <form className={styles.main} encType='multipart/form-data'>
@@ -246,12 +246,12 @@ export default function ThingUpdateForm({
             width='600px'
             height='500px'
             defaultState={{
-              center: location,
+              center: [thing.thingLat, thing.thingLon],
               zoom: 15,
               controls: ['zoomControl', 'fullscreenControl'],
             }}
             state={{
-              center: location,
+              center: [thing.thingLat, thing.thingLon],
               zoom: 15,
               controls: ['zoomControl', 'fullscreenControl'],
             }}
@@ -260,7 +260,7 @@ export default function ThingUpdateForm({
             {address.length > 0 && (
               <Placemark
                 onClick={() => console.log('click')}
-                geometry={location}
+                geometry={[thing.thingLat, thing.thingLon]}
                 properties={{
                   balloonContentBody:
                     'This is balloon loaded by the Yandex.Maps API module system',

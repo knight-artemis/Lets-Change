@@ -11,7 +11,7 @@ const app = express()
 const http = require('http').Server(app)
 const socketIo = require('socket.io')(http, {
   cors: {
-    origin: 'http://localhost:4269',
+    origin: ['http://localhost:4269', 'http://92.255.201.45:3366', 'http://92.255.201.45:3355'],
   },
 })
 
@@ -25,7 +25,11 @@ const adminRouter = require('./src/routes/api/v1/admin.routes')
 const { PORT, CLIENT_PORT, SESSION_SECRET, SOCKET_PORT } = process.env
 
 const corsOptions = {
-  origin: [`http://localhost:${CLIENT_PORT}`],
+  origin: [
+    `http://localhost:${CLIENT_PORT}`,
+    'http://92.255.201.45:3366',
+    'http://92.255.201.45:3355',
+  ],
   optionsSuccesStatus: 200,
   credentials: true,
 }
