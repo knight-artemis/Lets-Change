@@ -60,11 +60,63 @@ export default function DealToConsider(): JSX.Element {
 
   const findSelectedIndex = (): string => {
     if (selectedThingId < 0) return 'ничего'
-    return deal?.initiatorThings.find((hisThing) => hisThing.id === selectedThingId)
-      ?.thingName as string
+    return deal?.initiatorThings.find(
+      (hisThing) => hisThing.id === selectedThingId,
+    )?.thingName as string
   }
 
-  return (
+  return user.id === deal?.initiatorId ? (
+    <WholePage>
+      <SideBar center>
+        <div className={style.textCol}>Желаемая вещь:</div>
+        <div className={style.topLine}>
+          <div className={style.oneThing}>
+            <CardSimple hoverable thing={deal?.Thing} thingId={deal?.thingId} />
+          </div>
+        </div>
+      </SideBar>
+      <MainContent>
+        <div className={style.topContent}>
+          <span className={style.span}>
+            Одну из этих вещей ты предлагаешь в обмен:
+          </span>
+        </div>
+        <Grid>
+          {deal?.initiatorThings.map((hisOneThing) => (
+            <div key={hisOneThing.id} className={style.oneThing}>
+              <input
+                style={{ display: 'none' }}
+                className={style.checkbox}
+                type='radio'
+                id={`thing-${hisOneThing.id}`}
+                name='selectedThing'
+                checked={selectedThingId === hisOneThing.id}
+              />
+
+              <label
+                htmlFor={`thing-${hisOneThing.id}`}
+                className={style.radioLabel}
+              >
+                <div className={style.borderWrapper}>
+                  <CardSimple
+                    hoverable
+                    thing={hisOneThing}
+                    thingId={hisOneThing.id}
+                  />
+                </div>
+              </label>
+            </div>
+          ))}
+        </Grid>
+
+        <div className={style.bottomLine}>
+          <Button color='danger' onClick={() => void rejectedHandler()}>
+            Передумал меняться
+          </Button>
+        </div>
+      </MainContent>
+    </WholePage>
+  ) : (
     <WholePage>
       <SideBar center>
         <div className={style.textCol}>Моя вещь:</div>
