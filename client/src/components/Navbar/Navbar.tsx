@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import styles from './Navbar.module.css'
@@ -10,16 +10,20 @@ import type { NotType } from '../../types'
 import { fetchAdminLogout } from '../../redux/admin/adminThunkActions'
 import Avatar from '../Widgets/Avatar/Avatar'
 import Button from '../Shared/Button/Button'
+import Profile from './Profile'
+import ModalProfile from '../Widgets/ModalProfile/ModalProfile'
 
 export default function Navbar(): JSX.Element {
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
   const admin = useAppSelector((store) => store.adminSlice.admin)
+  const [lk, setlk] = useState(false)
   const notifications = useAppSelector<NotType>(
     (store) => store.userSlice.notifications,
   )
   const notif = notifications.initiator + notifications.reciever
   const dispatch = useAppDispatch()
+  // const [modalProfActive, setModalProfActive] = useState<boolean>(true)
 
   const logOutHandler = async (): Promise<void> => {
     await dispatch(fetchLogout())
@@ -72,7 +76,8 @@ export default function Navbar(): JSX.Element {
               <div className={styles.user}>
                 <span>{user.firstName}</span>
                 {user.id > 0 && (
-                  <Button link onClick={() => void navigate('/profile')}>
+                  <Button link onClick={() => setlk((prev) => !prev)}>
+                    {/* <Button link onClick={() => void navigate('/profile')}> */}
                     <Avatar
                       border={1}
                       size={3}
@@ -81,13 +86,13 @@ export default function Navbar(): JSX.Element {
                     />
                   </Button>
                 )}
-                <Link
+                {/* <Link
                   className={styles.link}
                   to='/'
                   onClick={() => void logOutHandler()}
                 >
                   Выйти
-                </Link>
+                </Link> */}
               </div>
             </>
           ) : (
@@ -96,6 +101,11 @@ export default function Navbar(): JSX.Element {
             </Link>
           )}
         </div>
+      )}
+      {user.id > 0 && (
+        // <ModalProfile active={modalProfActive} setActive={setModalProfActive}>
+          <Profile isOpen={lk} setlk={setlk}/>
+        // </ModalProfile>
       )}
     </nav>
   )
