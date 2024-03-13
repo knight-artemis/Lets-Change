@@ -118,7 +118,7 @@ export default function Deal(): JSX.Element {
         {!accepted && (
           <>
             <Button color='good' onClick={() => finishedHandler()}>
-              Мы поменялись
+              Мы договорились
             </Button>
             <span className={style.text}>Нажми, если вы уже обменялись</span>
           </>
