@@ -5,6 +5,7 @@
     /* justify-content: center; */
     /* width: max-content; */
     width: 100%;
+    min-height: 100%;
 }
 
 .grid {
@@ -13,12 +14,14 @@
     gap: 1rem; */
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;  width: 100%;
+    gap: 2rem;
+    width: 100%;
+    min-width: calc(2 * var(--card-width) + 4rem);
 }
 
 @media screen and (max-width: 767px) {
     .wrapper {
-      align-items: center;
-      justify-content: center;
+        align-items: center;
+        justify-content: center;
     }
-}  
+}

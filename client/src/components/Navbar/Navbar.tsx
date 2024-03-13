@@ -44,6 +44,9 @@ export default function Navbar(): JSX.Element {
           {user.id ? (
             <>
               <div className={styles.menu}>
+                <Link className={styles.link} to='/'>
+                  Все вещи
+                </Link>
                 <Link className={styles.link} to='/my-things'>
                   Мои вещи
                 </Link>

@@ -11,6 +11,8 @@
 
   --transition-duration: 0.5s;
 
+  --card-width: 280px;
+  --card-height:200px;
 
   --dark-olive: #566B30;
   --light-olive: #A9A453;
@@ -19,17 +21,28 @@
   --dark-beige: #B37A47;
   --black: #151618;
   --light-black: #343232;
-  --black-50: #15161880;
   --brown: #635959;
   --gray: #D9D9D9;
   --red:#B34747;
   --font-white:#fff;
-
-  --card-width: 280px;
-  --card-height:200px;
   
+  --red-86:#b34747db;
+  
+  --dark-olive-75: #566B30c0;
+  --light-olive-75: #A9A453c0;
+  --olive-75: #8DA057c0;
+  --light-beige-75: #F1E4D4c0;
+  --dark-beige-75: #B37A47c0;
+  --black-75: #151618c0;
+  --light-black-75: #343232c0;
+  --brown-75: #635959c0;
+  --gray-75: #D9D9D9c0;
+  --red-75:#B34747c0;
+  --blue-75:#1a2296c0;
+  --violet-75:#6f1777c0;
 
-
+  --black-50: #15161880;
+  --brown-50: #63595980;
 
 
 
@@ -86,6 +99,7 @@
 
 * {
   font-family: "Comfortaa", sans-serif;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
   box-sizing: border-box;
   padding: 0;
   margin: 0;

@@ -2,17 +2,11 @@ import clsx from 'clsx'
 import React from 'react'
 import type { ReactNode } from 'react'
 import style from './Chip.module.css'
+import type { ColorTypes } from '../../../types'
 
 type ChipProps = {
   children: ReactNode
-  color?:
-    | 'neutral'
-    | 'danger'
-    | 'good'
-    | 'warning'
-    | 'gray'
-    | 'none'
-    | undefined // цвет
+  color?: ColorTypes & 'violet'
   top?: number
   bottom?: number
   left?: number
@@ -20,6 +14,8 @@ type ChipProps = {
   hide?: boolean
   fontSize?: number
   small?: boolean
+  leftSide?: boolean
+  rightSide?: boolean
 }
 
 export default function Chip({
@@ -32,6 +28,8 @@ export default function Chip({
   hide,
   fontSize,
   small = false,
+  leftSide,
+  rightSide,
 }: ChipProps): JSX.Element {
   return (
     <div
@@ -42,7 +40,14 @@ export default function Chip({
         right: `${right}rem`,
         fontSize: `${fontSize}rem`,
       }}
-      className={clsx(style.chip, style[color], hide && style.hide, small && style.small)}
+      className={clsx(
+        style.chip,
+        color && style[color],
+        hide && style.hide,
+        small && style.small,
+        leftSide && style.leftSide,
+        rightSide && style.rightSide,
+      )}
     >
       {children}
     </div>

@@ -26,7 +26,11 @@ export default function Deal(): JSX.Element {
   const dispatcher = useAppDispatch()
   const navigate = useNavigate()
 
-  const accepted = user.id === deal?.initiatorId ? deal?.acceptedByInitiator : deal?.acceptedByReceiver
+  const accepted =
+    user.id === deal?.initiatorId
+      ? deal?.acceptedByInitiator
+      : deal?.acceptedByReceiver
+  console.log(deal?.acceptedByInitiator, deal?.acceptedByReceiver)
 
   useEffect(() => {
     console.log('RERENDER')
@@ -88,10 +92,7 @@ export default function Deal(): JSX.Element {
   if (!deal) return <div /> //! тут потом будет спиннер
   return (
     <WholePage>
-      {/* <div className={style.wrapper}> */}
       <SideBar center>
-        {/* <div className={style.left}> */}
-        {/* <div className={style.thing}> */}
         <div className={style.text}>
           {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
         </div>
@@ -102,34 +103,27 @@ export default function Deal(): JSX.Element {
         />
         {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.initiatorThings[0] : deal.Thing} /> */}
         <div className={style.text}>
-          {deal && deal.initiatorId === user.id
-            ? 'ты предлагаешь'
-            : 'меняют на'}
+          {deal && deal.initiatorId === user.id ? 'у тебя хотят' : 'меняют на'}
         </div>
         <CardSimple
           hoverable
           thing={deal && deal.initiatorThings[0]}
           thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
         />
-        {/* <CardSimple hoverable thing={deal && deal.initiatorId === user.id ? deal.Thing : deal.initiatorThings[0]} /> */}
-        {/* </div> */}
-
         {!accepted && (
           <>
             <Button color='good' onClick={() => finishedHandler()}>
-              Мы поменялись
+              Мы договорились
             </Button>
             <span className={style.text}>Нажми, если вы уже обменялись</span>
           </>
         )}
-        {/* </div> */}
       </SideBar>
-      {/* <div className={style.right}> */}
+
       <MainContent>
         <Chat deal={deal} />
       </MainContent>
-      {/* </div> */}
-      {/* </div> */}
+
     </WholePage>
   )
 }

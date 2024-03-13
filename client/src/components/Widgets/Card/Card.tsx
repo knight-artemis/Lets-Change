@@ -55,24 +55,20 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
       onClick={() => void navigate(`/thing/${thing.id}`)}
     >
       <div className={style.card}>
-        <Chip top={0.5} left={0.5}>
+        <Chip top={0.5} left={-0.5} leftSide>
           {getTimeLeft(thing.endDate)}
         </Chip>
         {(thing.inDeal || !thing.isApproved) && (
           <Chip
             top={0.5}
-            right={0.5}
-            color={
-              (thing.inDeal && 'good') || (thing.issue && 'danger') || 'warning'
-            }
-          >
-            {(thing.inDeal && 'в сделке') ||
-              (thing.issue && 'отказ в публикации') ||
-              'на модерации'}
+            right={-0.5}
+            rightSide
+            color={(thing.inDeal && 'good') || (thing.issue && 'danger') || 'warning'}>
+            {(thing.inDeal && 'в сделке') || (thing.issue && 'отказ в публикации') || 'на модерации'}
           </Chip>
         )}
         {isMain && thing.userId === user.id && (
-          <Chip top={0.5} right={0.5} color='neutral'>
+          <Chip top={0.5} right={-0.5} rightSide color='neutral'>
             Моя вещь
           </Chip>
         )}
