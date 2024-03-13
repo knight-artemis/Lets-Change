@@ -214,7 +214,7 @@ export default function ThingUpdateForm({
       <h5>Фотографии</h5>
       <div className={`${styles.imgDiv}`}>
         {inputs.Photos.map((el) => (
-          <span className={`${styles.imgSpan}`}>
+          <span key={el.id} className={`${styles.imgSpan}`}>
             <img
               className={`${styles.littlePhoto}`}
               src={`${import.meta.env.VITE_THINGS}/${el.photoUrl}`}

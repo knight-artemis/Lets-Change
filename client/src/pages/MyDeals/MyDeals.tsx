@@ -52,11 +52,11 @@ export default function MyDeals({
         setAllDeals(res.data)
         setSelectedDeals(
           toMe
-            ? res.data.toMeDeals
-                .filter((el) => el.status < 3)
-            : res.data.fromMeDeals
-                .filter((el) => el.initiatorNote || el.status < 3)
-                //! Это костылище ! костыличещное 
+            ? res.data.toMeDeals.filter((el) => el.status < 3)
+            : res.data.fromMeDeals.filter(
+                (el) => el.initiatorNote || el.status < 3,
+              ),
+          //! Это костылище ! костыличещное
         )
         setMainText(
           toMe ? 'у меня хотят забрать эти вещи' : 'я хочу забрать эти вещи',
@@ -112,19 +112,24 @@ export default function MyDeals({
 
       <SideBar>
         <Button link onClick={() => void fromMeDeals()}>
-          <SvgLink icon='./../assets/icons/shirt.svg' text='Я хочу' />
-          {/* <Chip bottom={0.5} right={-0.5} small color='neutral'>
-                {(notifications?.initiator || 0) +
-                  (notifications?.reciever || 0)}
-              </Chip> */}
+          <div className={style.btn}>
+            <SvgLink icon='./../assets/icons/shirt.svg' text='Я хочу' />
+            {notifications.initiator > 0 && (
+              <Chip top={-1} right={-0.5} small color='neutral'>
+                {notifications.initiator}
+              </Chip>
+            )}
+          </div>
         </Button>
         <Button link onClick={() => void toMeDeals()}>
-          <SvgLink icon='./../assets/icons/shirt.svg' text=' У меня хотят' />
-
-          {/* <Chip bottom={12} right={12} small color='neutral'>
-                {(notifications?.initiator || 0) +
-                  (notifications?.reciever || 0)}
-              </Chip> */}
+          <div className={style.btn}>
+            <SvgLink icon='./../assets/icons/shirt.svg' text=' У меня хотят' />
+            {notifications.reciever > 0 && (
+              <Chip top={-1} right={-0.5} small color='neutral'>
+                {notifications.reciever}
+              </Chip>
+            )}
+          </div>
         </Button>
       </SideBar>
       <MainContent>

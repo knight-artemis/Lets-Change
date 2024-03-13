@@ -1,8 +1,47 @@
+.form, .inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .form {
+	width: 200px;
+	height: 210px;
+	/* gap: 3rem; */
+}
+
+.inputs {
+	width: 100%;
+	gap: 1rem;
+	
+}
+
+.btns {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	gap: .5rem;
 	align-items: center;
-	gap: 10px;
-	width: 200px;
+}
+
+.pass {
+  position: relative;
+  width: 100%;
+}
+.pass > input {
+  width: 100%;
+}
+.pass > button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-45%);
+}
+
+.icon {
+    width: 1.5rem;
+    height: 100%;
+}
+.inputs input {
+	background-color: white;
 }

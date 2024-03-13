@@ -9,6 +9,7 @@
 
 .link {
   text-decoration: none;
+  color: var(--brown);
   /* color: black; */
 }
 
@@ -17,12 +18,24 @@
   /* color: var(--color-main-accent); */
 }
 
+.wrapper, .menu {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.wrapper {
+    justify-content: flex-end
+}
+
 .menu {
+    gap: 2rem;
+}
+
+.user {
   display: flex;
   align-items: center;
   gap: .6rem;
 }
-
 .relative {
   position: relative;
 }

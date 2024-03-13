@@ -1,5 +1,9 @@
 .main {
-	border: 1px solid black;
+	margin-top: 6rem;
+	background-color: var(--light-beige);
+	border: solid 1px var( --font-white);
+	border-radius: 1rem;
 	padding: 20px;
 	width: fit-content;
+	box-shadow: 0 0 20px #00000040;
 }

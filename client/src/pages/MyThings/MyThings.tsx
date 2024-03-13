@@ -14,21 +14,10 @@ import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 
-const ThingInitVal = {
-  id: 0,
-  thingName: '',
-  categoryId: 0,
-  thingAddress: '',
-  thingLat: 0,
-  thingLon: 0,
-  endDate: new Date(),
-  photoUrl: '',
-}
-
 export default function MyThings(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
 
-  const [things, setThings] = useState<SimplifiedThingType[]>([ThingInitVal])
+  const [things, setThings] = useState<SimplifiedThingType[]>([])
 
   const navigate = useNavigate()
   const dispatcher = useAppDispatch()
@@ -68,7 +57,7 @@ export default function MyThings(): JSX.Element {
           </h1>
           </TopLine>
         <Grid  >
-          {things.length !== 0 ? (
+          {things.length ? (
             things.map((thing: SimplifiedThingType) => (
               <Card key={`card-${thing.id}`} thing={thing} />
             ))

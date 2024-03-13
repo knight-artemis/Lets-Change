@@ -30,12 +30,15 @@
   display: flex;
   position: relative;
   flex-direction: column;
+  justify-content: center;
   padding: 2rem;
   border-radius: 12px;
-  background-color: white;
+  background-color: var(--light-beige);
   max-height: 90dvh;
   width: fit-content;
+  min-height: 15rem;
   height: fit-content;
+  border: solid 1px white;
 }
 
 .close {
@@ -43,4 +46,28 @@
   top: 10px;
   right: 10px;
   width: fit-content;
+}
+
+.link {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.link:hover {
+  color: var(--olive);
+}
+
+.link:focus,
+.link:active {
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.icon{
+	width: 1.5rem;
+	height: auto;
 }

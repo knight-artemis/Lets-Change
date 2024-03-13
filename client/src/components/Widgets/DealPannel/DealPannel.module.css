@@ -44,6 +44,7 @@
 }
 
 .listItem {
+  position: relative;
   display: flex;
   padding: 0.5rem;
   border: solid 1px var(--color-main);
@@ -85,4 +86,9 @@
 .disabled {
   /* filter: sepia(50%) grayscale(40%); */
   background-color: var(--font-secondary);
+}
+
+.icon{
+  width: 1.5rem;
+  height: auto;
 }

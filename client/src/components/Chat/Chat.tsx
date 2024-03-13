@@ -84,7 +84,6 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
       if (data.userId !== user.id && !userOnline) setUserOnline(true)
       setMsgs([data, ...msgs])
     })
-    
   }, [msgs])
 
   useEffect(() => {
@@ -102,6 +101,21 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
 
   return (
     <>
+      {userOnline ? (
+        <p>
+          {user.id === deal?.initiatorId
+            ? deal.recieverName
+            : deal?.initiatorName}{' '}
+          онлайн
+        </p>
+      ) : (
+        <p>
+          {user.id === deal?.initiatorId
+            ? deal.recieverName
+            : deal?.initiatorName}{' '}
+          офлайн
+        </p>
+      )}
       <div className={styles.chat}>
         {msgs.map((msg, index) => (
           <div
@@ -111,19 +125,13 @@ export default function Chat({ deal }: ChatPropsType): JSX.Element {
               msg.userId === user.id ? styles.myMsg : styles.hisMsg,
             )}
           >
-            <p>{msg.userName}</p>
+            {user.id !== msg.userId && (
+              <p className={styles.userName}>{msg.userName}</p>
+            )}
             {msg.text}
           </div>
         ))}
-        {/* <div className={clsx(styles.msg, styles.myMsg)}>
-          привет, давай меняться!
-        </div>
-        <div className={clsx(styles.msg, styles.hisMsg)}>
-          привет, конечно давай!
-        </div> */}
       </div>
-      {userOnline ? <p>оппонент в чате</p> : <p>оппонент не в чате</p>}
-
       <div className={styles.input}>
         <Input
           name='chatMsg'

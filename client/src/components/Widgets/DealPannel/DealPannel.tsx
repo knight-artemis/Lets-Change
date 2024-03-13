@@ -9,6 +9,7 @@ import style from './DealPannel.module.css'
 import Button from '../../Shared/Button/Button'
 import CardSimple from '../CardSimple/CardSimple'
 import { fetchGetNot } from '../../../redux/user/userThunkActions'
+import Chip from '../../Shared/Chip/Chip'
 
 type BtnStatusesType =
   | 'подробнее'
@@ -42,6 +43,7 @@ export default function DealPannel({
     isBtn: false,
   })
   const dispatcher = useAppDispatch()
+  console.log(deal)
 
   useEffect(() => {
     switch (deal.status) {
@@ -298,6 +300,17 @@ export default function DealPannel({
         )}
       </div>
       {/* </Button> */}
+      {/* <div className={style.notification}> */}
+      {deal.initiatorNote && (
+        <Chip top={0.5} right={0.5} small color='none'>
+          <img
+            className={style.icon}
+            src='/src/assets/icons/checkmark-circle.svg'
+            alt='svg'
+          />
+        </Chip>
+      )}
+      {/* </div> */}
     </div>
   )
 }

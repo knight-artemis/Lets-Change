@@ -21,7 +21,7 @@ export default function Avatar({
       style={{
         width: `${size}rem`,
         height: `${size}rem`,
-        border: `${border}px solid var( --color-btn-font-neutral)`,
+        border: `${border}px solid var(--brown)`,
       }}
       className={style.avatar}
     >
