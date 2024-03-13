@@ -31,13 +31,13 @@
   position: relative;
   flex-direction: column;
   justify-content: center;
-  padding: 2rem;
+  /* padding: 2rem; */
   border-radius: 12px;
   background-color: var(--light-beige);
-  max-height: 90dvh;
-  width: fit-content;
-  min-height: 15rem;
-  height: fit-content;
+  /* max-height: 90dvh; */
+  /* width: fit-content; */
+  /* min-height: 15rem; */
+  /* height: fit-content; */
   border: solid 1px white;
 }
 

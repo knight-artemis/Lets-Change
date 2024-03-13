@@ -27,7 +27,6 @@ export default function Deal(): JSX.Element {
   const navigate = useNavigate()
 
   const accepted = user.id === deal?.initiatorId ? deal?.acceptedByInitiator : deal?.acceptedByReceiver
-  console.log(deal?.acceptedByInitiator , deal?.acceptedByReceiver)
 
   useEffect(() => {
     console.log('RERENDER')
