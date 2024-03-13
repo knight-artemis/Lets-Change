@@ -5,15 +5,15 @@ module.exports = {
     await queryInterface.bulkInsert(
       'Categories',
       [
-        { categoryTitle: 'Игрушки' },
-        { categoryTitle: 'Одежда' },
         { categoryTitle: 'Электроника' },
+        { categoryTitle: 'Для детей' },
+        { categoryTitle: 'Винтаж' },
+        { categoryTitle: 'Книги' },
+        { categoryTitle: 'Растения' },
+        { categoryTitle: 'Одежда' },
         { categoryTitle: 'Мебель' },
         { categoryTitle: 'Инструмент' },
-        { categoryTitle: 'Музыка' },
-        { categoryTitle: 'Услуги' },
-        { categoryTitle: 'Билеты' },
-        { categoryTitle: 'Купоны/Скидки' },
+        { categoryTitle: 'Сопорт' },
       ],
       {},
     )
