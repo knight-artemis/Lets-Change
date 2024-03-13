@@ -169,58 +169,58 @@ export default function Main(): JSX.Element {
         {/* </div> */}
 
         {/* <div className={style.content}> */}
-        <Grid>
-          {isChecked ? (
-            <div
-            // style={{ width: '800px', height: '100%', borderRadius: '20px' }}
+        {isChecked ? (
+          <div style={{ width: '100%', height: '100%', borderRadius: '20px' }}>
+            {/* {location.length > 0 && ( */}
+            <Map
+              // onClick={(e) => handleClick(e.get('coords'))}
+              width='800px'
+              height='100%'
+              defaultState={{
+                center: location,
+                zoom: 15,
+                controls: ['zoomControl', 'fullscreenControl'],
+              }}
+              state={{
+                center: location,
+                zoom: 15,
+                controls: ['zoomControl', 'fullscreenControl'],
+              }}
             >
-              {/* {location.length > 0 && ( */}
-              <Map
-                // onClick={(e) => handleClick(e.get('coords'))}
-                width='800%'
-                height='100%'
-                defaultState={{
-                  center: location,
-                  zoom: 15,
-                  controls: ['zoomControl', 'fullscreenControl'],
-                }}
-                state={{
-                  center: location,
-                  zoom: 15,
-                  controls: ['zoomControl', 'fullscreenControl'],
+              <GeolocationControl options={{ float: 'left' }} />
+              <Clusterer
+                options={{
+                  preset: 'islands#invertedVioletClusterIcons',
+                  // groupByCoordinates: false,
                 }}
               >
-                <GeolocationControl options={{ float: 'left' }} />
-                <Clusterer
-                  options={{
-                    preset: 'islands#invertedVioletClusterIcons',
-                    // groupByCoordinates: false,
-                  }}
-                >
-                  {things.map((thing) => (
-                    <MyPlacemark
-                      key={`${thing.id}`}
-                      coord={[thing.thingLat, thing.thingLon]}
-                      onClick={() => navigate(`/thing/${thing.id}`)}
-                      img={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
-                      iconCaption={thing.thingName}
-                    />
-                  ))}
-                </Clusterer>
-              </Map>
-              {/* )} */}
-            </div>
-          ) : things.length !== 0 ? (
-            things.map((thing: SimplifiedThingType) => (
-              <Card key={`card-${thing.id}`} thing={thing} isMain />
-            ))
-          ) : (
-            <div className={style.notFound}>
-              <span>В этой категории пока ничего нет </span>
-              <img src='./src/assets/gifs/not-found.gif' alt='not-found' />
-            </div>
-          )}
-        </Grid>
+                {things.map((thing) => (
+                  <MyPlacemark
+                    key={`${thing.id}`}
+                    coord={[thing.thingLat, thing.thingLon]}
+                    onClick={() => navigate(`/thing/${thing.id}`)}
+                    img={`${import.meta.env.VITE_THINGS}/${thing.photoUrl}`}
+                    iconCaption={thing.thingName}
+                  />
+                ))}
+              </Clusterer>
+            </Map>
+            {/* )} */}
+          </div>
+        ) : (
+          <Grid>
+            {things.length !== 0 ? (
+              things.map((thing: SimplifiedThingType) => (
+                <Card key={`card-${thing.id}`} thing={thing} isMain />
+              ))
+            ) : (
+              <div className={style.notFound}>
+                <span>В этой категории пока ничего нет </span>
+                <img src='./src/assets/gifs/not-found.gif' alt='not-found' />
+              </div>
+            )}
+          </Grid>
+        )}
         {/* </div> */}
       </MainContent>
       {/* </div> */}
