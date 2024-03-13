@@ -104,6 +104,56 @@ router.get('/user/:id', async (req, res) => {
   }
 })
 
+router.get('/search', async (req, res) => {
+  const { search } = req.query
+  console.log(typeof search, 'search', search);
+  try {
+    const thingsRaw = await Thing.findAll({
+      attributes: [
+        'id',
+        'userId',
+        'thingName',
+        'categoryId',
+        'thingAddress',
+        'thingLat',
+        'thingLon',
+        'endDate',
+        'isApproved',
+        'inDeal',
+        'description',
+      ],
+      include: [
+        {
+          model: Photo,
+          attributes: ['id', 'photoUrl'],
+          order: [['createdAt', 'ASC']],
+        },
+        {
+          model: Issue,
+          attributes: ['issue'],
+        },
+      ],
+      order: [['createdAt', 'ASC']],
+    })
+    const things = stripThings(thingsRaw)
+      .filter((el) => {
+        console.log(search.toLowerCase());
+        console.log(`${el.thingName}${el.description}`.toLowerCase())
+        console.log(`${el.thingName}${el.description}`.toLowerCase().includes(search.toLowerCase()))
+        // console.log(search.toLowerCase().includes(`${el.thingName}${el.description}`.toLowerCase()));
+        if (el.inDeal || !el.isApproved) return false
+        if (!`${el.thingName}${el.description}`.toLowerCase().includes(search.toLowerCase())) return false
+        return true
+      })
+      // .map((el) => el.id)
+
+    res.status(200).json(things)
+  } catch (error) {
+    console.error('Ошибка при получении объявлений по поиску', error)
+    res.status(500).send({ err: { server: 'Ошибка сервера при получении объявлений по поиску' } })
+  }
+})
+
 router.get('/', async (req, res) => {
   const { query } = req
   try {
@@ -136,7 +186,7 @@ router.get('/', async (req, res) => {
     })
 
     const things = stripThings(thingsRaw)
-    console.log(thingsRaw.map((el) => el.get({ plain: true })))
+    // console.log(thingsRaw.map((el) => el.get({ plain: true })))
     res.status(200).json(
       query.admin
         ? thingsRaw.map((el) => {
@@ -237,10 +287,13 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
 
 router.put('/:id', upload.array('newPhotos', 10), async (req, res) => {
   try {
-    console.log(req.body.newPhoto, 'Я новые фотки');
+    console.log(req.body.newPhoto, 'Я новые фотки')
     const rawData = req.body
     const updatedInfo = {
-      ...rawData, thingLat: Number(rawData.thingLat), thingLon: Number(rawData.thingLon), categoryId: Number(rawData.categoryId),
+      ...rawData,
+      thingLat: Number(rawData.thingLat),
+      thingLon: Number(rawData.thingLon),
+      categoryId: Number(rawData.categoryId),
     }
     console.log('🚀 ~ router.put ~ updatedInfo:', updatedInfo)
     const oldThing = await Thing.findByPk(req.params.id)
@@ -250,11 +303,12 @@ router.put('/:id', upload.array('newPhotos', 10), async (req, res) => {
     await Photo.destroy({ where: { thingId: req.params.id } })
     if (req.body.photos) {
       const reqPhotos = req.body.photos
-      const finReqPhotos = reqPhotos.map((el) => (
-        {
-          photoUrl: el, thingId: Number(req.params.id), createdAt: new Date(), updatedAt: new Date(),
-        }
-      ))
+      const finReqPhotos = reqPhotos.map((el) => ({
+        photoUrl: el,
+        thingId: Number(req.params.id),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }))
       const promises1 = finReqPhotos.map(async (item) => {
         const newPhoto = await Photo.create(item)
         return newPhoto
@@ -276,6 +330,5 @@ router.put('/:id', upload.array('newPhotos', 10), async (req, res) => {
     res.status(500).json({ err: error })
   }
 })
-
 
 module.exports = router

@@ -113,7 +113,38 @@ export default function Main(): JSX.Element {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchInput(() => e.target.value)
-  }
+    axios
+    .get<SimplifiedThingType[]>(`${import.meta.env.VITE_API}/v1/things/search?search=${e.target.value}`, {
+      withCredentials: true,
+    })
+    .then((res) => setThings(res.data))
+    .catch((err) => console.log('Ошибка получения всех вещей', err))
+}
+  
+
+  // useEffect (() => {
+   
+  //   if (searchInput.trim() !== '') {
+  //     void  setAllThings()
+  //     }
+  // }, [searchInput])
+
+  // const searchHandler = () => {
+  //   if (searchInput.trim() !== '') {
+  //     console.log('🚀 ~ searchHandler ~ searchInput.trim():', searchInput.trim())
+  //     setAllThings()
+  //     console.log('things', things);
+  //     setThings(things.filter(thing => thing.thingName.toLowerCase().includes(searchInput.toLowerCase())))
+  //     console.log('things', things);
+  //     // setThings(
+  //     //   things.filter((thing) => {
+          
+  //     //     console.log("🚀 ~ things.filter ~ thing.thingName.toLowerCase():", thing.thingName.toLowerCase())
+  //     //   return  thing.thingName.toLowerCase().includes(searchInput.toLowerCase())
+  //     //   }),
+  //     // )
+  //   }
+  // }
 
   return (
     <WholePage>
@@ -148,6 +179,9 @@ export default function Main(): JSX.Element {
               placeholder='Что ищем?'
               onChange={changeHandler}
               value={searchInput}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') void searchHandler()
+              }}
             />
           </div>
           <SvgLink icon='./src/assets/icons/blocks.svg' />
