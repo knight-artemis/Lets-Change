@@ -161,4 +161,7 @@ export type ColorTypes =
   | 'good'
   | 'warning'
   | 'gray'
+  | 'info'
+  | 'user'
+  | 'none'
   | undefined
