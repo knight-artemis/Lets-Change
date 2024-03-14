@@ -103,6 +103,10 @@ export default function ThingPage(): JSX.Element {
     })()
   }, [])
 
+  useEffect(() => {
+    console.log(thing)
+  }, [thing])
+
   // useEffect(() => {
   //   const thingsOther = axios
   //     .get<ThingType[]>(
