@@ -75,16 +75,16 @@ export default function Auth(): JSX.Element {
         notifyWarning('Неверный формат почты.')
       } else if (!inputs.password && !isLogin) {
         notifyWarning('Пожалуйста, придумайте пароль.')
-      } else if (
-        !isLogin &&
-        inputs.password &&
-        !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
-          inputs.password,
-        )
-      ) {
-        notifyWarning(
-          'Пароль должен быть не менее 8 символов длинной, содержать в себе строчные и заглавные буквы, минимум одну цифру и какой-либо из следующих символов: #?!@$%^&*-',
-        )
+      // } else if (
+      //   !isLogin &&
+      //   inputs.password &&
+      //   !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
+      //     inputs.password,
+      //   )
+      // ) {
+      //   notifyWarning(
+      //     'Пароль должен быть не менее 8 символов длинной, содержать в себе строчные и заглавные буквы, минимум одну цифру и какой-либо из следующих символов: #?!@$%^&*-',
+      //   )
       } else if (!inputs.password && isLogin) {
         notifyWarning('Пожалуйста, введите пароль.')
       } else if (!isLogin && checkMail.data) {

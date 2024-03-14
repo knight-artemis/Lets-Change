@@ -38,7 +38,7 @@ export default function Navbar(): JSX.Element {
       {admin.id > 0 ? (
         <Link
           className={styles.link}
-          to='/'
+          to='/admin'
           onClick={() => void logOutAdminHandler()}
         >
           Выйти
