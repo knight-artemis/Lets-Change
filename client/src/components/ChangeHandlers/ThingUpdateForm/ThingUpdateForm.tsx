@@ -8,6 +8,7 @@ import styles from './ThingUpdateForm.module.css'
 import Modal from '../../Widgets/Modal/Modal'
 import Button from '../../Shared/Button/Button'
 import { notifySuccess } from '../../../toasters'
+import Input from '../../Shared/Input/Input'
 
 export default function ThingUpdateForm({
   thing,
@@ -162,23 +163,25 @@ export default function ThingUpdateForm({
   return (
     <form className={styles.main} encType='multipart/form-data'>
       <h1>Изменить данные о вещи</h1>
-      <h5>Название</h5>
-      <input
+      <h4>Название</h4>
+      <Input
+        color='white'
         type='text'
         name='thingName'
         value={inputs.thingName}
         onChange={(e) => void changeHandler(e)}
         placeholder='Введите заголовок'
       />
-      <h5>Описание</h5>
-      <input
+      <h4>Описание</h4>
+      <Input
+        color='white'
         type='text'
         name='description'
         value={inputs.description}
         onChange={(e) => void changeHandler(e)}
         placeholder='Введите описание'
       />
-      <h5>Категория</h5>
+      <h4>Категория</h4>
       <select
         name='categoryId'
         value={inputs.categoryId}
@@ -190,22 +193,28 @@ export default function ThingUpdateForm({
           </option>
         ))}
       </select>
-      <h5>Фотографии</h5>
+      <h4>Фотографии</h4>
       <div className={`${styles.imgDiv}`}>
         {inputs.Photos.map((el) => (
           <span key={el.id} className={`${styles.imgSpan}`}>
             <img
-              className={`${styles.littlePhoto}`}
+              className={`${styles.littleImg}`}
               src={`${import.meta.env.VITE_THINGS}/${el.photoUrl}`}
               alt='Мини-фотки'
             />
-            <button type='button' onClick={() => removePhoto(el.photoUrl)}>
-              Удалить
-            </button>
+            <div className={styles.delPhoto}>
+              <Button link onClick={() => void removePhoto(el.photoUrl)}>
+                <img
+                  className={styles.icon}
+                  src='/src/assets/icons/close-circle-outline.svg'
+                  alt='svg'
+                />
+              </Button>
+            </div>
           </span>
         ))}
       </div>
-      <h5>Добавить фотографии</h5>
+      <h4>Добавить фотографии</h4>
       <input
         type='file'
         name='newPhotos'
@@ -214,7 +223,7 @@ export default function ThingUpdateForm({
         accept='.jpg, .jpeg, .png'
       />
       <Button onClick={() => void setModalActive((prev) => !prev)}>
-        {address.length ? 'изменить местоположение' : 'выбрать местоположение'}
+        {address.length ? 'Изменить местоположение' : 'Выбрать местоположение'}
       </Button>
       <Modal active={modalActive} setActive={setModalActive}>
         <>
@@ -254,9 +263,7 @@ export default function ThingUpdateForm({
         </>
       </Modal>
       {/* <Button onClick={() => handleAccept()}>Подтвердить локацию</Button> */}
-      <button type='button' onClick={() => void updateThingInfo()}>
-        Обновить данные
-      </button>
+      <Button onClick={() => void updateThingInfo()}>Обновить данные</Button>
     </form>
   )
 }

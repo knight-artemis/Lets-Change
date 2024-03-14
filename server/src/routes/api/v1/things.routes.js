@@ -132,7 +132,7 @@ router.get('/search', async (req, res) => {
         {
           model: Photo,
           attributes: ['id', 'photoUrl'],
-          order: [['createdAt', 'ASC']],
+          // order: [['createdAt', 'ASC']],
         },
         {
           model: Issue,

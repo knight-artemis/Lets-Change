@@ -146,16 +146,13 @@ export default function ThingPage(): JSX.Element {
         </div>
       </SideBar>
       <MainContent centerHorizontal>
-      
         <div className={style.timeLeft}>
-          
           {/* Осталось {getRemainigTime(thing.endDate)} */}
-          
-          <Chip top={-1} left={0} >
-          осталось {getRemainigTime(thing.endDate)}
-        </Chip>
 
-          </div>
+          <Chip top={-1} left={0}>
+            осталось {getRemainigTime(thing.endDate)}
+          </Chip>
+        </div>
 
         <div className={style.ownerName}>
           {thing.User.lastName
@@ -207,6 +204,9 @@ export default function ThingPage(): JSX.Element {
               Давай меняться
             </Button>
           )}
+          {user.id !== thing.userId && initiate && (
+            <Chip>Вы уже предложили обмен</Chip>
+          )}
           {user.id !== 0 && user.id === thing.userId ? (
             <Button onClick={() => setModalActive2((prev) => !prev)}>
               Изменить
@@ -215,7 +215,11 @@ export default function ThingPage(): JSX.Element {
             <> </>
           )}
         </div>
-        {user.id !== thing.userId && thing.id ? <OtherThings thing={thing} /> : <div />}
+        {user.id !== thing.userId && thing.id ? (
+          <OtherThings thing={thing} />
+        ) : (
+          <div />
+        )}
         <Modal active={modalActive1} setActive={setModalActive1}>
           <InitChange thingId={thing.id} setActive={setModalActive1}/>
         </Modal>
