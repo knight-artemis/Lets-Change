@@ -90,26 +90,30 @@ export default function Profile({
         <SideBar>
           {/* <center className={styles.header}>Информация о пользователе</center> */}
           <div className={styles.center}>
-            <Avatar
-              size={15}
-              src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
-              letter={user.firstName[0]}
-            />
-          </div>
-          {user.avatarUrl ? (
-            <>
-              <Button onClick={() => setModalActive1((prev) => !prev)}>
-                Изменить аватар
-              </Button>
-              <Button onClick={() => void deleteAvatar()}>
-                Удалить аватар
-              </Button>
-            </>
-          ) : (
             <Button link onClick={() => setModalActive1((prev) => !prev)}>
-              Добавить аватар
+              <Avatar
+                size={15}
+                src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
+                letter={user.firstName[0]}
+              />
             </Button>
+          {user.avatarUrl && (
+            <>
+              {/* <Button onClick={() => setModalActive1((prev) => !prev)}>
+                Изменить аватар
+              </Button> */}
+              <div className={styles.delAvatar}>
+                <Button link onClick={() => void deleteAvatar()}>
+                  <img
+                    className={styles.icon}
+                    src='/src/assets/icons/close-circle-outline.svg'
+                    alt='svg'
+                  />
+                </Button>
+              </div>
+            </>
           )}
+          </div>
           <Modal active={modalActive1} setActive={setModalActive1}>
             <AvatarChangeForm setActive={setModalActive1} />
           </Modal>
@@ -117,8 +121,8 @@ export default function Profile({
             <>
               {/* <span> */}
               {/* </span> */}
-              <Button onClick={() => setModalActive2((prev) => !prev)}>
-                ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
+              <Button link onClick={() => setModalActive2((prev) => !prev)}>
+                {user?.lastName} {user?.middleName} {user?.firstName}
                 {/* Изменить ФИО */}
               </Button>
             </>
@@ -128,7 +132,7 @@ export default function Profile({
                 ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
               </span> */}
               <Button link onClick={() => setModalActive2((prev) => !prev)}>
-                ФИО: {user?.lastName} {user?.middleName} {user?.firstName}
+                {user?.lastName} {user?.middleName} {user?.firstName}
                 {/* Дополнить */}
               </Button>
             </>
@@ -140,7 +144,7 @@ export default function Profile({
             Почта: {user?.email}
           </span> */}
           <Button link onClick={() => setModalActive3((prev) => !prev)}>
-            Почта: {user?.email}
+            {user?.email}
             {/* Изменить почту */}
           </Button>
           <Modal active={modalActive3} setActive={setModalActive3}>
@@ -150,7 +154,7 @@ export default function Profile({
             <>
               {/* <span>Телефон: {user?.phone}</span> */}
               <Button link onClick={() => setModalActive4((prev) => !prev)}>
-                Телефон: {user?.phone}
+                {user?.phone}
                 {/* Изменить телефон */}
               </Button>
             </>
@@ -170,7 +174,7 @@ export default function Profile({
               {/* <span>Адрес: {user?.userAddress}</span> */}
               <Button link onClick={() => setModalActive5((prev) => !prev)}>
                 {/* Изменить Адрес */}
-                Адрес: {user?.userAddress}
+                {user?.userAddress}
               </Button>
             </>
           ) : (
@@ -193,7 +197,7 @@ export default function Profile({
           </Modal>
         </SideBar>
       </div>
-      {isOpen && <div className={styles.menuBackdrop} />}
+      {isOpen && <div onClick={() => setlk((prev) => !prev)} className={styles.menuBackdrop} />}
     </>
   )
 }

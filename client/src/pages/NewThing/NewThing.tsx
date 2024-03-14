@@ -308,7 +308,7 @@ export default function NewThing(): JSX.Element {
               >
                 фотка
               </div>
-              <Button color='danger'>удОли</Button>
+              {/* <Button color='danger'>удОли</Button> */}
             </div>
           ))}
           {/* {formData?.photo?.map(photo => console.log('==>>',photo))} */}

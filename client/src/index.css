@@ -113,3 +113,16 @@
 body {
   overflow-x: hidden;
 }
+
+input[type='file']::-webkit-file-upload-button {
+  background: var(--olive);
+  color: #fff;
+  height: 2rem;
+  border-radius: 100px;
+  padding: 0 1rem;
+  cursor: pointer;
+  border: none;
+  user-select: none;
+  font: inherit;
+  font-size: 1rem;
+}

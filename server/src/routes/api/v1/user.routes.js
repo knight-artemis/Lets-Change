@@ -44,6 +44,7 @@ router.post('/resetpass', async (req, res) => {
         length: 8,
         numbers: true,
       })
+      // const newPassword = '4BT8pupD'
       const hash = await bcrypt.hash(newPassword, 10)
       await reqUser.update({ password: hash })
       const message = {

@@ -78,20 +78,21 @@
 }
 
 .name {
-  font-size: 1.25rem;
-  font-weight: bold;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  line-height: 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--black-50);
-  color: var(--light-beige);
-  text-wrap: balance;
-  word-break: break-word;
-  height: 80px;
+    padding: 0 1.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    line-height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--black-50);
+    color: var(--light-beige);
+    text-wrap: balance;
+    word-break: break-word;
+    height: 80px;
 }
 
 /* .hide {

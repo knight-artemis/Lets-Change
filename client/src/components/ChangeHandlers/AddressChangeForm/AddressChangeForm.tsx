@@ -6,6 +6,7 @@ import Button from '../../Shared/Button/Button'
 import { useAppDispatch } from '../../../redux/hooks'
 import { fetchUpd } from '../../../redux/user/userThunkActions'
 import { notifySuccess } from '../../../toasters'
+import styles from './AddressChangeForm.module.css'
 
 export default function AddressChangeForm({
   user,
@@ -81,7 +82,7 @@ export default function AddressChangeForm({
   }, [])
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <Map
         onClick={(e: { get: (arg0: string) => number[] }) =>
           handleClick(e.get('coords'))
@@ -115,6 +116,6 @@ export default function AddressChangeForm({
       <Button disabled={!address.length} onClick={() => void handleAccept()}>
         Подтвердить локацию
       </Button>
-    </>
+    </div>
   )
 }
