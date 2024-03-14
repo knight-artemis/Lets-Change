@@ -21,7 +21,12 @@ router.post('/log', async (req, res) => {
     } else {
       const admin = rawAdmin.get({ plain: true })
       const checkPass = await bcrypt.compare(password, admin.password)
+      console.log("🚀 ~ router.post ~ password:", password)
+      console.log("🚀 ~ router.post ~ password:", await bcrypt.hash(password, 10))
+      console.log("🚀 ~ router.post ~ admin.password:", admin.password)
+      console.log("🚀 ~ router.post ~ checkPass:", checkPass)
       if (checkPass) {
+        console.log('я зашёл пасворд')
         req.session.admin = { ...admin }
         delete admin.password
         if (req.session.user) {

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
@@ -241,15 +242,35 @@ export default function DealPannel({
         (deal.status === 3 || deal.status === 4) && style.disabled,
       )}
     >
-      <div className={style.photo}>
-        <CardSimple
-          hoverable
-          size={150}
-          thing={deal.Thing}
-          thingId={deal.thingId}
-        />
-      </div>
-      {/* 
+      <center
+        className={clsx(
+          style.status,
+          Number(deal.status) === 0
+            ? style.await
+            : Number(deal.status) === 1
+              ? style.agreed
+              : Number(deal.status) === 2
+                ? style.oneChange
+                : Number(deal.status) === 3
+                  ? style.bothChange
+                  : Number(deal.status) === 4
+                    ? style.reject
+                    : style.default,
+        )}
+      >
+        {/* Статус: {state.status} */}
+        Статус: {state.status}
+      </center>
+      <div className={style.wrapper}>
+        <div className={style.photo}>
+          <CardSimple
+            hoverable
+            size={150}
+            thing={deal.Thing}
+            thingId={deal.thingId}
+          />
+        </div>
+        {/* 
       <div className={style.photo}>
         <img
           src={`${import.meta.env.VITE_THINGS}/${deal.Thing.photoUrl}`}
@@ -257,67 +278,72 @@ export default function DealPannel({
         />
       </div> */}
 
-      {/* <div className={style.body}> */}
-      <div className={style.middleCol}>
-        {/* <div className={style.name}>{deal.Thing.thingName}</div> */}
-        <div className={style.timeLeft}>
-          осталось <br /> {getRemainigTime(deal.Thing.endDate)}
-        </div>
+        {/* <div className={style.body}> */}
+        <div className={style.middleCol}>
+          {/* <div className={style.name}>{deal.Thing.thingName}</div> */}
+          <div className={style.timeLeft}>
+            осталось <br /> {getRemainigTime(deal.Thing.endDate)}
+          </div>
 
-        {deal.initiatorId === user.id ? (
-          <>
-            <div className={style.description}>сделка предложена для: {deal.recieverName}</div>
-            {/* <div className={style.name}>{deal.recieverName}</div> */}
-          </>
-        ) : (
-          <>
-            <div className={style.description}>сделку предложил: {(deal as OneDealToMe).initiatorName}</div>
-            {/* <div className={style.name}>
+          {deal.initiatorId === user.id ? (
+            <>
+              <div className={style.description}>
+                сделка предложена для: {deal.recieverName}
+              </div>
+              {/* <div className={style.name}>{deal.recieverName}</div> */}
+            </>
+          ) : (
+            <>
+              <div className={style.description}>
+                сделку предложил: {(deal as OneDealToMe).initiatorName}
+              </div>
+              {/* <div className={style.name}>
               {(deal as OneDealToMe).initiatorName}
             </div> */}
-          </>
-        )}
+            </>
+          )}
 
-{state.isBtn && (
-          <Button color={state.color} onClick={() => void btnHandler(deal.id)}>
-            {/* <Button
+          {state.isBtn && (
+            <Button
+              color={state.color}
+              onClick={() => void btnHandler(deal.id)}
+            >
+              {/* <Button
                       color='good'
                       onClick={(event: MouseEvent<HTMLButtonElement>) => {
                         event.stopPropagation()
                         navigate(`/deal/${deal.thingId}`)
                       }}
                     > */}
-            {state.btnText}
-          </Button>
-        )}
-
-      </div>
-
-      <div className={style.lastCol}>
-        <div className={style.description}>Описание: {deal.Thing.description}</div>
-        <div className={style.description}>Адрес: {deal.Thing.thingAddress}</div>
-
-   
-      {/* </div> */}
-      {/* <div className={style.textCol}> */}
-        <div className={style.status}>
-          {/* Статус: {state.status} */}
-          Статус: {state.status}
+              {state.btnText}
+            </Button>
+          )}
         </div>
-       
+
+        <div className={style.lastCol}>
+          <div className={style.description}>
+            Описание: {deal.Thing.description}
+          </div>
+          <div className={style.description}>
+            Адрес: {deal.Thing.thingAddress}
+          </div>
+
+          {/* </div> */}
+          {/* <div className={style.textCol}> */}
+        </div>
+        {/* </Button> */}
+        {/* <div className={style.notification}> */}
+        {deal.initiatorNote && (
+          <Chip top={0.5} right={0.5} small color='none'>
+            <img
+              className={style.icon}
+              src='/src/assets/icons/checkmark-circle.svg'
+              alt='svg'
+            />
+          </Chip>
+        )}
+        {/* </div> */}
       </div>
-      {/* </Button> */}
-      {/* <div className={style.notification}> */}
-      {deal.initiatorNote && (
-        <Chip top={0.5} right={0.5} small color='none'>
-          <img
-            className={style.icon}
-            src='/src/assets/icons/checkmark-circle.svg'
-            alt='svg'
-          />
-        </Chip>
-      )}
-      {/* </div> */}
     </div>
   )
 }

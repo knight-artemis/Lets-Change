@@ -167,7 +167,7 @@ console.log(`assets/icons/${catArray[0]}`)
             onClick={() => void categoryHandler(category.id)}
           >
             <SvgLink
-              icon={`assets/icons/${catArray[i]}`}
+              icon={`/assets/icons/${catArray[i]}`}
               text={category.categoryTitle}
             />
           </Button>
