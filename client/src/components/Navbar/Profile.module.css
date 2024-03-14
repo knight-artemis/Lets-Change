@@ -30,6 +30,7 @@
 
 
 .center {
+  position: relative;
   align-self: center;
 }
 
@@ -40,12 +41,15 @@
 .menu {
   position: fixed;
   top: 0;
-  right: -450px; /* Начальная позиция справа за пределами экрана */
-  width: 400px;
+  right: -800px;/* Начальная позиция справа за пределами экрана */
+  width: min-content;
   height: 100%;
   background-color: #fff;
   transition: right 0.3s ease;
   z-index: 1000; /* Убедитесь, что меню отображается над остальным контентом */
+}
+
+.menu  {
 }
 
 .open {
@@ -53,10 +57,15 @@
 }
 
 .close {
+  height: 24px;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 20px;
+  right: 20px;
   width: fit-content;
+}
+
+.close:hover {
+  animation: rotate .5s
 }
 
 .link {
@@ -95,4 +104,20 @@
 
 .menuBackdrop {
   display: block; /* Показываем фон, когда меню открыто */
+}
+
+.delAvatar{
+  position: absolute;
+  left: 50%;
+  bottom: 1%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
 }
