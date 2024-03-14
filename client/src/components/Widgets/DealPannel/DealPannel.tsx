@@ -258,7 +258,7 @@ export default function DealPannel({
       </div> */}
 
       {/* <div className={style.body}> */}
-      <div className={style.textCol}>
+      <div className={style.middleCol}>
         {/* <div className={style.name}>{deal.Thing.thingName}</div> */}
         <div className={style.timeLeft}>
           осталось <br /> {getRemainigTime(deal.Thing.endDate)}
@@ -278,21 +278,8 @@ export default function DealPannel({
           </>
         )}
 
-      </div>
-
-      <div className={style.textCol}>
-        <div className={style.description}>Описание: {deal.Thing.description}</div>
-        <div className={style.description}>Адрес: {deal.Thing.thingAddress}</div>
-
-   
-      {/* </div> */}
-      {/* <div className={style.textCol}> */}
-        <div className={style.status}>
-          {/* Статус: {state.status} */}
-          Статус - {deal.status}: {state.status}
-        </div>
-        {state.isBtn && (
-          <Button fitContent color={state.color} onClick={() => void btnHandler(deal.id)}>
+{state.isBtn && (
+          <Button color={state.color} onClick={() => void btnHandler(deal.id)}>
             {/* <Button
                       color='good'
                       onClick={(event: MouseEvent<HTMLButtonElement>) => {
@@ -303,6 +290,21 @@ export default function DealPannel({
             {state.btnText}
           </Button>
         )}
+
+      </div>
+
+      <div className={style.lastCol}>
+        <div className={style.description}>Описание: {deal.Thing.description}</div>
+        <div className={style.description}>Адрес: {deal.Thing.thingAddress}</div>
+
+   
+      {/* </div> */}
+      {/* <div className={style.textCol}> */}
+        <div className={style.status}>
+          {/* Статус: {state.status} */}
+          Статус: {state.status}
+        </div>
+       
       </div>
       {/* </Button> */}
       {/* <div className={style.notification}> */}
