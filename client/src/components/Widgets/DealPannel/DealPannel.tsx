@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
@@ -241,83 +242,79 @@ export default function DealPannel({
         (deal.status === 3 || deal.status === 4) && style.disabled,
       )}
     >
-      <div className={style.photo}>
-        <CardSimple
-          hoverable
-          size={150}
-          thing={deal.Thing}
-          thingId={deal.thingId}
-        />
-      </div>
-      {/* 
-      <div className={style.photo}>
-        <img
-          src={`${import.meta.env.VITE_THINGS}/${deal.Thing.photoUrl}`}
-          alt='фотка-шмотка'
-        />
-      </div> */}
-
-      {/* <div className={style.body}> */}
-      <div className={style.middleCol}>
-        {/* <div className={style.name}>{deal.Thing.thingName}</div> */}
-        <div className={style.timeLeft}>
-          осталось <br /> {getRemainigTime(deal.Thing.endDate)}
-        </div>
-
-        {deal.initiatorId === user.id ? (
-          <>
-            <div className={style.description}>сделка предложена для: {deal.recieverName}</div>
-            {/* <div className={style.name}>{deal.recieverName}</div> */}
-          </>
-        ) : (
-          <>
-            <div className={style.description}>сделку предложил: {(deal as OneDealToMe).initiatorName}</div>
-            {/* <div className={style.name}>
-              {(deal as OneDealToMe).initiatorName}
-            </div> */}
-          </>
+      <center
+        className={clsx(
+          style.status,
+          Number(deal.status) === 0
+            ? style.await
+            : Number(deal.status) === 1
+              ? style.agreed
+              : Number(deal.status) === 2
+                ? style.oneChange
+                : Number(deal.status) === 3
+                  ? style.bothChange
+                  : Number(deal.status) === 4
+                    ? style.reject
+                    : style.default,
         )}
+      >
+        {/* Статус: {state.status} */}
+        {state.status}
+      </center>
+      <div className={style.wrapper}>
 
-{state.isBtn && (
-          <Button color={state.color} onClick={() => void btnHandler(deal.id)}>
-            {/* <Button
-                      color='good'
-                      onClick={(event: MouseEvent<HTMLButtonElement>) => {
-                        event.stopPropagation()
-                        navigate(`/deal/${deal.thingId}`)
-                      }}
-                    > */}
-            {state.btnText}
-          </Button>
-        )}
-
-      </div>
-
-      <div className={style.lastCol}>
-        <div className={style.description}>Описание: {deal.Thing.description}</div>
-        <div className={style.description}>Адрес: {deal.Thing.thingAddress}</div>
-
-   
-      {/* </div> */}
-      {/* <div className={style.textCol}> */}
-        <div className={style.status}>
-          {/* Статус: {state.status} */}
-          Статус: {state.status}
-        </div>
-       
-      </div>
-      {/* </Button> */}
-      {/* <div className={style.notification}> */}
-      {deal.initiatorNote && (
-        <Chip top={0.5} right={0.5} small color='none'>
-          <img
-            className={style.icon}
-            src='/src/assets/icons/checkmark-circle.svg'
-            alt='svg'
+      {/* <div className={style.right}> */}
+        <div className={style.photo}>
+          <CardSimple
+            hoverable
+            size={220}
+            thing={deal.Thing}
+            thingId={deal.thingId}
           />
-        </Chip>
-      )}
-      {/* </div> */}
+        </div>
+        {/* </div> */}
+
+        <div className={style.right}>
+          <div className={style.name}>
+            <h2>{deal.Thing.thingName}</h2>
+          </div>
+
+          {deal.initiatorId === user.id ? (
+            <div className={style.opponent}>
+              Хочу забрать у пользователя {deal.recieverName}
+            </div>
+          ) : (
+            <div className={style.opponent}>
+              Пользователь {(deal as OneDealToMe).initiatorName} хочет забрать у
+              меня
+            </div>
+          )}
+
+          <div className={style.description}>{deal.Thing.description}</div>
+
+          <div className={style.bottomLine}>
+          <div className={style.address}>{deal.Thing.thingAddress}</div>
+            {state.isBtn && (
+              <Button width={15}
+                color={state.color}
+                onClick={() => void btnHandler(deal.id)}
+              >
+                {state.btnText}
+              </Button>
+            )}
+
+          </div>
+          {deal.initiatorNote && (
+            <Chip top={0.4} left={0.5} small color='none'>
+              <img
+                className={style.icon}
+                src='/src/assets/icons/checkmark-circle.svg'
+                alt='svg'
+              />
+            </Chip>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

@@ -63,7 +63,7 @@
 
 .chip.gray {
     /* color: var(--color-chip-font-gray); */
-    background-color: var(--brown-50);
+    background-color: var(--brown-75);
 }
 
 .chip.none {

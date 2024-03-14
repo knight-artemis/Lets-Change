@@ -139,7 +139,7 @@ export default function MyDeals({
           </div>
         </TopLine>
         {selectedDeals && selectedDeals.length > 0 ? (
-          <Grid centerHorizontal>
+          <Grid centerHorizontal maxWidth={1280}>
             {selectedDeals?.map((deal) => (
               <DealPannel
                 key={deal.id}
