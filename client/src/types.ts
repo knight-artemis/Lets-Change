@@ -82,7 +82,13 @@ type OneDealSkeleton = {
   acceptedByInitiator: boolean
   acceptedByReceiver: boolean
   initiatorNote: boolean
-  Thing: { thingName: string; photoUrl: string }
+  Thing: {
+    thingName: string
+    photoUrl: string
+    description: string
+    thingAddress: string
+    endDate: Date
+  }
   recieverName: string
 }
 

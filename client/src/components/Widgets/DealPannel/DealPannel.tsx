@@ -10,6 +10,7 @@ import Button from '../../Shared/Button/Button'
 import CardSimple from '../CardSimple/CardSimple'
 import { fetchGetNot } from '../../../redux/user/userThunkActions'
 import Chip from '../../Shared/Chip/Chip'
+import getRemainigTime from '../../../service/getRemainigTime'
 
 type BtnStatusesType =
   | 'подробнее'
@@ -260,28 +261,31 @@ export default function DealPannel({
       <div className={style.textCol}>
         {/* <div className={style.name}>{deal.Thing.thingName}</div> */}
         <div className={style.timeLeft}>
-          осталось <br /> время не завезли
+          осталось <br /> {getRemainigTime(deal.Thing.endDate)}
         </div>
-      </div>
-
-      <div className={style.textCol}>
-        <div className={style.description}>описание не завезли</div>
 
         {deal.initiatorId === user.id ? (
           <>
-            <div className={style.description}>сделка предложена для:</div>
-            <div className={style.name}>{deal.recieverName}</div>
+            <div className={style.description}>сделка предложена для: {deal.recieverName}</div>
+            {/* <div className={style.name}>{deal.recieverName}</div> */}
           </>
         ) : (
           <>
-            <div className={style.description}>сделку предложил:</div>
-            <div className={style.name}>
+            <div className={style.description}>сделку предложил: {(deal as OneDealToMe).initiatorName}</div>
+            {/* <div className={style.name}>
               {(deal as OneDealToMe).initiatorName}
-            </div>
+            </div> */}
           </>
         )}
+        
       </div>
+
       <div className={style.textCol}>
+        <div className={style.description}>{deal.Thing.description}</div>
+
+   
+      {/* </div> */}
+      {/* <div className={style.textCol}> */}
         <div className={style.status}>
           {/* Статус: {state.status} */}
           Статус - {deal.status}: {state.status}
