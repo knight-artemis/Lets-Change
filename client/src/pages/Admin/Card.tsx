@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import type { CategoryType, ThingType } from '../../types'
 import Button from '../../components/Shared/Button/Button'
 import Input from '../../components/Shared/Input/Input'
+import styles from './Card.module.css'
+import Modal from '../../components/Widgets/Modal/Modal'
 
 type CardPropsType = {
   thing: ThingType
@@ -17,6 +19,7 @@ export default function Card({
   categories,
 }: CardPropsType): JSX.Element {
   const [issue, setIssue] = useState('')
+  const [isOpen, setIsOpen] = useState(true)
 
   const changeIssueHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setIssue(e.target.value)
@@ -47,37 +50,46 @@ export default function Card({
       console.log(error)
     }
   }
-//   console.log(thing)
+  //   console.log(thing)
   return (
-    <div>
-      <p>название: {thing.thingName}</p>
-      <p>Описание: {thing.description}</p>
+    <div className={styles.main}>
+      <div className={styles.inline}>
+        <h3>{thing.thingName}</h3>
+        <p>
+          {categories.find((el) => el.id === thing.categoryId)?.categoryTitle}
+        </p>
+      </div>
       <p>
-        Категория:{' '}
-        {categories.find((el) => el.id === thing.categoryId)?.categoryTitle}
+        {thing.description.length > 120
+          ? `${thing.description.slice(0, 120)}...`
+          : thing.description}
       </p>
-      <p>Заменчание: {thing.issue}</p>
-      {thing.Photos.length > 0 &&
-        thing.Photos.map((photo) => (
-          <img
-            key={`photo-${photo.id}`}
-            style={{ width: '100px', height: '100px' }}
-            src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
-            alt='фотка-шмотка'
-          />
-        ))}
+      <div className={styles.photos}>
+        {thing.Photos.length > 0 &&
+          thing.Photos.map((photo) => (
+            <img
+              key={`photo-${photo.id}`}
+              style={{ width: 'auto', height: '150px' }}
+              src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
+              alt='фотка-шмотка'
+            />
+          ))}
+      </div>
       <Button color='good' onClick={() => void acceptHandler(thing.id)}>
         Подтвердить
       </Button>
-      <Input
-        onChange={(e) => changeIssueHandler(e)}
-        type='text'
-        name='issue'
-        value={issue}
-      />
-      <Button color='danger' onClick={() => void rejectHandler(thing.id)}>
-        Отказать
-      </Button>
+      <div className={styles.reject}>
+        <Input
+          onChange={(e) => changeIssueHandler(e)}
+          type='text'
+          name='issue'
+          value={issue}
+          placeholder='Введите причину отказа'
+        />
+        <Button color='danger' onClick={() => void rejectHandler(thing.id)}>
+          Отказать
+        </Button>
+      </div>
     </div>
   )
 }

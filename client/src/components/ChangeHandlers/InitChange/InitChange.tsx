@@ -2,21 +2,24 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { SimplifiedThingType } from '../../../types'
-import { useAppSelector } from '../../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import Button from '../../Shared/Button/Button'
 import SmallCard from '../../Widgets/smallCard/SmallCard'
 import styles from './InitChange.module.css'
+import { setIsOpen } from '../../../redux/thing/thingSlice'
 
 type InitChangePropsType = {
   thingId: number
+  setActive: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function InitChange({
   thingId,
+  setActive,
 }: InitChangePropsType): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
   const navigate = useNavigate()
-
+  const dispatsher = useAppDispatch()
   const [myThings, setMyThings] = useState<SimplifiedThingType[]>([])
   const [selectedThings, setSelectedThings] = useState<SimplifiedThingType[]>(
     [],
@@ -80,10 +83,14 @@ export default function InitChange({
     return (
       <div>
         <h1>У тебя еще нет вещей для обмена</h1>
-        <p>Нужно сначала добавить вещи</p>
-        {/* <Button onClick={() => void navigate('/new-thing')}>
+        <Button
+          onClick={() => {
+            setActive((prev) => !prev)
+            dispatsher(setIsOpen())
+          }}
+        >
           Добавить вещи
-        </Button> */}
+        </Button>
       </div>
     )
   }

@@ -5,11 +5,12 @@ import clsx from 'clsx'
 import styles from './AddThing.module.css'
 import Button from '../Shared/Button/Button'
 import type { CategoryType } from '../../types'
-import { useAppDispatch } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
 import Modal from '../Widgets/Modal/Modal'
 import { notifySuccess } from '../../toasters'
 import Input from '../Shared/Input/Input'
+import { setIsOpen } from '../../redux/thing/thingSlice'
 
 type FormData = {
   thingName: string
@@ -36,13 +37,10 @@ type GeoResponse = {
   }
 }
 
-export default function AddThing({
-  isOpen,
-  setAddThing,
-}: {
-  isOpen: boolean
-  setAddThing: React.Dispatch<React.SetStateAction<boolean>>
-}): JSX.Element {
+export default function AddThing(): JSX.Element {
+
+const {isOpen} = useAppSelector(store=> store.thingSlice)
+console.log(isOpen)
   const calculateEndDate = (daysNum: number): Date => {
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + daysNum)
@@ -148,7 +146,7 @@ export default function AddThing({
       notifySuccess(
         'Вещь была успешно добавлена и направлена на модерацию, которая займет некоторое время.',
       )
-	  setAddThing((prev) => !prev)
+	  dispatcher(setIsOpen())
     } catch (error) {
       console.error('Ошибка при загрузке файла:', error)
     }
@@ -294,11 +292,11 @@ export default function AddThing({
           </div>
         </Modal>
         <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
-        <Button color='warning' onClick={() => void setAddThing((prev) => !prev)}>Отмена</Button>
+        <Button color='warning' onClick={() => dispatcher(setIsOpen())}>Отмена</Button>
       </form>
       {isOpen && (
         <div
-          onClick={() => setAddThing((prev) => !prev)}
+          onClick={() => dispatcher(setIsOpen())}
           className={styles.menuBackdrop}
         />
       )}

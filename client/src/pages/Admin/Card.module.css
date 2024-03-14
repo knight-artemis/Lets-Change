@@ -1,0 +1,23 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	gap: 10px;
+	width: 500px;
+	padding: 10px;
+	border: solid 1px var(--brown);
+	border-radius: 10px;
+}
+
+.reject {
+	display: flex;
+}
+
+.inline {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+.photos {
+
+}

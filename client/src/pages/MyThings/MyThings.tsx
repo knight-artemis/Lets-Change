@@ -13,10 +13,12 @@ import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
+import { setIsOpen } from '../../redux/thing/thingSlice'
 import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function MyThings(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
+  const {isOpen} = useAppSelector(store=> store.thingSlice)
 
   const [things, setThings] = useState<SimplifiedThingType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -44,8 +46,11 @@ export default function MyThings(): JSX.Element {
   return (
     <WholePage>
       <SideBar>
-        <Button link onClick={() => void navigate(`/new-thing`)}>
-          <SvgLink icon='src/assets/icons/add-thing.svg' text='Добавить вещь' />
+        <Button link onClick={() => dispatcher(setIsOpen())}>
+          <SvgLink
+            icon='src/assets/icons/add-thing.svg'
+            text='Добавить вещь'
+          />
         </Button>
         <Button link onClick={() => void navigate(`/`)}>
           <SvgLink
