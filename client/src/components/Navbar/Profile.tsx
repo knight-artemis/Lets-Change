@@ -121,7 +121,7 @@ export default function Profile({
             <>
               {/* <span> */}
               {/* </span> */}
-              <Button onClick={() => setModalActive2((prev) => !prev)}>
+              <Button link onClick={() => setModalActive2((prev) => !prev)}>
                 {user?.lastName} {user?.middleName} {user?.firstName}
                 {/* Изменить ФИО */}
               </Button>

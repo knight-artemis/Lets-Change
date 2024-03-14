@@ -5,7 +5,7 @@
 }
 
 .wrapper {
-  height: 75dvh;
+  height: 37rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
