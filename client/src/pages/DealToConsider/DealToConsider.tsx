@@ -26,6 +26,7 @@ export default function DealToConsider(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
 
   useEffect(() => {
+    setLoading(true)
     axios
       .get<OneDealDetailed>(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
         withCredentials: true,
@@ -36,10 +37,11 @@ export default function DealToConsider(): JSX.Element {
       .catch((err) => console.log('Ошибка получения подробной сделки', err))
     dispatcher(fetchGetNot())
       .then()
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err)).finally(() => setLoading(false))
   }, [id])
 
   const acceptedHandler = async (): Promise<void> => {
+    
     await axios.patch(
       `${import.meta.env.VITE_API}/v1/deals/${id}/accepted`,
       { selectedThingId },

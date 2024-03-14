@@ -81,6 +81,7 @@ export default function ThingPage(): JSX.Element {
   useEffect(() => {
     void (async () => {
       try {
+        setLoading(true)
         await dispatcher(fetchGetNot())
         const thingRes = await axios.get<ThingType>(
           `${import.meta.env.VITE_API}/v1/things/${params.id}`,
@@ -102,6 +103,8 @@ export default function ThingPage(): JSX.Element {
         )
       } catch (error) {
         console.log(error)
+      } finally {
+        setLoading(false)
       }
     })()
   }, [params])

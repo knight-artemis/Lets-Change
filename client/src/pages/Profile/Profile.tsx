@@ -42,6 +42,7 @@ export default function Profile(): JSX.Element {
 
   const deleteAvatar = async (): Promise<void> => {
     try {
+      setLoading(true)
       const response = await axios.get<UserType>(
         `${import.meta.env.VITE_API}/v1/user/deleteAvatar`,
         { withCredentials: true },
@@ -52,6 +53,8 @@ export default function Profile(): JSX.Element {
     } catch (error) {
       console.log(error)
       notifyWarning('Не удалось удалить аватар.')
+    } finally {
+      setLoading(false)
     }
   }
 

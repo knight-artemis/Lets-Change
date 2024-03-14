@@ -40,30 +40,31 @@ export default function Deal(): JSX.Element {
     console.log('RERENDER')
     void (async () => {
       try {
+        setLoading(true)
         const res = await axios.get<OneDealDetailed>(
           `${import.meta.env.VITE_API}/v1/deals/${id}`,
           {
             withCredentials: true,
-        },
+          },
         )
         setDeal(res.data)
         if (user.id === res.data.initiatorId) {
-        await axios.patch(
-          `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
-          { initiatorNote: false },
-        )
-      } else if (user.id === res.data.receiverId) {
-        await axios.patch(
-          `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
-          { recieverNote: false },
-        )
+          await axios.patch(
+            `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
+            { initiatorNote: false },
+          )
+        } else if (user.id === res.data.receiverId) {
+          await axios.patch(
+            `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
+            { recieverNote: false },
+          )
+        }
+        await dispatcher(fetchGetNot())
+      } catch (err) {
+        console.log('какая то шняга', err)
+      } finally {
+        setLoading(false)
       }
-      await dispatcher(fetchGetNot())
-    } catch (err) {
-      console.log('какаято ерор', err);
-    } finally {
-      setLoading(false)
-    }
     })()
     // const dealPrommise = axios
     //   .get<OneDealDetailed>(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
@@ -86,13 +87,13 @@ export default function Deal(): JSX.Element {
     //     ? { acceptedByInitiator: true }
     //     : { acceptedByReceiver: true }
     try {
+      setLoading(true)
       await axios.patch<AxiosFinishedType, AxiosFinishedReturnType>(
         `${import.meta.env.VITE_API}/v1/deals/${id}/finished`,
         { data: axiosRequest },
         { withCredentials: true },
       )
       console.log('Успешно закрыл')
-
       navigate(-1)
     } catch (error) {
       console.log('Ошибка закрытия сделки', error)
@@ -101,8 +102,8 @@ export default function Deal(): JSX.Element {
     }
   }
 
- if (loading) return <Spinner/>   
-    
+  if (loading) return <Spinner />
+
   return (
     <WholePage>
       <SideBar center>

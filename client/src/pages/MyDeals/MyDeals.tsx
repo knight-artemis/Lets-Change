@@ -41,12 +41,12 @@ export default function MyDeals({
   >()
   const [mainText, setMainText] = useState<string>('Мои сделки')
   const [loading, setLoading] = useState<boolean>(true)
-  
 
   useEffect(() => {
     dispatcher(fetchGetNot())
       .then()
       .catch((err) => console.log(err))
+    setLoading(true)
     axios
       .get<MyDealsType>(
         `${import.meta.env.VITE_API}/v1/deals/user/${user.id}`,
@@ -67,6 +67,7 @@ export default function MyDeals({
         )
       })
       .catch((err) => console.log('Ошибка получения списка моих сделок', err))
+      .finally(() => setLoading(false))
   }, [toMe, user.id])
 
   const fromMeDeals = (): void => {
@@ -110,7 +111,7 @@ export default function MyDeals({
   //   return 'у меня хотят забрать эти вещи'
   // }
 
-  if (loading) return <Spinner/>   
+  if (loading) return <Spinner />
 
   return (
     <WholePage>

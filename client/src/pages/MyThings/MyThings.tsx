@@ -29,6 +29,7 @@ export default function MyThings(): JSX.Element {
     dispatcher(fetchGetNot())
       .then()
       .catch((err) => console.log(err))
+    setLoading(true)
     axios
       .get<SimplifiedThingType[]>(
         `${import.meta.env.VITE_API}/v1/things/user/${user.id}`,
@@ -36,18 +37,16 @@ export default function MyThings(): JSX.Element {
       )
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения всех СВОИХ вещей', err))
+      .finally(() => setLoading(false))
   }, [user.id])
 
-  if (loading) return <Spinner/>   
+  if (loading) return <Spinner />
 
   return (
     <WholePage>
       <SideBar>
         <Button link onClick={() => void navigate(`/new-thing`)}>
-          <SvgLink
-            icon='src/assets/icons/add-thing.svg'
-            text='Добавить вещь'
-          />
+          <SvgLink icon='src/assets/icons/add-thing.svg' text='Добавить вещь' />
         </Button>
         <Button link onClick={() => void navigate(`/`)}>
           <SvgLink
@@ -56,12 +55,11 @@ export default function MyThings(): JSX.Element {
           />
         </Button>
       </SideBar>
-      <MainContent >
-        <TopLine><h1>
-          Мои вещи
-          </h1>
-          </TopLine>
-        <Grid  >
+      <MainContent>
+        <TopLine>
+          <h1>Мои вещи</h1>
+        </TopLine>
+        <Grid>
           {things.length ? (
             things.map((thing: SimplifiedThingType) => (
               <Card key={`card-${thing.id}`} thing={thing} />
