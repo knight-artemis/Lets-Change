@@ -29,7 +29,7 @@ export type CategoryType = {
 }
 
 export type PhotoType = {
-  [x: string]: any
+  // [x: string]: any
   id: number
   photoUrl: string
 }

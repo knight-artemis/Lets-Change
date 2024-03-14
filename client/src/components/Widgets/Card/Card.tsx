@@ -55,7 +55,9 @@ export default function Card({ thing, isMain }: CardProps): JSX.Element {
       link
       onClick={() => void navigate(`/thing/${thing.id}`)}
     >
-      <div className={style.card}>
+      <div
+        className={style.card}
+      >
         <Chip top={0.5} left={-0.5} leftSide>
           осталось {getRemainigTime(thing.endDate)}
         </Chip>

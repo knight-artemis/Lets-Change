@@ -26,6 +26,7 @@ import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 import Button from '../../components/Shared/Button/Button'
 import Card from '../../components/Widgets/Card/Card'
+import OtherThings from '../../components/OtherThings/OtherThings'
 import getRemainigTime from '../../service/getRemainigTime'
 import Chip from '../../components/Shared/Chip/Chip'
 
@@ -65,10 +66,7 @@ export default function ThingPage(): JSX.Element {
     ],
   }
 
-  //! в комментах попытки сделать раздел "Ещё от данного пользователя", но асинхронщина оказалась сильнее
-
   const [thing, setThing] = useState<ThingType>(initialThing)
-  // const [otherThings, setOtherThings] = useState<ThingType[]>([])
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)
   const [initiate, setInitiate] = useState<boolean>(false)
@@ -103,23 +101,7 @@ export default function ThingPage(): JSX.Element {
         console.log(error)
       }
     })()
-  }, [])
-
-  useEffect(() => {
-    console.log(thing)
-  }, [thing])
-
-  // useEffect(() => {
-  //   const thingsOther = axios
-  //     .get<ThingType[]>(
-  //       `${import.meta.env.VITE_API}/v1/things/user/${thing.userId}`,
-  //       {
-  //         withCredentials: true,
-  //       },
-  //     )
-  //     .then((res) => setOtherThings(res))
-  //   console.log(typeof otherThings, 'Мы прочие вещи')
-  // }, [thing])
+  }, [params])
 
   return (
     <WholePage>
@@ -228,21 +210,7 @@ export default function ThingPage(): JSX.Element {
             <> </>
           )}
         </div>
-        {user.id !== thing.userId && thing.id ? (
-          <div>
-            <span>Еще от данного пользователя</span>
-            {/* <div>
-              {otherThings.map((el) => (
-                <Card
-                  thing={{ ...el, photoUrl: el.Photos[0].photoUrl }}
-                  isMain={false}
-                />
-              ))}
-            </div> */}
-          </div>
-        ) : (
-          <div />
-        )}
+        {user.id !== thing.userId && thing.id ? <OtherThings thing={thing} /> : <div />}
         <Modal active={modalActive1} setActive={setModalActive1}>
           <InitChange thingId={thing.id} />
         </Modal>

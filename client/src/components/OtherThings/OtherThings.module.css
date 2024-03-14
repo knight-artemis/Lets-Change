@@ -1,0 +1,14 @@
+.otherDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 800px;
+}
+
+.thingDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: inherit;
+    margin-top: 2rem;
+}
