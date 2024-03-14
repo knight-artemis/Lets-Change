@@ -1,15 +1,62 @@
-.imgDiv {
-    display: flex;
-    flex-direction: row;
+.main {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  background-color: var(--light-beige);
+  z-index: 1000;
+  gap: 10px;
+  border-radius: 0px 0px 20px 20px;
 }
 
-.littlePhoto {
-    width: 5rem;
-    height: 5rem;
+input[type='range'] {
+  /* Общие стили для ползунка */
+  -webkit-appearance: none; /* Убираем стандартные стили браузера */
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  background-color: white; /* Цвет фона ползунка */
+  border-radius: 5px; /* Скругление углов ползунка */
+  outline: none; /* Убираем обводку */
+}
+
+.main select {
+  background-color: white;
+  border: none;
+  color: var(--brown);
+  line-height: 1.5rem;
+  padding: 0.2rem;
+  padding-left: 1rem;
+  width: 100%;
+  height: 2rem;
+  border-radius: 15px;
+}
+
+.imgDiv {
+  display: flex;
+  flex-direction: row;
+  max-width: inherit;
+  justify-content: space-around;
 }
 
 .imgSpan {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.littleImg {
+  object-fit: cover;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  border: var(--brown);
+}
+
+.icon {
+  width: 2rem;
+  height: auto;
+}
+
+.delPhoto {
+  position: absolute;
 }
