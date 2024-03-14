@@ -10,6 +10,7 @@ import Button from '../../Shared/Button/Button'
 import CardSimple from '../CardSimple/CardSimple'
 import { fetchGetNot } from '../../../redux/user/userThunkActions'
 import Chip from '../../Shared/Chip/Chip'
+import getRemainigTime from '../../../service/getRemainigTime'
 
 type BtnStatusesType =
   | 'подробнее'
@@ -257,36 +258,27 @@ export default function DealPannel({
       </div> */}
 
       {/* <div className={style.body}> */}
-      <div className={style.textCol}>
+      <div className={style.middleCol}>
         {/* <div className={style.name}>{deal.Thing.thingName}</div> */}
         <div className={style.timeLeft}>
-          осталось <br /> время не завезли
+          осталось <br /> {getRemainigTime(deal.Thing.endDate)}
         </div>
-      </div>
-
-      <div className={style.textCol}>
-        <div className={style.description}>описание не завезли</div>
 
         {deal.initiatorId === user.id ? (
           <>
-            <div className={style.description}>сделка предложена для:</div>
-            <div className={style.name}>{deal.recieverName}</div>
+            <div className={style.description}>сделка предложена для: {deal.recieverName}</div>
+            {/* <div className={style.name}>{deal.recieverName}</div> */}
           </>
         ) : (
           <>
-            <div className={style.description}>сделку предложил:</div>
-            <div className={style.name}>
+            <div className={style.description}>сделку предложил: {(deal as OneDealToMe).initiatorName}</div>
+            {/* <div className={style.name}>
               {(deal as OneDealToMe).initiatorName}
-            </div>
+            </div> */}
           </>
         )}
-      </div>
-      <div className={style.textCol}>
-        <div className={style.status}>
-          {/* Статус: {state.status} */}
-          Статус - {deal.status}: {state.status}
-        </div>
-        {state.isBtn && (
+
+{state.isBtn && (
           <Button color={state.color} onClick={() => void btnHandler(deal.id)}>
             {/* <Button
                       color='good'
@@ -298,6 +290,21 @@ export default function DealPannel({
             {state.btnText}
           </Button>
         )}
+
+      </div>
+
+      <div className={style.lastCol}>
+        <div className={style.description}>Описание: {deal.Thing.description}</div>
+        <div className={style.description}>Адрес: {deal.Thing.thingAddress}</div>
+
+   
+      {/* </div> */}
+      {/* <div className={style.textCol}> */}
+        <div className={style.status}>
+          {/* Статус: {state.status} */}
+          Статус: {state.status}
+        </div>
+       
       </div>
       {/* </Button> */}
       {/* <div className={style.notification}> */}

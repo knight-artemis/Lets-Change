@@ -114,7 +114,7 @@ export default function MyDeals({
           <div className={style.btn}>
             <SvgLink icon='./../assets/icons/shirt.svg' text='Я хочу' />
             {notifications.initiator > 0 && (
-              <Chip top={-1} right={-0.5} small color='neutral'>
+              <Chip top={-1} left={1.5} small color='neutral'>
                 {notifications.initiator}
               </Chip>
             )}
@@ -124,7 +124,7 @@ export default function MyDeals({
           <div className={style.btn}>
             <SvgLink icon='./../assets/icons/shirt.svg' text=' У меня хотят' />
             {notifications.reciever > 0 && (
-              <Chip top={-1} right={-0.5} small color='neutral'>
+              <Chip top={-1} left={1.5} small color='neutral'>
                 {notifications.reciever}
               </Chip>
             )}

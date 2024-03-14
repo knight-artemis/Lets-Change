@@ -6,8 +6,8 @@
     min-width: min-content;
     flex-direction: column;
     width: 25%;
-
     >* {
+        color: var(--brown);
         font-size: 1.125rem;
     }
 }
@@ -19,8 +19,9 @@
     min-width: min-content;
     flex-direction: column;
     width: 40%;
-
+    
     >* {
+        color: var(--brown);
         font-size: 1.125rem;
     }
 }

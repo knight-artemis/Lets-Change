@@ -26,6 +26,8 @@ import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 import Button from '../../components/Shared/Button/Button'
 import Card from '../../components/Widgets/Card/Card'
+import getRemainigTime from '../../service/getRemainigTime'
+import Chip from '../../components/Shared/Chip/Chip'
 
 type ByMeDealsType = {
   id: number
@@ -157,7 +159,16 @@ export default function ThingPage(): JSX.Element {
         </div>
       </SideBar>
       <MainContent centerHorizontal>
-        <div className={style.timeLeft}>{thing.endDate.toLocaleString()}</div>
+      
+        <div className={style.timeLeft}>
+          
+          {/* Осталось {getRemainigTime(thing.endDate)} */}
+          
+          <Chip top={-1} left={0} >
+          осталось {getRemainigTime(thing.endDate)}
+        </Chip>
+
+          </div>
 
         <div className={style.ownerName}>
           {thing.User.lastName

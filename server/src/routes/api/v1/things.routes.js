@@ -69,7 +69,7 @@ router.get('/user/:id', async (req, res) => {
   console.log(id, 'Мама, я айдишник');
   try {
     const thingsRaw = await Thing.findAll({
-      attributes: ['id', 'userId', 'categoryId', 'thingName', 'endDate', 'isApproved', 'inDeal'],
+      attributes: ['id', 'userId', 'categoryId', 'thingName', 'isApproved', 'inDeal', 'thingAddress', 'endDate', 'description'],
       include: [
         {
           model: User,

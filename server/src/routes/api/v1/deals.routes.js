@@ -36,7 +36,7 @@ router.get('/user/:id', async (req, res) => {
       include: [
         {
           model: Thing,
-          attributes: ['thingName'],
+          attributes: ['thingName', 'thingAddress', 'endDate', 'description'],
           include: [
             {
               model: User,
@@ -66,7 +66,7 @@ router.get('/user/:id', async (req, res) => {
           where: {
             userId: id,
           },
-          attributes: ['thingName'],
+          attributes: ['thingName', 'thingAddress', 'endDate', 'description'],
           include: [
             {
               model: Photo,
