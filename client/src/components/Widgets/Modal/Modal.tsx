@@ -45,7 +45,7 @@ export default function Modal({
         >
           <img
             className={style.icon}
-            src='./src/assets/icons/close-circle-outline.svg'
+            src='/src/assets/icons/close-circle-outline.svg'
             alt='svg'
           />
         </button>

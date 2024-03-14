@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { GeolocationControl, Map, Placemark } from '@pbe/react-yandex-maps'
 import axios from 'axios'
-import styles from './NewThing.module.css'
-import Button from '../../components/Shared/Button/Button'
+import clsx from 'clsx'
+import styles from './AddThing.module.css'
+import Button from '../Shared/Button/Button'
 import type { CategoryType } from '../../types'
 import { useAppDispatch } from '../../redux/hooks'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
-import Modal from '../../components/Widgets/Modal/Modal'
+import Modal from '../Widgets/Modal/Modal'
 import { notifySuccess } from '../../toasters'
-import Input from '../../components/Shared/Input/Input'
+import Input from '../Shared/Input/Input'
 
 type FormData = {
   thingName: string
@@ -35,7 +36,13 @@ type GeoResponse = {
   }
 }
 
-export default function NewThing(): JSX.Element {
+export default function AddThing({
+  isOpen,
+  setAddThing,
+}: {
+  isOpen: boolean
+  setAddThing: React.Dispatch<React.SetStateAction<boolean>>
+}): JSX.Element {
   const calculateEndDate = (daysNum: number): Date => {
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + daysNum)
@@ -141,6 +148,7 @@ export default function NewThing(): JSX.Element {
       notifySuccess(
         'Вещь была успешно добавлена и направлена на модерацию, которая займет некоторое время.',
       )
+	  setAddThing((prev) => !prev)
     } catch (error) {
       console.error('Ошибка при загрузке файла:', error)
     }
@@ -175,109 +183,125 @@ export default function NewThing(): JSX.Element {
   }
 
   return (
-    <form className={styles.main} encType='multipart/form-data'>
-      <h1>Добавить вещь</h1>
-      <h5>Добавьте название</h5>
-      {/* <input
+    <>
+      <form
+        className={clsx(styles.main, isOpen && styles.open)}
+        encType='multipart/form-data'
+      >
+        <h1>Добавить вещь</h1>
+        <h5>Добавьте название</h5>
+        {/* <input
             type='text'
             name='thingName'
             value={formData.thingName}
             onChange={(e) => void handleChange(e)}
             placeholder='Введите заголовок'
           /> */}
-      <Input
-        type='text'
-        name='thingName'
-        value={formData.thingName}
-        onChange={(e) => void handleChange(e)}
-        placeholder='Введите заголовок'
-      />
-      <h5>Добавьте описание</h5>
-      <Input
-        type='text'
-        name='description'
-        value={formData.description}
-        onChange={(e) => void handleChange(e)}
-        placeholder='Введите описание'
-      />
-      <h5>Выберите категорию</h5>
-      <select
-        name='categoryId'
-        value={formData.categoryId}
-        onChange={(e) => void handleChange(e)}
-      >
-        {categories.map((el) => (
-          <option key={`opt-${el.id}}`} value={`${el.id}`}>
-            {el.categoryTitle}
-          </option>
-        ))}
-      </select>
-      <h5>Выберите длительность размещения</h5>
-      <p>Дней: {days}</p>
-      <input
-        type='range'
-        min='1'
-        max='30'
-        value={days}
-        onChange={(e) => handleSliderChange(e)}
-      />
+        <Input
+		color='white'
+          type='text'
+          name='thingName'
+          value={formData.thingName}
+          onChange={(e) => void handleChange(e)}
+          placeholder='Введите заголовок'
+        />
+        <h5>Добавьте описание</h5>
+        <Input
+		color='white'
+          type='text'
+          name='description'
+          value={formData.description}
+          onChange={(e) => void handleChange(e)}
+          placeholder='Введите описание'
+        />
+        <h5>Выберите категорию</h5>
+        <select
+          name='categoryId'
+          value={formData.categoryId}
+          onChange={(e) => void handleChange(e)}
+        >
+          {categories.map((el) => (
+            <option key={`opt-${el.id}}`} value={`${el.id}`}>
+              {el.categoryTitle}
+            </option>
+          ))}
+        </select>
+        <h5>Выберите длительность размещения</h5>
+        <p>Дней: {days}</p>
+        <input
+          type='range'
+          min='1'
+          max='30'
+          value={days}
+          onChange={(e) => handleSliderChange(e)}
+        />
 
-      <h5>Выберите фото</h5>
-      <input
-        ref={fileInputRef}
-        type='file'
-        name='photo'
-        multiple
-        accept='.jpg, .jpeg, .png'
-        // onChange={handleFileChange}
-      />
-      {/* <MyPlacemarkUpload /> */}
-      <h5>{address.length ? address : 'Выберите локацию'}</h5>
-      <Button onClick={() => void setModalActive((prev) => !prev)}>
-        {address.length ? 'изменить местоположение' : 'выбрать местоположение'}
-      </Button>
-      <Modal active={modalActive} setActive={setModalActive}>
-        <>
-          <Map
-            onClick={(e: { get: (arg0: string) => number[] }) =>
-              handleClick(e.get('coords'))
-            }
-            width='600px'
-            height='500px'
-            defaultState={{
-              center: location,
-              zoom: 15,
-              controls: ['zoomControl', 'fullscreenControl'],
-            }}
-            state={{
-              center: location,
-              zoom: 15,
-              controls: ['zoomControl', 'fullscreenControl'],
-            }}
-          >
-            <GeolocationControl options={{ float: 'left' }} />
-            {address.length > 0 && (
-              <Placemark
-                onClick={() => console.log('click')}
-                geometry={location}
-                properties={{
-                  balloonContentBody:
-                    'This is balloon loaded by the Yandex.Maps API module system',
-                }}
-              />
-            )}
-          </Map>
-          {address.length > 0 ? <p>{address}</p> : <p> </p>}
-          {/* <Button color='good'>Загрузить</Button>
+        <h5>Выберите фото</h5>
+        <input 
+          ref={fileInputRef}
+          type='file'
+          name='photo'
+          multiple
+          accept='.jpg, .jpeg, .png'
+          // onChange={handleFileChange}
+        />
+        {/* <MyPlacemarkUpload /> */}
+        <h5>{address.length ? address : 'Выберите локацию'}</h5>
+        <Button onClick={() => void setModalActive((prev) => !prev)}>
+          {address.length
+            ? 'Изменить местоположение'
+            : 'Выбрать местоположение'}
+        </Button>
+        <Modal active={modalActive} setActive={setModalActive}>
+          <div className={styles.mapWrapper}>
+            <Map
+              onClick={(e: { get: (arg0: string) => number[] }) =>
+                handleClick(e.get('coords'))
+              }
+              width='600px'
+              height='500px'
+              defaultState={{
+                center: location,
+                zoom: 15,
+                controls: ['zoomControl', 'fullscreenControl'],
+              }}
+              state={{
+                center: location,
+                zoom: 15,
+                controls: ['zoomControl', 'fullscreenControl'],
+              }}
+            >
+              <GeolocationControl options={{ float: 'left' }} />
+              {address.length > 0 && (
+                <Placemark
+                  onClick={() => console.log('click')}
+                  geometry={location}
+                  properties={{
+                    balloonContentBody:
+                      'This is balloon loaded by the Yandex.Maps API module system',
+                  }}
+                />
+              )}
+            </Map>
+            {address.length > 0 ? <p>{address}</p> : <p> </p>}
+            {/* <Button color='good'>Загрузить</Button>
       <Button color='warning'>Загрузить</Button>
       <Button color='neutral'>Загрузить</Button>
       <Button color='danger'>Загрузить</Button> */}
-          <Button disabled={!address.length} onClick={() => handleAccept()}>
-            Подтвердить локацию
-          </Button>
-        </>
-      </Modal>
-      <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
-    </form>
+            <Button disabled={!address.length} onClick={() => handleAccept()}>
+              Подтвердить локацию
+            </Button>
+          </div>
+        </Modal>
+        <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
+        <Button color='warning' onClick={() => void setAddThing((prev) => !prev)}>Отмена</Button>
+      </form>
+      {isOpen && (
+        <div
+          onClick={() => setAddThing((prev) => !prev)}
+          className={styles.menuBackdrop}
+        />
+      )}
+    </>
   )
 }

@@ -80,9 +80,10 @@ export default function InitChange({
     return (
       <div>
         <h1>У тебя еще нет вещей для обмена</h1>
-        <Button onClick={() => void navigate('/new-thing')}>
+        <p>Нужно сначала добавить вещи</p>
+        {/* <Button onClick={() => void navigate('/new-thing')}>
           Добавить вещи
-        </Button>
+        </Button> */}
       </div>
     )
   }

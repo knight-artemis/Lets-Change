@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import clsx from 'clsx'
+import { useNavigate } from 'react-router-dom'
 import styles from './Profile.module.css'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import Modal from '../Widgets/Modal/Modal'
@@ -19,8 +21,6 @@ import Avatar from '../Widgets/Avatar/Avatar'
 import SideBar from '../PageSkeleton/SideBar/SideBar'
 import Button from '../Shared/Button/Button'
 import { notifySuccess, notifyWarning } from '../../toasters'
-import clsx from 'clsx'
-import { useNavigate } from 'react-router-dom'
 
 export default function Profile({
   isOpen,
@@ -92,27 +92,27 @@ export default function Profile({
           <div className={styles.center}>
             <Button link onClick={() => setModalActive1((prev) => !prev)}>
               <Avatar
-                size={15}
+                size={14}
                 src={`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`}
                 letter={user.firstName[0]}
               />
             </Button>
-          {user.avatarUrl && (
-            <>
-              {/* <Button onClick={() => setModalActive1((prev) => !prev)}>
+            {user.avatarUrl && (
+              <>
+                {/* <Button onClick={() => setModalActive1((prev) => !prev)}>
                 Изменить аватар
               </Button> */}
-              <div className={styles.delAvatar}>
-                <Button link onClick={() => void deleteAvatar()}>
-                  <img
-                    className={styles.icon}
-                    src='/src/assets/icons/close-circle-outline.svg'
-                    alt='svg'
-                  />
-                </Button>
-              </div>
-            </>
-          )}
+                <div className={styles.delAvatar}>
+                  <Button link onClick={() => void deleteAvatar()}>
+                    <img
+                      className={styles.icon}
+                      src='/src/assets/icons/close-circle-outline.svg'
+                      alt='svg'
+                    />
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
           <Modal active={modalActive1} setActive={setModalActive1}>
             <AvatarChangeForm setActive={setModalActive1} />
@@ -197,7 +197,12 @@ export default function Profile({
           </Modal>
         </SideBar>
       </div>
-      {isOpen && <div onClick={() => setlk((prev) => !prev)} className={styles.menuBackdrop} />}
+      {isOpen && (
+        <div
+          onClick={() => setlk((prev) => !prev)}
+          className={styles.menuBackdrop}
+        />
+      )}
     </>
   )
 }

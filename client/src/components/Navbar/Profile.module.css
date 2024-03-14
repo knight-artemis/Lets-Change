@@ -44,12 +44,9 @@
   right: -800px;/* Начальная позиция справа за пределами экрана */
   width: min-content;
   height: 100%;
-  background-color: #fff;
+  background-color: var(--light-beige);
   transition: right 0.3s ease;
   z-index: 1000; /* Убедитесь, что меню отображается над остальным контентом */
-}
-
-.menu  {
 }
 
 .open {
@@ -57,7 +54,7 @@
 }
 
 .close {
-  height: 24px;
+  height: 32px;
   position: absolute;
   top: 20px;
   right: 20px;
@@ -88,7 +85,7 @@
 }
 
 .icon{
-	width: 1.5rem;
+	width: 2rem;
 	height: auto;
 }
 
