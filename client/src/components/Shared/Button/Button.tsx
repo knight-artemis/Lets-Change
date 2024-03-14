@@ -14,6 +14,7 @@ type ButtonProps = {
   link?: boolean // кнопка-ссылка или обычная кнопка
   disabled?: boolean // заблочить
   color?: ColorTypes
+  fontSize?: number
 }
 
 export default function Button({
@@ -22,12 +23,14 @@ export default function Button({
   link = false,
   color,
   disabled = false,
+  fontSize = 1
 }: ButtonProps): JSX.Element {
   return (
     <button
       type='button'
       disabled={disabled}
       onClick={onClick}
+      style={{fontSize: `${fontSize}rem`}}
       className={clsx(
         link ? style.link : style.btn,
         color ? style[color] : style.neutral,
