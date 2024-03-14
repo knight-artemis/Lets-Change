@@ -26,7 +26,7 @@ export default function CardSimple({
   // size = 200,
   hoverable,
   modal = true,
-  width = 320,
+  width = 300,
   height = 220,
 }: CardSimpleProps): JSX.Element {
   const [modalActive, setModalActive] = useState<boolean>(true)
