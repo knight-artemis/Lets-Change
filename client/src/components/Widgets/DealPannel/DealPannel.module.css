@@ -92,6 +92,11 @@
 .address {
   font-style: italic;
   font-size: 1rem;
+  max-width: 600px;
+}
+
+.btn{
+  width: 250px;
 }
 
 

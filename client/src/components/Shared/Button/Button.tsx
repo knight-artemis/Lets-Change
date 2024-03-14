@@ -16,6 +16,7 @@ type ButtonProps = {
   color?: ColorTypes
   fontSize?: number
   fitContent?: boolean
+  fullWidth?: boolean
 }
 
 export default function Button({
@@ -25,7 +26,7 @@ export default function Button({
   color,
   disabled = false,
   fontSize = 1,
-  fitContent = false,
+  fitContent = false,fullWidth
 }: ButtonProps): JSX.Element {
   return (
     <button
@@ -36,6 +37,7 @@ export default function Button({
       className={clsx(
         link ? style.link : style.btn,
         color ? style[color] : style.neutral,
+        fullWidth && style.fullWidth
       )}
     >
       {children}
