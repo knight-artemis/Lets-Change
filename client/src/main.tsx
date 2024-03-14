@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { YMaps } from '@pbe/react-yandex-maps';
-import { ToastContainer, Bounce } from 'react-toastify';
+import { ToastContainer, Slide } from 'react-toastify';
 import App from './App';
 import './index.css';
 import { store } from './redux/store';
@@ -14,16 +14,16 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
       <ToastContainer
         position='top-center'
-        autoClose={5000}
-        hideProgressBar={false}
+        autoClose={1200}
+        hideProgressBar
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
+        pauseOnFocusLoss={false}
         draggable
-        pauseOnHover
+        pauseOnHover={false}
         theme='light'
-        transition={Bounce}
+        transition={Slide}
       />
       <YMaps
         query={{

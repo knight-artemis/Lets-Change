@@ -23,8 +23,6 @@ export default function ThingUpdateForm({
     CategoryInitVal,
   ])
 
-  const navigate = useNavigate()
-
   const initialsInputs = {
     thingName: thing.thingName,
     description: thing.description,
@@ -49,10 +47,7 @@ export default function ThingUpdateForm({
   const [inputs, setInputs] = useState<UpdThingtype>(initialsInputs)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [modalActive, setModalActive] = useState<boolean>(true)
-  const [location, setLocation] = useState<number[]>([
-    thing.thingLat,
-    thing.thingLon,
-  ])
+  const [location, setLocation] = useState<number[]>([])
   const [address, setAddress] = useState<string>(thing.thingAddress)
 
   useEffect(() => {
@@ -121,7 +116,7 @@ export default function ThingUpdateForm({
     setThing(updatedThing.data)
     setActive((prev) => !prev)
     notifySuccess('Карточка вещи была успешно обновлена.')
-    navigate('/my-things')
+    // navigate('/my-things')
   }
 
   type GeoResponse = {
@@ -163,22 +158,6 @@ export default function ThingUpdateForm({
     setAddress(`${descr}, ${name}`)
     setLocation(coords)
   }
-
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         setLocation([position.coords.latitude, position.coords.longitude])
-  //       },
-  //       (error) => {
-  //         setLocation([55.74, 37.61])
-  //         console.error('Error getting geolocation:', error)
-  //       },
-  //     )
-  //   } else {
-  //     console.error('Geolocation is not supported by this browser.')
-  //   }
-  // }, [])
 
   return (
     <form className={styles.main} encType='multipart/form-data'>

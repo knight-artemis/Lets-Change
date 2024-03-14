@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const upload = require('../../../../multerForThings')
-const { User, Thing, Category, Photo, Issue } = require('../../../../db/models')
+const {
+  User, Thing, Category, Photo, Issue,
+} = require('../../../../db/models')
 const { stripThings } = require('../../../services/things')
 
 router.get('/categories', async (req, res) => {
@@ -149,7 +151,7 @@ router.get('/search', async (req, res) => {
         if (!`${el.thingName}${el.description}`.toLowerCase().includes(search.toLowerCase())) return false
         return true
       })
-      // .map((el) => el.id)
+    // .map((el) => el.id)
 
     res.status(200).json(things)
   } catch (error) {
@@ -291,7 +293,6 @@ router.post('/', upload.array('photo', 10), async (req, res) => {
 
 router.put('/:id', upload.array('newPhotos', 10), async (req, res) => {
   try {
-    console.log(req.body.newPhoto, 'Я новые фотки')
     const rawData = req.body
     const updatedInfo = {
       ...rawData,
@@ -299,27 +300,34 @@ router.put('/:id', upload.array('newPhotos', 10), async (req, res) => {
       thingLon: Number(rawData.thingLon),
       categoryId: Number(rawData.categoryId),
     }
-    console.log('🚀 ~ router.put ~ updatedInfo:', updatedInfo)
-    const oldThing = await Thing.findByPk(req.params.id)
-    console.log('🚀 ~ router.put ~ oldThing:', oldThing)
-    await oldThing.update(updatedInfo)
-    const finalThing = oldThing.get({ plain: true })
     await Photo.destroy({ where: { thingId: req.params.id } })
     if (req.body.photos) {
       const reqPhotos = req.body.photos
-      const finReqPhotos = reqPhotos.map((el) => ({
-        photoUrl: el,
-        thingId: Number(req.params.id),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }))
-      const promises1 = finReqPhotos.map(async (item) => {
-        const newPhoto = await Photo.create(item)
-        return newPhoto
-      })
-      await Promise.all(promises1)
+      if (typeof reqPhotos === 'object') {
+        const finReqPhotos = reqPhotos.map((el) => ({
+          photoUrl: el,
+          thingId: Number(req.params.id),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }))
+        const promises1 = finReqPhotos.map(async (item) => {
+          const newPhoto = await Photo.create(item)
+        })
+        await Promise.all(promises1)
+      } else if (typeof reqPhotos === 'string') {
+        const finReqPhotos = {
+          photoUrl: reqPhotos,
+          thingId: Number(req.params.id),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }
+        console.log(finReqPhotos, 'Я фотка для записи');
+        const newPhoto = await Photo.create(finReqPhotos)
+        console.log(newPhoto, 'Я записанная в бд фотка')
+      }
     }
     if (req.files.length) {
+      console.log('Попали в иф для загрузки файлов');
       const promises2 = req.files.map(async (item, index) => {
         const newPhoto = await Photo.create({
           thingId: req.params.id,
@@ -329,6 +337,24 @@ router.put('/:id', upload.array('newPhotos', 10), async (req, res) => {
       })
       await Promise.all(promises2)
     }
+    const oldThing = await Thing.findByPk(req.params.id)
+    await oldThing.update(updatedInfo)
+    const prefinalThing = oldThing.get({ plain: true })
+    console.log('🚀 ~ router.put ~ prefinalThing:', prefinalThing)
+    const category = await Category.findOne({ where: { id: prefinalThing.categoryId } })
+    const finCategory = category.get({ plain: true })
+    console.log('🚀 ~ router.put ~ finCategory:', finCategory)
+    const newPhotos = await Photo.findAll({ where: { thingId: prefinalThing.id } })
+    const finNewPhotos = newPhotos.map((el) => el.get({ plain: true }))
+    console.log('🚀 ~ router.put ~ finNewPhotos:', finNewPhotos)
+    const user = await User.findOne({ where: { id: prefinalThing.userId } })
+    const finalUser = user.get({ plain: true })
+    console.log('🚀 ~ router.put ~ finalUser:', finalUser)
+    console.log(finalUser, 'Я инфа о юзере!!!');
+    const finalThing = {
+      ...prefinalThing, Category: { categoryTitle: finCategory.categoryTitle }, Photos: finNewPhotos, User: { firstName: finalUser.firstName, middleName: finalUser.middleName, lastName: finalUser.lastName },
+    }
+    console.log(finalThing, 'Я финальная вещь');
     res.status(200).json(finalThing)
   } catch (error) {
     res.status(500).json({ err: error })
