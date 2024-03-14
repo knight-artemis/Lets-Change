@@ -19,6 +19,7 @@ import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import Button from '../../components/Shared/Button/Button'
 import { notifySuccess, notifyWarning } from '../../toasters'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function Profile(): JSX.Element {
   const dispatch = useAppDispatch()
@@ -58,6 +59,8 @@ export default function Profile(): JSX.Element {
 
   //! убрать. это отсележивал нэйминг отсутствия аватаров
   console.log(`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`)
+
+  if (loading) return <Spinner/>   
 
   return (
     <WholePage>

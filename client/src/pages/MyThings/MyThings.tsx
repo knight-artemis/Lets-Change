@@ -14,6 +14,7 @@ import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function MyThings(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
@@ -37,18 +38,7 @@ export default function MyThings(): JSX.Element {
       .catch((err) => console.log('Ошибка получения всех СВОИХ вещей', err))
   }, [user.id])
 
-  if (things.length === 0 )
-    return (
-      <MainContent centerHorizontal centerVertical>
-        <SpinnerInfinity
-          size='150px'
-          thickness={100}
-          secondaryColor='#F1E4D4'
-          color='#8DA057'
-          speed={100}
-        />
-      </MainContent>
-    )
+  if (loading) return <Spinner/>   
 
   return (
     <WholePage>

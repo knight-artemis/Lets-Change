@@ -26,6 +26,7 @@ import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 const ThingsInitVal = {
   id: 0,
@@ -161,19 +162,8 @@ export default function Main(): JSX.Element {
   // }
   console.log(`assets/icons/${catArray[0]}`)
 
-  if (loading)
-    return (
-      <MainContent centerHorizontal centerVertical>
-        <SpinnerInfinity
-          size='150px'
-          thickness={100}
-          secondaryColor='#F1E4D4'
-          color='#8DA057'
-          speed={100}
-        />
-      </MainContent>
-    )
-
+  if (loading) return <Spinner/>   
+  
   return (
     <WholePage>
       {/* <div className={style.wrapper}> */}

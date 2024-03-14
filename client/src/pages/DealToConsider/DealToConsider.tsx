@@ -13,12 +13,13 @@ import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function DealToConsider(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
   const [selectedThingId, setSelectedThingId] = useState<number>(-1)
   const [loading, setLoading] = useState<boolean>(true)
-  
+
   const { id } = useParams()
   const navigate = useNavigate()
   const dispatcher = useAppDispatch()
@@ -66,6 +67,8 @@ export default function DealToConsider(): JSX.Element {
       (hisThing) => hisThing.id === selectedThingId,
     )?.thingName as string
   }
+
+  if (loading) return <Spinner/>   
 
   return user.id === deal?.initiatorId ? (
     <WholePage>

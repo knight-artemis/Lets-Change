@@ -29,6 +29,7 @@ import Card from '../../components/Widgets/Card/Card'
 import OtherThings from '../../components/OtherThings/OtherThings'
 import getRemainigTime from '../../service/getRemainigTime'
 import Chip from '../../components/Shared/Chip/Chip'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 type ByMeDealsType = {
   id: number
@@ -71,7 +72,7 @@ export default function ThingPage(): JSX.Element {
   const [modalActive2, setModalActive2] = useState<boolean>(true)
   const [initiate, setInitiate] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
-  
+
   const user = useAppSelector((store) => store.userSlice.user)
   const dispatcher = useAppDispatch()
   const navigate = useNavigate()
@@ -105,6 +106,8 @@ export default function ThingPage(): JSX.Element {
     })()
   }, [params])
 
+  if (loading) return <Spinner/>   
+  
   return (
     <WholePage>
       <SideBar>

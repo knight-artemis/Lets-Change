@@ -13,6 +13,7 @@ import { fetchGetNot } from '../../redux/user/userThunkActions'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 type AxiosFinishedType = {
   acceptedByInitiator?: boolean
@@ -38,14 +39,15 @@ export default function Deal(): JSX.Element {
   useEffect(() => {
     console.log('RERENDER')
     void (async () => {
-      const res = await axios.get<OneDealDetailed>(
-        `${import.meta.env.VITE_API}/v1/deals/${id}`,
-        {
-          withCredentials: true,
+      try {
+        const res = await axios.get<OneDealDetailed>(
+          `${import.meta.env.VITE_API}/v1/deals/${id}`,
+          {
+            withCredentials: true,
         },
-      )
-      setDeal(res.data)
-      if (user.id === res.data.initiatorId) {
+        )
+        setDeal(res.data)
+        if (user.id === res.data.initiatorId) {
         await axios.patch(
           `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
           { initiatorNote: false },
@@ -57,6 +59,11 @@ export default function Deal(): JSX.Element {
         )
       }
       await dispatcher(fetchGetNot())
+    } catch (err) {
+      console.log('какаято ерор', err);
+    } finally {
+      setLoading(false)
+    }
     })()
     // const dealPrommise = axios
     //   .get<OneDealDetailed>(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
@@ -89,21 +96,12 @@ export default function Deal(): JSX.Element {
       navigate(-1)
     } catch (error) {
       console.log('Ошибка закрытия сделки', error)
+    } finally {
+      setLoading(false)
     }
   }
 
- if (loading)
-    return (
-      <MainContent centerHorizontal centerVertical>
-        <SpinnerInfinity
-          size='150px'
-          thickness={100}
-          secondaryColor='#F1E4D4'
-          color='#8DA057'
-          speed={100}
-        />
-      </MainContent>
-    )
+ if (loading) return <Spinner/>   
     
   return (
     <WholePage>

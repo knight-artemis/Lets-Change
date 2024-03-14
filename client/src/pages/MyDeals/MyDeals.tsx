@@ -21,6 +21,7 @@ import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function MyDeals({
   toMe = true,
@@ -108,6 +109,8 @@ export default function MyDeals({
   //     return 'у меня хотят забрать эти вещи'
   //   return 'у меня хотят забрать эти вещи'
   // }
+
+  if (loading) return <Spinner/>   
 
   return (
     <WholePage>
