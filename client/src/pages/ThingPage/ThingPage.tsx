@@ -212,7 +212,7 @@ export default function ThingPage(): JSX.Element {
         </div>
         {user.id !== thing.userId && thing.id ? <OtherThings thing={thing} /> : <div />}
         <Modal active={modalActive1} setActive={setModalActive1}>
-          <InitChange thingId={thing.id} />
+          <InitChange thingId={thing.id} setActive={setModalActive1}/>
         </Modal>
         <Modal active={modalActive2} setActive={setModalActive2}>
           <ThingUpdateForm

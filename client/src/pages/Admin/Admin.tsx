@@ -11,6 +11,7 @@ import {
   fetchCheckAdmin,
 } from '../../redux/admin/adminThunkActions'
 import Card from './Card'
+import styles from './Admin.module.css'
 
 export default function Admin(): JSX.Element {
   const admin = useAppSelector((store) => store.adminSlice.admin)
@@ -56,7 +57,7 @@ export default function Admin(): JSX.Element {
 
   if (admin.id)
     return (
-      <div>
+      <div className={styles.cards}>
         {things.length > 0 && things.map((thing) => (
           <Card key={`thing-${thing.id}`} thing={thing} setThings={setThings} categories={categories}/>
         ))}
@@ -64,9 +65,9 @@ export default function Admin(): JSX.Element {
     )
 
   return (
-    <div>
+    <div className={styles.form}>
       {user.id > 0 && <h1>вам сюда нельзя</h1>}
-      <h1>пожалуйста зайдите как админ</h1>
+      <h1>Вход для администратора</h1>
       <Input
         placeholder='login'
         type='text'

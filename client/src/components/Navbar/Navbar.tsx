@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import styles from './Navbar.module.css'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { fetchLogout } from '../../redux/user/userThunkActions'
 import Chip from '../Shared/Chip/Chip'
 import type { NotType } from '../../types'
 import { fetchAdminLogout } from '../../redux/admin/adminThunkActions'
@@ -11,18 +10,18 @@ import Avatar from '../Widgets/Avatar/Avatar'
 import Button from '../Shared/Button/Button'
 import Profile from './Profile'
 import AddThing from './AddThing'
+import { setIsOpen } from '../../redux/thing/thingSlice'
 
 export default function Navbar(): JSX.Element {
-  const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
   const admin = useAppSelector((store) => store.adminSlice.admin)
   const [lk, setlk] = useState(false)
-  const [addThing, setAddThing] = useState(false)
   const notifications = useAppSelector<NotType>(
     (store) => store.userSlice.notifications,
   )
   const notif = notifications.initiator + notifications.reciever
   const dispatch = useAppDispatch()
+
   // const [modalProfActive, setModalProfActive] = useState<boolean>(true)
 
   const logOutAdminHandler = async (): Promise<void> => {
@@ -67,7 +66,7 @@ export default function Navbar(): JSX.Element {
                 </Link> */}
                 <button className={styles.addThingBtn}
                   type='button'
-                  onClick={() => setAddThing((prev) => !prev)}
+                  onClick={() => dispatch(setIsOpen())}
                 >
                   {/* <Button link onClick={() => void navigate('/profile')}> */}
                   Добавить вещь
@@ -106,7 +105,7 @@ export default function Navbar(): JSX.Element {
         </div>
       )}
       {user.id > 0 && <Profile isOpen={lk} setlk={setlk} />}
-      {user.id > 0 && <AddThing isOpen={addThing} setAddThing={setAddThing} />}
+      {user.id > 0 && <AddThing />}
     </nav>
   )
 }
