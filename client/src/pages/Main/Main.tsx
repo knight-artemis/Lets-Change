@@ -3,14 +3,12 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useActionData, useNavigate } from 'react-router-dom'
-import clsx from 'clsx'
 import {
   Clusterer,
   GeolocationControl,
   Map,
   Placemark,
 } from '@pbe/react-yandex-maps'
-import { SpinnerInfinity } from 'spinners-react'
 import style from './Main.module.css'
 import switchStyle from './ToogleSwitch.module.css'
 import Button from '../../components/Shared/Button/Button'
@@ -163,7 +161,7 @@ export default function Main(): JSX.Element {
   console.log(`assets/icons/${catArray[0]}`)
 
   if (loading) return <Spinner/>   
-  
+
   return (
     <WholePage>
       {/* <div className={style.wrapper}> */}

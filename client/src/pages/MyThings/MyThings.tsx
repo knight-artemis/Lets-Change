@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { SpinnerInfinity } from 'spinners-react'
 import type { SimplifiedThingType } from '../../types'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import Card from '../../components/Widgets/Card/Card'

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import type { MouseEvent } from 'react'
 import axios from 'axios'
-import type { AxiosResponse } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import style from './MyDeals.module.css'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
