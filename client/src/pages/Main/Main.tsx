@@ -37,6 +37,11 @@ const ThingsInitVal = {
   photoUrl: '',
 }
 
+const catArray = [
+  'desktop-outline.svg',
+  'happy-outline.svg',
+]
+
 type CategoryType = {
   id: number
   categoryTitle: string
@@ -145,7 +150,7 @@ export default function Main(): JSX.Element {
   //     // )
   //   }
   // }
-
+console.log(`assets/icons/${catArray[0]}`)
   return (
     <WholePage>
       {/* <div className={style.wrapper}> */}
@@ -155,14 +160,14 @@ export default function Main(): JSX.Element {
         <Button key='start' link onClick={() => void setAllThings()}>
           <SvgLink icon='assets/icons/shirt.svg' text='Все категории' />
         </Button>
-        {categories.map((category) => (
+        {categories.map((category, i) => (
           <Button
             key={category.id}
             link
             onClick={() => void categoryHandler(category.id)}
           >
             <SvgLink
-              icon='assets/icons/shirt.svg'
+              icon={`assets/icons/${catArray[i]}`}
               text={category.categoryTitle}
             />
           </Button>
@@ -184,8 +189,13 @@ export default function Main(): JSX.Element {
               }}
             />
           </div>
-          <SvgLink icon='./src/assets/icons/blocks.svg' />
-          <span className={style.span}>списком</span>
+          {/* <SvgLink icon='./src/assets/icons/blocks.svg' /> */}
+          <img
+            className={style.icon}
+            src='src/assets/icons/blocks.svg'
+            alt='svg'
+          />
+          {/* <span className={style.span}>списком</span> */}
           {/* <SvgLink icon='./src/assets/icons/list-color.svg' /> */}
           <label htmlFor='toggleSwitch' className={switchStyle.switch}>
             <input
@@ -197,8 +207,13 @@ export default function Main(): JSX.Element {
             <span className={switchStyle.slider} />
           </label>
           {/* <SvgLink icon='src/assets/icons/globus-color.svg' /> */}
-          <SvgLink icon='src/assets/icons/globus.svg' />
-          <span className={style.span}>на карте</span>
+          {/* <SvgLink icon='src/assets/icons/globus.svg' /> */}
+          <img
+            className={style.icon}
+            src='src/assets/icons/globus.svg'
+            alt='svg'
+          />
+          {/* <span className={style.span}>на карте</span> */}
         </TopLine>
         {/* </div> */}
 

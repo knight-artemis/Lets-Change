@@ -4,6 +4,8 @@ import type { UserType } from '../../../types'
 import style from './PhoneChangeForm.module.css'
 import { useAppDispatch } from '../../../redux/hooks'
 import { fetchUpd } from '../../../redux/user/userThunkActions'
+import Input from '../../Shared/Input/Input'
+import Button from '../../Shared/Button/Button'
 
 export default function PhoneChahgeForm({
   user,
@@ -47,17 +49,19 @@ export default function PhoneChahgeForm({
   }
 
   return (
-    <div className={`${style.form}`}>
-      <h3>Телефон</h3>
-      <input
-        type='text'
-        name='phone'
-        onChange={changeHandler}
-        value={input.phone}
-      />
-      <button type='button' onClick={() => void changePhone()}>
-        Сохранить телефон
-      </button>
+    <div className={style.wrapper}>
+      <div className={`${style.form}`}>
+        <h3>Телефон</h3>
+        <Input
+          type='text'
+          name='phone'
+          onChange={changeHandler}
+          value={input.phone}
+        />
+        <Button onClick={() => void changePhone()}>
+          Сохранить телефон
+        </Button>
+      </div>
     </div>
   )
 }

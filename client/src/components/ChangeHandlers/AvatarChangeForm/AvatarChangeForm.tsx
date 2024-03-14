@@ -6,8 +6,13 @@ import type { UserType } from '../../../types'
 import { useAppDispatch } from '../../../redux/hooks'
 import { fetchUpd } from '../../../redux/user/userThunkActions'
 import { notifySuccess, notifyWarning } from '../../../toasters'
+import Button from '../../Shared/Button/Button'
 
-export default function AvatarChangeForm({ setActive }: {setActive: React.Dispatch<React.SetStateAction<boolean>>}): JSX.Element {
+export default function AvatarChangeForm({
+  setActive,
+}: {
+  setActive: React.Dispatch<React.SetStateAction<boolean>>
+}): JSX.Element {
   const dispatch = useAppDispatch()
 
   type RequestType = {
@@ -49,17 +54,19 @@ export default function AvatarChangeForm({ setActive }: {setActive: React.Dispat
   }
 
   return (
-    <form className={styles.form} encType='multipart/form-data'>
+    <div className={styles.wrapper}>
       <h3>Аватар</h3>
-      <input
-        type='file'
-        name='avatar'
-        ref={fileInputRef}
-        accept='.jpg, .jpeg, .png'
-      />
-      <button type='button' onClick={() => void uploadAvatar()}>
-        Использовать файл
-      </button>
-    </form>
+      <form className={styles.form} encType='multipart/form-data'>
+        <input
+          type='file'
+          name='avatar'
+          ref={fileInputRef}
+          accept='.jpg, .jpeg, .png'
+        />
+        <Button onClick={() => void uploadAvatar()}>
+          Использовать файл
+        </Button>
+      </form>
+    </div>
   )
 }

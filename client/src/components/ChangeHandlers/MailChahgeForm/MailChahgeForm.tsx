@@ -6,6 +6,8 @@ import style from './MailChahgeForm.module.css'
 import { useAppDispatch } from '../../../redux/hooks'
 import { fetchUpd } from '../../../redux/user/userThunkActions'
 import { notifySuccess, notifyWarning } from '../../../toasters'
+import Input from '../../Shared/Input/Input'
+import Button from '../../Shared/Button/Button'
 
 export default function MailChahgeForm({
   user,
@@ -34,7 +36,6 @@ export default function MailChahgeForm({
   }
 
   const changeEmail = async (): Promise<void> => {
-
     const checkMail = await axios.post(
       `${import.meta.env.VITE_API}/v1/auth/checkmail`,
       { email: input.email },
@@ -70,17 +71,19 @@ export default function MailChahgeForm({
   }
 
   return (
-    <div className={`${style.form}`}>
-      <h3>Почта</h3>
-      <input
-        type='text'
-        name='email'
-        onChange={changeHandler}
-        value={input.email}
-      />
-      <button type='button' onClick={() => void changeEmail()}>
-        Сохранить почту
-      </button>
+    <div className={style.wrapper}>
+      <div className={`${style.form}`}>
+        <h3>Почта</h3>
+        <Input
+          type='text'
+          name='email'
+          onChange={changeHandler}
+          value={input.email}
+        />
+        <Button onClick={() => void changeEmail()}>
+          Сохранить почту
+        </Button>
+      </div>
     </div>
   )
 }
