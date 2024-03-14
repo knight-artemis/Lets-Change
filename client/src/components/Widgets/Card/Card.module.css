@@ -4,73 +4,94 @@
 } */
 
 .card {
-    background-color: var( --color-bg-gray);
-    border-radius: 5px;
-    width: var(--card-width);
-    height: var(--card-height);
-    padding: 0;
-    position: relative;
-    overflow: hidden;
+  background-color: var(--color-bg-gray);
+  border-radius: 5px;
+  width: var(--card-width);
+  height: var(--card-height);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
 }
 
+/* .littleCard {
+  background-color: var(--color-bg-gray);
+  border-radius: 5px;
+  width: var(--little-card-width);
+  height: var(--little-card-height);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+} */
+
 .center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .photoWrapper {
-    position: relative;
+  position: relative;
 }
 
 .photoBg {
-    min-width: var(--card-width);
-    min-height: var(--card-height);
-    filter: blur(5px);
+  min-width: var(--card-width);
+  min-height: var(--card-height);
+  filter: blur(5px);
 }
+
+/* .littlePhotoBg {
+  min-width: var(--little-card-width);
+  min-height: var(--little-card-height);
+  filter: blur(5px);
+} */
 
 .photo {
-    max-width: var(--card-width);
-    max-height: var(--card-height);
+  max-width: var(--card-width);
+  max-height: var(--card-height);
 }
 
+/* .littlePhoto {
+  min-width: var(--little-card-width);
+  min-height: var(--little-card-height);
+} */
+
 .card:hover {
-    .photo {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1.15);
-        transition-duration: var(--transition-duration);
-    }
+  .photo {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.15);
+    transition-duration: var(--transition-duration);
+  }
 }
 .card:not(:hover) {
-    .photo {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1);
-        transition-duration: var(--transition-duration);
-    }
+  .photo {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transition-duration: var(--transition-duration);
+  }
 }
 
 .notActive {
-    filter: invert(30%) grayscale(60%) brightness(0.6);
+  filter: invert(30%) grayscale(60%) brightness(0.6);
 }
 
 .name {
-    font-size: 1.25rem;
-    font-weight: bold;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    line-height: 1.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--black-50);
-    color: var(--light-beige);
-    text-wrap: balance;
-    word-break: break-word;
-    height: 80px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  line-height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--black-50);
+  color: var(--light-beige);
+  text-wrap: balance;
+  word-break: break-word;
+  height: 80px;
 }
 
 /* .hide {
@@ -101,7 +122,6 @@
     padding: .5rem;
     border-radius: 1rem;
 } */
-
 
 /* 
 .favorite {
