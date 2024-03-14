@@ -1,5 +1,5 @@
 .card {
-    background-color: var( --color-bg-gray);
+    background-color: var(--color-bg-gray);
     border-radius: 10px;
     padding: 0;
     position: relative;
@@ -21,16 +21,19 @@
 }
 
 .photoBg {
-    min-width: 200px;
-    min-height: 200px;
+    /* min-width: 200px;
+    min-height: 200px; */
     /* z-index: 100; */
     /* background-size: cover;  */
     filter: blur(5px);
 }
 
 .photo {
-    max-width: 200px;
-    max-height: 200px;
+
+    /* width:320px;
+    height: 220px; */
+    max-width: 320px;
+    max-height: 220px;
 }
 
 .hoverable:hover {

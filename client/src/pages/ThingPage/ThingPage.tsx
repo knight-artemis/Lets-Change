@@ -22,13 +22,11 @@ import ThingUpdateForm from '../../components/ChangeHandlers/ThingUpdateForm/Thi
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
-import Grid from '../../components/PageSkeleton/Grid/Grid'
-import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 import Button from '../../components/Shared/Button/Button'
-import Card from '../../components/Widgets/Card/Card'
 import OtherThings from '../../components/OtherThings/OtherThings'
 import getRemainigTime from '../../service/getRemainigTime'
 import Chip from '../../components/Shared/Chip/Chip'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 type ByMeDealsType = {
   id: number
@@ -70,6 +68,8 @@ export default function ThingPage(): JSX.Element {
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)
   const [initiate, setInitiate] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
+
   const user = useAppSelector((store) => store.userSlice.user)
   const dispatcher = useAppDispatch()
   const navigate = useNavigate()
@@ -78,6 +78,7 @@ export default function ThingPage(): JSX.Element {
   useEffect(() => {
     void (async () => {
       try {
+        setLoading(true)
         await dispatcher(fetchGetNot())
         const thingRes = await axios.get<ThingType>(
           `${import.meta.env.VITE_API}/v1/things/${params.id}`,
@@ -99,10 +100,14 @@ export default function ThingPage(): JSX.Element {
         )
       } catch (error) {
         console.log(error)
+      } finally {
+        setLoading(false)
       }
     })()
   }, [params])
 
+  if (loading) return <Spinner/>   
+  
   return (
     <WholePage>
       <SideBar>

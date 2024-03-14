@@ -16,12 +16,13 @@ import Avatar from '../../components/Widgets/Avatar/Avatar'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
-import Grid from '../../components/PageSkeleton/Grid/Grid'
 import Button from '../../components/Shared/Button/Button'
 import { notifySuccess, notifyWarning } from '../../toasters'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function Profile(): JSX.Element {
   const dispatch = useAppDispatch()
+  const [loading, setLoading] = useState<boolean>(true)
 
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)
@@ -40,6 +41,7 @@ export default function Profile(): JSX.Element {
 
   const deleteAvatar = async (): Promise<void> => {
     try {
+      setLoading(true)
       const response = await axios.get<UserType>(
         `${import.meta.env.VITE_API}/v1/user/deleteAvatar`,
         { withCredentials: true },
@@ -50,6 +52,8 @@ export default function Profile(): JSX.Element {
     } catch (error) {
       console.log(error)
       notifyWarning('Не удалось удалить аватар.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -57,6 +61,8 @@ export default function Profile(): JSX.Element {
 
   //! убрать. это отсележивал нэйминг отсутствия аватаров
   console.log(`${import.meta.env.VITE_AVATARS}/${user.avatarUrl}`)
+
+  if (loading) return <Spinner/>   
 
   return (
     <WholePage>

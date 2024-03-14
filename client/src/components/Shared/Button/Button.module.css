@@ -30,6 +30,10 @@
     user-select: none;
 }
 
+.btn.fullWidth {
+    width: 100%;
+}
+
 .btn:focus,
 .btn:active {
     border: none;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import clsx from 'clsx'
 import style from './Deal.module.css'
 import type { OneDealDetailed } from '../../types'
 import Button from '../../components/Shared/Button/Button'
@@ -12,6 +11,7 @@ import { fetchGetNot } from '../../redux/user/userThunkActions'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 type AxiosFinishedType = {
   acceptedByInitiator?: boolean
@@ -21,6 +21,8 @@ type AxiosFinishedReturnType = { succes: boolean }
 
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
+  const [loading, setLoading] = useState<boolean>(true)
+
   const user = useAppSelector((store) => store.userSlice.user)
   const { id } = useParams()
   const dispatcher = useAppDispatch()
@@ -35,25 +37,32 @@ export default function Deal(): JSX.Element {
   useEffect(() => {
     console.log('RERENDER')
     void (async () => {
-      const res = await axios.get<OneDealDetailed>(
-        `${import.meta.env.VITE_API}/v1/deals/${id}`,
-        {
-          withCredentials: true,
-        },
-      )
-      setDeal(res.data)
-      if (user.id === res.data.initiatorId) {
-        await axios.patch(
-          `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
-          { initiatorNote: false },
+      try {
+        setLoading(true)
+        const res = await axios.get<OneDealDetailed>(
+          `${import.meta.env.VITE_API}/v1/deals/${id}`,
+          {
+            withCredentials: true,
+          },
         )
-      } else if (user.id === res.data.receiverId) {
-        await axios.patch(
-          `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
-          { recieverNote: false },
-        )
+        setDeal(res.data)
+        if (user.id === res.data.initiatorId) {
+          await axios.patch(
+            `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
+            { initiatorNote: false },
+          )
+        } else if (user.id === res.data.receiverId) {
+          await axios.patch(
+            `${import.meta.env.VITE_API}/v1/deals/${res.data.id}/note`,
+            { recieverNote: false },
+          )
+        }
+        await dispatcher(fetchGetNot())
+      } catch (err) {
+        console.log('какая то шняга', err)
+      } finally {
+        setLoading(false)
       }
-      await dispatcher(fetchGetNot())
     })()
     // const dealPrommise = axios
     //   .get<OneDealDetailed>(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
@@ -76,20 +85,23 @@ export default function Deal(): JSX.Element {
     //     ? { acceptedByInitiator: true }
     //     : { acceptedByReceiver: true }
     try {
+      setLoading(true)
       await axios.patch<AxiosFinishedType, AxiosFinishedReturnType>(
         `${import.meta.env.VITE_API}/v1/deals/${id}/finished`,
         { data: axiosRequest },
         { withCredentials: true },
       )
       console.log('Успешно закрыл')
-
       navigate(-1)
     } catch (error) {
       console.log('Ошибка закрытия сделки', error)
+    } finally {
+      setLoading(false)
     }
   }
 
-  if (!deal) return <div /> //! тут потом будет спиннер
+  if (loading) return <Spinner />
+
   return (
     <WholePage>
       <SideBar center>
@@ -123,7 +135,6 @@ export default function Deal(): JSX.Element {
       <MainContent>
         <Chat deal={deal} />
       </MainContent>
-
     </WholePage>
   )
 }

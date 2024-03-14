@@ -14,12 +14,14 @@ import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
 import { setIsOpen } from '../../redux/thing/thingSlice'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function MyThings(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
   const {isOpen} = useAppSelector(store=> store.thingSlice)
 
   const [things, setThings] = useState<SimplifiedThingType[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   const navigate = useNavigate()
   const dispatcher = useAppDispatch()
@@ -28,6 +30,7 @@ export default function MyThings(): JSX.Element {
     dispatcher(fetchGetNot())
       .then()
       .catch((err) => console.log(err))
+    setLoading(true)
     axios
       .get<SimplifiedThingType[]>(
         `${import.meta.env.VITE_API}/v1/things/user/${user.id}`,
@@ -35,7 +38,10 @@ export default function MyThings(): JSX.Element {
       )
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения всех СВОИХ вещей', err))
+      .finally(() => setLoading(false))
   }, [user.id])
+
+  if (loading) return <Spinner />
 
   return (
     <WholePage>
@@ -53,12 +59,11 @@ export default function MyThings(): JSX.Element {
           />
         </Button>
       </SideBar>
-      <MainContent >
-        <TopLine><h1>
-          Мои вещи
-          </h1>
-          </TopLine>
-        <Grid  >
+      <MainContent>
+        <TopLine>
+          <h1>Мои вещи</h1>
+        </TopLine>
+        <Grid>
           {things.length ? (
             things.map((thing: SimplifiedThingType) => (
               <Card key={`card-${thing.id}`} thing={thing} />
