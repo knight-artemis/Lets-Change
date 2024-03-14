@@ -58,6 +58,24 @@
   animation: slideOutToRight 0.2s ease forwards;
 }
 
+.addThingBtn {
+  /* height: 2rem; */
+  /* line-height: 2.75rem; */
+  user-select: none;
+
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  font-size: 1em;
+  color: var(--brown);
+}
+
+.addThingBtn:hover {
+  text-decoration: underline;
+}
+
 @keyframes slideInFromRight {
   from {
     transform: translateX(100%);

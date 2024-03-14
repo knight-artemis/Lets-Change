@@ -124,5 +124,4 @@ input[type='file']::-webkit-file-upload-button {
   border: none;
   user-select: none;
   font: inherit;
-  font-size: 1rem;
 }

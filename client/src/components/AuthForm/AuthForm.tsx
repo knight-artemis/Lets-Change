@@ -144,16 +144,17 @@ export default function Auth(): JSX.Element {
           <Button link onClick={() => void setShowPassword((prev) => !prev)}>
             {showPassword ? (
               <img
+              className={styles.icon}
+              src='./src/assets/icons/eye-outline.svg'
+              alt='svg'
+            />
+            ) : (
+              <img
                 className={styles.icon}
                 src='./src/assets/icons/eye-off-outline.svg'
                 alt='svg'
               />
-            ) : (
-              <img
-                className={styles.icon}
-                src='./src/assets/icons/eye-outline.svg'
-                alt='svg'
-              />
+
             )}
           </Button>
         </div>

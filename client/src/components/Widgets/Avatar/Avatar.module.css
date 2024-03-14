@@ -22,7 +22,8 @@
     
     /* сей костыль добавлен ибо буквы комфорты блин кривые*/
     position: absolute; 
-    top: 56%;
-    left: 51%;
+    top: 54%;
+    left: 50%;
     transform: translate(-50%,-50%);
+    color: var(--brown);
 }

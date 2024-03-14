@@ -48,6 +48,11 @@
   top: 5px;
   right: 5px;
   width: fit-content;
+  height: 32px;
+}
+
+.close:hover {
+  animation: rotate .5s
 }
 
 .link {
@@ -70,6 +75,15 @@
 }
 
 .icon{
-	width: 1.5rem;
+	width: 2rem;
 	height: auto;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
 }

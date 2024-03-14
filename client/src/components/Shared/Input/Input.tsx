@@ -10,6 +10,7 @@ type InputProps = {
   value?: string
   required?: boolean
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
+  color?: string
   // ref?: ForwardedRef<HTMLInputElement>
 }
 
@@ -21,6 +22,7 @@ export default function Input({
   value = '',
   required,
   onKeyDown,
+  color,
 }: InputProps): JSX.Element {
   return (
     <input
@@ -33,6 +35,7 @@ export default function Input({
       name={name}
       value={value}
       required={required}
+      style={{backgroundColor: color}}
     />
   )
 }

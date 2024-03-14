@@ -4,30 +4,26 @@ import clsx from 'clsx'
 import styles from './Navbar.module.css'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { fetchLogout } from '../../redux/user/userThunkActions'
-import SvgLink from '../Shared/SvgLink/SvgLink'
 import Chip from '../Shared/Chip/Chip'
 import type { NotType } from '../../types'
 import { fetchAdminLogout } from '../../redux/admin/adminThunkActions'
 import Avatar from '../Widgets/Avatar/Avatar'
 import Button from '../Shared/Button/Button'
 import Profile from './Profile'
-import ModalProfile from '../Widgets/ModalProfile/ModalProfile'
+import AddThing from './AddThing'
 
 export default function Navbar(): JSX.Element {
   const navigate = useNavigate()
   const user = useAppSelector((store) => store.userSlice.user)
   const admin = useAppSelector((store) => store.adminSlice.admin)
   const [lk, setlk] = useState(false)
+  const [addThing, setAddThing] = useState(false)
   const notifications = useAppSelector<NotType>(
     (store) => store.userSlice.notifications,
   )
   const notif = notifications.initiator + notifications.reciever
   const dispatch = useAppDispatch()
   // const [modalProfActive, setModalProfActive] = useState<boolean>(true)
-
-  const logOutHandler = async (): Promise<void> => {
-    await dispatch(fetchLogout())
-  }
 
   const logOutAdminHandler = async (): Promise<void> => {
     await dispatch(fetchAdminLogout())
@@ -66,9 +62,16 @@ export default function Navbar(): JSX.Element {
                   )}
                 </Link>
                 {/* <p>({notifications.initiator + notifications.reciever})</p> */}
-                <Link className={styles.link} to='/new-thing'>
+                {/* <Link className={styles.link} to='/new-thing'>
                   Добавить вещь
-                </Link>
+                </Link> */}
+                <button className={styles.addThingBtn}
+                  type='button'
+                  onClick={() => setAddThing((prev) => !prev)}
+                >
+                  {/* <Button link onClick={() => void navigate('/profile')}> */}
+                  Добавить вещь
+                </button>
                 {/* <Link className={styles.link} to='/profile'>
                 Профиль
               </Link> */}
@@ -102,11 +105,8 @@ export default function Navbar(): JSX.Element {
           )}
         </div>
       )}
-      {user.id > 0 && (
-        // <ModalProfile active={modalProfActive} setActive={setModalProfActive}>
-          <Profile isOpen={lk} setlk={setlk}/>
-        // </ModalProfile>
-      )}
+      {user.id > 0 && <Profile isOpen={lk} setlk={setlk} />}
+      {user.id > 0 && <AddThing isOpen={addThing} setAddThing={setAddThing} />}
     </nav>
   )
 }

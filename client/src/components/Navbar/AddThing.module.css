@@ -1,0 +1,83 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  padding: 80px 50px 30px;
+  position: fixed;
+  left: calc(50% - 250px);
+  top: -800px;
+  width: 500px;
+  height: fit-content;
+  background-color: var(--light-beige);
+  transition: top 0.5s ease;
+  z-index: 1000;
+  gap: 10px;
+  border-radius: 0px 0px 20px 20px;
+  
+}
+
+.open {
+  top: 0; /* Когда меню открыто, оно выезжает вправо */
+}
+
+.menuBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Чем ниже значение alpha, тем более прозрачным будет фон */
+  z-index: 999; /* Убедитесь, что фон находится ниже меню, но выше другого контента */
+}
+
+.menuBackdrop {
+  display: block; /* Показываем фон, когда меню открыто */
+}
+
+.main select {
+	background-color: white;
+  border: none;
+  color: var(--brown);
+  line-height: 1.5rem;
+  padding: 0.2rem;
+  padding-left: 1rem;
+  width: 100%;
+  height: 2rem;
+  /* width: 300px; */
+  border-radius: 15px;
+  /* font-size: 1.2rem; */
+}
+
+input[type='range'] {
+  /* Общие стили для ползунка */
+  -webkit-appearance: none; /* Убираем стандартные стили браузера */
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  background-color: white;; /* Цвет фона ползунка */
+  border-radius: 5px; /* Скругление углов ползунка */
+  outline: none; /* Убираем обводку */
+}
+
+input[type='range']::-webkit-slider-thumb {
+  /* Стили для ползунка */
+  -webkit-appearance: none; /* Убираем стандартные стили браузера */
+  appearance: none;
+  width: 20px; /* Ширина ползунка */
+  height: 20px; /* Высота ползунка */
+  background: var(--dark-olive); /* Цвет ползунка */
+  border-radius: 50%; /* Делаем ползунок круглым */
+  cursor: pointer; /* Изменяем курсор при наведении */
+}
+
+.mapWrapper {
+	height: 37rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+  }
+  

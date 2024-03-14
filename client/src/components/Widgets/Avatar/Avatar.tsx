@@ -11,7 +11,7 @@ type AvatarProps = {
 export default function Avatar({
   size = 3,
   letter = '?',
-  border = 5,
+  border = 2,
   src,
 }: AvatarProps): JSX.Element {
   const isValidSrc = src && !src.endsWith('/null')  && !src.endsWith('/')
