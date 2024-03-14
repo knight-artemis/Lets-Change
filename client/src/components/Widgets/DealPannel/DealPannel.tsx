@@ -277,11 +277,12 @@ export default function DealPannel({
             </div> */}
           </>
         )}
-        
+
       </div>
 
       <div className={style.textCol}>
-        <div className={style.description}>{deal.Thing.description}</div>
+        <div className={style.description}>Описание: {deal.Thing.description}</div>
+        <div className={style.description}>Адрес: {deal.Thing.thingAddress}</div>
 
    
       {/* </div> */}
@@ -291,7 +292,7 @@ export default function DealPannel({
           Статус - {deal.status}: {state.status}
         </div>
         {state.isBtn && (
-          <Button color={state.color} onClick={() => void btnHandler(deal.id)}>
+          <Button fitContent color={state.color} onClick={() => void btnHandler(deal.id)}>
             {/* <Button
                       color='good'
                       onClick={(event: MouseEvent<HTMLButtonElement>) => {
