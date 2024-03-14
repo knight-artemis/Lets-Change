@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import type { MouseEvent } from 'react'
 import axios from 'axios'
-import type { AxiosResponse } from 'axios'
 import { useNavigate } from 'react-router-dom'
 import style from './MyDeals.module.css'
 import SvgLink from '../../components/Shared/SvgLink/SvgLink'
@@ -21,6 +19,7 @@ import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
 import TopLine from '../../components/PageSkeleton/TopLine/TopLine'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function MyDeals({
   toMe = true,
@@ -32,18 +31,20 @@ export default function MyDeals({
   const notifications = useAppSelector<NotType>(
     (store) => store.userSlice.notifications,
   )
+  const dispatcher = useAppDispatch()
 
   const [allDeals, setAllDeals] = useState<MyDealsType>()
   const [selectedDeals, setSelectedDeals] = useState<
     OneDealToMe[] | OneDealFromMe[]
   >()
   const [mainText, setMainText] = useState<string>('Мои сделки')
-  const dispatcher = useAppDispatch()
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     dispatcher(fetchGetNot())
       .then()
       .catch((err) => console.log(err))
+    setLoading(true)
     axios
       .get<MyDealsType>(
         `${import.meta.env.VITE_API}/v1/deals/user/${user.id}`,
@@ -64,6 +65,7 @@ export default function MyDeals({
         )
       })
       .catch((err) => console.log('Ошибка получения списка моих сделок', err))
+      .finally(() => setLoading(false))
   }, [toMe, user.id])
 
   const fromMeDeals = (): void => {
@@ -106,6 +108,8 @@ export default function MyDeals({
   //     return 'у меня хотят забрать эти вещи'
   //   return 'у меня хотят забрать эти вещи'
   // }
+
+  if (loading) return <Spinner />
 
   return (
     <WholePage>

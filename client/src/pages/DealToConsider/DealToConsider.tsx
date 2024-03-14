@@ -10,19 +10,22 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { fetchGetNot } from '../../redux/user/userThunkActions'
 import WholePage from '../../components/PageSkeleton/WholePage/WholePage'
 import SideBar from '../../components/PageSkeleton/SideBar/SideBar'
-import SvgLink from '../../components/Shared/SvgLink/SvgLink'
 import MainContent from '../../components/PageSkeleton/MainContent/MainContent'
 import Grid from '../../components/PageSkeleton/Grid/Grid'
+import Spinner from '../../components/Widgets/Spinner/Spinner'
 
 export default function DealToConsider(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
   const [selectedThingId, setSelectedThingId] = useState<number>(-1)
+  const [loading, setLoading] = useState<boolean>(true)
+
   const { id } = useParams()
   const navigate = useNavigate()
   const dispatcher = useAppDispatch()
   const user = useAppSelector((store) => store.userSlice.user)
 
   useEffect(() => {
+    setLoading(true)
     axios
       .get<OneDealDetailed>(`${import.meta.env.VITE_API}/v1/deals/${id}`, {
         withCredentials: true,
@@ -33,25 +36,37 @@ export default function DealToConsider(): JSX.Element {
       .catch((err) => console.log('Ошибка получения подробной сделки', err))
     dispatcher(fetchGetNot())
       .then()
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err)).finally(() => setLoading(false))
   }, [id])
-
+  
   const acceptedHandler = async (): Promise<void> => {
-    await axios.patch(
-      `${import.meta.env.VITE_API}/v1/deals/${id}/accepted`,
-      { selectedThingId },
-      { withCredentials: true },
-    )
-    navigate('/my-deals/from-me')
+    try {
+      await axios.patch(
+        `${import.meta.env.VITE_API}/v1/deals/${id}/accepted`,
+        { selectedThingId },
+        { withCredentials: true },
+        )
+        navigate('/my-deals/from-me')
+      } catch (err) {
+        console.log('jopa', err)
+      } finally {
+        setLoading(false)
+      }
   }
   const rejectedHandler = async (): Promise<void> => {
     // тут пишемручку на отказ. мб
+    try{
     await axios.patch(
       `${import.meta.env.VITE_API}/v1/deals/${id}/rejected`,
       {},
       { withCredentials: true },
     )
     navigate('/my-deals/from-me')
+  } catch (err) {
+    console.log('jopa', err)
+  } finally {
+    setLoading(false)
+  }
   }
 
   const selectorHandler = (thingId: number): void => {
@@ -64,6 +79,8 @@ export default function DealToConsider(): JSX.Element {
       (hisThing) => hisThing.id === selectedThingId,
     )?.thingName as string
   }
+
+  if (loading) return <Spinner/>   
 
   return user.id === deal?.initiatorId ? (
     <WholePage>
