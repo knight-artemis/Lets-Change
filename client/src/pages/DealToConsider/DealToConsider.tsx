@@ -39,24 +39,35 @@ export default function DealToConsider(): JSX.Element {
       .then()
       .catch((err) => console.log(err)).finally(() => setLoading(false))
   }, [id])
-
+  
   const acceptedHandler = async (): Promise<void> => {
-    
-    await axios.patch(
-      `${import.meta.env.VITE_API}/v1/deals/${id}/accepted`,
-      { selectedThingId },
-      { withCredentials: true },
-    )
-    navigate('/my-deals/from-me')
+    try {
+      await axios.patch(
+        `${import.meta.env.VITE_API}/v1/deals/${id}/accepted`,
+        { selectedThingId },
+        { withCredentials: true },
+        )
+        navigate('/my-deals/from-me')
+      } catch (err) {
+        console.log('jopa', err)
+      } finally {
+        setLoading(false)
+      }
   }
   const rejectedHandler = async (): Promise<void> => {
     // тут пишемручку на отказ. мб
+    try{
     await axios.patch(
       `${import.meta.env.VITE_API}/v1/deals/${id}/rejected`,
       {},
       { withCredentials: true },
     )
     navigate('/my-deals/from-me')
+  } catch (err) {
+    console.log('jopa', err)
+  } finally {
+    setLoading(false)
+  }
   }
 
   const selectorHandler = (thingId: number): void => {
