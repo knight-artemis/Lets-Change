@@ -5,6 +5,8 @@ import type { AxiosResponse } from 'axios'
 import style from './PasswordChangeForm.module.css'
 import type { UserType } from '../../../types'
 import { notifySuccess, notifyWarning } from '../../../toasters'
+import Input from '../../Shared/Input/Input'
+import Button from '../../Shared/Button/Button'
 
 export default function PasswordChangeForm({
   user,
@@ -12,10 +14,9 @@ export default function PasswordChangeForm({
 }: {
   user: UserType
   setActive: React.Dispatch<React.SetStateAction<boolean>>
-  }): JSX.Element {
-  
+}): JSX.Element {
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  
+
   type PasswordChangeType = {
     oldPassword: string
     newPassword: string
@@ -67,16 +68,16 @@ export default function PasswordChangeForm({
       } else if (input.newPassword !== input.repitePassword) {
         notifyWarning('Введенные пароли не совпадают.')
       } else if (input.newPassword === input.repitePassword) {
-      axios
-        .put<PasswordChangeType, AxiosResponse<UserType>>(
-          `${import.meta.env.VITE_API}/v1/user/passUpd`,
-          input,
-          { withCredentials: true },
-        )
-        .then((res) => console.log(res))
-        .then(() => setActive((prev) => !prev))
-        .then(() => notifySuccess('Пароль был успешно изменен.'))
-        .catch((err) => console.log(err))
+        axios
+          .put<PasswordChangeType, AxiosResponse<UserType>>(
+            `${import.meta.env.VITE_API}/v1/user/passUpd`,
+            input,
+            { withCredentials: true },
+          )
+          .then((res) => console.log(res))
+          .then(() => setActive((prev) => !prev))
+          .then(() => notifySuccess('Пароль был успешно изменен.'))
+          .catch((err) => console.log(err))
       } else {
         console.log('Пароли не совпадают')
       }
@@ -86,41 +87,45 @@ export default function PasswordChangeForm({
   }
 
   return (
-    <div className={`${style.form}`}>
-      <h3>Изменение пароля</h3>
-      <span>
-        Старый пароль
-        <input
-          type={showPassword ? 'text' : 'password'}
-          name='oldPassword'
-          onChange={changeHandler}
-          value={input.oldPassword}
-        />
-      </span>
-      <span>
-        Новый пароль пароль
-        <input
-          type={showPassword ? 'text' : 'password'}
-          name='newPassword'
-          onChange={changeHandler}
-          value={input.newPassword}
-        />
-      </span>
-      <span>
-        Повторите пароль
-        <input
-          type={showPassword ? 'text' : 'password'}
-          name='repitePassword'
-          onChange={changeHandler}
-          value={input.repitePassword}
-        />
-      </span>
-      <button type='button' onClick={() => void setShowPassword((prev) => !prev)}>
-        Показать пароли
-      </button>
-      <button type='button' onClick={() => void changePass()}>
-        Изменить пароль
-      </button>
+    <div className={style.wrapper}>
+      <div className={`${style.form}`}>
+        <h3>Изменение пароля</h3>
+        <span>
+          Старый пароль
+          <Input
+            type={showPassword ? 'text' : 'password'}
+            name='oldPassword'
+            onChange={changeHandler}
+            value={input.oldPassword}
+          />
+        </span>
+        <span>
+          Новый пароль пароль
+          <Input
+            type={showPassword ? 'text' : 'password'}
+            name='newPassword'
+            onChange={changeHandler}
+            value={input.newPassword}
+          />
+        </span>
+        <span>
+          Повторите пароль
+          <Input
+            type={showPassword ? 'text' : 'password'}
+            name='repitePassword'
+            onChange={changeHandler}
+            value={input.repitePassword}
+          />
+        </span>
+        <Button
+          onClick={() => void setShowPassword((prev) => !prev)}
+        >
+          Показать пароли
+        </Button>
+        <Button onClick={() => void changePass()}>
+          Сохранить новый пароль
+        </Button>
+      </div>
     </div>
   )
 }
