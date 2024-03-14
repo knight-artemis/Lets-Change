@@ -107,7 +107,7 @@ export default function Deal(): JSX.Element {
         </div>
         <CardSimple
           hoverable
-          thing={deal && deal.initiatorThings[0]}
+          thing={deal && deal.initiatorThings.find((el) => el.isSelected)}
           thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
         />
         {!accepted && (
