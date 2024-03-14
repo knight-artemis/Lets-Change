@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { SpinnerInfinity } from 'spinners-react'
 import type { SimplifiedThingType } from '../../types'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import Card from '../../components/Widgets/Card/Card'
@@ -18,6 +19,7 @@ export default function MyThings(): JSX.Element {
   const user = useAppSelector((store) => store.userSlice.user)
 
   const [things, setThings] = useState<SimplifiedThingType[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   const navigate = useNavigate()
   const dispatcher = useAppDispatch()
@@ -34,6 +36,19 @@ export default function MyThings(): JSX.Element {
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения всех СВОИХ вещей', err))
   }, [user.id])
+
+  if (things.length === 0 )
+    return (
+      <MainContent centerHorizontal centerVertical>
+        <SpinnerInfinity
+          size='150px'
+          thickness={100}
+          secondaryColor='#F1E4D4'
+          color='#8DA057'
+          speed={100}
+        />
+      </MainContent>
+    )
 
   return (
     <WholePage>

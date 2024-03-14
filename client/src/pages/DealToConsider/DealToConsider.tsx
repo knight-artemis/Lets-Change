@@ -17,6 +17,8 @@ import Grid from '../../components/PageSkeleton/Grid/Grid'
 export default function DealToConsider(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
   const [selectedThingId, setSelectedThingId] = useState<number>(-1)
+  const [loading, setLoading] = useState<boolean>(true)
+  
   const { id } = useParams()
   const navigate = useNavigate()
   const dispatcher = useAppDispatch()

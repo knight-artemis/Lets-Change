@@ -32,13 +32,15 @@ export default function MyDeals({
   const notifications = useAppSelector<NotType>(
     (store) => store.userSlice.notifications,
   )
+  const dispatcher = useAppDispatch()
 
   const [allDeals, setAllDeals] = useState<MyDealsType>()
   const [selectedDeals, setSelectedDeals] = useState<
     OneDealToMe[] | OneDealFromMe[]
   >()
   const [mainText, setMainText] = useState<string>('Мои сделки')
-  const dispatcher = useAppDispatch()
+  const [loading, setLoading] = useState<boolean>(true)
+  
 
   useEffect(() => {
     dispatcher(fetchGetNot())

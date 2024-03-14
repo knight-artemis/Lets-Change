@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import clsx from 'clsx'
+import { SpinnerInfinity } from 'spinners-react'
 import style from './Deal.module.css'
 import type { OneDealDetailed } from '../../types'
 import Button from '../../components/Shared/Button/Button'
@@ -21,6 +22,8 @@ type AxiosFinishedReturnType = { succes: boolean }
 
 export default function Deal(): JSX.Element {
   const [deal, setDeal] = useState<OneDealDetailed>()
+  const [loading, setLoading] = useState<boolean>(true)
+
   const user = useAppSelector((store) => store.userSlice.user)
   const { id } = useParams()
   const dispatcher = useAppDispatch()
@@ -89,7 +92,19 @@ export default function Deal(): JSX.Element {
     }
   }
 
-  if (!deal) return <div /> //! тут потом будет спиннер
+ if (loading)
+    return (
+      <MainContent centerHorizontal centerVertical>
+        <SpinnerInfinity
+          size='150px'
+          thickness={100}
+          secondaryColor='#F1E4D4'
+          color='#8DA057'
+          speed={100}
+        />
+      </MainContent>
+    )
+    
   return (
     <WholePage>
       <SideBar center>
@@ -97,8 +112,7 @@ export default function Deal(): JSX.Element {
           {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
         </div>
         <CardSimple
-        hoverable
-      
+          hoverable
           thing={deal && deal.Thing}
           thingId={deal.thingId}
         />
@@ -107,8 +121,7 @@ export default function Deal(): JSX.Element {
           {deal && deal.initiatorId === user.id ? 'у тебя хотят' : 'меняют на'}
         </div>
         <CardSimple
-        hoverable
-      
+          hoverable
           thing={deal && deal.initiatorThings.find((el) => el.isSelected)}
           thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
         />
@@ -125,7 +138,6 @@ export default function Deal(): JSX.Element {
       <MainContent>
         <Chat deal={deal} />
       </MainContent>
-
     </WholePage>
   )
 }

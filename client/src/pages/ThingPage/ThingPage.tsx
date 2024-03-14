@@ -70,6 +70,8 @@ export default function ThingPage(): JSX.Element {
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)
   const [initiate, setInitiate] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
+  
   const user = useAppSelector((store) => store.userSlice.user)
   const dispatcher = useAppDispatch()
   const navigate = useNavigate()

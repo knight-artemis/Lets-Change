@@ -22,6 +22,7 @@ import { notifySuccess, notifyWarning } from '../../toasters'
 
 export default function Profile(): JSX.Element {
   const dispatch = useAppDispatch()
+  const [loading, setLoading] = useState<boolean>(true)
 
   const [modalActive1, setModalActive1] = useState<boolean>(true)
   const [modalActive2, setModalActive2] = useState<boolean>(true)

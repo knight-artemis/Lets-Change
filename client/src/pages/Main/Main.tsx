@@ -10,6 +10,7 @@ import {
   Map,
   Placemark,
 } from '@pbe/react-yandex-maps'
+import { SpinnerInfinity } from 'spinners-react'
 import style from './Main.module.css'
 import switchStyle from './ToogleSwitch.module.css'
 import Button from '../../components/Shared/Button/Button'
@@ -37,10 +38,7 @@ const ThingsInitVal = {
   photoUrl: '',
 }
 
-const catArray = [
-  'desktop-outline.svg',
-  'happy-outline.svg',
-]
+const catArray = ['desktop-outline.svg', 'happy-outline.svg']
 
 type CategoryType = {
   id: number
@@ -57,6 +55,7 @@ export default function Main(): JSX.Element {
   const [isChecked, setIsChecked] = useState(false)
   const [location, setLocation] = useState<number[]>([])
   const [searchInput, setSearchInput] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(true)
 
   const handleToggleChange = (): void => {
     setIsChecked(!isChecked)
@@ -66,17 +65,20 @@ export default function Main(): JSX.Element {
   const dispatcher = useAppDispatch()
 
   const setAllThings = (): void => {
+    setLoading(true)
     axios
       .get<SimplifiedThingType[]>(`${import.meta.env.VITE_API}/v1/things`, {
         withCredentials: true,
       })
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения всех вещей', err))
+      .finally(() => setLoading(false))
   }
 
   useEffect(() => {
     // список объявлений по свежести
     setAllThings()
+    setLoading(true)
     dispatcher(fetchGetNot())
       // .then()
       .catch((err) => console.log(err))
@@ -88,6 +90,7 @@ export default function Main(): JSX.Element {
       })
       .then((res) => setCategories(res.data))
       .catch((err) => console.log('Ошибка получения списка категории', err))
+      .finally(() => setLoading(false))
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -107,6 +110,7 @@ export default function Main(): JSX.Element {
   const categoryHandler = (id: number): void => {
     // тут сортировательная функция, устанавливает шмотки кокретной категоории
     //! нодо аддитивность категорий
+    setLoading(true)
     axios
       .get<SimplifiedThingType[]>(
         `${import.meta.env.VITE_API}/v1/things/categories/${id}`,
@@ -114,21 +118,26 @@ export default function Main(): JSX.Element {
       )
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения вещей в категории', err))
+      .finally(() => setLoading(false))
   }
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchInput(() => e.target.value)
+    setLoading(true)
     axios
-    .get<SimplifiedThingType[]>(`${import.meta.env.VITE_API}/v1/things/search?search=${e.target.value}`, {
-      withCredentials: true,
-    })
-    .then((res) => setThings(res.data))
-    .catch((err) => console.log('Ошибка получения всех вещей', err))
-}
-  
+      .get<SimplifiedThingType[]>(
+        `${import.meta.env.VITE_API}/v1/things/search?search=${e.target.value}`,
+        {
+          withCredentials: true,
+        },
+      )
+      .then((res) => setThings(res.data))
+      .catch((err) => console.log('Ошибка получения всех вещей', err))
+      .finally(() => setLoading(false))
+  }
 
   // useEffect (() => {
-   
+
   //   if (searchInput.trim() !== '') {
   //     void  setAllThings()
   //     }
@@ -143,14 +152,28 @@ export default function Main(): JSX.Element {
   //     console.log('things', things);
   //     // setThings(
   //     //   things.filter((thing) => {
-          
+
   //     //     console.log("🚀 ~ things.filter ~ thing.thingName.toLowerCase():", thing.thingName.toLowerCase())
   //     //   return  thing.thingName.toLowerCase().includes(searchInput.toLowerCase())
   //     //   }),
   //     // )
   //   }
   // }
-console.log(`assets/icons/${catArray[0]}`)
+  console.log(`assets/icons/${catArray[0]}`)
+
+  if (loading)
+    return (
+      <MainContent centerHorizontal centerVertical>
+        <SpinnerInfinity
+          size='150px'
+          thickness={100}
+          secondaryColor='#F1E4D4'
+          color='#8DA057'
+          speed={100}
+        />
+      </MainContent>
+    )
+
   return (
     <WholePage>
       {/* <div className={style.wrapper}> */}
@@ -174,6 +197,7 @@ console.log(`assets/icons/${catArray[0]}`)
         ))}
         {/* </div> */}
       </SideBar>
+
       <MainContent>
         {/* <div className={style.topContent}> */}
         <TopLine>
@@ -184,9 +208,9 @@ console.log(`assets/icons/${catArray[0]}`)
               placeholder='Что ищем?'
               onChange={changeHandler}
               value={searchInput}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') void searchHandler()
-              }}
+              // onKeyDown={(e) => {
+              //   if (e.key === 'Enter') void searchHandler()
+              // }}
             />
           </div>
           {/* <SvgLink icon='./src/assets/icons/blocks.svg' /> */}
