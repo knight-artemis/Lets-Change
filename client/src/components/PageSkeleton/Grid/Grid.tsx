@@ -40,8 +40,7 @@ export default function Grid({
           justifyContent: centerHorizontal ? 'center' : 'initial',
           alignItems: centerVertical ? 'center' : 'initial',
           ...(maxWidth !== undefined ? {maxWidth: `${maxWidth}px`} : {})
-        }
-        }
+        }}
         className={style.grid}
       >
         {children}
