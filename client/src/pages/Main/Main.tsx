@@ -235,8 +235,8 @@ export default function Main(): JSX.Element {
             {/* {location.length > 0 && ( */}
             <Map
               // onClick={(e) => handleClick(e.get('coords'))}
-              width='800px'
-              height='100%'
+              width='1000px'
+              height='600px'
               defaultState={{
                 center: location,
                 zoom: 15,
@@ -269,7 +269,8 @@ export default function Main(): JSX.Element {
             {/* )} */}
           </div>
         ) : (
-          <Grid>
+          <Grid spaceBetween>
+            
             {things.length !== 0 ? (
               things.map((thing: SimplifiedThingType) => (
                 <Card key={`card-${thing.id}`} thing={thing} isMain />
