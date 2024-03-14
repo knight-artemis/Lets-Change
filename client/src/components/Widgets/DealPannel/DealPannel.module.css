@@ -23,8 +23,8 @@
 }
 
 .status.await {
-  background-color: var(--dark-beige);
-  color: var(--font-white);
+  background-color: var(--light-beige);
+  color: var(--brown);
 }
 
 .status.agreed {
