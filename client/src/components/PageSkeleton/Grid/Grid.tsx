@@ -9,6 +9,7 @@ type GridProps = {
   centerHorizontal?: boolean
   centerVertical?: boolean
   maxWidth?: number
+  spaceBetween?: boolean
   //   onClick?: (e) => void
   //   link?: boolean // кнопка-ссылка или обычная кнопка
   //   disabled?: boolean // заблочить
@@ -21,6 +22,7 @@ export default function Grid({
   centerHorizontal,
   centerVertical,
   maxWidth,
+  spaceBetween
 }: GridProps): JSX.Element {
   return (
     <div
@@ -28,7 +30,7 @@ export default function Grid({
       //     justifyContent: centerHorizontal ? 'center' : 'initial',
       //     alignItems: centerVertical ? 'center' : 'initial',
       //   }}
-      className={style.wrapper}
+      className={clsx(style.wrapper, spaceBetween && style.spaceBetween)}
       style={{
         justifyContent: centerHorizontal ? 'center' : 'initial',
         alignItems: centerVertical ? 'center' : 'initial',
@@ -41,7 +43,7 @@ export default function Grid({
           alignItems: centerVertical ? 'center' : 'initial',
           ...(maxWidth !== undefined ? {maxWidth: `${maxWidth}px`} : {})
         }}
-        className={style.grid}
+        className={clsx(style.grid, spaceBetween && style.spaceBetween)}
       >
         {children}
       </div>

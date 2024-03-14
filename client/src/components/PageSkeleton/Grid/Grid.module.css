@@ -19,6 +19,14 @@
     min-width: calc(2 * var(--card-width) + 4rem);
 }
 
+.grid.spaceBetween {
+    /* gap:initial;    */
+    justify-content: space-between;
+}
+.wrapper.spaceBetween {
+    gap:initial;   
+    justify-content: space-between;
+}
 @media screen and (max-width: 767px) {
     .wrapper {
         align-items: center;
