@@ -1,14 +1,19 @@
 .otherDiv {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
 }
 
 .thingDiv {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: inherit;
-    margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: inherit;
+  margin-top: 2rem;
+}
+
+.button {
+  border: 0px solid transparent;
+  background-color: white;
 }

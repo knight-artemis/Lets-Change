@@ -11,10 +11,11 @@ type CardSimpleProps = {
     thingName?: string
     photoUrl: string
     endDate: Date
-  },
+  }
   thingId?: number
   size?: number
   hoverable?: boolean
+  modal?: boolean
 }
 
 export default function CardSimple({
@@ -22,14 +23,19 @@ export default function CardSimple({
   thingId,
   size = 200,
   hoverable,
+  modal = true,
 }: CardSimpleProps): JSX.Element {
   const [modalActive, setModalActive] = useState<boolean>(true)
 
   return (
     <>
-      <Modal active={modalActive} setActive={setModalActive}>
-        <ModalThing thingId={thingId} />
-      </Modal>
+      {modal ? (
+        <Modal active={modalActive} setActive={setModalActive}>
+          <ModalThing thingId={thingId} />
+        </Modal>
+      ) : (
+        <span />
+      )}
       <div
         onClick={() => void setModalActive((prev) => !prev)}
         onKeyDown={(event) => event}
@@ -38,10 +44,11 @@ export default function CardSimple({
         className={clsx(style.card, hoverable && style.hoverable)}
         style={{ width: `${size}px`, height: `${size}px` }}
       >
-        {thing && thing.endDate &&
-        <Chip top={1} left={-0.5} leftSide>
-          осталось {thing && getRemainigTime(thing.endDate)}
-        </Chip>}
+        {thing && thing.endDate && (
+          <Chip top={1} left={-0.5} leftSide>
+            осталось {thing && getRemainigTime(thing.endDate)}
+          </Chip>
+        )}
         <div className={clsx(style.center, style.photoWrapper)}>
           <img
             className={clsx(style.center, style.photoBg)}

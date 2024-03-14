@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import lodash from 'lodash'
+import { useNavigate } from 'react-router-dom'
 import type { ThingType } from '../../types'
 import Card from '../Widgets/Card/Card'
 import style from './OtherThings.module.css'
+import CardSimple from '../Widgets/CardSimple/CardSimple'
 
 export default function OtherThings({
   thing,
@@ -11,6 +13,8 @@ export default function OtherThings({
   thing: ThingType
 }): JSX.Element {
   const [otherThings, setOtherThings] = useState<ThingType[]>([])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchOtherThings = async (): Promise<void> => {
@@ -23,8 +27,10 @@ export default function OtherThings({
         )
         setOtherThings(
           lodash
-            .shuffle(response.data.filter((el) => el.id !== thing.id))
-            .slice(0, 2),
+            .shuffle(
+              response.data.filter((el) => el.id !== thing.id && !el.inDeal),
+            )
+            .slice(0, 3),
         )
       } catch (error) {
         console.error('Error fetching other things:', error)
@@ -33,9 +39,9 @@ export default function OtherThings({
     void fetchOtherThings()
   }, [thing])
 
-  useEffect(() => {
-    console.log(otherThings)
-  }, [otherThings])
+  const navigateThing = async (id: number): Promise<void> => {
+    navigate(`/thing/${id}`)
+  }
 
   return (
     <div className={style.otherDiv}>
@@ -44,7 +50,14 @@ export default function OtherThings({
           <h3>Еше у этого пользователя</h3>
           <div className={style.thingDiv}>
             {otherThings.map((el) => (
-              <Card thing={el} small />
+              // <Card thing={el} small />
+              <button
+                type='button'
+                onClick={() => navigateThing(el.id)}
+                className={style.button}
+              >
+                <CardSimple thing={el} modal={false} />
+              </button>
             ))}
           </div>
         </>
