@@ -267,7 +267,7 @@ export default function DealPannel({
         <div className={style.photo}>
           <CardSimple
             hoverable
-            size={220}
+      
             thing={deal.Thing}
             thingId={deal.thingId}
           />
@@ -294,15 +294,18 @@ export default function DealPannel({
 
           <div className={style.bottomLine}>
           <div className={style.address}>{deal.Thing.thingAddress}</div>
+          <div className={style.btn}>
+
             {state.isBtn && (
-              <Button 
-                color={state.color}
+              <Button fullWidth
+                // color={state.color}
                 onClick={() => void btnHandler(deal.id)}
-              >
+                >
                 {state.btnText}
               </Button>
             )}
 
+            </div>
           </div>
           {deal.initiatorNote && (
             <Chip top={0.4} left={0.5} small color='none'>

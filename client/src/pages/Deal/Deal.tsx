@@ -97,7 +97,8 @@ export default function Deal(): JSX.Element {
           {deal && deal.initiatorId === user.id ? 'За эту вещь' : 'Твою вещь'}
         </div>
         <CardSimple
-          hoverable
+        hoverable
+      
           thing={deal && deal.Thing}
           thingId={deal.thingId}
         />
@@ -106,7 +107,8 @@ export default function Deal(): JSX.Element {
           {deal && deal.initiatorId === user.id ? 'у тебя хотят' : 'меняют на'}
         </div>
         <CardSimple
-          hoverable
+        hoverable
+      
           thing={deal && deal.initiatorThings.find((el) => el.isSelected)}
           thingId={deal.initiatorThings.find((el) => el.isSelected)?.id}
         />

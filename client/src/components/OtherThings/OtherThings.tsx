@@ -56,7 +56,13 @@ export default function OtherThings({
                 onClick={() => navigateThing(el.id)}
                 className={style.button}
               >
-                <CardSimple thing={el} modal={false} />
+                <CardSimple 
+                  thing={el} 
+                  modal={false}    
+                  hoverable
+                  width={250}
+                  height={150}
+                />
               </button>
             ))}
           </div>

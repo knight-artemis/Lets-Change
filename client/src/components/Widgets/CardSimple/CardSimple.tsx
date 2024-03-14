@@ -13,17 +13,21 @@ type CardSimpleProps = {
     endDate: Date
   }
   thingId?: number
-  size?: number
+  // size?: number
   hoverable?: boolean
   modal?: boolean
+  width?:number
+  height?:number
 }
 
 export default function CardSimple({
   thing,
   thingId,
-  size = 200,
+  // size = 200,
   hoverable,
   modal = true,
+  width = 320,
+  height = 220,
 }: CardSimpleProps): JSX.Element {
   const [modalActive, setModalActive] = useState<boolean>(true)
 
@@ -42,21 +46,23 @@ export default function CardSimple({
         role='button'
         tabIndex={0}
         className={clsx(style.card, hoverable && style.hoverable)}
-        style={{ width: `${size}px`, height: `${size}px` }}
+        style={{ width: `${width}px`, height: `${height}px` }}
       >
         {thing && thing.endDate && (
           <Chip top={1} left={-0.5} leftSide>
             осталось {thing && getRemainigTime(thing.endDate)}
           </Chip>
         )}
-        <div className={clsx(style.center, style.photoWrapper)}>
+        <div className={clsx(style.center, style.photoWrapper)}  >
           <img
             className={clsx(style.center, style.photoBg)}
+            style={{ minWidth: `${width}px`, minHeight: `${height}px` }}
             src={`${import.meta.env.VITE_THINGS}/${thing?.photoUrl}`}
             alt={thing?.thingName}
           />
           <img
             className={clsx(style.center, style.photo)}
+            style={{ maxWidth: `${width}px`, maxHeight: `${height}px` }}
             src={`${import.meta.env.VITE_THINGS}/${thing?.photoUrl}`}
             alt={thing?.thingName}
           />
