@@ -295,7 +295,7 @@ export default function DealPannel({
           <div className={style.bottomLine}>
           <div className={style.address}>{deal.Thing.thingAddress}</div>
             {state.isBtn && (
-              <Button width={15}
+              <Button 
                 color={state.color}
                 onClick={() => void btnHandler(deal.id)}
               >
