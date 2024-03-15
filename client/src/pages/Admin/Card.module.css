@@ -37,6 +37,12 @@
   border-radius: 15px;
   /* font-size: 1.2rem; */
 }
+
+.textarea:focus {
+  outline: none;
+  border: none;
+}
+
 .btns {
   display: flex;
   flex-direction: column;
