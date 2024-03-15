@@ -291,10 +291,16 @@ export default function DealPannel({
             </div>
           )}
 
-          <div className={style.description}>{deal.Thing.description}</div>
+          
+
+          <div className={style.description}>        
+          {deal.Thing.description.length < 200
+              ? deal.Thing.description
+              : `${deal.Thing.description.slice(0, 197)}...`}
+          </div>
 
           <div className={style.bottomLine}>
-          <div className={style.address}>{deal.Thing.thingAddress}</div>
+          <div className={style.address}>{deal.Thing.thingAddress ? deal.Thing.thingAddress : 'адрес не указан'}</div>
           <div className={style.btn}>
 
             {state.isBtn && (
