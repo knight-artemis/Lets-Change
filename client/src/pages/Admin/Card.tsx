@@ -79,12 +79,13 @@ export default function Card({
         Подтвердить
       </Button>
       <div className={styles.reject}>
-        <Input
+        <textarea
+          className={styles.textarea}
           onChange={(e) => changeIssueHandler(e)}
-          type='text'
           name='issue'
           value={issue}
           placeholder='Введите причину отказа'
+          rows={3}
         />
         <Button color='danger' onClick={() => void rejectHandler(thing.id)}>
           Отказать
