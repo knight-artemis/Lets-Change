@@ -173,13 +173,14 @@ export default function ThingUpdateForm({
         placeholder='Введите заголовок'
       />
       <h4>Описание</h4>
-      <Input
+      <textarea
+className={styles.textarea}
         color='white'
-        type='text'
         name='description'
         value={inputs.description}
         onChange={(e) => void changeHandler(e)}
         placeholder='Введите описание'
+        rows={3}
       />
       <h4>Категория</h4>
       <select
@@ -222,6 +223,7 @@ export default function ThingUpdateForm({
         ref={fileInputRef}
         accept='.jpg, .jpeg, .png'
       />
+      <span style={{fontStyle: 'italic'}}>{inputs.thingAddress}</span>
       <Button onClick={() => void setModalActive((prev) => !prev)}>
         {address.length ? 'Изменить местоположение' : 'Выбрать местоположение'}
       </Button>

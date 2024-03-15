@@ -75,20 +75,23 @@ export default function Card({
             />
           ))}
       </div>
-      <Button color='good' onClick={() => void acceptHandler(thing.id)}>
-        Подтвердить
-      </Button>
-      <div className={styles.reject}>
-        <Input
-          onChange={(e) => changeIssueHandler(e)}
-          type='text'
-          name='issue'
-          value={issue}
-          placeholder='Введите причину отказа'
-        />
-        <Button color='danger' onClick={() => void rejectHandler(thing.id)}>
-          Отказать
+      <div className={styles.btns}>
+        <Button color='good' onClick={() => void acceptHandler(thing.id)}>
+          Подтвердить
         </Button>
+        <div className={styles.reject}>
+          <textarea
+            className={styles.textarea}
+            onChange={(e) => changeIssueHandler(e)}
+            name='issue'
+            value={issue}
+            placeholder='Введите причину отказа'
+            rows={3}
+          />
+          <Button color='danger' onClick={() => void rejectHandler(thing.id)}>
+            Отказать
+          </Button>
+        </div>
       </div>
     </div>
   )

@@ -81,6 +81,7 @@ input[type='range']::-webkit-slider-thumb {
   }
 
   .textarea{
+    resize: none;
     background-color: white;
     border: none;
     color: var(--brown);
@@ -88,7 +89,7 @@ input[type='range']::-webkit-slider-thumb {
     padding: .2rem;
     padding-left: 1rem;
     width: 100%;
-    height: 2rem;
+    /* height: 2rem; */
     /* width: 300px; */
     border-radius: 15px;
     /* font-size: 1.2rem; */

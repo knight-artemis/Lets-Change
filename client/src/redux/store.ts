@@ -9,7 +9,7 @@ import thingSlice from './thing/thingSlice'
 type StoreType = {
   userSlice: UserStateType
   adminSlice: AdminInitialStateType
-  thingSlice: boolean
+  thingSlice: {isOpen: boolean}
 }
 
 const storeOptions: ConfigureStoreOptions<StoreType> = {
