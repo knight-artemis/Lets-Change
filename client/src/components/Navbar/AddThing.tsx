@@ -39,7 +39,7 @@ type GeoResponse = {
 
 export default function AddThing(): JSX.Element {
   const { isOpen } = useAppSelector((store) => store.thingSlice)
-  console.log(isOpen)
+  // console.log(isOpen)
   const calculateEndDate = (daysNum: number): Date => {
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + daysNum)
@@ -66,6 +66,7 @@ export default function AddThing(): JSX.Element {
   const [formData, setFormData] = useState(initialFormsData)
   const dispatcher = useAppDispatch()
   const [modalActive, setModalActive] = useState<boolean>(true)
+  const [inputFiles, setInputFiles] = useState('')
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setDays(Number(e.target.value))
@@ -75,6 +76,10 @@ export default function AddThing(): JSX.Element {
     })
   }
 
+  const full =
+    !!formData.description.trim().length &&
+    !!formData.thingName.trim().length &&
+    !!inputFiles.length
   useEffect(() => {
     dispatcher(fetchGetNot())
       .then()
@@ -179,6 +184,10 @@ export default function AddThing(): JSX.Element {
     setModalActive((prev) => !prev)
   }
 
+  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setInputFiles(e.target.value)
+  }
+
   return (
     <>
       <form
@@ -236,6 +245,7 @@ export default function AddThing(): JSX.Element {
 
         <h5>Выберите фото</h5>
         <input
+          onChange={(e) => handleFiles(e)}
           ref={fileInputRef}
           type='file'
           name='photo'
@@ -291,7 +301,12 @@ export default function AddThing(): JSX.Element {
             </Button>
           </div>
         </Modal>
-        <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
+        <Button
+          disabled={!address.length || !full}
+          onClick={() => void handleUploadClick()}
+        >
+          Опубликовать
+        </Button>
         <Button color='warning' onClick={() => dispatcher(setIsOpen())}>
           Отмена
         </Button>
