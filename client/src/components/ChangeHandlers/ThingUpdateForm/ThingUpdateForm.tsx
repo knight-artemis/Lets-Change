@@ -207,7 +207,7 @@ className={styles.textarea}
               <Button link onClick={() => void removePhoto(el.photoUrl)}>
                 <img
                   className={styles.icon}
-                  src='/src/assets/icons/close-circle-outline.svg'
+                  src='/assets/icons/close-circle-outline-fill.svg'
                   alt='svg'
                 />
               </Button>

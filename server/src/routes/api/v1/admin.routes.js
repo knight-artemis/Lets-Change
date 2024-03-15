@@ -70,16 +70,11 @@ router.post('/reject/:id', async (req, res) => {
   const { id } = req.params
   const { oldIssue, issue } = req.body
   try {
-    // const newIssue = Issue.upsert({
-    //   issue,
-    //   thingId: id,
-    //   badGuyId: 1,
-    //   victimId: 1,
-    // })
     if (oldIssue) {
       const iss = await Issue.findOne({ where: { issue: oldIssue } })
       await iss.update({ issue })
       console.log(iss, issue, oldIssue)
+      console.log('ISS====>',iss)
       res.json(iss)
     } else {
       const newIssue = await Issue.create({
@@ -88,6 +83,7 @@ router.post('/reject/:id', async (req, res) => {
         badGuyId: 1,
         victimId: 1,
       })
+      console.log('NEW ISS====>', newIssue)
       res.json(newIssue)
     }
   } catch (error) {

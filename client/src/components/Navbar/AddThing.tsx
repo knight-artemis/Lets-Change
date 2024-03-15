@@ -147,6 +147,7 @@ export default function AddThing(): JSX.Element {
       console.log('Ответ от сервера:', response.data)
       fileInputRef.current.value = ''
       setFormData(initialFormsData)
+      setInputFiles('')
       notifySuccess(
         'Вещь была успешно добавлена и направлена на модерацию, которая займет некоторое время.',
       )

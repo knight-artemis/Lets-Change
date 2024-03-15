@@ -116,7 +116,7 @@ export default function MyDeals({
       <SideBar>
         <Button link onClick={() => void fromMeDeals()}>
           <div className={style.btn}>
-            <SvgLink icon='./../assets/icons/shirt.svg' text='Я хочу' />
+            <SvgLink icon='/assets/icons/contract-outline.svg' text='Я хочу' />
             {notifications.initiator > 0 && (
               <Chip top={-1} left={1.5} small color='good'>
                 {notifications.initiator}
@@ -126,7 +126,7 @@ export default function MyDeals({
         </Button>
         <Button link onClick={() => void toMeDeals()}>
           <div className={style.btn}>
-            <SvgLink icon='./../assets/icons/shirt.svg' text=' У меня хотят' />
+            <SvgLink icon='/assets/icons/expand-outline.svg' text=' У меня хотят' />
             {notifications.reciever > 0 && (
               <Chip top={-1} left={1.5} small color='good'>
                 {notifications.reciever}
