@@ -67,6 +67,10 @@ router.patch('/accept/:id', async (req, res) => {
 })
 
 router.post('/reject/:id', async (req, res) => {
+  console.log('\n\n\n↓↓↓↓↓↓↓↓↓↓\n')
+  console.log(req.body)
+  console.log('\n↑↑↑↑↑↑↑↑↑↑\n\n\n')
+  
   const { id } = req.params
   const { oldIssue, issue } = req.body
   try {
@@ -88,6 +92,7 @@ router.post('/reject/:id', async (req, res) => {
         badGuyId: 1,
         victimId: 1,
       })
+      console.log("🚀 ~ router.post ~ newIssue:", newIssue)
       res.json(newIssue)
     }
   } catch (error) {

@@ -2,7 +2,9 @@
   display: flex;
   padding: 10px;
   gap: 10px;
-  border: solid 1px black;
+  background-color: var( --light-beige) ;
+  border: solid 1px var(--brown);
+  border-radius: 10px;
 }
 
 .photo {

@@ -108,18 +108,17 @@ export default function ThingPage(): JSX.Element {
   }, [params])
 
   if (loading) return <Spinner />
-
+console.log('>>>>>>>>>>>>>>', thing, thing.issue);
   return (
     <WholePage>
       <div className={style.mainContent}>
         <div className={style.topNaming}>
           <Button link onClick={() => navigate(-1)}>
-           <span style={{fontSize:'1.2rem'}}>
-            {'<'} Назад
-            </span> 
+            <span style={{ fontSize: '1.2rem' }}>{'<'} Назад</span>
           </Button>
 
           <h1>{thing.thingName}</h1>
+          
           {thing.issue && <h2 style={{ color: 'red' }}>{thing.issue}</h2>}
           {!thing.isApproved && !thing.issue?.length && (
             <h2 style={{ color: 'orange' }}>Вещь пока на модерации</h2>
@@ -128,129 +127,128 @@ export default function ThingPage(): JSX.Element {
           <div className={style.category}>{thing.Category.categoryTitle}</div>
         </div>
         <div className={style.mainWrapper}>
-        <SideBar>
-          <div className={`${style.photoBlock}`}>
-            <CarouselProvider
-              naturalSlideWidth={100}
-              naturalSlideHeight={100}
-              totalSlides={thing.Photos.length}
-            >
-              <Slider>
-                {thing.Photos.map((photo, index) => (
-                  <Slide key={`img-${photo.id}`} index={index}>
-                    <ImageWithZoom
-                      className={`${style.photo}`}
-                      src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
-                      alt='Штанi'
-                    />
-                  </Slide>
-                ))}
-              </Slider>
-              <ButtonBack>Back</ButtonBack>
-              <ButtonNext>Next</ButtonNext>
-            </CarouselProvider>
-          </div>
-        </SideBar>
-        <MainContent>
-          <div className={style.marginTop}>
-            {/* <div className={style.topNaming}>
+          <SideBar>
+            <div className={`${style.photoBlock}`}>
+              <CarouselProvider
+                naturalSlideWidth={100}
+                naturalSlideHeight={100}
+                totalSlides={thing.Photos.length}
+              >
+                <Slider>
+                  {thing.Photos.map((photo, index) => (
+                    <Slide key={`img-${photo.id}`} index={index}>
+                      <ImageWithZoom
+                        className={`${style.photo}`}
+                        src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
+                        alt='Штанi'
+                      />
+                    </Slide>
+                  ))}
+                </Slider>
+                <ButtonBack>Back</ButtonBack>
+                <ButtonNext>Next</ButtonNext>
+              </CarouselProvider>
+            </div>
+          </SideBar>
+          <MainContent>
+            <div className={style.marginTop}>
+              {/* <div className={style.topNaming}>
               
             </div> */}
-          </div>
+            </div>
 
+            <div className={style.oneLine}>
+              {/* Осталось {getRemainigTime(thing.endDate)} */}
 
-          <div className={style.oneLine}>
-            {/* Осталось {getRemainigTime(thing.endDate)} */}
+              <ChipInline color='good'>
+                осталось {getRemainigTime(thing.endDate)}
+              </ChipInline>
+              <div className={style.ownerName}>
+                <img
+                  className={style.icon}
+                  src='/assets/icons/ava-empty-olive.svg'
+                  alt='svg'
+                />
+                {thing.User.lastName
+                  ? `${thing.User.firstName} ${thing.User.lastName}`
+                  : `${thing.User.firstName}`}
+              </div>
+            </div>
 
-            <ChipInline color='good'>
-              осталось {getRemainigTime(thing.endDate)}
-            </ChipInline>
-          <div className={style.ownerName}>
-          <img
-            className={style.icon}
-            src='/assets/icons/ava-empty-olive.svg'
-            alt='svg'
-          />
-            {thing.User.lastName
-              ? `${thing.User.firstName} ${thing.User.lastName}`
-              : `${thing.User.firstName}`}
-          </div>
-          </div>
+            <div className={style.address}>{thing.description}</div>
+            <br />
+            <div className={style.address}>{thing.thingAddress}</div>
 
-
-          <div className={style.address}>{thing.description}</div>
-          <br/>
-          <div className={style.address}>{thing.thingAddress}</div>
-
-          <div className={style.mapDiv}>
-            {/* {location.length > 0 && ( */}
-            <Map
-              // onClick={(e) => handleClick(e.get('coords'))}
-              width='800px'
-              height='200px'
-              defaultState={{
-                center: [thing.thingLat, thing.thingLon],
-                zoom: 15,
-                controls: ['zoomControl', 'fullscreenControl'],
-              }}
-              state={{
-                center: [thing.thingLat, thing.thingLon],
-                zoom: 15,
-                controls: ['zoomControl', 'fullscreenControl'],
-              }}
-            >
-              <GeolocationControl options={{ float: 'left' }} />
-              {/* {address.length > 0 && ( */}
-              <Placemark
-                onClick={() => console.log('click')}
-                geometry={[thing.thingLat, thing.thingLon]}
-                properties={{
-                  balloonContentBody:
-                    'This is balloon loaded by the Yandex.Maps API module system',
+            <div className={style.mapDiv}>
+              {/* {location.length > 0 && ( */}
+              <Map
+                // onClick={(e) => handleClick(e.get('coords'))}
+                width='800px'
+                height='200px'
+                defaultState={{
+                  center: [thing.thingLat, thing.thingLon],
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
                 }}
-              />
-              {/* )} */}
-            </Map>
-            {/* )} */}
-          </div>
-
-          <div className={`${style.buttonDiv}`}>
-            {user.id !== thing.userId && !initiate && (
-              <Button
-                // className={`${style.button}`}
-                onClick={() => setModalActive1((prev) => !prev)}
+                state={{
+                  center: [thing.thingLat, thing.thingLon],
+                  zoom: 15,
+                  controls: ['zoomControl', 'fullscreenControl'],
+                }}
               >
-                Давай меняться
-              </Button>
-            )}
-            {user.id !== thing.userId && initiate && (
-              <Chip>Вы уже предложили обмен</Chip>
-            )}
-            {user.id !== 0 && user.id === thing.userId ? (
-              <Button onClick={() => setModalActive2((prev) => !prev)}>
-                Изменить
-              </Button>
+                <GeolocationControl options={{ float: 'left' }} />
+                {/* {address.length > 0 && ( */}
+                <Placemark
+                  onClick={() => console.log('click')}
+                  geometry={[thing.thingLat, thing.thingLon]}
+                  properties={{
+                    balloonContentBody:
+                      'This is balloon loaded by the Yandex.Maps API module system',
+                  }}
+                />
+                {/* )} */}
+              </Map>
+              {/* )} */}
+            </div>
+
+            <div className={`${style.buttonDiv}`}>
+              {user.id !== thing.userId && !initiate && (
+                <Button
+                  // className={`${style.button}`}
+                  onClick={() => setModalActive1((prev) => !prev)}
+                >
+                  Давай меняться
+                </Button>
+              )}
+              {user.id !== thing.userId && initiate && (
+                <Chip>Вы уже предложили обмен</Chip>
+              )}
+              {user.id !== 0 && user.id === thing.userId ? (
+                <Button onClick={() => setModalActive2((prev) => !prev)}>
+                  Изменить
+                </Button>
+              ) : (
+                <> </>
+              )}
+            </div>
+            {user.id !== thing.userId && thing.id ? (
+              <OtherThings thing={thing} />
             ) : (
-              <> </>
+              <div />
             )}
-          </div>
-          {user.id !== thing.userId && thing.id ? (
-            <OtherThings thing={thing} />
-          ) : (
-            <div />
-          )}
-          <Modal active={modalActive1} setActive={setModalActive1}>
-            <InitChange thingId={thing.id} setActive={setModalActive1} />
-          </Modal>
-          <Modal active={modalActive2} setActive={setModalActive2}>
-            <ThingUpdateForm
-              thing={thing}
-              setThing={setThing}
-              setActive={setModalActive2}
-            />
-            {/* <ThingUpdateForm thingId={thing.id}  initialThing={initialThing} />  */}
-          </Modal>
-        </MainContent></div>
+            <Modal active={modalActive1} setActive={setModalActive1}>
+              <InitChange thingId={thing.id} setActive={setModalActive1} />
+            </Modal>
+            <Modal active={modalActive2} setActive={setModalActive2}>
+              <ThingUpdateForm
+                thing={thing}
+                setThing={setThing}
+                setActive={setModalActive2}
+              />
+              {/* <ThingUpdateForm thingId={thing.id}  initialThing={initialThing} />  */}
+            </Modal>
+          </MainContent>
+        </div>
         {/* <div className={`${style.post}`}>
         <div className={`${style.mainContent}`}>
           <div className={`${style.addContent}`}>

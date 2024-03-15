@@ -72,8 +72,12 @@ export default function InitChange({
 
   if (!user.id) {
     return (
-      <div>
-        <h1>чтобы меняться надо сначала войти</h1>
+      <div className={styles.modal}>
+        <center>
+          <h1>
+            чтобы меняться <br /> надо сначала
+          </h1>
+        </center>
         <Button onClick={() => void navigate('/auth')}>Войти</Button>
       </div>
     )
@@ -81,8 +85,12 @@ export default function InitChange({
 
   if (!myThings.length && !selectedThings.length) {
     return (
-      <div>
-        <h1>У тебя еще нет вещей для обмена</h1>
+      <div className={styles.modal}>
+        <center>
+          <h1>
+            У тебя еще нет <br /> вещей для обмена
+          </h1>
+        </center>
         <Button
           onClick={() => {
             setActive((prev) => !prev)
@@ -97,7 +105,9 @@ export default function InitChange({
 
   return (
     <div className={styles.wraper}>
-      <h1>выбери вещи на что ты хочешь поменять</h1>
+      <center>
+        <h1>выбери вещи на что ты хочешь поменять</h1>
+      </center>
       <div className={styles.things}>
         <div className={styles.thingsList}>
           {myThings.map((thing) => (
@@ -133,3 +143,36 @@ export default function InitChange({
     </div>
   )
 }
+
+
+
+/*
+
+ <div className={styles.things}>
+        <div className={styles.thingsList}>
+          {myThings.map((thing) => (
+            <button
+              type='button'
+              key={`myThing-${thing.id}`}
+              className={styles.cardBtn}
+              onClick={() => handlerAddThing(thing.id)}
+            >
+              <SmallCard thing={thing} />
+            </button>
+          ))}
+        </div>
+        <div className={styles.thingsList}>
+          {selectedThings.map((thing) => (
+            <button
+              type='button'
+              key={`myThing-${thing.id}`}
+              className={styles.cardBtn}
+              onClick={() => handlerRemoveThing(thing.id)}
+            >
+              <SmallCard thing={thing} />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      */
