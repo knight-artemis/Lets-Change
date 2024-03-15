@@ -85,7 +85,7 @@ export default function DealPannel({
           status: 'ожидает подтверждения обмена',
           isBtn: true,
           btnText: 'в чат',
-          color: 'warning',
+          color: 'neutral',
         })
         // setState(
         //   ((user.id === deal.initiatorId) && deal.acceptedByInitiator) ||
@@ -299,7 +299,7 @@ export default function DealPannel({
 
             {state.isBtn && (
               <Button fullWidth
-                // color={state.color}
+                color={state.color}
                 onClick={() => void btnHandler(deal.id)}
                 >
                 {state.btnText}

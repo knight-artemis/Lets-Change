@@ -122,7 +122,7 @@ export default function Main(): JSX.Element {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchInput(() => e.target.value)
-    setLoading(true)
+    // setLoading(true)
     axios
       .get<SimplifiedThingType[]>(
         `${import.meta.env.VITE_API}/v1/things/search?search=${e.target.value}`,
@@ -132,7 +132,7 @@ export default function Main(): JSX.Element {
       )
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения всех вещей', err))
-      .finally(() => setLoading(false))
+      // .finally(() => setLoading(false))
   }
 
   // useEffect (() => {
