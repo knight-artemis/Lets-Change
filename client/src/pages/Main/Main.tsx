@@ -37,7 +37,18 @@ const ThingsInitVal = {
   photoUrl: '',
 }
 
-const catArray = ['desktop-outline.svg', 'happy-outline.svg']
+const catArray = {
+  'Электроника': 'desktop-outline.svg',
+  'Для детей': 'happy-outline.svg',
+  'Винтаж': 'save-outline.svg',
+  'Книги': 'book-outline.svg',
+  'Растения': 'flower-outline.svg',
+  'Одежда': 'shirt-outline.svg',
+  'Мебель': 'bed-outline.svg',
+  'Инструмент': 'construct-outline.svg',
+  'Спорт': 'football-outline.svg',
+  'Барахолка': 'attach-outline.svg',
+}
 
 type CategoryType = {
   id: number
@@ -132,7 +143,7 @@ export default function Main(): JSX.Element {
       )
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения всех вещей', err))
-      // .finally(() => setLoading(false))
+    // .finally(() => setLoading(false))
   }
 
   // useEffect (() => {
@@ -158,9 +169,7 @@ export default function Main(): JSX.Element {
   //     // )
   //   }
   // }
-  console.log(`assets/icons/${catArray[0]}`)
-
-  if (loading) return <Spinner/>   
+  if (loading) return <Spinner />
 
   return (
     <WholePage>
@@ -169,16 +178,16 @@ export default function Main(): JSX.Element {
       <SideBar>
         {/* <div className={style.sidebar}> */}
         <Button key='start' link onClick={() => void setAllThings()}>
-          <SvgLink icon='assets/icons/shirt.svg' text='Все категории' />
+          <SvgLink icon='/assets/icons/apps.svg' text='Все категории' />
         </Button>
-        {categories.map((category, i) => (
+        {categories.map((category, ) => (
           <Button
             key={category.id}
             link
             onClick={() => void categoryHandler(category.id)}
           >
             <SvgLink
-              icon={`/assets/icons/${catArray[i]}`}
+              icon={`/assets/icons/${catArray[category.categoryTitle]}`}
               text={category.categoryTitle}
             />
           </Button>
@@ -204,7 +213,7 @@ export default function Main(): JSX.Element {
           {/* <SvgLink icon='./src/assets/icons/blocks.svg' /> */}
           <img
             className={style.icon}
-            src='src/assets/icons/blocks.svg'
+            src='/assets/icons/blocks.svg'
             alt='svg'
           />
           {/* <span className={style.span}>списком</span> */}
@@ -222,7 +231,7 @@ export default function Main(): JSX.Element {
           {/* <SvgLink icon='src/assets/icons/globus.svg' /> */}
           <img
             className={style.icon}
-            src='src/assets/icons/globus.svg'
+            src='/assets/icons/map-outline.svg'
             alt='svg'
           />
           {/* <span className={style.span}>на карте</span> */}
@@ -231,7 +240,7 @@ export default function Main(): JSX.Element {
 
         {/* <div className={style.content}> */}
         {isChecked ? (
-          <div >
+          <div>
             {/* {location.length > 0 && ( */}
             <Map
               // onClick={(e) => handleClick(e.get('coords'))}
@@ -270,7 +279,6 @@ export default function Main(): JSX.Element {
           </div>
         ) : (
           <Grid spaceBetween>
-            
             {things.length !== 0 ? (
               things.map((thing: SimplifiedThingType) => (
                 <Card key={`card-${thing.id}`} thing={thing} isMain />

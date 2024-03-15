@@ -21,6 +21,8 @@ export default function Card({
   const [issue, setIssue] = useState('')
   const [isOpen, setIsOpen] = useState(true)
 
+  console.log(thing)
+
   const changeIssueHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setIssue(e.target.value)
   }
@@ -75,6 +77,7 @@ export default function Card({
             />
           ))}
       </div>
+      <p>{thing.issue}</p>
       <div className={styles.btns}>
         <Button color='good' onClick={() => void acceptHandler(thing.id)}>
           Подтвердить
