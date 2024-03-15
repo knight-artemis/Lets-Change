@@ -38,9 +38,8 @@ type GeoResponse = {
 }
 
 export default function AddThing(): JSX.Element {
-
-const {isOpen} = useAppSelector(store=> store.thingSlice)
-console.log(isOpen)
+  const { isOpen } = useAppSelector((store) => store.thingSlice)
+  console.log(isOpen)
   const calculateEndDate = (daysNum: number): Date => {
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + daysNum)
@@ -146,7 +145,7 @@ console.log(isOpen)
       notifySuccess(
         'Вещь была успешно добавлена и направлена на модерацию, которая займет некоторое время.',
       )
-	  dispatcher(setIsOpen())
+      dispatcher(setIsOpen())
     } catch (error) {
       console.error('Ошибка при загрузке файла:', error)
     }
@@ -196,7 +195,7 @@ console.log(isOpen)
             placeholder='Введите заголовок'
           /> */}
         <Input
-		color='white'
+          color='white'
           type='text'
           name='thingName'
           value={formData.thingName}
@@ -204,13 +203,14 @@ console.log(isOpen)
           placeholder='Введите заголовок'
         />
         <h5>Добавьте описание</h5>
-        <Input
-		color='white'
-          type='text'
+        <textarea
+          color='white'
+          className={styles.textarea}
           name='description'
           value={formData.description}
           onChange={(e) => void handleChange(e)}
           placeholder='Введите описание'
+          rows={4}
         />
         <h5>Выберите категорию</h5>
         <select
@@ -235,7 +235,7 @@ console.log(isOpen)
         />
 
         <h5>Выберите фото</h5>
-        <input 
+        <input
           ref={fileInputRef}
           type='file'
           name='photo'
@@ -292,7 +292,9 @@ console.log(isOpen)
           </div>
         </Modal>
         <Button onClick={() => void handleUploadClick()}>Загрузить</Button>
-        <Button color='warning' onClick={() => dispatcher(setIsOpen())}>Отмена</Button>
+        <Button color='warning' onClick={() => dispatcher(setIsOpen())}>
+          Отмена
+        </Button>
       </form>
       {isOpen && (
         <div
