@@ -132,7 +132,7 @@ export default function Main(): JSX.Element {
       )
       .then((res) => setThings(res.data))
       .catch((err) => console.log('Ошибка получения всех вещей', err))
-      // .finally(() => setLoading(false))
+    // .finally(() => setLoading(false))
   }
 
   // useEffect (() => {
@@ -159,8 +159,6 @@ export default function Main(): JSX.Element {
   //   }
   // }
   console.log(`assets/icons/${catArray[0]}`)
-
-  if (loading) return <Spinner/>   
 
   return (
     <WholePage>
@@ -231,7 +229,7 @@ export default function Main(): JSX.Element {
 
         {/* <div className={style.content}> */}
         {isChecked ? (
-          <div >
+          <div>
             {/* {location.length > 0 && ( */}
             <Map
               // onClick={(e) => handleClick(e.get('coords'))}
@@ -266,11 +264,14 @@ export default function Main(): JSX.Element {
                 ))}
               </Clusterer>
             </Map>
-            {/* )} */}
+          </div>
+        ) : loading ? (
+          <div className={style.cenetrSpinner}>
+
+          <img src='/assets/gif/spinnergif-light.gif' alt='загружаю...' width="150" height="150"/>
           </div>
         ) : (
           <Grid spaceBetween>
-            
             {things.length !== 0 ? (
               things.map((thing: SimplifiedThingType) => (
                 <Card key={`card-${thing.id}`} thing={thing} isMain />
@@ -283,10 +284,7 @@ export default function Main(): JSX.Element {
             )}
           </Grid>
         )}
-        {/* </div> */}
       </MainContent>
-      {/* </div> */}
-      {/* // </div> */}
     </WholePage>
   )
 }
