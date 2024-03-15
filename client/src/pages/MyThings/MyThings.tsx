@@ -48,13 +48,13 @@ export default function MyThings(): JSX.Element {
       <SideBar>
         <Button link onClick={() => dispatcher(setIsOpen())}>
           <SvgLink
-            icon='src/assets/icons/add-thing.svg'
+            icon='/assets/icons/add-circle-outline.svg'
             text='Добавить вещь'
           />
         </Button>
         <Button link onClick={() => void navigate(`/`)}>
           <SvgLink
-            icon='./src/assets/icons/search-large.svg'
+            icon='/assets/icons/search-circle-outline.svg'
             text='Посмотреть вещи других'
           />
         </Button>

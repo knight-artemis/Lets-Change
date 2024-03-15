@@ -78,7 +78,7 @@ export default function ModalThing({
               <ImageWithZoom
                 className={`${style.photo}`}
                 src={`${import.meta.env.VITE_THINGS}/${photo.photoUrl}`}
-                alt='Штанi'
+                alt='Photo'
               />
             </Slide>
           ))}
