@@ -17,8 +17,8 @@ export default function MainContent({
   return (
     <div
       style={{
-        justifyContent: centerHorizontal ? 'center' : 'initial',
-        alignItems: centerVertical ? 'center' : 'initial',
+        justifyContent: centerVertical ? 'center' : 'initial',
+        alignItems: centerHorizontal ? 'center' : 'initial',
       }}
       className={style.mainContent}
     >

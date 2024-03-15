@@ -169,7 +169,6 @@ export default function Main(): JSX.Element {
   //     // )
   //   }
   // }
-  if (loading) return <Spinner />
 
   return (
     <WholePage>
@@ -275,7 +274,11 @@ export default function Main(): JSX.Element {
                 ))}
               </Clusterer>
             </Map>
-            {/* )} */}
+          </div>
+        ) : loading ? (
+          <div className={style.cenetrSpinner}>
+
+          <img src='/assets/gif/spinnergif-light.gif' alt='загружаю...' width="150" height="150"/>
           </div>
         ) : (
           <Grid spaceBetween>
@@ -291,10 +294,7 @@ export default function Main(): JSX.Element {
             )}
           </Grid>
         )}
-        {/* </div> */}
       </MainContent>
-      {/* </div> */}
-      {/* // </div> */}
     </WholePage>
   )
 }

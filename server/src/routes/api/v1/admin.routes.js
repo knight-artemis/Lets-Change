@@ -6,7 +6,6 @@ const { Thing, Issue } = require('../../../../db/models')
 const { Admin } = require('../../../../db/models')
 
 router.get('/checkAdminSession', async (req, res) => {
-  console.log('POPAL', req.session)
   const { admin } = req.session
   if (admin) res.json(req.session.admin)
   else res.json({ id: 0, login: '' })
@@ -20,13 +19,8 @@ router.post('/log', async (req, res) => {
       res.status(401).json({ err: { login: 'не верный логин' } })
     } else {
       const admin = rawAdmin.get({ plain: true })
-      const checkPass = await bcrypt.compare(password, admin.password)
-      console.log("🚀 ~ router.post ~ password:", password)
-      console.log("🚀 ~ router.post ~ password:", await bcrypt.hash(password, 10))
-      console.log("🚀 ~ router.post ~ admin.password:", admin.password)
-      console.log("🚀 ~ router.post ~ checkPass:", checkPass)
-      if (checkPass) {
-        console.log('я зашёл пасворд')
+      const checkPass = await bcrypt.compare(password, admin.password)   
+      if (checkPass) {       
         req.session.admin = { ...admin }
         delete admin.password
         if (req.session.user) {
@@ -67,14 +61,13 @@ router.patch('/accept/:id', async (req, res) => {
 })
 
 router.post('/reject/:id', async (req, res) => {
+  
   const { id } = req.params
   const { oldIssue, issue } = req.body
   try {
     if (oldIssue) {
       const iss = await Issue.findOne({ where: { issue: oldIssue } })
-      await iss.update({ issue })
-      console.log(iss, issue, oldIssue)
-      console.log('ISS====>',iss)
+      await iss.update({ issue })     
       res.json(iss)
     } else {
       const newIssue = await Issue.create({
@@ -83,7 +76,6 @@ router.post('/reject/:id', async (req, res) => {
         badGuyId: 1,
         victimId: 1,
       })
-      console.log('NEW ISS====>', newIssue)
       res.json(newIssue)
     }
   } catch (error) {

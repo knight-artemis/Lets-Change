@@ -2,7 +2,10 @@
   display: flex;
   padding: 10px;
   gap: 10px;
-  border: solid 1px black;
+  background-color: var( --light-beige) ;
+  border: solid 1px var(--brown);
+  border-radius: 10px;
+  justify-content: flex-start;
 }
 
 .photo {
@@ -14,4 +17,12 @@
     height: 100%;
     object-fit: cover;
   }
+}
+
+
+.description{
+  flex-direction: column;
+  display: flex;
+  gap: 10px;
+  align-items:flex-start ;
 }

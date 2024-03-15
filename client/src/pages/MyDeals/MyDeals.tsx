@@ -139,7 +139,9 @@ export default function MyDeals({
       <MainContent>
         <TopLine>
           <div className={style.topContent}>
-            <h1>{mainText}</h1>
+            <center>
+              <h1>{mainText}</h1>
+              </center>
           </div>
         </TopLine>
         {selectedDeals && selectedDeals.length > 0 ? (
@@ -153,9 +155,14 @@ export default function MyDeals({
             ))}
           </Grid>
         ) : (
-          <Grid centerHorizontal centerVertical>
+             <TopLine>
+          <div className={style.topContent}>
+            <center>
             <h2>У тебя ещё нет сделок в этой категории</h2>
-          </Grid>
+              </center>
+          </div>
+        </TopLine>
+          
         )}
       </MainContent>
     </WholePage>

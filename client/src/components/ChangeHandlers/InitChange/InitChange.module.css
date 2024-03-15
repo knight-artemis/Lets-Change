@@ -9,13 +9,47 @@
 	display: flex;
 	gap: 10px;
 	max-height: inherit;
+	
 }
 
 .thingsList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 70dvh;
-  width: 50%;
-  overflow:scroll;
+	overflow-x:hidden;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	max-height: 70dvh;
+	width: 50%;
+	overflow: scroll;
+	padding-right: .5rem;
+	padding-bottom: 0;
+	overflow-x:hidden;
+}
+
+.modal {
+	line-height: 3rem;
+	/* text-align: center; */
+	/* max-width: 20rem; */
+
+
+}
+
+
+.things>*::-webkit-scrollbar {
+	width: .5rem;
+}
+
+.things>*::-webkit-scrollbar-track {
+	background: var(--light-beige);
+}
+
+.things>*::-webkit-scrollbar-thumb {
+	background-color: var(--olive);
+	border-radius: 100px;
+	border: 1px solid var(--olive);
+}
+
+.cardBtn {
+	background-color: #00000000;
+	border: 1px solid var(--brown);
+	border-radius: 10px;
 }
