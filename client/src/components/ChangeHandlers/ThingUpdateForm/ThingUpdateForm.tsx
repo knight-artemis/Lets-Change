@@ -223,6 +223,7 @@ className={styles.textarea}
         ref={fileInputRef}
         accept='.jpg, .jpeg, .png'
       />
+      <span style={{fontStyle: 'italic'}}>{inputs.thingAddress}</span>
       <Button onClick={() => void setModalActive((prev) => !prev)}>
         {address.length ? 'Изменить местоположение' : 'Выбрать местоположение'}
       </Button>
