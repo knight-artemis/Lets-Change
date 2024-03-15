@@ -105,8 +105,8 @@
 
 .delAvatar{
   position: absolute;
-  left: 50%;
-  bottom: 1%;
+  left: 20px;
+  top: 50px;
   transform: translate(-50%, -50%);
 }
 

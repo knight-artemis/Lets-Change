@@ -83,7 +83,7 @@ export default function Profile({
         >
           <img
             className={styles.icon}
-            src='/src/assets/icons/close-circle-outline.svg'
+            src='/assets/icons/close-circle-outline.svg'
             alt='svg'
           />
         </button>
@@ -106,7 +106,7 @@ export default function Profile({
                   <Button link onClick={() => void deleteAvatar()}>
                     <img
                       className={styles.icon}
-                      src='/src/assets/icons/close-circle-outline.svg'
+                      src='/assets/icons/close-circle-outline-fill.svg'
                       alt='svg'
                     />
                   </Button>
