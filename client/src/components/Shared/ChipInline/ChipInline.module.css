@@ -1,0 +1,76 @@
+.chip {
+    font-size: smaller;
+    z-index: 20;
+    color: var(--black);
+    border: 1px solid var(--black);
+    padding: .25rem .5rem;
+    border-radius: 1rem;
+    width: fit-content;
+}
+
+.chip.leftSide {
+    border-radius: 0 1rem 1rem 0;
+    padding: .25rem 1rem .25rem 1.5rem;
+}
+
+.chip.rightSide {
+    border-radius: 1rem 0 0 1rem;
+    padding: .25rem 1.5rem .25rem 1rem;
+}
+
+.small {
+    width: 1.2rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+    padding: 0;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hide {
+    display: none;
+}
+
+.chip.neutral {
+    color: var(--blue);
+    border-color: var(--blue);
+}
+
+.chip.violet {
+    /* color: var(--color-chip-font-neutral); */
+    border-color: var(--violet);
+    color: var(--violet);
+}
+
+.chip.danger {
+    /* color: var(--color-chip-font-danger); */
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.chip.good {
+    /* color: var(--color-chip-font-good); */
+    border-color: var(--olive);
+    color: var(--olive-75);
+}
+
+.chip.warning {
+    /* color: var(--color-chip-font-warning); */
+    border-color: var(--dark-beige);
+    color: var(--dark-beige-75);
+}
+
+.chip.gray {
+    /* color: var(--color-chip-font-gray); */
+    border-color: var(--brown);
+    color: var(--brown);
+}
+
+.chip.none {
+    /* color: var(--color-chip-font-gray); */
+    background-color: none;
+}
