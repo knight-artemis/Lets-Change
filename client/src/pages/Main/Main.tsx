@@ -231,11 +231,11 @@ export default function Main(): JSX.Element {
 
         {/* <div className={style.content}> */}
         {isChecked ? (
-          <div style={{ width: '100%', height: '100%', borderRadius: '20px' }}>
+          <div >
             {/* {location.length > 0 && ( */}
             <Map
               // onClick={(e) => handleClick(e.get('coords'))}
-              width='1000px'
+              width='1224px'
               height='600px'
               defaultState={{
                 center: location,
