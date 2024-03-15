@@ -55,7 +55,7 @@ export default function Navbar(): JSX.Element {
                 >
                   Сделки
                   {notif > 0 && (
-                    <Chip bottom={0.8} right={-1} small color='neutral'>
+                    <Chip bottom={0.8} right={-1} small color='good'>
                       {notif}
                     </Chip>
                   )}
