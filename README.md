@@ -30,19 +30,25 @@
 
 1. загрузите и установите PostgreSQL с [официального сайта](https://www.postgresql.org/download/)
 
-2. склонируйте репозиторий используя команду:
+2. Откройте SQLShell и создайте базу данных используя команду
+
+```
+CREATE DATABASE %db_name% OWNER %user_name%;
+```
+
+3. склонируйте репозиторий используя команду:
 
 ```
 git clone git@github.com:knight-artemis/LetsChange.git
 ```
 
-3. зайдите в папку внутри проекта:
+4. зайдите в папку внутри проекта:
 
 ```
-cd memory-cards/
+cd client
 ```
 
-4. установите зависимости используя команду:
+5. установите зависимости используя команду:
 
 ```
 npm install
@@ -50,27 +56,61 @@ npm install
 
 5.1 скопируйте файл .env.example, и переименуйте его в .env
 
-5.2 измените DATABASE_URL. Например:
+5.2 Вернитесь в корневую папку проекта и перейдите в папку server при помощи команд:
+
+```
+cd..
+```
+
+```
+cd server
+```
+
+5.3. установите зависимости используя команду:
+
+```
+npm install
+```
+
+5.4 скопируйте файл .env.example, и переименуйте его в .env
+
+5.2 измените DATABASE используя данные п.2. Например:
 
 с
 
 ```
-DATABASE_URL = postgres://login:password@ip:port/bd_name
+DATABASE = postgres://login:password@ip:port/bd_name
 ```
 
 на
 
 ```
-DATABASE_URL = postgres://postgres:postgres@localhost:5432/memory_cards
+DATABASE = postgres://%user_name%:123@localhost:5432/%db_name%
 ```
 
-6. create a database with:
+
+6. Инициализируйте базу данных используя команду:
 
 ```
-npm run dbr
+npm run initdb
 ```
 
-7. run in the **dev** mode with:
+7. Запустите backend сервер используя команду:
+
+```
+npm run dev
+```
+
+8. Перейдите в папку сlient используя команды:
+
+```
+cd..
+```
+```
+cd client
+```
+
+9. Запустите клиентский сервер используя команду:
 
 ```
 npm run dev
