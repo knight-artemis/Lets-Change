@@ -13,7 +13,8 @@ module.exports = {
         { categoryTitle: 'Одежда' },
         { categoryTitle: 'Мебель' },
         { categoryTitle: 'Инструмент' },
-        { categoryTitle: 'Сопорт' },
+        { categoryTitle: 'Спорт' },
+        { categoryTitle: 'Барахолка' },
       ],
       {},
     )
